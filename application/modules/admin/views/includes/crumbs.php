@@ -1,6 +1,6 @@
 <?php
-	$airlines = $this->login_model->get_total_airlines();
-	$visitors = $this->login_model->get_total_visitors();
+	$airlines = 0;//$this->login_model->get_total_airlines();
+	$visitors = 0;//$this->login_model->get_total_visitors();
 ?>
         <!-- Page heading -->
         <div class="page-head">
@@ -47,7 +47,7 @@
                     <a href="#">
                         <i class="icon-tasks"></i>
                         <span>
-                            Airlines <strong>(<?php echo $airlines?>)</strong>
+                            Blog Comments <strong>(<?php echo $airlines?>)</strong>
                         </span>
                     </a>
                 </li>

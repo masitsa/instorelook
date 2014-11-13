@@ -11,34 +11,53 @@
 
                 <!-- Use the class nred, ngreen, nblue, nlightblue, nviolet or norange to add background color. You need to use this in <li> tag. -->
 
-                <!--<li><a href="<?php echo base_url()."admin";?>"><i class="icon-desktop"></i> Dashboard</a></li>-->
+                <li><a href="<?php echo base_url()."admin";?>"><i class="icon-desktop"></i> Dashboard</a></li>
 
+                <!-- Start: Admin Menu -->
                 <li class="has_submenu">
                     <a href="#">
-                        <i class="icon-th"></i> Users
+                        <!-- Menu name with icon -->
+                        <i class="icon-th"></i> Admin
+                        <!-- Icon for dropdown -->
                     </a>
                     <ul>
-                        <li><a href="<?php echo base_url()."all-users";?>">Administrators</a></li>
-                        <li><a href="<?php echo base_url()."administration/all-airlines";?>">Airlines</a></li>
-                        <li><a href="<?php echo base_url()."administration/all-visitors";?>">Visitors</a></li>
+                        <!--<li><a href="<?php echo base_url()."admin/sales";?>">Sales Reports</a></li>
+                        <li><a href="<?php echo base_url()."admin/products";?>">Product Reports</a></li>
+                        <li><a href="<?php echo base_url()."admin/usage";?>">Usage Reports</a></li>-->
+                        <li><a href="<?php echo base_url()."all-users";?>">Users</a></li>
                     </ul>
                 </li>
 				<!-- End: Admin Menu -->
 
-                <!-- Start: Products Menu -->
+                <!-- Start: Blog Menu -->
                 <li class="has_submenu">
                     <a href="#">
                         <!-- Menu name with icon -->
-                        <i class="icon-th"></i> Flight Configuration
+                        <i class="icon-th"></i> Blog
                         <!-- Icon for dropdown -->
                     </a>
                     <ul>
-                        <li><a href="<?php echo base_url()."administration/all-airplane-types";?>">Airplane Types</a></li>
-                        <li><a href="<?php echo base_url()."administration/all-airports";?>">Airports</a></li>
-                        <li><a href="<?php echo base_url()."administration/all-flight-types";?>">Flight Types</a></li>
+                        <li><a href="<?php echo base_url()."posts";?>">Posts</a></li>
+                        <li><a href="<?php echo base_url()."blog-categories";?>">Categories</a></li>
+                        <li><a href="<?php echo base_url()."comments";?>">All Comments</a></li>
                     </ul>
                 </li>
-				<!-- End: Products Menu -->
+				<!-- End: Blog Menu -->
+
+                <!-- Start: Products Menu -->
+                <!--<li class="has_submenu">
+                    <a href="#">
+                        <i class="icon-th"></i> Products
+                    </a>
+                    <ul>
+                        <li><a href="<?php echo base_url()."all-brands";?>">Brands</a></li>
+                        <li><a href="<?php echo base_url()."all-categories";?>">Categories</a></li>
+                        <li><a href="<?php echo base_url()."all-features";?>">Features</a></li>
+                        <li><a href="<?php echo base_url()."all-orders";?>">Orders</a></li>
+                        <li><a href="<?php echo base_url()."all-products";?>">Products</a></li>
+                    </ul>
+                </li>
+				 End: Products Menu -->
 
             </ul>
         </div>

@@ -10,7 +10,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
     </button>
-    <a href="<?php echo site_url().'all-users';?>" class="navbar-brand"><span class="bold">PBF</span> CMS</a>
+    <a href="<?php echo site_url().'all-users';?>" class="navbar-brand"><span class="bold">In Store Look</span> CMS</a>
 </div>
 <!-- Site name for smallar screens -->
 

@@ -83,49 +83,49 @@ class Login_model extends CI_Model
 		return $new_password;
 	}
 	
-	public function get_active_flights()
-	{
-		$this->db->select('COUNT(flight_id) AS total_flights');
-		$this->db->where('flight_status = 1');
-		$query = $this->db->get('flight');
+	// public function get_active_flights()
+	// {
+	// 	$this->db->select('COUNT(flight_id) AS total_flights');
+	// 	$this->db->where('flight_status = 1');
+	// 	$query = $this->db->get('flight');
 		
-		$result = $query->row();
+	// 	$result = $query->row();
 		
-		return $result->total_flights;
-	}
+	// 	return $result->total_flights;
+	// }
 	
-	public function get_total_payments()
-	{
-		//select the user by email from the database
-		$this->db->select('SUM(payment_amount*payment_quantity) AS total_payments');
-		$this->db->where('payment_status = 1');
-		$this->db->from('payment');
-		$query = $this->db->get();
+	// public function get_total_payments()
+	// {
+	// 	//select the user by email from the database
+	// 	$this->db->select('SUM(payment_amount*payment_quantity) AS total_payments');
+	// 	$this->db->where('payment_status = 1');
+	// 	$this->db->from('payment');
+	// 	$query = $this->db->get();
 		
-		$result = $query->row();
+	// 	$result = $query->row();
 		
-		return $result->total_payments;
-	}
+	// 	return $result->total_payments;
+	// }
 	
-	public function get_total_airlines()
-	{
-		$this->db->select('COUNT(airline_id) AS total_airlines');
-		$this->db->where('airline_status = 1');
-		$query = $this->db->get('airline');
+	// public function get_total_airlines()
+	// {
+	// 	$this->db->select('COUNT(airline_id) AS total_airlines');
+	// 	$this->db->where('airline_status = 1');
+	// 	$query = $this->db->get('airline');
 		
-		$result = $query->row();
+	// 	$result = $query->row();
 		
-		return $result->total_airlines;
-	}
+	// 	return $result->total_airlines;
+	// }
 	
-	public function get_total_visitors()
-	{
-		$this->db->select('COUNT(visitor_id) AS total_visitors');
-		$this->db->where('visitor_status = 1');
-		$query = $this->db->get('visitor');
+	// public function get_total_visitors()
+	// {
+	// 	$this->db->select('COUNT(visitor_id) AS total_visitors');
+	// 	$this->db->where('visitor_status = 1');
+	// 	$query = $this->db->get('visitor');
 		
-		$result = $query->row();
+	// 	$result = $query->row();
 		
-		return $result->total_visitors;
-	}
+	// 	return $result->total_visitors;
+	// }
 }

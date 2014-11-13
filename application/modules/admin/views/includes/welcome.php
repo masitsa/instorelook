@@ -1,11 +1,11 @@
 <?php
-	$active_flights = $this->login_model->get_active_flights();
-	$total_payments = number_format($this->login_model->get_total_payments(), 0, '.', ',');
+	// $active_flights = $this->login_model->get_active_flights();
+	// $total_payments = number_format($this->login_model->get_total_payments(), 0, '.', ',');
 ?>
             <!-- Page header start -->
             <div class="page-header">
                 <div class="page-title">
-                    <h3>PBF</h3>
+                    <h3>Instorelook</h3>
                     <span>
 					<?php 
 					//salutation
@@ -31,14 +31,14 @@
                     <li>
                         <div class="summary">
                             <span>Active Flights</span>
-                            <h3><?php echo $active_flights;?></h3>
+                            <h3><?php echo "sda";?></h3>
                         </div>
                         <span id="sparklines1"></span>
                     </li>
                     <li>
                         <div class="summary">
                             <span>Total Payments</span>
-                            <h3>KES <?php echo $total_payments;?></h3>
+                            <h3>KES <?php echo "sda";?></h3>
                         </div>
                         <span id="sparklines2"></span>
                     </li>
