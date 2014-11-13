@@ -28,7 +28,7 @@ class Admin extends MX_Controller {
 	{
 		$data['title'] = 'Dashboard';
 		
-		$this->load->view('dashboard', $data);
+		//$this->load->view('dashboard', $data);
 	}
     
 	/*
