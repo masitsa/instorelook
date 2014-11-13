@@ -1,0 +1,1 @@
+You have successfully registered. <a type="button" class="btn btn-default" href="<?php echo site_url().'vendor/sign-up/personal-details';?>">Register agail?</a>
