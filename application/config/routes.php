@@ -128,6 +128,43 @@ $route['vendor/sign-up/subscribe/free'] = 'vendor/subscribe/1';
 $route['vendor/sign-up/subscribe/basic'] = 'vendor/subscribe/2';
 $route['vendor/sign-up/subscribe/unlimited'] = 'vendor/subscribe/3';
 
+/*
+*	Admin Blog Routes
+*/
+$route['posts'] = 'admin/blog';
+$route['all-posts'] = 'admin/blog';
+$route['blog-categories'] = 'admin/blog/categories';
+$route['add-post'] = 'admin/blog/add_post';
+$route['edit-post/(:num)'] = 'admin/blog/edit_post/$1';
+$route['delete-post/(:num)'] = 'admin/blog/delete_post/$1';
+$route['activate-post/(:num)'] = 'admin/blog/activate_post/$1';
+$route['deactivate-post/(:num)'] = 'admin/blog/deactivate_post/$1';
+$route['post-comments/(:num)'] = 'admin/blog/post_comments/$1';
+$route['comments/(:num)'] = 'admin/blog/comments/$1';
+$route['comments'] = 'admin/blog/comments';
+$route['add-comment/(:num)'] = 'admin/blog/add_comment/$1';
+$route['delete-comment/(:num)/(:num)'] = 'admin/blog/delete_comment/$1/$2';
+$route['activate-comment/(:num)/(:num)'] = 'admin/blog/activate_comment/$1/$2';
+$route['deactivate-comment/(:num)/(:num)'] = 'admin/blog/deactivate_comment/$1/$2';
+$route['add-blog-category'] = 'admin/blog/add_blog_category';
+$route['edit-blog-category/(:num)'] = 'admin/blog/edit_blog_category/$1';
+$route['delete-blog-category/(:num)'] = 'admin/blog/delete_blog_category/$1';
+$route['activate-blog-category/(:num)'] = 'admin/blog/activate_blog_category/$1';
+$route['deactivate-blog-category/(:num)'] = 'admin/blog/deactivate_blog_category/$1';
+$route['delete-comment/(:num)'] = 'admin/blog/delete_comment/$1';
+$route['activate-comment/(:num)'] = 'admin/blog/activate_comment/$1';
+$route['deactivate-comment/(:num)'] = 'admin/blog/deactivate_comment/$1';
+
+/*
+*	Blog Routes
+*/
+$route['blog'] = 'blog';
+$route['blog/(:num)'] = 'blog/index/$1';
+$route['blog/(:num)/(:num)'] = 'blog/index/$1/$2';
+$route['blog/post/(:num)'] = 'blog/view_post/$1';
+$route['blog/category/(:num)'] = 'blog/index/$1';
+$route['blog/category/(:num)/(:num)'] = 'blog/index/$1/$2';
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
