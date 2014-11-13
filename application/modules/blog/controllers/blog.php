@@ -62,7 +62,7 @@ class Blog extends MX_Controller {
 		}
 		$data['title'] = 'Blog Posts';
 		
-		$this->load->view('templates/blog', $data);
+		$this->load->view('site/templates/general_page', $data);
 	}
 	
 	public function view_post($post_id)
@@ -83,7 +83,7 @@ class Blog extends MX_Controller {
 		}
 		$data['title'] = 'Blog Posts';
 		
-		$this->load->view('templates/blog', $data);
+		$this->load->view('site/templates/general_page', $data);
 	}
     
 	/*

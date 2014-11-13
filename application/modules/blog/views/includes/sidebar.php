@@ -109,6 +109,17 @@ else
 	$popular_posts = 'No posts views yet';
 }
 ?>
+<div class="col-md-3">
+    <div class="list-group">
+        <a href="#" class="list-group-item active">
+            Cras justo odio
+        </a>
+        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+        <a href="#" class="list-group-item">Morbi leo risus</a>
+        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+        <a href="#" class="list-group-item">Vestibulum at eros</a>
+    </div>
+</div>
 				<div class="sidebar">
                     <div class="widget-first widget recent_posts">
                         <h3><span>Recent</span> posts</h3>

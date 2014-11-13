@@ -1,6 +1,6 @@
 <?php
 		
-		$result = '';
+		/*$result = '';
 		
 		//if users exist display them
 		if ($query->num_rows() > 0)
@@ -141,10 +141,52 @@
 			$result .= "There are no posts :-(";
 		}
 		
-		echo $result;
+		echo $result;*/
 ?>
 
 
 <?php
     if(isset($links)){echo $links;}
 ?>
+
+<!-- Join  -->
+<div class="content light-grey-background">
+    <div class="container">
+        <div class="search-flights">
+        	
+            <div class="divider-line"></div>
+            <h1 class="center-align">Blog</h1>
+            <div class="divider-line" style="margin-bottom:2%;"></div>
+            
+            <div class="row">
+                <!-- Posts -->
+            	<div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="thumbnail">
+                                <img data-src="holder.js/300x300" alt="...">
+                                <div class="caption">
+                                    <h3>Thumbnail label</h3>
+                                    <p>Lorem Ipsum</p>
+                                    <p>
+                                        <a class="btn btn-primary btn-from-top" href="http://livedemo00.template-help.com/wordpress_52112/velit-es…uam/lorem-ipsum-dolor-sit-amet-conse-ctetur-adipisicing-eli/">
+                                            <span data-hover="Read more">
+                                            	Read more
+                                            </span>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End: Posts -->
+                
+                <!-- Navigation -->
+                <?php //echo $this->load->view('includes/sidebar', '', TRUE);?>
+                <!-- End: Navigation -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Join -->
