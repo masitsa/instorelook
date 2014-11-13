@@ -45,27 +45,7 @@ if($categories_query->num_rows() > 0)
 		$category_name = $res->blog_category_name;
 		
 		$children_query = $this->blog_model->get_all_active_category_children($category_id);
-		
-		//if there are children
-		if($children_query->num_rows > 0)
-		{
-			$categories .= '<li><a href="'.site_url().'blog/category/'.$category_id.'" title="View all posts filed under '.$category_name.'">'.$category_name.'</a><ul class="sub-menu">';
-			
-			foreach($children_query->result() as $res2)
-			{
-				$child_id = $res2->blog_category_id;
-				$child_name = $res2->blog_category_name;
-				
-				$categories .= '<li><a href="'.site_url().'blog/category/'.$child_id.'" title="View all posts filed under '.$child_name.'">'.$child_name.'</a></li>';
-			}
-			$categories .= '</ul></li>';
-		}
-		
-		//no childrent
-		else
-		{
-			$categories .= '<li><a href="'.site_url().'blog/category/'.$category_id.'" title="View all posts filed under '.$category_name.'">'.$category_name.'</a></li>';
-		}
+		$categories .= '<a href="'.site_url().'blog/category/'.$category_id.'" title="View all posts filed under '.$category_name.'" class="list-group-item">'.$category_name.'</a>';
 	}
 }
 
@@ -109,45 +89,15 @@ else
 	$popular_posts = 'No posts views yet';
 }
 ?>
-<div class="col-md-3">
     <div class="list-group">
-        <a href="#" class="list-group-item active">
-            Cras justo odio
-        </a>
-        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-        <a href="#" class="list-group-item">Morbi leo risus</a>
-        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-        <a href="#" class="list-group-item">Vestibulum at eros</a>
+    	<h3><span>Recent</span> posts</h3>
+        <?php echo $recent_posts;?>
     </div>
-</div>
-				<div class="sidebar">
-                    <div class="widget-first widget recent_posts">
-                        <h3><span>Recent</span> posts</h3>
-                        
-                        <div class="titleborder"></div>
-						
-                        <?php echo $recent_posts;?>
-                         
-                    </div>
-
-                    <div class="widget widget_categories">
-                         <h3><span>Our</span> Categories</h3>
-
-                         <div class="titleborder"></div>
-
-                         <ul>
-                              <?php echo $categories;?>
-                         </ul>
-                    </div>
-
-
-                    <div class="widget category_posts">
-                         <h3><span>Popular</span> Posts</h3>
-
-                         <div class="titleborder"></div>
-						
-                        <?php echo $popular_posts;?>
-                    </div>
-
-				</div>
-		
+    <div class="list-group">
+    	<h3><span>Our</span> Categories</h3>
+        <?php echo $categories;?>
+    </div>
+    <div class="list-group">
+    	<h3><span>Popular</span> Posts</h3>
+        <?php echo $popular_posts;?>
+    </div>

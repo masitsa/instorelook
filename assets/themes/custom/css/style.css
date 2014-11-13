@@ -150,9 +150,59 @@ span.feature-text{font-size:0.6em;}
 .btn .caret {float: right; margin-top:2%;}
 
 /* Blog */
-.btn-from-top:before { content: ""; width: 100%; height: 0px; top: 0px; left: 0px; z-index: 10; position: absolute; background: none repeat scroll 0% 0% #4DC664; border-radius: 3px; transition: all 0.3s ease 0s;}
-*:after, *:before { box-sizing: border-box;}
-.btn, .reply a {  border: medium none; color: #333; text-decoration: none; background: none repeat scroll 0% 0% transparent; cursor: pointer; padding: 0px; display: inline-block; text-transform: none;  border-radius: 3px; outline: medium none; box-shadow: 0px 0px 0px 2px #DADADA inset; text-shadow: none; position: relative; letter-spacing: 0px; transition: all 0.3s ease 0s; font: bold 21px/1.2em 'Lato',sans-serif;}
+.thumbnail .row{margin: 0;}
+.btn-read-more{color: #fff;background: #29ABE2;transition: all 0.3s ease 0s; font-weight:bold;}
+.btn-read-more:hover{background:#C9C9CC;}
+.thumbnail{background-color: #f3f3f3; border: none; border-radius: 0px; display: block; line-height: 1.42857; margin-bottom: 20px; padding: 4px; transition: all 0.2s ease-in-out 0s;}
+.post-title h3 a { color: #333333; display: inline-block; text-align:center; width:100%;}
+.post-title h3 a:hover { color: #29ABE2;}
+a {transition: all 0.3s ease 0s;}
+.caption p{text-align:justify;}
+.post-date{background: #C9C9CC; color:#fff;}
+.post-title, .post-comments{border: solid thin #C9C9CC;}
+.post-comments{background-color:#fff; color:#2A2A2A;}
+.post-comments p, .post-date p{padding-top:5px; text-align:center; font-weight:bold; font-size:0.8em;}
+.post-title .col-md-2, .post-title .col-md-10{margin: 0; padding:0;}
+.post-image{margin-top: 5px;}
+
+/* ***********************
+--------------------------------------
+------------CONTACT FORM-----------
+--------------------------------------
+*************************/
+#contactform  label {float: left; font-weight: bold; margin-right: 10px;text-align: right;width: 30%;}
+#contactform  {}
+#contactform  .commentfieldarea textarea, #contactform  .commentfield input {color:#666!important;float:left; outline: none !important;   padding: 5px; margin: 0 10px 10px 0; font-size:12px !important;background:#edeff1; border:1px solid #ccc;}
+ #contactform  .commentfield input{ width:66%;}
+#contactform  .commentfieldarea textarea{width:66%;}
+#contactform  .contactbutton .contact-button{cursor:pointer; width:150px; background-color: #2a2b2c;color: #fff; float: left;  text-transform:uppercase;font-size: 12px; font-weight:normal; margin: 10px 0px 20px 0; padding: 10px;opacity:1;filter:alpha(opacity=100);border:none !important;margin-right:10px;}
+.contactbutton{float:right; padding-right:14%;}
+#contactform  .contactbutton .contact-button:hover {opacity:0.75;filter:alpha(opacity=75);}
+#result{font-size:13px !important; color:#DC4D47; float:left;display:none;margin-bottom:15px;}
+#resultsuccess{font-size:13px !important; color:#91B458 !important; float:left;display:none;margin-bottom:15px;}
+.errorcontact{border: 1px solid #DC4D47 !important;}
+#contactform .contactbutton .btn-red{background:#3399FF;}
+.user_comment{border-bottom:#a9a9a9 solid thin; margin-bottom:10px;}
+.user_comment h5{color:#3399FF;}
+.widgett{margin-bottom:10px;}
+.commentsborder {background:url(../../../images/mainBorderLine.png); repeat-x scroll left bottom rgba(0, 0, 0, 0);height: 3px;margin-top: 9px; width: 100%;}
+.comments .title, .related .title{background: none;height: 100%;}
+	
+
+/*related posts*/
+.relatedtitle{margin-bottom:50px;}
+.titleborder.relatedb{width:600px;margin-left:-5px;}
+.related{padding-bottom:20px;float:left;min-height:150px;  }
+.related h3{position:absolute; display:inline-block;z-index:9; font-size: 18px !important; line-height: 24px; margin:0px 30px 10px 25px;padding:0 10px;}
+.related h4{ font-size:13px !important; color:#5CBBE3 !important; text-align:center; text-transform:none !important; padding-top:0px;font-weight:bold;}
+
+.related .one_fourth {width:137px; margin-right:17px; float:left;}
+.related .one_fourth.last {margin-right:0px;}
+.related .one_fourth .image img {background:#232323;background-color: rgba(10,10,10,0.3);  font-size:12px !important;  border:1px solid #333;
+padding:5px;height:83px; width:126px;}
+.related .one_fourth .image img:hover {opacity:0.75;filter:alpha(opacity=75)}
+.related .one_fourth:hover {color:#5CBBE3 !important;}
+/*end related*/
 
 /* Footer */
 .footer {border-bottom: 1px solid #cccccc;border-top: 1px solid #dddddd; height: auto;padding-bottom: 30px;position: relative;width: 100%;}

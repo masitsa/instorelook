@@ -1,6 +1,6 @@
 <?php
 		
-		/*$result = '';
+		$result = '';
 		
 		//if users exist display them
 		if ($query->num_rows() > 0)
@@ -34,7 +34,7 @@
 				$mini_desc = implode(' ', array_slice(explode(' ', $description), 0, 50));
 				$created = $row->created;
 				$day = date('j',strtotime($created));
-				$month = date('M',strtotime($created));
+				$month = date('M Y',strtotime($created));
 				
 				$categories = '';
 				$count = 0;
@@ -82,56 +82,43 @@
 				
 				$result .= 
 				'
-					<div class="blogpostcategory">
-                         <div class="blogimage">
-                              <a href="'.site_url().'blog/post/'.$post_id.'" rel="bookmark" title="'.$post_title.'"><img src="'.$image.'" alt="'.$post_title.'"></a>
-                         </div>
-
-                         <div class="entry">
-                              <div class="leftholder">
-                                   <div class="posted-date">
-                                        <div class="date-inside">
-                                             <a href="#"></a>
-
-                                             <div class="day">
-                                                  '.$day.'
-                                             </div>
-
-                                             <div class="month">
-                                                  '.$month.'
-                                             </div>
+				<!-- Begin Post -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="thumbnail">
+                            	<div class="row post-title">
+                                	<div class="col-md-2">
+                                    	<div class="row post-date">
+                                        	<div class="col-md-12">
+                                            	<p>'.$day.' '.$month.'</p>
+                                            </div>
                                         </div>
-                                   </div>
-
-                                   <div class="commentblog">
-                                        <div class="circleHolder">
-                                             <div class="comment-inside">
-                                                  <a href="'.site_url().'blog/post/'.$post_id.'" title="Commens">'.$comments.'</a>
-                                             </div>
+                                    	<div class="row post-comments">
+                                        	<div class="col-md-12">
+                                            	<p>10 Comments</p>
+                                            </div>
                                         </div>
-                                   </div>
-                              </div>
-
-                              <div class="meta">
-                                   <h2 class="title"><a href="'.site_url().'blog/post/'.$post_id.'" rel="bookmark" title="'.$post_title.'">'.$post_title.'</a></h2>
-
-                                   <div class="authorblog">
-                                        <strong>By:</strong> <a href="#" title="Posts by '.$created_by.'" rel="author">'.$created_by.'</a>
-                                   </div>
-
-                                   <div class="categoryblog">
-                                        <strong>Categories:</strong> 
-										'.$categories.'
-                                   </div>
-
-                                   <div class="blogcontent">
-                                        '.$mini_desc.'...
-                                   </div>
-
-									<a class="blogmore" href="'.site_url().'blog/post/'.$post_id.'">Read more &#8594;</a>
-                              </div>
-                         </div>
+                                    </div>
+                                    
+                                    <div class="col-md-10">
+                            			<h3><a href="'.site_url().'blog/post/'.$post_id.'">'.$post_title.'</a></h3>
+                                    </div>
+                                </div>
+                                <a href="'.site_url().'blog/post/'.$post_id.'"><img src="'.$image.'" alt="'.$post_title.'" class="img-responsive post-image"></a>
+                                <div class="caption">
+                                    <p>'.$mini_desc.'...</p>
+                                    <div class="center-align">
+                                        <a class="btn btn-read-more" href="'.site_url().'blog/post/'.$post_id.'">
+                                            <span data-hover="Read more">
+                                            	Read more
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                	<!-- End: Post -->
 				';
 			}
 		}
@@ -140,13 +127,6 @@
 		{
 			$result .= "There are no posts :-(";
 		}
-		
-		echo $result;*/
-?>
-
-
-<?php
-    if(isset($links)){echo $links;}
 ?>
 
 <!-- Join  -->
@@ -161,29 +141,18 @@
             <div class="row">
                 <!-- Posts -->
             	<div class="col-md-9">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="thumbnail">
-                                <img data-src="holder.js/300x300" alt="...">
-                                <div class="caption">
-                                    <h3>Thumbnail label</h3>
-                                    <p>Lorem Ipsum</p>
-                                    <p>
-                                        <a class="btn btn-primary btn-from-top" href="http://livedemo00.template-help.com/wordpress_52112/velit-es…uam/lorem-ipsum-dolor-sit-amet-conse-ctetur-adipisicing-eli/">
-                                            <span data-hover="Read more">
-                                            	Read more
-                                            </span>
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                	<?php echo $result;?>
+                    
+					<?php
+                        if(isset($links)){echo $links;}
+                    ?>
                 </div>
                 <!-- End: Posts -->
                 
                 <!-- Navigation -->
-                <?php //echo $this->load->view('includes/sidebar', '', TRUE);?>
+				<div class="col-md-3">
+                <?php echo $this->load->view('includes/sidebar', '', TRUE);?>
+            	</div>
                 <!-- End: Navigation -->
             </div>
         </div>
