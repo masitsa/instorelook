@@ -158,6 +158,8 @@
                                         echo '<div style="color:green;">'.$success.'</div>';
                                         $this->session->unset_userdata('success_message');
                                         }
+                                        $title = 'Comment(s)';
+                                        $total_comments = $comments_query->num_rows();
                                         ?>
                                         <form method="post" action="<?php echo site_url().'blog/add_comment/'.$post_id;?>">
                                             <div id="contactform">

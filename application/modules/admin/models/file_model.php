@@ -86,11 +86,11 @@ class File_model extends CI_Model
 	public function upload_file($upload_path, $field_name, $resize)
 	{
 		$config = array(
-				'allowed_types' => 'JPG|JPEG|jpg|jpeg|gif|png',
-				'upload_path' => $upload_path,
-				'quality' => "100%",
-				'file_name' => md5(date('Y-m-d H:i:s')),
-				'max_size' => '30000'
+				'allowed_types'	=> 'JPG|JPEG|jpg|jpeg|gif|png',
+				'upload_path' 	=> $upload_path,
+				'quality' 		=> "100%",
+				'max_size'      => '0',
+				'file_name' 	=> md5(date('Y-m-d H:i:s'))
 			);
 			
 		$this->load->library('upload', $config);
@@ -115,7 +115,8 @@ class File_model extends CI_Model
 					'source_image'  => $image_upload_data['full_path'], 
 					'width' => $resize['width'],
 					'height' => $resize['height'],
-					'maintain_ratio' => true,
+					'master_dim' => 'width',
+					'maintain_ratio' => TRUE
 				);
 
 			// initializing
@@ -191,8 +192,7 @@ class File_model extends CI_Model
 	*/
 	public function delete_file($file_path)
 	{
-		
-		if (file_exists($file_path)) 
+		if(file_exists($file_path)) 
 		{
 			unlink($file_path);
 		}
@@ -209,7 +209,7 @@ class File_model extends CI_Model
         $upload_conf = array(
 				'upload_path'   => $gallery_path,
 				'allowed_types' => 'JPG|JPEG|jpg|jpeg|gif|png',
-				'max_size'      => '30000',
+				'max_size'      => '300000',
 				'quality' => "100%",
 				'file_name' => md5(date('Y-m-d H:i:s'))
             );
@@ -322,5 +322,31 @@ class File_model extends CI_Model
             return TRUE;
         }
     }
+	
+	public function crop_file($file, $x, $y)
+	{
+		$image_config['image_library'] = 'gd2';
+		$image_config['source_image'] = $file;
+		$image_config['quality'] = "100%";
+		$image_config['maintain_ratio'] = FALSE;
+		$image_config['width'] = $x;
+		$image_config['height'] = $y;
+		$image_config['x_axis'] = '0';
+		$image_config['y_axis'] = '0';
+		 
+		$this->image_lib->clear();
+		$this->image_lib->initialize($image_config);
+		
+		if ( ! $this->image_lib->crop())
+		{
+			$error = $this->image_lib->display_errors();
+			return $error;
+		}
+		
+		else
+		{
+			return TRUE;
+		}
+	}
 }
 ?>

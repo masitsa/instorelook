@@ -14,17 +14,22 @@ if($recent_query->num_rows() > 0)
 		
 		$recent_posts .= '
 			<div class="widgett">
-				  <div class="imgholder">
-					   <a href="'.site_url().'blog/post/'.$post_id.'" rel="bookmark" title="'.$post_title.'"><img src="'.$image.'" alt="'.$post_title.'"></a>
-				  </div>
-	
-				  <div class="wttitle">
-					   <h4><a href="'.site_url().'blog/post/'.$post_id.'" rel="bookmark" title="'.$post_title.'">'.$post_title.'</a></h4>
-				  </div>
-	
-				  <div class="details2">
-					   <a href="'.site_url().'blog/post/'.$post_id.'" title="'.$post_title.'">'.$comments.' Comments</a>
-				  </div>
+				<div class="row ">
+					<div class="col-md-4">
+					  <div class="imgholder">
+						   <a href="'.site_url().'blog/post/'.$post_id.'" rel="bookmark" title="'.$post_title.'"><img src="'.$image.'" alt="'.$post_title.'"></a>
+					  </div>
+					</div>
+					<div class="col-md-8">
+					  <div class="wttitle">
+						   <h5><a href="'.site_url().'blog/post/'.$post_id.'" rel="bookmark" title="'.$post_title.'">'.$post_title.'</a></h5>
+					  </div>
+		
+					  <div class="details2">
+						  <h6> <a href="'.site_url().'blog/post/'.$post_id.'" title="'.$post_title.'">'.$comments.' Comments</a></h6>
+					  </div>
+					</div>
+				</div>
 			 </div>
 		';
 	}
@@ -68,17 +73,22 @@ if($popular_query->num_rows() > 0)
 		
 		$popular_posts .= '
 			<div class="widgett">
-				  <div class="imgholder">
-					   <a href="'.site_url().'blog/post/'.$post_id.'" rel="bookmark" title="'.$post_title.'"><img src="'.$image.'" alt="'.$post_title.'"></a>
-				  </div>
-	
-				  <div class="wttitle">
-					   <h4><a href="'.site_url().'blog/post/'.$post_id.'" rel="bookmark" title="'.$post_title.'">'.$post_title.'</a></h4>
-				  </div>
-	
-				  <div class="details2">
-					   <a href="'.site_url().'blog/post/'.$post_id.'" title="'.$post_title.'">'.$comments.' Comments</a>
-				  </div>
+				<div class="row ">
+					<div class="col-md-4">
+					  <div class="imgholder">
+						   <a href="'.site_url().'blog/post/'.$post_id.'" rel="bookmark" title="'.$post_title.'"><img src="'.$image.'" alt="'.$post_title.'"></a>
+					  </div>
+					</div>
+					<div class="col-md-8">
+					  <div class="wttitle">
+						   <h5><a href="'.site_url().'blog/post/'.$post_id.'" rel="bookmark" title="'.$post_title.'">'.$post_title.'</a></h5>
+					  </div>
+		
+					  <div class="details2">
+						   <h6><a href="'.site_url().'blog/post/'.$post_id.'" title="'.$post_title.'">'.$comments.' Comments</a></h6>
+					  </div>
+					</div>
+				</div>
 			 </div>
 		';
 	}
@@ -89,15 +99,21 @@ else
 	$popular_posts = 'No posts views yet';
 }
 ?>
+<div class="row " style="padding:5px;">
+	<div class="list-group" >
+	    <h3 style="margin-bottom:17px;"><span style="color:#2d2d2d;">Our</span> Categories</h3>
+	    <div class="commentsborder"  style="margin-bottom:5px;"></div>
+	     <?php echo $categories;?>
+	 </div>
     <div class="list-group">
-    	<h3><span>Recent</span> posts</h3>
+    	<h3 style="margin-bottom:17px;"><span style="color:#2d2d2d;">Recent</span> posts</h3>
+    	<div class="commentsborder"  style="margin-bottom:5px;"></div>
         <?php echo $recent_posts;?>
     </div>
+    
     <div class="list-group">
-    	<h3><span>Our</span> Categories</h3>
-        <?php echo $categories;?>
-    </div>
-    <div class="list-group">
-    	<h3><span>Popular</span> Posts</h3>
+    	<h3 style="margin-bottom:17px;"><span style="color:#2d2d2d;">Popular</span> Posts</h3>
+    	<div class="commentsborder"  style="margin-bottom:5px;"></div>
         <?php echo $popular_posts;?>
     </div>
+</div>
