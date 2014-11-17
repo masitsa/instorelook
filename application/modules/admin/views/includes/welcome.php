@@ -30,15 +30,15 @@
                 <ul class="page-stats">
                     <li>
                         <div class="summary">
-                            <span>Active Flights</span>
-                            <h3><?php echo "sda";?></h3>
+                            <span>Active Posts</span>
+                            <h3><?php echo "0";?></h3>
                         </div>
                         <span id="sparklines1"></span>
                     </li>
                     <li>
                         <div class="summary">
                             <span>Total Payments</span>
-                            <h3>KES <?php echo "sda";?></h3>
+                            <h3>$ <?php echo "0";?></h3>
                         </div>
                         <span id="sparklines2"></span>
                     </li>

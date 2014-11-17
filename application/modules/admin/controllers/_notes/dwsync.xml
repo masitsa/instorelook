@@ -6,6 +6,11 @@
 <file name="settings.php" server="148.251.2.43/public_html/clothes/" local="130496490181600315" remote="130520574000000000" Dst="0" />
 <file name="users.php" server="148.251.2.43/public_html/clothes/" local="130497038597647354" remote="130520574000000000" Dst="0" />
 <file name="charts.php" server="148.251.2.43/public_html/clothes/" local="130538222930981243" remote="130538227200000000" Dst="0" />
-<file name="airlines.php" server="23.229.204.232/public_html/development/" local="130571790194051215" remote="130571430000000000" Dst="0" />
-<file name="airplane_types.php" server="23.229.204.232/public_html/development/" local="130571791401320267" remote="130571431200000000" Dst="0" />
+<file name="admin.php" server="ftp.instorelook.com.au//public_html/development/" local="130603748337864401" remote="130605499800000000" Dst="0" />
+<file name="charts.php" server="ftp.instorelook.com.au//public_html/development/" local="130538222930981243" remote="130605500400000000" Dst="0" />
+<file name="orders.php" server="ftp.instorelook.com.au//public_html/development/" local="130520878878999866" remote="130605500400000000" Dst="0" />
+<file name="blog.php" server="ftp.instorelook.com.au//public_html/development/" local="130607092333084543" remote="130607272200000000" Dst="0" />
+<file name="settings.php" server="ftp.instorelook.com.au//public_html/development/" local="130496490181600315" remote="130605500400000000" Dst="0" />
+<file name="control.php" server="ftp.instorelook.com.au//public_html/development/" local="130495605127336840" remote="130605500400000000" Dst="0" />
+<file name="users.php" server="ftp.instorelook.com.au//public_html/development/" local="130571742489742685" remote="130605500400000000" Dst="0" />
 </dwsync>

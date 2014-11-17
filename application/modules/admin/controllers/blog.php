@@ -119,9 +119,7 @@ class Blog extends admin {
 				{
 					$this->session->set_userdata('error_message', $response['error']);
 					
-					$data['title'] = 'Add New Post';
-					$data['content'] = $this->load->view('posts/add_post', '', true);
-					$this->load->view('templates/general_admin', $data);
+					redirect('add-post');
 					break;
 				}
 			}

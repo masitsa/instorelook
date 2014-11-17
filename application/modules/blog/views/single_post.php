@@ -62,6 +62,9 @@
 	
 	//comments
 	$comments = 'No Comments';
+	$total_comments = $comments_query->num_rows();
+	$title = 'Comments';
+	
 	if($comments_query->num_rows() > 0)
 	{
 		$comments = '';
