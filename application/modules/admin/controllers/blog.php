@@ -4,6 +4,7 @@ require_once "./application/modules/admin/controllers/admin.php";
 
 class Blog extends admin {
 	var $posts_path;
+	var $posts_location;
 	
 	function __construct()
 	{
@@ -16,6 +17,7 @@ class Blog extends admin {
 		
 		//path to image directory
 		$this->posts_path = realpath(APPPATH . '../assets/images/posts');
+		$this->posts_location = base_url().'assets/images/posts';
 	}
     
 	/*
@@ -86,6 +88,23 @@ class Blog extends admin {
 	*/
 	public function add_post() 
 	{
+		$this->session->unset_userdata('blog_error_message');
+		
+		//upload image if it has been selected
+		$response = $this->blog_model->upload_blog_image($this->posts_path);
+		if($response)
+		{
+			$v_data['blog_image_location'] = $this->post_location.$this->session->userdata('blog_file_name');
+		}
+		
+		//case of upload error
+		else
+		{
+			$v_data['blog_image_error'] = $this->session->userdata('blog_error_message');
+		}
+		
+		$blog_error = $this->session->userdata('blog_error_message');
+		
 		//form validation rules
 		$this->form_validation->set_rules('blog_category_id', 'Post Category', 'required|xss_clean');
 		$this->form_validation->set_rules('created', 'Post Date', 'required|xss_clean');
@@ -96,37 +115,8 @@ class Blog extends admin {
 		//if form has been submitted
 		if ($this->form_validation->run())
 		{
-			//upload product's gallery images
-			$resize['width'] = 600;
-			$resize['height'] = 800;
-			
-			if(is_uploaded_file($_FILES['post_image']['tmp_name']))
-			{
-				$posts_path = $this->posts_path;
-				/*
-					-----------------------------------------------------------------------------------------
-					Upload image
-					-----------------------------------------------------------------------------------------
-				*/
-				$response = $this->file_model->upload_file($posts_path, 'post_image', $resize);
-				if($response['check'])
-				{
-					$file_name = $response['file_name'];
-					$thumb_name = $response['thumb_name'];
-				}
-			
-				else
-				{
-					$this->session->set_userdata('error_message', $response['error']);
-					
-					redirect('add-post');
-					break;
-				}
-			}
-			
-			else{
-				$file_name = '';
-			}
+			$file_name = $this->session->userdata('blog_file_name');
+			$thumb_name = $this->session->userdata('blog_thumb_name');
 			
 			if($this->blog_model->add_post($file_name, $thumb_name))
 			{
@@ -172,6 +162,22 @@ class Blog extends admin {
 	*/
 	public function edit_post($post_id) 
 	{
+		$this->session->unset_userdata('blog_error_message');
+		
+		//upload image if it has been selected
+		$response = $this->blog_model->upload_blog_image($this->posts_path);
+		if($response)
+		{
+			//$v_data['blog_image_location'] = $this->post_location.$this->session->userdata('blog_file_name');
+		}
+		
+		//case of upload error
+		else
+		{
+			$v_data['blog_image_error'] = $this->session->userdata('blog_error_message');
+		}
+		
+		$blog_error = $this->session->userdata('blog_error_message');
 		//form validation rules
 		$this->form_validation->set_rules('blog_category_id', 'Post Category', 'required|xss_clean');
 		$this->form_validation->set_rules('created', 'Post Date', 'required|xss_clean');
@@ -182,53 +188,11 @@ class Blog extends admin {
 		//if form has been submitted
 		if ($this->form_validation->run())
 		{
-			//upload product's gallery images
-			$resize['width'] = 600;
-			$resize['height'] = 800;
-			
-			if(is_uploaded_file($_FILES['post_image']['tmp_name']))
+
+			$file_name = $this->session->userdata('blog_file_name');
+			if(!empty($file_name))
 			{
-				$posts_path = $this->posts_path;
-				
-				//delete original image
-				$this->file_model->delete_file($posts_path."\\".$this->input->post('current_image'));
-				
-				//delete original thumbnail
-				$this->file_model->delete_file($posts_path."\\thumbnail_".$this->input->post('current_image'));
-				/*
-				/*
-					-----------------------------------------------------------------------------------------
-					Upload image
-					-----------------------------------------------------------------------------------------
-				*/
-				$response = $this->file_model->upload_file($posts_path, 'post_image', $resize);
-				if($response['check'])
-				{
-					$file_name = $response['file_name'];
-					$thumb_name = $response['thumb_name'];
-				}
-			
-				else
-				{
-					$this->session->set_userdata('error_message', $response['error']);
-					
-					$data['title'] = 'Edit post';
-					$query = $this->blog_model->get_post($post_id);
-					if ($query->num_rows() > 0)
-					{
-						$v_data['post'] = $query->result();
-						$v_data['all_posts'] = $this->blog_model->all_posts();
-						$data['content'] = $this->load->view('posts/edit_post', $v_data, true);
-					}
-					
-					else
-					{
-						$data['content'] = 'post does not exist';
-					}
-					
-					$this->load->view('templates/general_admin', $data);
-					break;
-				}
+				$thumb_name = $this->session->userdata('blog_thumb_name');
 			}
 			
 			else{
@@ -720,6 +684,56 @@ class Blog extends admin {
 		$this->blog_model->deactivate_blog_category($blog_category_id);
 		$this->session->set_userdata('success_message', 'Category disabled successfully');
 		redirect('blog-categories');
+	}
+	function add_slide($navigation_id, $sub_navigation_id)
+	{
+		$_SESSION['navigation_id'] = $navigation_id;
+		$_SESSION['sub_navigation_id'] = $sub_navigation_id;
+		$data['post_location'] = 'http://placehold.it/300x300';
+		
+		
+		$this->form_validation->set_rules('check', 'check', 'trim|xss_clean');
+		$this->form_validation->set_rules('blog_name', 'Title', 'trim|xss_clean');
+		$this->form_validation->set_rules('blog_description', 'Description', 'trim|xss_clean');
+
+		if ($this->form_validation->run())
+		{	
+			if(empty($blog_error))
+			{
+				$data2 = array(
+					'blog_name'=>$this->input->post("blog_name"),
+					'blog_description'=>$this->input->post("blog_description"),
+					'blog_image_name'=>$this->session->userdata('blog_file_name')
+				);
+				
+				$table = "blog";
+				$this->administration_model->insert($table, $data2);
+				$this->session->unset_userdata('blog_file_name');
+				$this->session->unset_userdata('blog_thumb_name');
+				$this->session->unset_userdata('blog_error_message');
+				
+				redirect('administration/blog/4/5');
+			}
+		}
+		
+		$table = "blog";
+		$where = "blog_id > 0";
+		$items = "*";
+		$order = "blog_id";
+		
+		$data['slides'] = $this->administration_model->select_entries_where($table, $where, $items, $order);
+		
+		$blog = $this->session->userdata('blog_file_name');
+		
+		if(!empty($blog))
+		{
+			$data['post_location'] = $this->post_location.$this->session->userdata('blog_file_name');
+		}
+		$data['error'] = $blog_error;
+		
+		$this->load_head();
+		$this->load->view("blog/add_slide", $data);
+		$this->load_foot();
 	}
 }
 ?>
