@@ -33,9 +33,10 @@ class Email_model extends CI_Model
 	* 	@param string $shopping
 	*	@param string $from
 	* 	@param string $button
+	* 	@param string $cc
 	*
 	*/
-	function send_mandrill_mail($user_email, $user_name, $subject, $message, $sender_email = NULL, $shopping = NULL, $from = NULL, $button = NULL)
+	function send_mandrill_mail($user_email, $user_name, $subject, $message, $sender_email = NULL, $shopping = NULL, $from = NULL, $button = NULL, $cc = NULL)
 	{
 		if(!isset($sender_email)){
 			$sender_email = "brynhaggarty@gmail.com";
@@ -45,6 +46,9 @@ class Email_model extends CI_Model
 		}
 		if(!isset($from)){
 			$from = "In Store Look";
+		}
+		if($cc == NULL){
+			$cc = "amasitsa@live.com";
 		}
 		if(!isset($button)){
 			$button = '<a class="mcnButton " title="Confirm Account" href="http://www.intorelook.com.au" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Shop Now</a>';
@@ -92,7 +96,7 @@ class Email_model extends CI_Model
 		'url_strip_qs' => null,
 		'preserve_recipients' => null,
 		'view_content_link' => null,
-		'bcc_address' => null,
+		'bcc_address' => $cc,
 		'tracking_domain' => null,
 		'signing_domain' => null,
 		'return_path_domain' => null,

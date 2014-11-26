@@ -84,9 +84,13 @@ class Vendor_model extends CI_Model
 				'vendor_store_name' => $this->input->post('vendor_store_name'),
 				'vendor_store_phone' => $this->input->post('vendor_store_phone'),
 				'vendor_store_email' => $this->input->post('vendor_store_email'),
-				'vendor_user_phone' => $this->input->post('vendor_user_phone'),
 				'vendor_categories' => $categories,
-				'vendor_store_summary' => $this->input->post('vendor_store_summary')
+				'vendor_store_summary' => $this->input->post('vendor_store_summary'),
+				'vendor_store_mobile' => $this->input->post('vendor_store_mobile'),
+				'vendor_store_state' => $this->input->post('vendor_store_state'),
+				'country_id' => $this->input->post('country_id'),
+				'vendor_business_type' => $this->input->post('vendor_business_type'),
+				'vendor_store_surburb' => $this->input->post('vendor_store_surburb')
 		);
 		
 		$this->session->set_userdata($data);
@@ -94,22 +98,26 @@ class Vendor_model extends CI_Model
 		return TRUE;
 	}
 	
-	public function register_vendor()
+	public function register_vendor($subscription_id)
 	{
 		$data = array( 
-				'vendor_first_name' => $this->input->post('vendor_first_name'),
-				'vendor_last_name' => $this->input->post('vendor_last_name'),
-				'vendor_email' => $this->input->post('vendor_email'),
-				'vendor_phone' => $this->input->post('vendor_phone'),
-				'vendor_password' => $this->input->post('vendor_password'),
-				'vendor_store_name' => $this->input->post('vendor_store_name'),
-				'vendor_store_phone' => $this->input->post('vendor_store_phone'),
-				'vendor_store_email' => $this->input->post('vendor_store_email'),
-				'vendor_user_phone' => $this->input->post('vendor_user_phone'),
-				'vendor_categories' => $categories,
-				'vendor_store_summary' => $this->input->post('vendor_store_summary'),
+				'vendor_first_name' => $this->session->userdata('vendor_first_name'),
+				'vendor_last_name' => $this->session->userdata('vendor_last_name'),
+				'vendor_email' => $this->session->userdata('vendor_email'),
+				'vendor_phone' => $this->session->userdata('vendor_phone'),
+				'vendor_password' => $this->session->userdata('vendor_password'),
+				'vendor_store_name' => $this->session->userdata('vendor_store_name'),
+				'vendor_store_phone' => $this->session->userdata('vendor_store_phone'),
+				'vendor_store_email' => $this->session->userdata('vendor_store_email'),
+				//'vendor_categories' => $categories,
+				'vendor_store_summary' => $this->session->userdata('vendor_store_summary'),
 				'vendor_logo' => $this->session->userdata('vendor_logo_file_name'),
-				'vendor_thumb' => $this->session->userdata('vendor_logo_thumb_name')
+				'vendor_thumb' => $this->session->userdata('vendor_logo_thumb_name'),
+				'vendor_store_mobile' => $this->session->userdata('vendor_store_mobile'),
+				'vendor_store_state' => $this->session->userdata('vendor_store_state'),
+				'country_id' => $this->session->userdata('country_id'),
+				'vendor_business_type' => $this->session->userdata('vendor_business_type'),
+				'vendor_store_surburb' => $this->session->userdata('vendor_store_surburb')
 		);
 		
 		if($this->db->insert('vendor', $data))
@@ -117,7 +125,7 @@ class Vendor_model extends CI_Model
 			$vendor_id = $this->db->insert_id();
 			
 			//save vendor categories
-			$categories = $this->session->userdata('vendor_categories');
+			/*$categories = $this->session->userdata('vendor_categories');
 			if ($categories)
 			{
 				$data2['vendor_id'] = $vendor_id;
@@ -128,7 +136,10 @@ class Vendor_model extends CI_Model
 					{
 					}
 				}
-			}
+			}*/
+			
+			//subscribe vendor
+			$vendor_subscription_id = $this->subscribe_vendor($vendor_id, $subscription_id);
 			
 			return $vendor_id;
 		}
@@ -137,5 +148,73 @@ class Vendor_model extends CI_Model
 		{
 			return FALSE;
 		}
+	}
+	
+	public function get_all_countries()
+	{
+		$this->db->order_by('country_name');
+		$query = $this->db->get('countries');
+		
+		return $query;
+	}
+	
+	public function subscribe_vendor($vendor_id, $subscription_id)
+	{
+		$this->db->where('subscription_id', $subscription_id);
+		$query = $this->db->get('subscription');
+		$subscription_amount = 0;
+		
+		if($query->num_rows() > 0)
+		{
+			$row = $query->row();
+			$subscription_amount = $row->subscription_amount;
+		}
+		//disable all other subscriptions for vendor
+		$this->db->where('vendor_id', $vendor_id);
+		$this->db->update('vendor_subscription', array('vendor_subscription_status' => 0));
+		
+		//subscribe vendor
+		$data = array( 
+			'subscription_id' => $subscription_id,
+			'vendor_id' => $vendor_id,
+			'payment_amount' => $subscription_amount
+		);
+		
+		if($this->db->insert('vendor_subscription', $data))
+		{
+			$vendor_subscription_id = $this->db->insert_id();
+		}
+		
+		else
+		{
+			$vendor_subscription_id = FALSE;
+		}
+		
+		return $vendor_subscription_id;
+	}
+    
+	/*
+	*
+	*	Vendor Account Verification Email
+	*
+	*/
+	public function send_account_verification_email($receiver_email, $receiver_name, $cc) 
+	{
+		$this->load->library('Mandrill', 'yPN5McI91NQbs7spbOUpPA');
+		$this->load->model('site/email_model');
+		
+		$subject = "Thanks for registering your shop";
+		$message = '
+				<p>Thank you for registering at In Store Look.</p> <p>Please activate your account here</p>
+				';
+		$sender_email = "info@instorelook.com.au";
+		$shopping = "";
+		$from = "In Store Look";
+		$button = NULL;
+		$response = $this->email_model->send_mandrill_mail($receiver_email, "Hi ".$receiver_name, $subject, $message, $sender_email, $shopping, $from, $button, $cc);
+		
+		//echo var_dump($response);
+		
+		return $response;
 	}
 }

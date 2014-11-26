@@ -36,7 +36,7 @@ a:hover, a:visited, a:active{text-decoration:none;color: rgba(41,171,226,.75);}
 /* Form Elements */
 .form-horizontal{padding:20px 0 20px 0;}
 .form-control{border:none; border-radius:0px;border: 2px solid #ccc; background-color:transparent; color:#404040;}
-.col-sm-9 .alert-danger{background-color: #F2DEDE; border-color: #EBCCD1; color: #A94442;}
+.col-sm-8 .alert-danger{background-color: #F2DEDE; border-color: #EBCCD1; color: #A94442;}
 .form-control::-webkit-input-placeholder {color: #29abe2; font-style:italic;}
  /* Firefox 18- */
 .form-control:-moz-placeholder {color: #29abe2; font-style:italic;}
@@ -45,13 +45,13 @@ a:hover, a:visited, a:active{text-decoration:none;color: rgba(41,171,226,.75);}
 .form-control:-ms-input-placeholder {color: #29abe2; font-style:italic;}
 .form-control:focus{border-color:#29abe2; box-shadow:none;}
 
-.col-sm-9 .alert-danger::-webkit-input-placeholder {color: #A94442;}
+.col-sm-8 .alert-danger::-webkit-input-placeholder {color: #A94442;}
  /* Firefox 18- */
-.col-sm-9 .alert-danger:-moz-placeholder {color: #A94442;}
+.col-sm-8 .alert-danger:-moz-placeholder {color: #A94442;}
 /* Firefox 19+ */
-.col-sm-9 .alert-danger::-moz-placeholder {color: #A94442;}
-.col-sm-9 .alert-danger:-ms-input-placeholder {color: #A94442;  }
-.col-sm-9 .alert-danger:focus{box-shadow:none;}
+.col-sm-8 .alert-danger::-moz-placeholder {color: #A94442;}
+.col-sm-8 .alert-danger:-ms-input-placeholder {color: #A94442;  }
+.col-sm-8 .alert-danger:focus{box-shadow:none;}
 
 .search-flights textarea{min-height:110px;}
 .form-group span.info{color:#29abe2; font-style:italic; font-size:0.8em;}
@@ -119,14 +119,14 @@ span.feature-text{font-size:0.6em;}
 .my_featureRow { margin-top: 0.2em;margin-bottom: 0.2em;border: 0.1em solid rgb(163, 163, 163);}    
 
 /* --- Plan 1 --------------------------- */
-.my_plan1 {background: rgb(224,234,242);}
+.my_plan1 {background: rgba(41, 171, 226, 0.1);}
 .my_planHeader.my_plan1 a {background: rgb(72, 109, 139);color:white;}
-.my_planHeader.my_plan1 {background: rgb(105, 153, 193);border-bottom: thick solid rgb(72, 109, 139);}
+.my_planHeader.my_plan1 {background: rgba(41, 171, 226, 0.8);border-bottom: thick solid rgb(72, 109, 139);}
 
 /* --- Plan 2 --------------------------- */
-.my_plan2 {background: rgb(230,235,218);}
-.my_planHeader.my_plan2 a {background: rgb(108, 131, 62);color:white;}
-.my_planHeader.my_plan2 {background: rgb(134, 162, 77);border-bottom: thick solid rgb(108, 131, 62);}
+.my_plan2 {background: rgba(227, 227, 227, 0.3);}
+.my_planHeader.my_plan2 a {background: #78828D;color:#fff;}
+.my_planHeader.my_plan2 {background: #E3E3E3;border-bottom: thick solid #B3B3B3;color:#78828D;}
 
 /* --- Plan 3 --------------------------- */
 .my_plan3 {background: rgb(254,235,212);}

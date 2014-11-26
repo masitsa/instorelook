@@ -39,8 +39,8 @@
                     	<div class="row">
                         	<div class="col-md-offset-3 col-md-5">
                             	<div class="form-group">
-                                    <label for="vendor_first_name" class="col-sm-3 control-label">First Name <span class="required">*</span></label>
-                                    <div class="col-sm-9">
+                                    <label for="vendor_first_name" class="col-sm-4 control-label">First Name <span class="required">*</span></label>
+                                    <div class="col-sm-8">
                                     	<?php
 											//case of an input error
                                         	if(!empty($vendor_first_name_error))
@@ -60,8 +60,8 @@
                                     </div>
                                 </div>
                             	<div class="form-group">
-                                    <label for="vendor_last_name" class="col-sm-3 control-label">Last Name <span class="required">*</span></label>
-                                    <div class="col-sm-9">
+                                    <label for="vendor_last_name" class="col-sm-4 control-label">Last Name <span class="required">*</span></label>
+                                    <div class="col-sm-8">
                                     	<?php
 											//case of an input error
                                         	if(!empty($vendor_last_name_error))
@@ -81,8 +81,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="vendor_phone" class="col-sm-3 control-label">Phone <span class="required">*</span></label>
-                                    <div class="col-sm-9">
+                                    <label for="vendor_phone" class="col-sm-4 control-label">Phone <span class="required">*</span></label>
+                                    <div class="col-sm-8">
                                     	<?php
 											//case of an input error
                                         	if(!empty($vendor_phone_error))
@@ -102,8 +102,8 @@
                                 	</div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="vendor_email" class="col-sm-3 control-label">Email <span class="required">*</span></label>
-                                    <div class="col-sm-9">
+                                    <label for="vendor_email" class="col-sm-4 control-label">Email <span class="required">*</span></label>
+                                    <div class="col-sm-8">
                                     	<?php
 											//case of an input error
                                         	if(!empty($vendor_email_error))
@@ -123,8 +123,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="vendor_password" class="col-sm-3 control-label">Password <span class="required">*</span></label>
-                                    <div class="col-sm-9">
+                                    <label for="vendor_password" class="col-sm-4 control-label">Password <span class="required">*</span></label>
+                                    <div class="col-sm-8">
                                     	<?php
 											//case of an input error
                                         	if(!empty($vendor_password_error))
@@ -144,8 +144,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="confirm_password" class="col-sm-3 control-label">Confirm Password <span class="required">*</span></label>
-                                    <div class="col-sm-9">
+                                    <label for="confirm_password" class="col-sm-4 control-label">Confirm Password <span class="required">*</span></label>
+                                    <div class="col-sm-8">
                                     	<?php
 											//case of an input error
                                         	if(!empty($confirm_password_error))

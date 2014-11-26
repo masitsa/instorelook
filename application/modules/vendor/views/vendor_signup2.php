@@ -40,8 +40,8 @@
                     	<div class="row">
                         	<div class="col-md-6 first">
                             	<div class="form-group">
-                                    <label for="vendor_store_name" class="col-sm-3 control-label">Store Name <span class="required">*</span></label>
-                                    <div class="col-sm-9">
+                                    <label for="vendor_store_name" class="col-sm-4 control-label">Company Name <span class="required">*</span></label>
+                                    <div class="col-sm-8">
                                     	<?php
 											//case of an input error
                                         	if(!empty($vendor_store_name_error))
@@ -54,15 +54,15 @@
 											else
 											{
 												?>
-                                                <input type="text" class="form-control" name="vendor_store_name" placeholder="Store Name" value="<?php echo $vendor_store_name;?>">
+                                                <input type="text" class="form-control" name="vendor_store_name" placeholder="Company Name" value="<?php echo $vendor_store_name;?>">
                                                 <?php
 											}
 										?>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="vendor_store_phone" class="col-sm-3 control-label">Store Phone <span class="required">*</span></label>
-                                    <div class="col-sm-9">
+                                    <label for="vendor_store_phone" class="col-sm-4 control-label">Company Phone <span class="required">*</span></label>
+                                    <div class="col-sm-8">
                                     	<?php
 											//case of an input error
                                         	if(!empty($vendor_store_phone_error))
@@ -75,15 +75,36 @@
 											else
 											{
 												?>
-                                                <input type="text" class="form-control" name="vendor_store_phone" placeholder="Store Phone" value="<?php echo $vendor_store_phone;?>">
+                                                <input type="text" class="form-control" name="vendor_store_phone" placeholder="Company Phone" value="<?php echo $vendor_store_phone;?>">
                                                 <?php
 											}
 										?>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="vendor_store_email" class="col-sm-3 control-label">Store Email <span class="required">*</span></label>
-                                    <div class="col-sm-9">
+                                    <label for="vendor_store_mobile" class="col-sm-4 control-label">Mobile Number</label>
+                                    <div class="col-sm-8">
+                                    	<?php
+											//case of an input error
+                                        	if(!empty($vendor_store_mobile_error))
+											{
+												?>
+                                                <input type="text" class="form-control alert-danger" name="vendor_store_mobile" placeholder="<?php echo $vendor_store_mobile_error;?>" onFocus="this.value = '<?php echo $vendor_store_mobile;?>';">
+                                                <?php
+											}
+											
+											else
+											{
+												?>
+                                                <input type="text" class="form-control" name="vendor_store_mobile" placeholder="Mobile Number" value="<?php echo $vendor_store_mobile;?>">
+                                                <?php
+											}
+										?>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="vendor_store_email" class="col-sm-4 control-label">Company Email <span class="required">*</span></label>
+                                    <div class="col-sm-8">
                                     	<?php
 											//case of an input error
                                         	if(!empty($vendor_store_email_error))
@@ -96,16 +117,155 @@
 											else
 											{
 												?>
-                                                <input type="text" class="form-control" name="vendor_store_email" placeholder="Store Email" value="<?php echo $vendor_store_email;?>">
+                                                <input type="text" class="form-control" name="vendor_store_email" placeholder="Company Email" value="<?php echo $vendor_store_email;?>">
                                                 <?php
 											}
 										?>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="vendor_store_summary" class="col-sm-3 control-label">Store Summary
+                                    <label for="vendor_store_address" class="col-sm-4 control-label">Address</label>
+                                    <div class="col-sm-8">
+                                    	<?php
+											//case of an input error
+                                        	if(!empty($vendor_store_address_error))
+											{
+												?>
+                                                <input type="text" class="form-control alert-danger" name="vendor_store_address" placeholder="<?php echo $vendor_store_address_error;?>" onFocus="this.value = '<?php echo $vendor_store_address;?>';">
+                                                <?php
+											}
+											
+											else
+											{
+												?>
+                                                <input type="text" class="form-control" name="vendor_store_address" placeholder="Address" value="<?php echo $vendor_store_address;?>">
+                                                <?php
+											}
+										?>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="country_id" class="col-sm-4 control-label">Country</label>
+                                    <div class="col-sm-8">
+                                    	<?php
+											//case of an input error
+                                        	if(!empty($country_id_error))
+											{
+												?>
+                                    			<select name="country_id" class="form-control alert-danger">
+                                                <?php
+											}
+											
+											else
+											{
+												?>
+                                                <select name="country_id" class="form-control">
+                                                <?php
+											}
+											if($countries_query->num_rows() > 0)
+											{
+												foreach($countries_query->result() as $res)
+												{
+													$country_id2 = $res->country_id;
+													$country_name = $res->country_name;
+													
+													if($country_id2 == $country_id)
+													{
+														echo '<option value="'.$country_id2.'" selected="selected">'.$country_name.'</option>';
+													}
+													
+													else
+													{
+														echo '<option value="'.$country_id2.'">'.$country_name.'</option>';
+													}
+												}
+											}
+										?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="vendor_store_address" class="col-sm-4 control-label">State</label>
+                                    <div class="col-sm-8">
+                                    	<?php
+											//case of an input error
+                                        	if(!empty($vendor_store_state_error))
+											{
+												?>
+                                                <input type="text" class="form-control alert-danger" name="vendor_store_state" placeholder="<?php echo $vendor_store_state_error;?>" onFocus="this.value = '<?php echo $vendor_store_state;?>';">
+                                                <?php
+											}
+											
+											else
+											{
+												?>
+                                                <input type="text" class="form-control" name="vendor_store_state" placeholder="State" value="<?php echo $vendor_store_state;?>">
+                                                <?php
+											}
+										?>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="vendor_store_surburb" class="col-sm-4 control-label">Surburb</label>
+                                    <div class="col-sm-8">
+                                    	<?php
+											//case of an input error
+                                        	if(!empty($vendor_store_surburb_error))
+											{
+												?>
+                                                <input type="text" class="form-control alert-danger" name="vendor_store_surburb" placeholder="<?php echo $vendor_store_surburb_error;?>" onFocus="this.value = '<?php echo $vendor_store_surburb;?>';">
+                                                <?php
+											}
+											
+											else
+											{
+												?>
+                                                <input type="text" class="form-control" name="vendor_store_surburb" placeholder="Surburb" value="<?php echo $vendor_store_surburb;?>">
+                                                <?php
+											}
+										?>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="vendor_store_abn" class="col-sm-4 control-label">Business Type</label>
+                                    <div class="col-sm-8">
+                                    	<?php
+											//case of an input error
+                                        	if(!empty($vendor_business_type_error))
+											{
+												?>
+                                                <input type="text" class="form-control alert-danger" name="vendor_business_type" placeholder="<?php echo $vendor_business_type_error;?>" onFocus="this.value = '<?php echo $vendor_business_type;?>';">
+                                                <?php
+											}
+											
+											else
+											{
+												?>
+                                                <input type="text" class="form-control" name="vendor_business_type" placeholder="Business Type" value="<?php echo $vendor_business_type;?>">
+                                                <?php
+											}
+										?>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        	<div class="col-md-6">
+                                
+                                <div class="form-group multiselect_items">
+                                    <label for="categories" class="col-sm-4 control-label">Store Categories</label>
+                                    <div class="col-sm-8">
+                                        <select type="text" class="form-control multiselect multiselect-icon" multiple="multiple" role="multiselect" name="categories">          
+                                            <option value="0">Category 1</option>          
+                                            <option value="1">Category 2</option>
+                                            <option value="2">Category 3</option>
+                                            <option value="3">Category 4</option>
+                                        </select> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="vendor_store_summary" class="col-sm-4 control-label">Description
                                         <span class="required">*</span></label>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-8">
                                     	<?php
 											//case of an input error
                                         	if(!empty($vendor_store_summary_error))
@@ -118,30 +278,16 @@
 											else
 											{
 												?>
-                                                <textarea class="form-control" name="vendor_store_summary" placeholder="Store Summary"><?php echo $vendor_store_summary;?></textarea>
+                                                <textarea class="form-control" name="vendor_store_summary" placeholder="Company Description"><?php echo $vendor_store_summary;?></textarea>
                                                 <?php
 											}
 										?>
                                     </div>
                                 </div>
                                 
-                                <div class="form-group multiselect_items">
-                                    <label for="categories" class="col-sm-3 control-label">Store Categories <span class="required">*</span></label>
-                                    <div class="col-sm-9">
-                                        <select type="text" class="form-control multiselect multiselect-icon" multiple="multiple" role="multiselect" name="categories">          
-                                            <option value="0">Category 1</option>          
-                                            <option value="1">Category 2</option>
-                                            <option value="2">Category 3</option>
-                                            <option value="3">Category 4</option>
-                                        </select> 
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        	<div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="vendor_logo" class="col-sm-3 control-label">Store Logo</label>
-                                    <div class="col-sm-9">
+                                    <label for="vendor_logo" class="col-sm-4 control-label">Store Logo</label>
+                                    <div class="col-sm-8">
                                     	<div class="center-align">
                                         	<?php
                                             	$error = $this->session->userdata('vendor_logo_error_message');
@@ -180,7 +326,9 @@
             </div>
         </div>
         <!-- End Join -->
+
 <script type="text/javascript">
+
 	/**
  * bootstrap-multiselect.js
  * https://github.com/davidstutz/bootstrap-multiselect
