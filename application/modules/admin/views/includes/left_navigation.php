@@ -45,19 +45,19 @@
 				<!-- End: Blog Menu -->
 
                 <!-- Start: Products Menu -->
-                <!--<li class="has_submenu">
+                <li class="has_submenu">
                     <a href="#">
                         <i class="icon-th"></i> Products
                     </a>
                     <ul>
-                        <li><a href="<?php echo base_url()."all-brands";?>">Brands</a></li>
-                        <li><a href="<?php echo base_url()."all-categories";?>">Categories</a></li>
-                        <li><a href="<?php echo base_url()."all-features";?>">Features</a></li>
-                        <li><a href="<?php echo base_url()."all-orders";?>">Orders</a></li>
-                        <li><a href="<?php echo base_url()."all-products";?>">Products</a></li>
+                        <li><a href="<?php echo base_url()."admin/all-categories";?>">Categories</a></li>
+                        <!--<li><a href="<?php echo base_url()."admin/all-brands";?>">Brands</a></li>
+                        <li><a href="<?php echo base_url()."admin/all-features";?>">Features</a></li>
+                        <li><a href="<?php echo base_url()."admin/all-orders";?>">Orders</a></li>
+                        <li><a href="<?php echo base_url()."admin/all-products";?>">Products</a></li>-->
                     </ul>
                 </li>
-				 End: Products Menu -->
+				<!-- End: Products Menu -->
 
             </ul>
         </div>

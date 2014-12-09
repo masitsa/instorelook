@@ -32,7 +32,7 @@
     <div class="row">
       <div class="col-md-12">
         <!-- Widget starts -->
-            <div class="logo"><a href="<?php echo site_url();?>" class="navbar-brand"><span class="bold">P</span>BF <span class="bold">A</span>DMINISTRATION</a></div>
+            <div class="logo"><a href="<?php echo site_url();?>" class="navbar-brand"><span class="bold">I</span>n <span class="bold">S</span>tore <span class="bold">L</span>ook <span class="bold">A</span>dmin</a></div>
             <div class="widget">
               <!-- Widget head -->
               <div class="widget-head">

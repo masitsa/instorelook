@@ -70,63 +70,15 @@ $route['activate-user/(:num)'] = 'admin/users/activate_user/$1';
 $route['deactivate-user/(:num)'] = 'admin/users/deactivate_user/$1';
 $route['reset-user-password/(:num)'] = 'admin/users/reset_password/$1';
 $route['admin-profile/(:num)'] = 'admin/users/admin_profile/$1';
-
 /*
-*	Admin Routes
+*	Categories Routes
 */
-
-//airlines
-$route['administration/all-airlines'] = 'admin/airlines/index';
-$route['administration/all-airlines/(:num)'] = 'admin/airlines/index/$1';//with a page number
-$route['administration/add-airline'] = 'admin/airlines/add_airline';
-$route['administration/edit-airline/(:num)'] = 'admin/airlines/edit_airline/$1';
-$route['administration/activate-airline/(:num)/(:num)'] = 'admin/airlines/activate_airline/$1/$2';
-$route['administration/deactivate-airline/(:num)/(:num)'] = 'admin/airlines/deactivate_airline/$1/$2';
-$route['administration/delete-airline/(:num)/(:num)'] = 'admin/airlines/delete_airline/$1/$2';
-
-//visitors
-$route['administration/all-visitors'] = 'admin/visitors/index';
-$route['administration/all-visitors/(:num)'] = 'admin/visitors/index/$1';//with a page number
-$route['administration/add-visitor'] = 'admin/visitors/add_visitor';
-$route['administration/edit-visitor/(:num)'] = 'admin/visitors/edit_visitor/$1';
-$route['administration/activate-visitor/(:num)/(:num)'] = 'admin/visitors/activate_visitor/$1/$2';
-$route['administration/deactivate-visitor/(:num)/(:num)'] = 'admin/visitors/deactivate_visitor/$1/$2';
-$route['administration/delete-visitor/(:num)/(:num)'] = 'admin/visitors/delete_visitor/$1/$2';
-
-//airplane types
-$route['administration/all-airplane-types'] = 'admin/airplane_types/index';
-$route['administration/all-airplane-types/(:num)'] = 'admin/airplane_types/index/$1';//with a page number
-$route['administration/add-airplane-type'] = 'admin/airplane_types/add_airplane_type';
-$route['administration/edit-airplane-type/(:num)'] = 'admin/airplane_types/edit_airplane_type/$1';
-$route['administration/activate-airplane-type/(:num)/(:num)'] = 'admin/airplane_types/activate_airplane_type/$1/$2';
-$route['administration/deactivate-airplane-type/(:num)/(:num)'] = 'admin/airplane_types/deactivate_airplane_type/$1/$2';
-$route['administration/delete-airplane-type/(:num)/(:num)'] = 'admin/airplane_types/delete_airplane_type/$1/$2';
-
-//airports
-$route['administration/all-airports'] = 'admin/airports/index';
-$route['administration/all-airports/(:num)'] = 'admin/airports/index/$1';//with a page number
-$route['administration/add-airport'] = 'admin/airports/add_airport';
-$route['administration/edit-airport/(:num)'] = 'admin/airports/edit_airport/$1';
-$route['administration/activate-airport/(:num)/(:num)'] = 'admin/airports/activate_airport/$1/$2';
-$route['administration/deactivate-airport/(:num)/(:num)'] = 'admin/airports/deactivate_airport/$1/$2';
-$route['administration/delete-airport/(:num)/(:num)'] = 'admin/airports/delete_airport/$1/$2';
-
-//flight types
-$route['administration/all-flight-types'] = 'admin/flight_types/index';
-$route['administration/all-flight-types/(:num)'] = 'admin/flight_types/index/$1';//with a page number
-$route['administration/add-flight-type'] = 'admin/flight_types/add_flight_type';
-$route['administration/edit-flight-type/(:num)'] = 'admin/flight_types/edit_flight_type/$1';
-$route['administration/activate-flight-type/(:num)/(:num)'] = 'admin/flight_types/activate_flight_type/$1/$2';
-$route['administration/deactivate-flight-type/(:num)/(:num)'] = 'admin/flight_types/deactivate_flight_type/$1/$2';
-$route['administration/delete-flight-type/(:num)/(:num)'] = 'admin/flight_types/delete_flight_type/$1/$2';
-
-//Vendor
-$route['vendor/sign-up/personal-details'] = 'vendor/vendor_signup1';
-$route['vendor/sign-up/store-details'] = 'vendor/vendor_signup2';
-$route['vendor/sign-up/subscribe'] = 'vendor/vendor_signup3';
-$route['vendor/sign-up/subscribe/free'] = 'vendor/subscribe/1';
-$route['vendor/sign-up/subscribe/basic'] = 'vendor/subscribe/2';
-$route['vendor/sign-up/subscribe/unlimited'] = 'vendor/subscribe/3';
+$route['admin/all-categories'] = 'admin/categories/index';
+$route['admin/add-category'] = 'admin/categories/add_category';
+$route['admin/edit-category/(:num)'] = 'admin/categories/edit_category/$1';
+$route['admin/delete-category/(:num)'] = 'admin/categories/delete_category/$1';
+$route['admin/activate-category/(:num)'] = 'admin/categories/activate_category/$1';
+$route['admin/deactivate-category/(:num)'] = 'admin/categories/deactivate_category/$1';
 
 /*
 *	Admin Blog Routes
@@ -164,6 +116,72 @@ $route['blog/(:num)/(:num)'] = 'blog/index/$1/$2';
 $route['blog/post/(:num)'] = 'blog/view_post/$1';
 $route['blog/category/(:num)'] = 'blog/index/$1';
 $route['blog/category/(:num)/(:num)'] = 'blog/index/$1/$2';
+
+/*
+*	Vendor Routes
+*/
+$route['vendor/sign-up/user-details'] = 'vendor/vendor_signup1';
+$route['vendor/sign-up/store-details'] = 'vendor/vendor_signup2';
+$route['vendor/sign-up/subscribe'] = 'vendor/vendor_signup3';
+$route['vendor/subscribe/free'] = 'vendor/subscribe/1';
+$route['vendor/subscribe/basic'] = 'vendor/subscribe/2';
+$route['vendor/subscribe/unlimited'] = 'vendor/subscribe/3';
+$route['vendor/sign-in'] = 'vendor/vendor_signin';
+$route['confirm-account/(:any)'] = 'vendor/verify_email/$1';
+
+/*
+*	Categories Routes
+*/
+$route['all-categories'] = 'admin/categories/index';
+$route['add-category'] = 'admin/categories/add_category';
+$route['edit-category/(:num)'] = 'admin/categories/edit_category/$1';
+$route['delete-category/(:num)'] = 'admin/categories/delete_category/$1';
+$route['activate-category/(:num)'] = 'admin/categories/activate_category/$1';
+$route['deactivate-category/(:num)'] = 'admin/categories/deactivate_category/$1';
+
+/*
+*	Orders Routes
+*/
+$route['vendor/all-orders'] = 'vendor/orders/index';
+$route['vendor/add-order'] = 'vendor/orders/add_order';
+$route['vendor/edit-order/(:num)'] = 'vendor/orders/edit_order/$1';
+$route['vendor/delete-order/(:num)'] = 'vendor/orders/delete_order/$1';
+$route['vendor/deactivate-order/(:num)'] = 'vendor/orders/deactivate_order/$1';
+$route['vendor/finish-order/(:num)'] = 'vendor/orders/finish_order/$1';
+$route['vendor/cancel-order/(:num)'] = 'vendor/orders/cancel_order/$1';
+$route['vendor/orders/add-product/(:num)/(:num)/(:num)/(:num)'] = 'vendor/orders/add_product/$1/$2/$3/$4';
+$route['vendor/orders/update-cart/(:num)/(:num)/(:num)'] = 'vendor/orders/update_cart/$1/$2/$3';
+$route['vendor/orders/delete-order-item/(:num)/(:num)'] = 'vendor/orders/delete_order_item/$1/$2';
+
+/*
+*	Features Routes
+*/
+$route['vendor/all-features'] = 'vendor/features/index';
+$route['vendor/add-feature'] = 'vendor/features/add_feature';
+$route['vendor/edit-feature/(:num)'] = 'vendor/features/edit_feature/$1';
+$route['vendor/delete-feature/(:num)'] = 'vendor/features/delete_feature/$1';
+$route['vendor/activate-feature/(:num)'] = 'vendor/features/activate_feature/$1';
+$route['vendor/deactivate-feature/(:num)'] = 'vendor/features/deactivate_feature/$1';
+
+/*
+*	Products Routes
+*/
+$route['vendor/all-products'] = 'vendor/products/index';
+$route['vendor/add-product'] = 'vendor/products/add_product';
+$route['vendor/edit-product/(:num)'] = 'vendor/products/edit_product/$1';
+$route['vendor/delete-product/(:num)'] = 'vendor/products/delete_product/$1';
+$route['vendor/activate-product/(:num)'] = 'vendor/products/activate_product/$1';
+$route['vendor/deactivate-product/(:num)'] = 'vendor/products/deactivate_product/$1';
+
+/*
+*	Brands Routes
+*/
+$route['vendor/all-brands'] = 'vendor/brands/index';
+$route['vendor/add-brand'] = 'vendor/brands/add_brand';
+$route['vendor/edit-brand/(:num)'] = 'vendor/brands/edit_brand/$1';
+$route['vendor/delete-brand/(:num)'] = 'vendor/brands/delete_brand/$1';
+$route['vendor/activate-brand/(:num)'] = 'vendor/brands/activate_brand/$1';
+$route['vendor/deactivate-brand/(:num)'] = 'vendor/brands/deactivate_brand/$1';
 
 
 /* End of file routes.php */

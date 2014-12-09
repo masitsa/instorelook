@@ -90,7 +90,8 @@ class Vendor_model extends CI_Model
 				'vendor_store_state' => $this->input->post('vendor_store_state'),
 				'country_id' => $this->input->post('country_id'),
 				'vendor_business_type' => $this->input->post('vendor_business_type'),
-				'vendor_store_surburb' => $this->input->post('vendor_store_surburb')
+				'vendor_store_surburb' => $this->input->post('vendor_store_surburb'),
+				'vendor_store_postcode' => $this->input->post('vendor_store_postcode')
 		);
 		
 		$this->session->set_userdata($data);
@@ -117,7 +118,8 @@ class Vendor_model extends CI_Model
 				'vendor_store_state' => $this->session->userdata('vendor_store_state'),
 				'country_id' => $this->session->userdata('country_id'),
 				'vendor_business_type' => $this->session->userdata('vendor_business_type'),
-				'vendor_store_surburb' => $this->session->userdata('vendor_store_surburb')
+				'vendor_store_surburb' => $this->session->userdata('vendor_store_surburb'),
+				'vendor_store_postcode' => $this->session->userdata('vendor_store_postcode')
 		);
 		
 		if($this->db->insert('vendor', $data))
@@ -210,11 +212,52 @@ class Vendor_model extends CI_Model
 		$sender_email = "info@instorelook.com.au";
 		$shopping = "";
 		$from = "In Store Look";
-		$button = NULL;
+		$encrypted_email = $this->encrypt_vendor_email($receiver_email);
+		
+		$button = '<a class="mcnButton " title="Confirm Account" href="'.site_url().'confirm-account/'.$encrypted_email.'" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Confirm My Account</a>';
 		$response = $this->email_model->send_mandrill_mail($receiver_email, "Hi ".$receiver_name, $subject, $message, $sender_email, $shopping, $from, $button, $cc);
 		
 		//echo var_dump($response);
 		
 		return $response;
+	}
+	
+	public function verify_email($encrypted_email)
+	{
+		//decrypt email
+		$email = $this->encrypt->decode($encrypted_email);
+		
+		//activate account
+		$data = array
+		(
+			'vendor_activation_status' => 1
+		);
+		
+		$this->db->where('vendor_email', $email);
+		if($this->db->update('vendor', $data))
+		{
+			return TRUE;
+		}
+		
+		else
+		{
+			return FALSE;
+		}
+	}
+	
+	public function encrypt_vendor_email($receiver_email)
+	{
+		$check = FALSE;//Used to check for forward slashes in string
+		
+		while($check == FALSE)
+		{
+			$encrypted_email = $this->encrypt->encode($receiver_email);
+			$pos = strpos($encrypted_email, '/');
+			if($pos === FALSE)
+			{
+				$check = TRUE;
+			}
+		}
+		return $encrypted_email;
 	}
 }

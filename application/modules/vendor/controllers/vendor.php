@@ -9,6 +9,7 @@ class Vendor extends MX_Controller {
 		$this->load->model('admin/file_model');
 		
 		$this->load->library('image_lib');
+		$this->load->library('encrypt');
 		
 		//path to image directory
 		$this->vendor_path = realpath(APPPATH . '../assets/images/vendors');
@@ -136,6 +137,7 @@ class Vendor extends MX_Controller {
 		$v_data['vendor_store_country_error'] = '';
 		$v_data['vendor_business_type_error'] = '';
 		$v_data['vendor_store_surburb_error'] = '';
+		$v_data['vendor_store_postcode_error'] = '';
 		
 		//upload image if it has been selected
 		if($this->vendor_model->upload_vendor_image($this->vendor_path))
@@ -150,8 +152,8 @@ class Vendor extends MX_Controller {
 		}
 		
 		$this->form_validation->set_error_delimiters('', '');
-		$this->form_validation->set_rules('vendor_store_name', 'Store Name', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('vendor_store_phone', 'Store Phone', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('vendor_store_name', 'Business Name', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('vendor_store_phone', 'Phone', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('vendor_store_email', 'Store Email', 'trim|valid_email|required|xss_clean');
 		$this->form_validation->set_rules('vendor_store_summary', 'Store Summary', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('vendor_categories', 'Categories', 'trim|xss_clean');
@@ -161,6 +163,7 @@ class Vendor extends MX_Controller {
 		$this->form_validation->set_rules('country_id', 'Country', 'trim|xss_clean');
 		$this->form_validation->set_rules('vendor_business_type', 'Business Type', 'trim|xss_clean');
 		$this->form_validation->set_rules('vendor_store_surburb', 'Surburb', 'trim|xss_clean');
+		$this->form_validation->set_rules('vendor_store_postcode', 'Postcode', 'trim|xss_clean');
 		
 		//if form conatins invalid data
 		if ($this->form_validation->run())
@@ -194,6 +197,7 @@ class Vendor extends MX_Controller {
 				$v_data['country_id'] = form_error('country_id');
 				$v_data['vendor_business_type_error'] = form_error('vendor_business_type');
 				$v_data['vendor_store_surburb_error'] = form_error('vendor_store_surburb');
+				$v_data['vendor_store_postcode_error'] = form_error('vendor_store_postcode');
 				
 				//repopulate fields
 				$v_data['vendor_store_name'] = set_value('vendor_store_name');
@@ -207,6 +211,7 @@ class Vendor extends MX_Controller {
 				$v_data['country_id'] = set_value('country_id');
 				$v_data['vendor_business_type'] = set_value('vendor_business_type');
 				$v_data['vendor_store_surburb'] = set_value('vendor_store_surburb');
+				$v_data['vendor_store_postcode'] = set_value('vendor_store_postcode');
 			}
 			
 			//populate form data on initial load of page
@@ -229,6 +234,7 @@ class Vendor extends MX_Controller {
 					$v_data['country_id'] = $this->session->userdata('country_id');
 					$v_data['vendor_business_type'] = $this->session->userdata('vendor_business_type');
 					$v_data['vendor_store_surburb'] = $this->session->userdata('vendor_store_surburb');
+					$v_data['vendor_store_postcode'] = $this->session->userdata('vendor_store_postcode');
 				}
 				
 				else
@@ -244,6 +250,7 @@ class Vendor extends MX_Controller {
 					$v_data['country_id'] = '';
 					$v_data['vendor_business_type'] = '';
 					$v_data['vendor_store_surburb'] = '';
+					$v_data['vendor_store_postcode'] = '';
 				}
 			}
 		}
@@ -379,6 +386,106 @@ class Vendor extends MX_Controller {
 		
 		$data['title'] = 'Test';
 		$this->load->view('site/templates/general_page', $data);
+	}
+	
+	public function verify_email($email = NULL)
+	{
+		if($email)
+		{
+			if($this->vendor_model->verify_email($email))
+			{
+				$this->session->set_userdata('success_message', 'Your account is now active. Please sign in to access your account');
+				redirect('vendor/sign-in');
+			}
+		}
+		
+		else
+		{
+			redirect('home');
+		}
+	}
+    
+	/*
+	*
+	*	Vendor Sign in
+	*
+	*/
+	public function vendor_signin() 
+	{
+		//initialize required variables
+		$v_data['vendor_email_error'] = '';
+		$v_data['vendor_password_error'] = '';
+		
+		$this->form_validation->set_error_delimiters('', '');
+		$this->form_validation->set_rules('vendor_email', 'Email', 'trim|valid_email|required|exists[vendor.vendor_email]|xss_clean');
+		$this->form_validation->set_rules('vendor_password', 'Password', 'trim|required|xss_clean');
+		$this->form_validation->set_message('exists', 'This email has not been registered');
+		
+		//if form conatins invalid data
+		if ($this->form_validation->run())
+		{
+			if($this->vendor_model->login_vendor())
+			{
+				echo 'Your account is now verified. YAY!';
+				//redirect('vendor/account');
+			}
+			
+			else
+			{
+				$this->session->set_userdata('error_message', 'Unable to sign into your account. Please try again');
+				echo 'Could not verify your';
+			}
+		}
+		else
+		{
+			$validation_errors = validation_errors();
+			
+			//repopulate form data if validation errors are present
+			if(!empty($validation_errors))
+			{
+				//create errors
+				$v_data['vendor_email_error'] = form_error('vendor_email');
+				$v_data['vendor_password_error'] = form_error('vendor_password');
+				
+				//repopulate fields
+				$v_data['vendor_email'] = set_value('vendor_email');
+				$v_data['vendor_password'] = set_value('vendor_password');
+			}
+			
+			//populate form data on initial load of page
+			else
+			{
+				$v_data['vendor_email'] = '';
+				$v_data['vendor_password'] = '';
+			}
+		}
+		
+		$data['content'] = $this->load->view('vendor_signin', $v_data, true);
+		
+		$data['title'] = 'Sign In';
+		$this->load->view('site/templates/general_page', $data);
+	}
+	
+	public function encrypt($receiver_email = 'amasitsa@live.com')
+	{
+		$check = FALSE;//Used to check for forward slashes in string
+		
+		while($check == FALSE)
+		{
+			$encrypted_email = $this->encrypt->encode($receiver_email);
+			$pos = strpos($encrypted_email, '/');
+			if($pos === FALSE)
+			{
+				$check = TRUE;
+			}
+		}
+		echo $encrypted_email;
+	}
+	
+	public function decrypt($receiver_email)
+	{
+		$encrypted_email = $this->encrypt->decode($receiver_email);
+		echo $encrypted_email;
 	}
 }
 ?>

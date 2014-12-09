@@ -127,7 +127,7 @@ $config['subclass_prefix'] = 'MY_';
 | DO NOT CHANGE THIS UNLESS YOU FULLY UNDERSTAND THE REPERCUSSIONS!!
 |
 */
-$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\- @';
+$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\- @ + =';
 
 
 /*
@@ -225,7 +225,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = 'clothes.com';
+$config['encryption_key'] = 'www.instorelook.com.au';
 
 /*
 |--------------------------------------------------------------------------

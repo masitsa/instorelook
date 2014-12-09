@@ -40,7 +40,7 @@
                     	<div class="row">
                         	<div class="col-md-6 first">
                             	<div class="form-group">
-                                    <label for="vendor_store_name" class="col-sm-4 control-label">Company Name <span class="required">*</span></label>
+                                    <label for="vendor_store_name" class="col-sm-4 control-label">Business Name <span class="required">*</span></label>
                                     <div class="col-sm-8">
                                     	<?php
 											//case of an input error
@@ -54,14 +54,35 @@
 											else
 											{
 												?>
-                                                <input type="text" class="form-control" name="vendor_store_name" placeholder="Company Name" value="<?php echo $vendor_store_name;?>">
+                                                <input type="text" class="form-control" name="vendor_store_name" placeholder="Business Name" value="<?php echo $vendor_store_name;?>">
                                                 <?php
 											}
 										?>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="vendor_store_phone" class="col-sm-4 control-label">Company Phone <span class="required">*</span></label>
+                                    <label for="vendor_store_abn" class="col-sm-4 control-label">Business Type</label>
+                                    <div class="col-sm-8">
+                                    	<?php
+											//case of an input error
+                                        	if(!empty($vendor_business_type_error))
+											{
+												?>
+                                                <input type="text" class="form-control alert-danger" name="vendor_business_type" placeholder="<?php echo $vendor_business_type_error;?>" onFocus="this.value = '<?php echo $vendor_business_type;?>';">
+                                                <?php
+											}
+											
+											else
+											{
+												?>
+                                                <input type="text" class="form-control" name="vendor_business_type" placeholder="Business Type" value="<?php echo $vendor_business_type;?>">
+                                                <?php
+											}
+										?>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="vendor_store_phone" class="col-sm-4 control-label">Phone <span class="required">*</span></label>
                                     <div class="col-sm-8">
                                     	<?php
 											//case of an input error
@@ -75,7 +96,7 @@
 											else
 											{
 												?>
-                                                <input type="text" class="form-control" name="vendor_store_phone" placeholder="Company Phone" value="<?php echo $vendor_store_phone;?>">
+                                                <input type="text" class="form-control" name="vendor_store_phone" placeholder="Phone" value="<?php echo $vendor_store_phone;?>">
                                                 <?php
 											}
 										?>
@@ -103,7 +124,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="vendor_store_email" class="col-sm-4 control-label">Company Email <span class="required">*</span></label>
+                                    <label for="vendor_store_email" class="col-sm-4 control-label">Business Email <span class="required">*</span></label>
                                     <div class="col-sm-8">
                                     	<?php
 											//case of an input error
@@ -117,28 +138,7 @@
 											else
 											{
 												?>
-                                                <input type="text" class="form-control" name="vendor_store_email" placeholder="Company Email" value="<?php echo $vendor_store_email;?>">
-                                                <?php
-											}
-										?>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="vendor_store_address" class="col-sm-4 control-label">Address</label>
-                                    <div class="col-sm-8">
-                                    	<?php
-											//case of an input error
-                                        	if(!empty($vendor_store_address_error))
-											{
-												?>
-                                                <input type="text" class="form-control alert-danger" name="vendor_store_address" placeholder="<?php echo $vendor_store_address_error;?>" onFocus="this.value = '<?php echo $vendor_store_address;?>';">
-                                                <?php
-											}
-											
-											else
-											{
-												?>
-                                                <input type="text" class="form-control" name="vendor_store_address" placeholder="Address" value="<?php echo $vendor_store_address;?>">
+                                                <input type="text" class="form-control" name="vendor_store_email" placeholder="Business Email" value="<?php echo $vendor_store_email;?>">
                                                 <?php
 											}
 										?>
@@ -185,21 +185,21 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="vendor_store_address" class="col-sm-4 control-label">State</label>
+                                    <label for="vendor_store_address" class="col-sm-4 control-label">Address</label>
                                     <div class="col-sm-8">
                                     	<?php
 											//case of an input error
-                                        	if(!empty($vendor_store_state_error))
+                                        	if(!empty($vendor_store_address_error))
 											{
 												?>
-                                                <input type="text" class="form-control alert-danger" name="vendor_store_state" placeholder="<?php echo $vendor_store_state_error;?>" onFocus="this.value = '<?php echo $vendor_store_state;?>';">
+                                                <input type="text" class="form-control alert-danger" name="vendor_store_address" placeholder="<?php echo $vendor_store_address_error;?>" onFocus="this.value = '<?php echo $vendor_store_address;?>';">
                                                 <?php
 											}
 											
 											else
 											{
 												?>
-                                                <input type="text" class="form-control" name="vendor_store_state" placeholder="State" value="<?php echo $vendor_store_state;?>">
+                                                <input type="text" class="form-control" name="vendor_store_address" placeholder="Address" value="<?php echo $vendor_store_address;?>">
                                                 <?php
 											}
 										?>
@@ -227,21 +227,42 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="vendor_store_abn" class="col-sm-4 control-label">Business Type</label>
+                                    <label for="vendor_store_address" class="col-sm-4 control-label">State</label>
                                     <div class="col-sm-8">
                                     	<?php
 											//case of an input error
-                                        	if(!empty($vendor_business_type_error))
+                                        	if(!empty($vendor_store_state_error))
 											{
 												?>
-                                                <input type="text" class="form-control alert-danger" name="vendor_business_type" placeholder="<?php echo $vendor_business_type_error;?>" onFocus="this.value = '<?php echo $vendor_business_type;?>';">
+                                                <input type="text" class="form-control alert-danger" name="vendor_store_state" placeholder="<?php echo $vendor_store_state_error;?>" onFocus="this.value = '<?php echo $vendor_store_state;?>';">
                                                 <?php
 											}
 											
 											else
 											{
 												?>
-                                                <input type="text" class="form-control" name="vendor_business_type" placeholder="Business Type" value="<?php echo $vendor_business_type;?>">
+                                                <input type="text" class="form-control" name="vendor_store_state" placeholder="State" value="<?php echo $vendor_store_state;?>">
+                                                <?php
+											}
+										?>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="vendor_store_address" class="col-sm-4 control-label">Postcode</label>
+                                    <div class="col-sm-8">
+                                    	<?php
+											//case of an input error
+                                        	if(!empty($vendor_store_postcode_error))
+											{
+												?>
+                                                <input type="text" class="form-control alert-danger" name="vendor_store_postcode" placeholder="<?php echo $vendor_store_postcode_error;?>" onFocus="this.value = '<?php echo $vendor_store_postcode;?>';">
+                                                <?php
+											}
+											
+											else
+											{
+												?>
+                                                <input type="text" class="form-control" name="vendor_store_postcode" placeholder="Postcode" value="<?php echo $vendor_store_postcode;?>">
                                                 <?php
 											}
 										?>
@@ -278,7 +299,7 @@
 											else
 											{
 												?>
-                                                <textarea class="form-control" name="vendor_store_summary" placeholder="Company Description"><?php echo $vendor_store_summary;?></textarea>
+                                                <textarea class="form-control" name="vendor_store_summary" placeholder="Business Description"><?php echo $vendor_store_summary;?></textarea>
                                                 <?php
 											}
 										?>

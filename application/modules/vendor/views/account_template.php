@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php echo $this->load->view('airline/account/header', '', TRUE); ?>
+        <?php echo $this->load->view('site/includes/header', '', TRUE); ?>
     </head>
 
 	<body>
-
-    	<div id="wrapper">
-            <!-- Top Navigation -->
-            <?php echo $this->load->view('airline/account/top_navigation', '', TRUE); ?>
-
-        	<div id="page-wrapper">
-            	<?php echo $this->load->view('airline/account/summary', '', TRUE); ?>
-            	<?php echo $this->load->view('airline/account/left_navigation', '', TRUE); ?>
-                
-				<?php echo $content;?>
-                
+    	<!-- Top Navigation -->
+        <?php echo $this->load->view('site/includes/top_navigation', '', TRUE); ?>
+        <!-- Join  -->
+        <div class="content light-grey-background">
+        	<div class="container">
+        		<div class="search-flights">
+                	<div class="divider-line"></div>
+                	<h1 class="center-align"><?php echo $title;?></h1>
+                	<div class="divider-line" style="margin-bottom:2%;"></div>
+        			<?php echo $content;?>
+                </div>
             </div>
         </div>
-        <?php echo $this->load->view('airline/account/footer', '', TRUE); ?>
+        <!-- End Join -->
+        
+        <?php echo $this->load->view('site/includes/footer', '', TRUE); ?>
 </body>
 </html>
