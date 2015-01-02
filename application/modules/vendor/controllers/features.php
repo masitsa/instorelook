@@ -1,15 +1,15 @@
 <?php   if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once "./application/modules/admin/controllers/admin.php";
+require_once "./application/modules/vendor/controllers/account.php";
 
-class Features extends admin {
+class Features extends account {
 	
 	function __construct()
 	{
 		parent:: __construct();
-		$this->load->model('users_model');
+		$this->load->model('admin/users_model');
 		$this->load->model('features_model');
-		$this->load->model('categories_model');
+		$this->load->model('admin/categories_model');
 	}
     
 	/*
@@ -19,13 +19,14 @@ class Features extends admin {
 	*/
 	public function index() 
 	{
-		$where = 'feature.category_id = category.category_id';
+		$where = 'feature.category_id = category.category_id AND feature.created_by IN (0, '.$this->session->userdata('vendor_id').')';
 		$table = 'feature, category';
+		$segment = 3;
 		//pagination
 		$this->load->library('pagination');
-		$config['base_url'] = base_url().'all-features';
+		$config['base_url'] = base_url().'vendor/all-features';
 		$config['total_rows'] = $this->users_model->count_items($table, $where);
-		$config['uri_segment'] = 2;
+		$config['uri_segment'] = $segment;
 		$config['per_page'] = 20;
 		$config['num_links'] = 5;
 		
@@ -54,7 +55,7 @@ class Features extends admin {
 		$config['num_tag_close'] = '</li>';
 		$this->pagination->initialize($config);
 		
-		$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+		$page = ($this->uri->segment($segment)) ? $this->uri->segment($segment) : 0;
         $data["links"] = $this->pagination->create_links();
 		$query = $this->features_model->get_all_features($table, $where, $config["per_page"], $page);
 		
@@ -67,11 +68,11 @@ class Features extends admin {
 		
 		else
 		{
-			$data['content'] = '<a href="'.site_url().'add-feature" class="btn btn-success pull-right">Add feature</a>There are no features';
+			$data['content'] = '<a href="'.site_url().'vendor/add-feature" class="btn btn-success pull-right">Add Feature</a>There are no features';
 		}
 		$data['title'] = 'All features';
 		
-		$this->load->view('templates/general_admin', $data);
+		$this->load->view('account_template', $data);
 	}
     
 	/*
@@ -92,7 +93,7 @@ class Features extends admin {
 			if($this->features_model->add_feature())
 			{
 				$this->session->set_userdata('success_message', 'feature added successfully');
-				redirect('all-features');
+				redirect('vendor/all-features');
 			}
 			
 			else
@@ -106,7 +107,7 @@ class Features extends admin {
 		$v_data['all_categories'] = $this->categories_model->all_categories();
 		$v_data['all_features'] = $this->features_model->all_features();
 		$data['content'] = $this->load->view('features/add_feature', $v_data, true);
-		$this->load->view('templates/general_admin', $data);
+		$this->load->view('account_template', $data);
 	}
     
 	/*
@@ -129,7 +130,7 @@ class Features extends admin {
 			if($this->features_model->update_feature($feature_id))
 			{
 				$this->session->set_userdata('success_message', 'feature updated successfully');
-				redirect('all-features');
+				redirect('vendor/all-features');
 			}
 			
 			else
@@ -158,7 +159,7 @@ class Features extends admin {
 			$data['content'] = 'feature does not exist';
 		}
 		
-		$this->load->view('templates/general_admin', $data);
+		$this->load->view('account_template', $data);
 	}
     
 	/*
@@ -171,7 +172,7 @@ class Features extends admin {
 	{
 		$this->features_model->delete_feature($feature_id);
 		$this->session->set_userdata('success_message', 'feature has been deleted');
-		redirect('all-features');
+		redirect('vendor/all-features');
 	}
     
 	/*
@@ -184,7 +185,7 @@ class Features extends admin {
 	{
 		$this->features_model->activate_feature($feature_id);
 		$this->session->set_userdata('success_message', 'feature activated successfully');
-		redirect('all-features');
+		redirect('vendor/all-features');
 	}
     
 	/*
@@ -197,7 +198,7 @@ class Features extends admin {
 	{
 		$this->features_model->deactivate_feature($feature_id);
 		$this->session->set_userdata('success_message', 'feature disabled successfully');
-		redirect('all-features');
+		redirect('vendor/all-features');
 	}
 }
 ?>

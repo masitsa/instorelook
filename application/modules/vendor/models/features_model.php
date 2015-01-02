@@ -55,8 +55,8 @@ class features_model extends CI_Model
 				'category_id'=>$this->input->post('category_id'),
 				'feature_status'=>$this->input->post('feature_status'),
 				'created'=>date('Y-m-d H:i:s'),
-				'created_by'=>$this->session->userdata('user_id'),
-				'modified_by'=>$this->session->userdata('user_id')
+				'created_by'=>$this->session->userdata('vendor_id'),
+				'modified_by'=>$this->session->userdata('vendor_id')
 			);
 			
 		if($this->db->insert('feature', $data))
@@ -79,7 +79,7 @@ class features_model extends CI_Model
 				'feature_name'=>ucwords(strtolower($this->input->post('feature_name'))),
 				'category_id'=>$this->input->post('category_id'),
 				'feature_status'=>$this->input->post('feature_status'),
-				'modified_by'=>$this->session->userdata('user_id')
+				'modified_by'=>$this->session->userdata('vendor_id')
 			);
 			
 		$this->db->where('feature_id', $feature_id);

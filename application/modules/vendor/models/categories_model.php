@@ -81,8 +81,8 @@ class Categories_model extends CI_Model
 				'category_preffix'=>strtoupper($this->input->post('category_preffix')),
 				'category_status'=>$this->input->post('category_status'),
 				'created'=>date('Y-m-d H:i:s'),
-				'created_by'=>$this->session->userdata('user_id'),
-				'modified_by'=>$this->session->userdata('user_id'),
+				'created_by'=>$this->session->userdata('vendor_id'),
+				'modified_by'=>$this->session->userdata('vendor_id'),
 				'category_image_name'=>$image_name
 			);
 			
@@ -108,7 +108,7 @@ class Categories_model extends CI_Model
 				'category_parent'=>$this->input->post('category_parent'),
 				'category_preffix'=>strtoupper($this->input->post('category_preffix')),
 				'category_status'=>$this->input->post('category_status'),
-				'modified_by'=>$this->session->userdata('user_id'),
+				'modified_by'=>$this->session->userdata('vendor_id'),
 				'category_image_name'=>$image_name
 			);
 			

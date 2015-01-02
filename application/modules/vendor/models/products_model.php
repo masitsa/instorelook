@@ -62,8 +62,8 @@ class Products_model extends CI_Model
 				'brand_id'=>$this->input->post('brand_id'),
 				'category_id'=>$this->input->post('category_id'),
 				'created'=>date('Y-m-d H:i:s'),
-				'created_by'=>$this->session->userdata('user_id'),
-				'modified_by'=>$this->session->userdata('user_id'),
+				'created_by'=>$this->session->userdata('vendor_id'),
+				'modified_by'=>$this->session->userdata('vendor_id'),
 				'product_thumb_name'=>$thumb_name,
 				'product_image_name'=>$image_name
 			);
@@ -96,7 +96,7 @@ class Products_model extends CI_Model
 				'product_balance'=>$this->input->post('product_balance'),
 				'brand_id'=>$this->input->post('brand_id'),
 				'category_id'=>$this->input->post('category_id'),
-				'modified_by'=>$this->session->userdata('user_id'),
+				'modified_by'=>$this->session->userdata('vendor_id'),
 				'product_image_name'=>$file_name,
 				'product_thumb_name'=>$thumb_name
 			);

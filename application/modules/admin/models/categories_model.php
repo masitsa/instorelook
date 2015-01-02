@@ -31,7 +31,7 @@ class Categories_model extends CI_Model
 	*/
 	public function all_parent_categories()
 	{
-		$this->db->where('category_status = 1 AND category_parent = 0');
+		$this->db->where('category_parent = 0');
 		$this->db->order_by('category_name', 'ASC');
 		$query = $this->db->get('category');
 		
@@ -43,7 +43,7 @@ class Categories_model extends CI_Model
 	*/
 	public function all_child_categories()
 	{
-		$this->db->where('category_status = 1 AND category_parent > 0');
+		$this->db->where('category_parent > 0');
 		$this->db->order_by('category_name', 'ASC');
 		$query = $this->db->get('category');
 		
@@ -62,7 +62,7 @@ class Categories_model extends CI_Model
 		$this->db->from($table);
 		$this->db->select('*');
 		$this->db->where($where);
-		$this->db->order_by('category_name, category_parent');
+		$this->db->order_by('category_parent, category_name');
 		$query = $this->db->get('', $per_page, $page);
 		
 		return $query;

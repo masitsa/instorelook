@@ -1,6 +1,6 @@
 <?php
 		
-		$result = '<a href="'.site_url().'add-brand" class="btn btn-success pull-right">Add brand</a>';
+		$result = '<a href="'.site_url().'vendor/add-brand" class="btn btn-success pull-right">Add brand</a>';
 		
 		//if users exist display them
 		if ($query->num_rows() > 0)
@@ -18,7 +18,7 @@
 					  <th>Date Created</th>
 					  <th>Last Modified</th>
 					  <th>Status</th>
-					  <th colspan="5">Actions</th>
+					  <th colspan="3">Actions</th>
 					</tr>
 				  </thead>
 				  <tbody>
@@ -58,14 +58,14 @@
 				//create deactivated status display
 				if($brand_status == 0)
 				{
-					$status = '<span class="label label-important">Deactivated</span>';
-					$button = '<a class="btn btn-info" href="'.site_url().'activate-brand/'.$brand_id.'" onclick="return confirm(\'Do you want to activate '.$brand_name.'?\');">Activate</a>';
+					$status = '<span class="label label-danger">Deactivated</span>';
+					$button = '<a class="btn btn-info" href="'.site_url().'vendor/activate-brand/'.$brand_id.'" onclick="return confirm(\'Do you want to activate '.$brand_name.'?\');">Activate</a>';
 				}
 				//create activated status display
 				else if($brand_status == 1)
 				{
 					$status = '<span class="label label-success">Active</span>';
-					$button = '<a class="btn btn-info" href="'.site_url().'deactivate-brand/'.$brand_id.'" onclick="return confirm(\'Do you want to deactivate '.$brand_name.'?\');">Deactivate</a>';
+					$button = '<a class="btn btn-default" href="'.site_url().'vendor/deactivate-brand/'.$brand_id.'" onclick="return confirm(\'Do you want to deactivate '.$brand_name.'?\');">Deactivate</a>';
 				}
 				
 				//creators & editors
@@ -90,6 +90,21 @@
 				else
 				{
 				}
+				
+				if($created_by == $this->session->userdata('vendor_id'))
+				{
+					$actions = '
+					<td><a href="'.site_url().'vendor/edit-brand/'.$brand_id.'" class="btn btn-sm btn-success">Edit</a></td>
+					<td>'.$button.'</td>
+					<td><a href="'.site_url().'vendor/delete-brand/'.$brand_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$brand_name.'?\');">Delete</a></td>
+					';
+				}
+				
+				else
+				{
+					$actions = '<td colspan="3"></td>';
+				}
+				
 				$count++;
 				$result .= 
 				'
@@ -100,9 +115,7 @@
 						<td>'.date('jS M Y H:i a',strtotime($row->created)).'</td>
 						<td>'.date('jS M Y H:i a',strtotime($row->last_modified)).'</td>
 						<td>'.$status.'</td>
-						<td><a href="'.site_url().'edit-brand/'.$brand_id.'" class="btn btn-sm btn-success">Edit</a></td>
-						<td>'.$button.'</td>
-						<td><a href="'.site_url().'delete-brand/'.$brand_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$brand_name.'?\');">Delete</a></td>
+						'.$actions.'
 					</tr> 
 				';
 			}

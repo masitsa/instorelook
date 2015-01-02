@@ -14,8 +14,8 @@
 					<tr>
 					  <th>#</th>
 					  <th>Image</th>
-					  <th>Category Name</th>
 					  <th>Category Parent</th>
+					  <th>Category Name</th>
 					  <th>Date Created</th>
 					  <th>Last Modified</th>
 					  <th>Status</th>
@@ -60,7 +60,7 @@
 				$category_parent = '-';
 				
 				//category parent
-				foreach($query->result() as $row2)
+				foreach($parent_categories->result() as $row2)
 				{
 					$category_id2 = $row2->category_id;
 					if($parent == $category_id2)
@@ -111,8 +111,8 @@
 					<tr>
 						<td>'.$count.'</td>
 						<td><img src="'.base_url()."assets/images/categories/thumbnail_".$image.'"></td>
-						<td>'.$category_name.'</td>
 						<td>'.$category_parent.'</td>
+						<td>'.$category_name.'</td>
 						<td>'.date('jS M Y H:i a',strtotime($row->created)).'</td>
 						<td>'.date('jS M Y H:i a',strtotime($row->last_modified)).'</td>
 						<td>'.$status.'</td>

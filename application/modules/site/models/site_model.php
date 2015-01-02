@@ -196,6 +196,18 @@ class Site_model extends CI_Model
 		
 		return $range;
 	}
+	
+	public function get_all_categories()
+	{
+		$this->db->where(array('category_status'=> 1, 'category_parent > ' => 0));
+		return $this->db->get('category');
+	}
+	
+	public function get_parent_categories()
+	{
+		$this->db->where(array('category_status'=> 1, 'category_parent' => 0));
+		return $this->db->get('category');
+	}
 }
 
 ?>

@@ -13,15 +13,15 @@
                             <div class="process-row">
                                 <div class="process-step">
                                     <button type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-user fa-2x"></i></button>
-                                    <p>Personal Details</p>
+                                    <p>Personal</p>
                                 </div>
                                 <div class="process-step">
                                     <button type="button" class="btn blue-background btn-circle" disabled="disabled"><i class="fa fa-building-o fa-2x"></i></button>
-                                    <p>Store Details</p>
+                                    <p>Business</p>
                                 </div>
                                  <div class="process-step">
                                     <button type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-dollar fa-2x"></i></button>
-                                    <p>Choose Subscription</p>
+                                    <p>Subscription</p>
                                 </div> 
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="vendor_store_mobile" class="col-sm-4 control-label">Mobile Number</label>
+                                    <label for="vendor_store_mobile" class="col-sm-4 control-label">Mobile</label>
                                     <div class="col-sm-8">
                                     	<?php
 											//case of an input error
@@ -117,7 +117,7 @@
 											else
 											{
 												?>
-                                                <input type="text" class="form-control" name="vendor_store_mobile" placeholder="Mobile Number" value="<?php echo $vendor_store_mobile;?>">
+                                                <input type="text" class="form-control" name="vendor_store_mobile" placeholder="Mobile" value="<?php echo $vendor_store_mobile;?>">
                                                 <?php
 											}
 										?>

@@ -98,14 +98,14 @@
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Sale % Off</label>
                         <div class="col-lg-7">
-                            <input type="number" class="form-control" name="product_sale_price" placeholder="Product Sale Price" value="<?php echo set_value('product_sale_price');?>" required>
+                            <input type="number" class="form-control" name="product_sale_price" placeholder="Product Sale Price" value="<?php echo set_value('product_sale_price');?>">
                         </div>
                     </div>
                     <!-- Product Balance -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Product Balance</label>
                         <div class="col-lg-7">
-                            <input type="number" class="form-control" name="product_balance" placeholder="Product Balance" value="<?php echo set_value('product_balance');?>" required>
+                            <input type="number" class="form-control" name="product_balance" placeholder="Product Balance" value="<?php echo set_value('product_balance');?>">
                         </div>
                     </div>
                     <!-- Activate checkbox -->
@@ -194,7 +194,7 @@
                     <div class="form-group">
                       <label class="col-lg-2 control-label">Product Description</label>
                       <div class="col-lg-10">
-                        <textarea class="cleditor" name="product_description"></textarea>
+                        <textarea class="cleditor" name="product_description"><?php echo set_value('product_description');?></textarea>
                       </div>
                     </div>
             	</div>
@@ -240,7 +240,7 @@
 		
 		var features = $.ajax(
 		{
-			url: '<?php echo site_url();?>admin/products/get_category_features/'+value,
+			url: '<?php echo site_url();?>vendor/products/get_category_features/'+value,
 			processData: false,
 			contentType: false,
 			cache: true
@@ -299,7 +299,7 @@
 		var delete_row = $(this).attr('href');
 		var row = $.ajax(
 		{
-			url: '<?php echo site_url();?>admin/products/delete_new_feature/'+category_feature_id+'/'+delete_row,
+			url: '<?php echo site_url();?>vendor/products/delete_new_feature/'+category_feature_id+'/'+delete_row,
 			processData: false,
 			contentType: false,
 			cache: true

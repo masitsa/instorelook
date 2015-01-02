@@ -29,7 +29,7 @@ class Categories extends admin {
 		$table = 'category';
 		//pagination
 		$this->load->library('pagination');
-		$config['base_url'] = base_url().'all-categories';
+		$config['base_url'] = base_url().'admin/all-categories';
 		$config['total_rows'] = $this->users_model->count_items($table, $where);
 		$config['uri_segment'] = 3;
 		$config['per_page'] = 20;
@@ -53,8 +53,8 @@ class Categories extends admin {
 		$config['prev_link'] = 'Prev';
 		$config['prev_tag_close'] = '</li>';
 		
-		$config['cur_tag_open'] = '<li class="active">';
-		$config['cur_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li class="active"><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
 		
 		$config['num_tag_open'] = '<li>';
 		$config['num_tag_close'] = '</li>';
@@ -68,6 +68,7 @@ class Categories extends admin {
 		{
 			$v_data['query'] = $query;
 			$v_data['page'] = $page;
+			$v_data['parent_categories'] = $this->categories_model->all_parent_categories();
 			$data['content'] = $this->load->view('categories/all_categories', $v_data, true);
 		}
 		

@@ -13,12 +13,14 @@
 						if(!empty($error_message))
 						{
 							echo '<div class="alert alert-danger center-align"> Oh snap! '.$error_message.' </div>';
+							$this->session->unset_userdata('error_message');
 						}
 						
 						$success_message = $this->session->userdata('success_message');
 						if(!empty($success_message))
 						{
 							echo '<div class="alert alert-success center-align"> '.$success_message.' </div>';
+							$this->session->unset_userdata('success_message');
 							
 						}
                     	$attributes = array(
@@ -44,7 +46,7 @@
 											else
 											{
 												?>
-                                                <input type="text" class="form-control" name="vendor_email" placeholder="Email" value="<?php echo $vendor_email;?>">
+                                                <input type="text" class="form-control" name="vendor_email" placeholder="Email" value="<?php echo set_value('vendor_email');?>">
                                                 <?php
 											}
 										?>
@@ -65,7 +67,7 @@
 											else
 											{
 												?>
-                                                <input type="password" class="form-control" name="vendor_password" placeholder="Password" value="<?php echo $vendor_password;?>">
+                                                <input type="password" class="form-control" name="vendor_password" placeholder="Password" value="<?php echo set_value('vendor_password');?>">
                                                 <?php
 											}
 										?>

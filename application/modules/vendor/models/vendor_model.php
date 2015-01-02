@@ -106,7 +106,7 @@ class Vendor_model extends CI_Model
 				'vendor_last_name' => $this->session->userdata('vendor_last_name'),
 				'vendor_email' => $this->session->userdata('vendor_email'),
 				'vendor_phone' => $this->session->userdata('vendor_phone'),
-				'vendor_password' => $this->session->userdata('vendor_password'),
+				'vendor_password' => md5($this->session->userdata('vendor_password')),
 				'vendor_store_name' => $this->session->userdata('vendor_store_name'),
 				'vendor_store_phone' => $this->session->userdata('vendor_store_phone'),
 				'vendor_store_email' => $this->session->userdata('vendor_store_email'),
@@ -259,5 +259,63 @@ class Vendor_model extends CI_Model
 			}
 		}
 		return $encrypted_email;
+	}
+	
+	/*
+	*	Validate a vendor's login request
+	*
+	*/
+	public function login_vendor()
+	{
+		//select the user by email from the database
+		$this->db->select('*');
+		$this->db->where(array('vendor_email' => $this->input->post('vendor_email'), 'vendor_status' => 1, 'vendor_password' => md5($this->input->post('vendor_password'))));
+		$query = $this->db->get('vendor');
+		
+		//if users exists
+		if ($query->num_rows() > 0)
+		{
+			$result = $query->result();
+			//create user's login session
+			$newdata = array(
+                   'vendor_login_status'     	=> TRUE,
+                   'first_name'     			=> $result[0]->vendor_first_name,
+                   'email'     					=> $result[0]->vendor_email,
+                   'vendor_id'  				=> $result[0]->vendor_id,
+                   'vendor_activation_status'  	=> $result[0]->vendor_activation_status,
+                   'vendor_subscription_status' => $result[0]->vendor_subscription_status
+               );
+
+			$this->session->set_userdata($newdata);
+			
+			//update user's last login date time
+			$this->update_vendor_login($result[0]->vendor_id);
+			return TRUE;
+		}
+		
+		//if user doesn't exist
+		else
+		{
+			return FALSE;
+		}
+	}
+	
+	public function update_vendor_login($vendor_id)
+	{
+		$data = array
+		(
+			'vendor_last_login' => date('Y-m-d H:i:s')
+		);
+		
+		$this->db->where('vendor_id', $vendor_id);
+		if($this->db->update('vendor', $data))
+		{
+			return TRUE;
+		}
+		
+		else
+		{
+			return FALSE;
+		}
 	}
 }

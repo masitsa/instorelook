@@ -5,17 +5,17 @@ class Site extends MX_Controller {
 	function __construct()
 	{
 		parent:: __construct();
-		$this->load->model('admin/products_model');
+		/*$this->load->model('admin/products_model');
 		$this->load->model('admin/categories_model');
 		$this->load->model('admin/features_model');
 		$this->load->model('admin/brands_model');
 		$this->load->model('admin/users_model');
-		$this->load->model('site_model');
 		$this->load->model('cart_model');
 		$this->load->model('admin/users_model');
 		$this->load->model('login/login_model');
 		
-		$this->load->library('cart');
+		$this->load->library('cart');*/
+		$this->load->model('site/site_model');
 	}
     
 	/*
@@ -25,8 +25,7 @@ class Site extends MX_Controller {
 	*/
 	public function index() 
 	{
-		echo 'here';
-		//redirect('home');
+		$this->load->view('includes/top_navigation');
 	}
     
 	/*
@@ -317,6 +316,34 @@ class Site extends MX_Controller {
 		$v_data['product_images'] = $this->products_model->get_gallery_images($product_id);
 		$v_data['product_features'] = $this->products_model->get_features($product_id);
 		$data['content'] = $this->load->view('products/view_product', $v_data, true);
+		
+		$data['title'] = $this->site_model->display_page_title();
+		$this->load->view('templates/general_page', $data);
+	}
+    
+	/*
+	*
+	*	About Page
+	*
+	*/
+	public function about() 
+	{
+		//get page data
+		$data['content'] = $this->load->view('about', '', true);
+		
+		$data['title'] = $this->site_model->display_page_title();
+		$this->load->view('templates/general_page', $data);
+	}
+    
+	/*
+	*
+	*	Terms Page
+	*
+	*/
+	public function terms() 
+	{
+		//get page data
+		$data['content'] = $this->load->view('terms', '', true);
 		
 		$data['title'] = $this->site_model->display_page_title();
 		$this->load->view('templates/general_page', $data);

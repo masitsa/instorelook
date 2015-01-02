@@ -22,9 +22,9 @@
                     <div class="col-md-3">
                         <h3>Vendors</h3>
                         <ul>
-                            <li><a href="#">Vendor Sign Up</a></li>
-                            <li><a href="#">Vendor Sign In</a></li>
-                            <li><a href="#">My Account</a></li>
+                            <li><a href="<?php echo site_url().'vendor/sign-up/user-details';?>">Vendor Sign Up</a></li>
+                            <li><a href="<?php echo site_url().'vendor/sign-in';?>">Vendor Sign In</a></li>
+                            <li><a href="<?php echo site_url().'vendor/account';?>">My Account</a></li>
                         </ul>
                     </div><!-- End Quick Links -->
                 
@@ -40,11 +40,10 @@
                 
                     <!-- Quick Links -->
                     <div class="col-md-3">
-                        <h3>Top Categories</h3>
+                        <h3>Quick Links</h3>
                         <ul>
-                            <li><a href="#">Men</a></li>
-                            <li><a href="#">Women</a></li>
-                            <li><a href="#">Kids</a></li>
+                            <li><a href="<?php echo site_url().'about';?>">About</a></li>
+                            <li><a href="<?php echo site_url().'terms';?>">Terms & Conditions</a></li>
                         </ul>
                     </div><!-- End Quick Links -->
                 </div>

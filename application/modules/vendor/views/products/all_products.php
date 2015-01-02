@@ -1,6 +1,6 @@
 <?php
 		
-		$result = '<a href="'.site_url().'add-product" class="btn btn-success pull-right">Add Product</a>';
+		$result = '<a href="'.site_url().'vendor/add-product" class="btn btn-success pull-right">Add Product</a>';
 		
 		//if users exist display them
 		if ($query->num_rows() > 0)
@@ -85,14 +85,14 @@
 				//create deactivated status display
 				if($product_status == 0)
 				{
-					$status = '<span class="label label-important">Deactivated</span>';
-					$button = '<a class="btn btn-info" href="'.site_url().'activate-product/'.$product_id.'" onclick="return confirm(\'Do you want to activate '.$product_name.'?\');">Activate</a>';
+					$status = '<span class="label label-danger">Deactivated</span>';
+					$button = '<a class="btn btn-info" href="'.site_url().'vendor/activate-product/'.$product_id.'" onclick="return confirm(\'Do you want to activate '.$product_name.'?\');">Activate</a>';
 				}
 				//create activated status display
 				else if($product_status == 1)
 				{
 					$status = '<span class="label label-success">Active</span>';
-					$button = '<a class="btn btn-info" href="'.site_url().'deactivate-product/'.$product_id.'" onclick="return confirm(\'Do you want to deactivate '.$product_name.'?\');">Deactivate</a>';
+					$button = '<a class="btn btn-default" href="'.site_url().'vendor/deactivate-product/'.$product_id.'" onclick="return confirm(\'Do you want to deactivate '.$product_name.'?\');">Deactivate</a>';
 				}
 				
 				//creators & editors
@@ -213,18 +213,18 @@
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-											<a href="'.site_url().'edit-product/'.$product_id.'" class="btn btn-sm btn-success">Edit</a>
+											<a href="'.site_url().'vendor/edit-product/'.$product_id.'" class="btn btn-sm btn-success">Edit</a>
 											'.$button.'
-											<a href="'.site_url().'delete-product/'.$product_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$product_name.'?\');">Delete</a>
+											<a href="'.site_url().'vendor/delete-product/'.$product_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$product_name.'?\');">Delete</a>
 										</div>
 									</div>
 								</div>
 							</div>
 						
 						</td>
-						<td><a href="'.site_url().'edit-product/'.$product_id.'" class="btn btn-sm btn-success">Edit</a></td>
+						<td><a href="'.site_url().'vendor/edit-product/'.$product_id.'" class="btn btn-sm btn-success">Edit</a></td>
 						<td>'.$button.'</td>
-						<td><a href="'.site_url().'delete-product/'.$product_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$product_name.'?\');">Delete</a></td>
+						<td><a href="'.site_url().'vendor/delete-product/'.$product_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$product_name.'?\');">Delete</a></td>
 					</tr> 
 				';
 			}

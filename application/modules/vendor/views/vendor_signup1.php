@@ -12,15 +12,15 @@
                             <div class="process-row">
                                 <div class="process-step">
                                     <button type="button" class="btn blue-background btn-circle" disabled="disabled"><i class="fa fa-user fa-2x"></i></button>
-                                    <p>Personal data</p>
+                                    <p>Personal</p>
                                 </div>
                                 <div class="process-step">
                                     <button type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-building-o fa-2x"></i></button>
-                                    <p>Store Data</p>
+                                    <p>Business</p>
                                 </div>
                                  <div class="process-step">
                                     <button type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-dollar fa-2x"></i></button>
-                                    <p>Choose Subscription</p>
+                                    <p>Subscription</p>
                                 </div> 
                             </div>
                         </div>

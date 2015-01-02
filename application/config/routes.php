@@ -45,6 +45,8 @@ $route['404_override'] = '';
 *	Site Routes
 */
 $route['home'] = 'site/home_page';
+$route['about'] = 'site/about';
+$route['terms'] = 'site/terms';
 
 /*
 *	Settings Routes
@@ -74,6 +76,7 @@ $route['admin-profile/(:num)'] = 'admin/users/admin_profile/$1';
 *	Categories Routes
 */
 $route['admin/all-categories'] = 'admin/categories/index';
+$route['admin/all-categories/(:num)'] = 'admin/categories/index/$1';
 $route['admin/add-category'] = 'admin/categories/add_category';
 $route['admin/edit-category/(:num)'] = 'admin/categories/edit_category/$1';
 $route['admin/delete-category/(:num)'] = 'admin/categories/delete_category/$1';
@@ -121,23 +124,25 @@ $route['blog/category/(:num)/(:num)'] = 'blog/index/$1/$2';
 *	Vendor Routes
 */
 $route['vendor/sign-up/user-details'] = 'vendor/vendor_signup1';
+$route['vendor/sign-up/personal-details'] = 'vendor/vendor_signup1';
 $route['vendor/sign-up/store-details'] = 'vendor/vendor_signup2';
 $route['vendor/sign-up/subscribe'] = 'vendor/vendor_signup3';
 $route['vendor/subscribe/free'] = 'vendor/subscribe/1';
 $route['vendor/subscribe/basic'] = 'vendor/subscribe/2';
 $route['vendor/subscribe/unlimited'] = 'vendor/subscribe/3';
 $route['vendor/sign-in'] = 'vendor/vendor_signin';
+$route['vendor/sign-out'] = 'vendor/vendor_signout';
 $route['confirm-account/(:any)'] = 'vendor/verify_email/$1';
 
 /*
 *	Categories Routes
 */
-$route['all-categories'] = 'admin/categories/index';
-$route['add-category'] = 'admin/categories/add_category';
-$route['edit-category/(:num)'] = 'admin/categories/edit_category/$1';
-$route['delete-category/(:num)'] = 'admin/categories/delete_category/$1';
-$route['activate-category/(:num)'] = 'admin/categories/activate_category/$1';
-$route['deactivate-category/(:num)'] = 'admin/categories/deactivate_category/$1';
+$route['vendor/all-categories'] = 'vendor/categories/index';
+$route['vendor/add-category'] = 'vendor/categories/add_category';
+$route['vendor/edit-category/(:num)'] = 'vendor/categories/edit_category/$1';
+$route['vendor/delete-category/(:num)'] = 'vendor/categories/delete_category/$1';
+$route['vendor/activate-category/(:num)'] = 'vendor/categories/activate_category/$1';
+$route['vendor/deactivate-category/(:num)'] = 'vendor/categories/deactivate_category/$1';
 
 /*
 *	Orders Routes

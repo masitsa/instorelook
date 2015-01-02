@@ -6,6 +6,7 @@ class Vendor extends MX_Controller {
 	{
 		parent:: __construct();
 		$this->load->model('vendor_model');
+		$this->load->model('site/site_model');
 		$this->load->model('admin/file_model');
 		
 		$this->load->library('image_lib');
@@ -18,7 +19,7 @@ class Vendor extends MX_Controller {
 	
 	public function index()
 	{
-		redirect('vendor/vendor_signup1');
+		redirect('vendor/account');
 	}
     
 	/*
@@ -40,7 +41,7 @@ class Vendor extends MX_Controller {
 		$this->form_validation->set_rules('vendor_first_name', 'First Name', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('vendor_last_name', 'Last Name', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('vendor_email', 'Email', 'trim|valid_email|required|is_unique[vendor.vendor_email]|xss_clean');
-		$this->form_validation->set_rules('vendor_phone', 'Phone', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('vendor_phone', 'Phone', 'trim|required|min_length[8]|xss_clean');
 		$this->form_validation->set_rules('vendor_password', 'Password', 'trim|required|matches[confirm_password]|xss_clean');
 		$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|xss_clean');
 		$this->form_validation->set_message('is_unique', 'This email has been registered');
@@ -155,7 +156,7 @@ class Vendor extends MX_Controller {
 		$this->form_validation->set_rules('vendor_store_name', 'Business Name', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('vendor_store_phone', 'Phone', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('vendor_store_email', 'Store Email', 'trim|valid_email|required|xss_clean');
-		$this->form_validation->set_rules('vendor_store_summary', 'Store Summary', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('vendor_store_summary', 'Store Summary', 'trim|required|min_length[50]|xss_clean');
 		$this->form_validation->set_rules('vendor_categories', 'Categories', 'trim|xss_clean');
 		$this->form_validation->set_rules('vendor_store_address', 'Address', 'trim|xss_clean');
 		$this->form_validation->set_rules('vendor_store_mobile', 'Mobile Number', 'trim|xss_clean');
@@ -426,14 +427,13 @@ class Vendor extends MX_Controller {
 		{
 			if($this->vendor_model->login_vendor())
 			{
-				echo 'Your account is now verified. YAY!';
-				//redirect('vendor/account');
+				//echo 'Your account is now verified. YAY!';
+				redirect('vendor/account');
 			}
 			
 			else
 			{
 				$this->session->set_userdata('error_message', 'Unable to sign into your account. Please try again');
-				echo 'Could not verify your';
 			}
 		}
 		else
@@ -486,6 +486,18 @@ class Vendor extends MX_Controller {
 	{
 		$encrypted_email = $this->encrypt->decode($receiver_email);
 		echo $encrypted_email;
+	}
+	
+	public function encrypt_md5($key)
+	{
+		echo md5($key);
+	}
+	
+	public function vendor_signout()
+	{
+		$this->session->sess_destroy();
+		$this->session->set_userdata('success_message', 'Your have been signed out of your account');
+		redirect('vendor/sign-in');
 	}
 }
 ?>

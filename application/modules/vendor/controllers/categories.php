@@ -1,16 +1,16 @@
 <?php   if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once "./application/modules/admin/controllers/admin.php";
+require_once "./application/modules/vendor/controllers/account.php";
 
-class Categories extends admin {
+class Categories extends account {
 	var $categories_path;
 	
 	function __construct()
 	{
 		parent:: __construct();
-		$this->load->model('users_model');
+		$this->load->model('admin/users_model');
 		$this->load->model('categories_model');
-		$this->load->model('file_model');
+		$this->load->model('admin/file_model');
 		
 		$this->load->library('image_lib');
 		
@@ -25,13 +25,14 @@ class Categories extends admin {
 	*/
 	public function index() 
 	{
-		$where = 'category_id > 0';
+		$where = 'created_by IN (0, '.$this->session->userdata('vendor_id').')';
 		$table = 'category';
+		$segment = 3;
 		//pagination
 		$this->load->library('pagination');
-		$config['base_url'] = base_url().'all-categories';
+		$config['base_url'] = base_url().'vendor/all-categories';
 		$config['total_rows'] = $this->users_model->count_items($table, $where);
-		$config['uri_segment'] = 2;
+		$config['uri_segment'] = $segment;
 		$config['per_page'] = 20;
 		$config['num_links'] = 5;
 		
@@ -60,7 +61,7 @@ class Categories extends admin {
 		$config['num_tag_close'] = '</li>';
 		$this->pagination->initialize($config);
 		
-		$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+		$page = ($this->uri->segment($segment)) ? $this->uri->segment($segment) : 0;
         $data["links"] = $this->pagination->create_links();
 		$query = $this->categories_model->get_all_categories($table, $where, $config["per_page"], $page);
 		
@@ -73,11 +74,11 @@ class Categories extends admin {
 		
 		else
 		{
-			$data['content'] = '<a href="'.site_url().'add-category" class="btn btn-success pull-right">Add Category</a>There are no categories';
+			$data['content'] = '<a href="'.site_url().'vendor/add-category" class="btn btn-success pull-right">Add Category</a>There are no categories';
 		}
 		$data['title'] = 'All Categories';
 		
-		$this->load->view('templates/general_admin', $data);
+		$this->load->view('account_template', $data);
 	}
     
 	/*
@@ -125,7 +126,7 @@ class Categories extends admin {
 					$data['title'] = 'Add New Category';
 					$v_data['all_categories'] = $this->categories_model->all_categories();
 					$data['content'] = $this->load->view('categories/add_category', $v_data, true);
-					$this->load->view('templates/general_admin', $data);
+					$this->load->view('account_template', $data);
 					break;
 				}
 			}
@@ -138,7 +139,7 @@ class Categories extends admin {
 			if($this->categories_model->add_category($file_name))
 			{
 				$this->session->set_userdata('success_message', 'Category added successfully');
-				redirect('all-categories');
+				redirect('vendor/all-categories');
 			}
 			
 			else
@@ -151,7 +152,7 @@ class Categories extends admin {
 		$data['title'] = 'Add New Category';
 		$v_data['all_categories'] = $this->categories_model->all_parent_categories();
 		$data['content'] = $this->load->view('categories/add_category', $v_data, true);
-		$this->load->view('templates/general_admin', $data);
+		$this->load->view('account_template', $data);
 	}
     
 	/*
@@ -216,7 +217,7 @@ class Categories extends admin {
 						$data['content'] = 'category does not exist';
 					}
 					
-					$this->load->view('templates/general_admin', $data);
+					$this->load->view('account_template', $data);
 					break;
 				}
 			}
@@ -228,7 +229,7 @@ class Categories extends admin {
 			if($this->categories_model->update_category($file_name, $category_id))
 			{
 				$this->session->set_userdata('success_message', 'Category updated successfully');
-				redirect('all-categories');
+				redirect('vendor/all-categories');
 			}
 			
 			else
@@ -256,7 +257,7 @@ class Categories extends admin {
 			$data['content'] = 'Category does not exist';
 		}
 		
-		$this->load->view('templates/general_admin', $data);
+		$this->load->view('account_template', $data);
 	}
     
 	/*
@@ -283,7 +284,7 @@ class Categories extends admin {
 		}
 		$this->categories_model->delete_category($category_id);
 		$this->session->set_userdata('success_message', 'Category has been deleted');
-		redirect('all-categories');
+		redirect('vendor/all-categories');
 	}
     
 	/*
@@ -296,7 +297,7 @@ class Categories extends admin {
 	{
 		$this->categories_model->activate_category($category_id);
 		$this->session->set_userdata('success_message', 'Category activated successfully');
-		redirect('all-categories');
+		redirect('vendor/all-categories');
 	}
     
 	/*
@@ -309,7 +310,7 @@ class Categories extends admin {
 	{
 		$this->categories_model->deactivate_category($category_id);
 		$this->session->set_userdata('success_message', 'Category disabled successfully');
-		redirect('all-categories');
+		redirect('vendor/all-categories');
 	}
 }
 ?>

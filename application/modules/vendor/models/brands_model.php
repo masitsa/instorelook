@@ -56,8 +56,8 @@ class Brands_model extends CI_Model
 				'brand_name'=>ucwords(strtolower($this->input->post('brand_name'))),
 				'brand_status'=>$this->input->post('brand_status'),
 				'created'=>date('Y-m-d H:i:s'),
-				'created_by'=>$this->session->userdata('user_id'),
-				'modified_by'=>$this->session->userdata('user_id'),
+				'created_by'=>$this->session->userdata('vendor_id'),
+				'modified_by'=>$this->session->userdata('vendor_id'),
 				'brand_image_name'=>$image_name
 			);
 			
@@ -81,7 +81,7 @@ class Brands_model extends CI_Model
 		$data = array(
 				'brand_name'=>ucwords(strtolower($this->input->post('brand_name'))),
 				'brand_status'=>$this->input->post('brand_status'),
-				'modified_by'=>$this->session->userdata('user_id'),
+				'modified_by'=>$this->session->userdata('vendor_id'),
 				'brand_image_name'=>$image_name
 			);
 			

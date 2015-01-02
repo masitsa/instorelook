@@ -1,8 +1,8 @@
 <?php session_start();  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once "./application/modules/admin/controllers/admin.php";
+require_once "./application/modules/vendor/controllers/account.php";
 
-class Products extends admin {
+class Products extends account {
 	var $products_path;
 	var $gallery_path;
 	var $features_path;
@@ -10,12 +10,12 @@ class Products extends admin {
 	function __construct()
 	{
 		parent:: __construct();
-		$this->load->model('users_model');
+		$this->load->model('admin/users_model');
 		$this->load->model('products_model');
 		$this->load->model('categories_model');
 		$this->load->model('brands_model');
 		$this->load->model('features_model');
-		$this->load->model('file_model');
+		$this->load->model('admin/file_model');
 		
 		//path to image directory
 		$this->products_path = realpath(APPPATH . '../assets/images/products/images');
@@ -30,13 +30,14 @@ class Products extends admin {
 	*/
 	public function index() 
 	{
-		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id';
+		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.created_by IN (0, '.$this->session->userdata('vendor_id').')';
 		$table = 'product, category, brand';
+		$segment = 3;
 		//pagination
 		$this->load->library('pagination');
-		$config['base_url'] = base_url().'all-products';
+		$config['base_url'] = base_url().'vendor/all-products';
 		$config['total_rows'] = $this->users_model->count_items($table, $where);
-		$config['uri_segment'] = 2;
+		$config['uri_segment'] = $segment;
 		$config['per_page'] = 20;
 		$config['num_links'] = 5;
 		
@@ -65,7 +66,7 @@ class Products extends admin {
 		$config['num_tag_close'] = '</li>';
 		$this->pagination->initialize($config);
 		
-		$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+		$page = ($this->uri->segment($segment)) ? $this->uri->segment($segment) : 0;
         $data["links"] = $this->pagination->create_links();
 		$query = $this->products_model->get_all_products($table, $where, $config["per_page"], $page);
 		
@@ -78,11 +79,11 @@ class Products extends admin {
 		
 		else
 		{
-			$data['content'] = '<a href="'.site_url().'add-product" class="btn btn-success pull-right">Add product</a>There are no products';
+			$data['content'] = '<a href="'.site_url().'vendor/add-product" class="btn btn-success pull-right">Add Product</a>There are no products';
 		}
-		$data['title'] = 'All products';
+		$data['title'] = 'All Products';
 		
-		$this->load->view('templates/general_admin', $data);
+		$this->load->view('account_template', $data);
 	}
     
 	/*
@@ -130,12 +131,14 @@ class Products extends admin {
 				{
 					$this->session->set_userdata('error_message', $response['error']);
 					
-					$data['title'] = 'Add New User';
+					/*$data['title'] = 'Add New User';
 					$v_data['all_categories'] = $this->categories_model->all_categories();
 					$v_data['all_brands'] = $this->brands_model->all_active_brands();
+					$v_data['features'] = $this->features_model->all_features_by_category(0);
 					$data['content'] = $this->load->view('products/add_product', $v_data, true);
-					$this->load->view('templates/general_admin', $data);
-					break;
+					$this->load->view('account_template', $data);*/
+					//break;
+					$break = TRUE;
 				}
 			}
 			
@@ -144,43 +147,47 @@ class Products extends admin {
 				$thumb_name = '';
 			}
 			
-			$product_id = $this->products_model->add_product($file_name, $thumb_name);
-			
-			if($product_id > 0)
+			if(!isset($break))
 			{
-				//Libraries
-				$this->load->library('upload');
+			
+				$product_id = $this->products_model->add_product($file_name, $thumb_name);
 				
-				$features_response = $this->products_model->save_features($product_id);
-				
-				if($features_response)
+				if($product_id > 0)
 				{
-					$response = $this->file_model->upload_gallery($product_id, $this->gallery_path, $resize);
+					//Libraries
+					$this->load->library('upload');
 					
-					if($response)
-					{
-						$this->session->set_userdata('success_message', 'Product added successfully');
-						redirect('all-products');
-					}
+					$features_response = $this->products_model->save_features($product_id);
 					
-					else
+					if($features_response)
 					{
-						if(isset($response['upload']))
+						$response = $this->file_model->upload_gallery($product_id, $this->gallery_path, $resize);
+						
+						if($response)
 						{
-							$this->session->set_userdata('error_message', $error['upload'][0]);
+							$this->session->set_userdata('success_message', 'Product added successfully');
+							redirect('vendor/all-products');
 						}
-						else if(isset($response['resize']))
+						
+						else
 						{
-							$this->session->set_userdata('error_message', $error['resize'][0]);
+							if(isset($response['upload']))
+							{
+								$this->session->set_userdata('error_message', $error['upload'][0]);
+							}
+							else if(isset($response['resize']))
+							{
+								$this->session->set_userdata('error_message', $error['resize'][0]);
+							}
+							redirect('vendor/all-products');
 						}
-						redirect('all-products');
 					}
 				}
-			}
-			
-			else
-			{
-				$this->session->set_userdata('error_message', 'Could not add product. Please try again');
+				
+				else
+				{
+					$this->session->set_userdata('error_message', 'Could not add product. Please try again');
+				}
 			}
 		}
 		
@@ -190,7 +197,7 @@ class Products extends admin {
 		$v_data['all_brands'] = $this->brands_model->all_active_brands();
 		$v_data['features'] = $this->features_model->all_features_by_category(0);
 		$data['content'] = $this->load->view('products/add_product', $v_data, true);
-		$this->load->view('templates/general_admin', $data);
+		$this->load->view('account_template', $data);
 	}
     
 	/*
@@ -249,9 +256,9 @@ class Products extends admin {
 					$query = $this->products_model->get_product($product_id);
 					if ($query->num_rows() > 0)
 					{
-						$v_data['all_categories'] = $this->categories_model->all_categories();
+						/*$v_data['all_categories'] = $this->categories_model->all_categories();
 						$v_data['all_brands'] = $this->brands_model->all_active_brands();
-						$data['content'] = $this->load->view('products/add_product', $v_data, true);
+						$data['content'] = $this->load->view('products/edit_product', $v_data, true);*/
 					}
 					
 					else
@@ -259,8 +266,9 @@ class Products extends admin {
 						$data['content'] = 'product does not exist';
 					}
 					
-					$this->load->view('templates/general_admin', $data);
-					break;
+					/*$this->load->view('account_template', $data);
+					break;*/
+					$break = TRUE;
 				}
 			}
 			
@@ -268,39 +276,44 @@ class Products extends admin {
 				$file_name = $this->input->post('current_image');
 				$thumb_name = $this->input->post('current_thumb');
 			}
-			//update product
-			if($this->products_model->update_product($file_name, $thumb_name, $product_id))
+			
+			
+			if(!isset($break))
 			{
-				$features_response = $this->products_model->save_features($product_id);
-				
-				if($features_response)
+				//update product
+				if($this->products_model->update_product($file_name, $thumb_name, $product_id))
 				{
-					$response = $this->file_model->upload_gallery($product_id, $this->gallery_path, $resize);
+					$features_response = $this->products_model->save_features($product_id);
 					
-					if($response)
+					if($features_response)
 					{
-						$this->session->set_userdata('success_message', 'product updated successfully');
-						redirect('all-products');
+						$response = $this->file_model->upload_gallery($product_id, $this->gallery_path, $resize);
+						
+						if($response)
+						{
+							$this->session->set_userdata('success_message', 'product updated successfully');
+							redirect('vendor/all-products');
+						}
+						
+						else
+						{
+							$this->session->set_userdata('error_message', 'Could not update gallery. Please try again');
+							redirect('vendor/all-products');
+						}
 					}
-					
+						
 					else
 					{
-						$this->session->set_userdata('error_message', 'Could not update gallery. Please try again');
-						redirect('all-products');
+						$this->session->set_userdata('error_message', 'Could not update features. Please try again');
+						redirect('vendor/all-products');
 					}
 				}
-					
+				
 				else
 				{
-					$this->session->set_userdata('error_message', 'Could not update features. Please try again');
-					redirect('all-products');
+					$this->session->set_userdata('error_message', 'Could not update product. Please try again');
+					redirect('vendor/all-products');
 				}
-			}
-			
-			else
-			{
-				$this->session->set_userdata('error_message', 'Could not update product. Please try again');
-				redirect('all-products');
 			}
 		}
 		
@@ -326,7 +339,7 @@ class Products extends admin {
 			$data['content'] = 'product does not exist';
 		}
 		
-		$this->load->view('templates/general_admin', $data);
+		$this->load->view('account_template', $data);
 	}
     
 	/*
@@ -393,7 +406,7 @@ class Products extends admin {
 		
 		$this->products_model->delete_product($product_id);
 		$this->session->set_userdata('success_message', 'Product has been deleted');
-		redirect('all-products');
+		redirect('vendor/all-products');
 	}
     
 	/*
@@ -406,7 +419,7 @@ class Products extends admin {
 	{
 		$this->products_model->activate_product($product_id);
 		$this->session->set_userdata('success_message', 'Product activated successfully');
-		redirect('all-products');
+		redirect('vendor/all-products');
 	}
     
 	/*
@@ -419,7 +432,7 @@ class Products extends admin {
 	{
 		$this->products_model->deactivate_product($product_id);
 		$this->session->set_userdata('success_message', 'Product disabled successfully');
-		redirect('all-products');
+		redirect('vendor/all-products');
 	}
 	
 	public function upload_images() 

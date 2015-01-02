@@ -6,7 +6,7 @@
 
 	<body>
     	<!-- Top Navigation -->
-        <?php echo $this->load->view('site/includes/top_navigation', '', TRUE); ?>
+        <?php echo $this->load->view('site/includes/account_navigation', '', TRUE); ?>
         <!-- Join  -->
         <div class="content light-grey-background">
         	<div class="container">
@@ -15,6 +15,7 @@
                 	<h1 class="center-align"><?php echo $title;?></h1>
                 	<div class="divider-line" style="margin-bottom:2%;"></div>
         			<?php echo $content;?>
+                    <?php if(isset($links)){echo $links;}?>
                 </div>
             </div>
         </div>

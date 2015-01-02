@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
 <file name="vendor.php" server="C:/xampp/htdocs/instorelook/" local="130590862179320751" remote="130590862170000000" Dst="0" />
-<file name="vendor.php" server="ftp.instorelook.com.au//public_html/development/" local="130622411094441501" remote="130622599800000000" Dst="0" />
-<file name="account.php" server="ftp.instorelook.com.au//public_html/development/" local="130619923120000000" remote="130620107400000000" Dst="0" />
+<file name="vendor.php" server="ftp.instorelook.com.au//public_html/development/" local="130644191423997468" remote="130644371400000000" Dst="0" />
+<file name="account.php" server="ftp.instorelook.com.au//public_html/development/" local="130638895829264678" remote="130639078800000000" Dst="0" />
+<file name="categories.php" server="ftp.instorelook.com.au//public_html/development/" local="130638970331985990" remote="130639151400000000" Dst="0" />
+<file name="orders.php" server="ftp.instorelook.com.au//public_html/development/" local="130520878878999866" remote="130626916800000000" Dst="0" />
+<file name="brands.php" server="ftp.instorelook.com.au//public_html/development/" local="130638970155975923" remote="130639151400000000" Dst="0" />
+<file name="products.php" server="ftp.instorelook.com.au//public_html/development/" local="130638970913439247" remote="130639151400000000" Dst="0" />
+<file name="features.php" server="ftp.instorelook.com.au//public_html/development/" local="130638970745089618" remote="130639151400000000" Dst="0" />
 </dwsync>

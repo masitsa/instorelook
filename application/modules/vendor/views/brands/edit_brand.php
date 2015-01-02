@@ -1,4 +1,5 @@
-          <link href="<?php echo base_url()."assets/themes/jasny/css/jasny-bootstrap.css"?>" rel="stylesheet"/>
+<link href="<?php echo base_url();?>assets/jasny/jasny-bootstrap.css" rel="stylesheet">
+<script src="<?php echo base_url();?>assets/jasny/jasny-bootstrap.js"></script>
           <div class="padd">
             <!-- Adding Errors -->
             <?php

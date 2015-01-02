@@ -7,6 +7,7 @@ class Blog extends MX_Controller {
 		parent:: __construct();
 		$this->load->model('admin/users_model');
 		$this->load->model('admin/blog_model');
+		$this->load->model('site/site_model');
 	}
     
 	/*

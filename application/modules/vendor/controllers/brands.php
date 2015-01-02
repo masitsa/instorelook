@@ -1,7 +1,8 @@
 <?php   if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once "./application/modules/auth/controllers/auth.php";
 
-class Brands extends auth
+require_once "./application/modules/vendor/controllers/account.php";
+
+class Brands extends account
 {
 	var $brands_path;
 	var $brands_location;
@@ -27,7 +28,7 @@ class Brands extends auth
 	*/
 	public function index() 
 	{
-		$where = 'brand_id > 0';
+		$where = 'created_by IN (0, '.$this->session->userdata('vendor_id').')';
 		$table = 'brand';
 		$segment = 3;
 		

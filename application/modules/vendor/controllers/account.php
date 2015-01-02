@@ -1,7 +1,7 @@
 <?php   if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once "./application/modules/auth/controllers/auth.php";
+require_once "./application/modules/auth/controllers/vendor_auth.php";
 
-class Account extends auth 
+class Account extends vendor_auth
 {
 	var $airlines_path;
 	var $airlines_location;
@@ -21,20 +21,7 @@ class Account extends auth
 	{
 		
 		$data['content'] = $this->load->view('dashboard', '', true);
-		
-		$data['title'] = 'My Account';
-		$this->load->view('account_template', $data);
-	}
-    
-	/*
-	*
-	*	Airline Dashboard
-	*
-	*/
-	public function index() 
-	{
-		
-		$data['content'] = $this->load->view('dashboard', '', true);
+		$data['content'] = '<div class="alert alert-success center-align">Welcome to your account</div>';
 		
 		$data['title'] = 'My Account';
 		$this->load->view('account_template', $data);

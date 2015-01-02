@@ -35,6 +35,22 @@ class Login_model extends CI_Model
 		}
 	}
 	/*
+	*	Check if user has logged in
+	*
+	*/
+	public function check_vendor_login()
+	{
+		if($this->session->userdata('vendor_login_status'))
+		{
+			return TRUE;
+		}
+		
+		else
+		{
+			return FALSE;
+		}
+	}
+	/*
 	*	Validate a user's login request
 	*
 	*/

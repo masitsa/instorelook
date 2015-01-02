@@ -51,8 +51,8 @@
                 
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        	<?php include('nav.php');?>
                             <ul class="nav navbar-nav">
-                                <li class="active"><a href="#">Home</a></li>
                                 <li><a href="#">Flights</a></li>
                                 <li><a href="#">Airlines</a></li>
                                 <li><a href="#">Charter Quotes</a></li>
