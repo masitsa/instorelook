@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php echo $this->load->view('site/includes/header', '', TRUE); ?>
+        <?php echo $this->load->view('site/includes/header', '', TRUE);
+		
+		 ?>
+        
     </head>
 
 	<body>

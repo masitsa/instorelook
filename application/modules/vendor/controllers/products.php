@@ -79,13 +79,13 @@ class Products extends account {
 		
 		else
 		{
-			$data['content'] = '<a href="'.site_url().'vendor/add-product" class="btn btn-success pull-right">Add Product</a>There are no products';
+			$data['content'] = '<a href="'.site_url().'vendor/export-product" class="btn btn-error pull-right">Export Product</a> <a href="'.site_url().'vendor/add-product" class="btn btn-success pull-right">Add Product <a>There are no products';
 		}
 		$data['title'] = 'All Products';
 		
 		$this->load->view('account_template', $data);
 	}
-    
+   
 	/*
 	*
 	*	Add a new product
@@ -611,5 +611,17 @@ class Products extends account {
 		$res = $this->products_model->fetch_new_category_features(1);
 		var_dump($_SESSION['image1']);
 	}
+	
+	function export_products()
+	{
+		//export products in excel 
+		 $this->products_model->export_products();
+	
+	}
+	
+	function import_products(){
+		$this->load->view('products/bulk_import');
+		
+		}
 }
 ?>

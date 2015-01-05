@@ -181,7 +181,7 @@
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Features</label>
                         <div class="col-lg-7">
-                            <button class="submit btn btn-success" type="button" data-toggle="modal" data-target="#features_modal">
+                                   <button class="submit btn btn-success" type="button" data-toggle="modal" data-target="#features_modal">
                                 Add Features
                             </button>
                         </div>

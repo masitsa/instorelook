@@ -173,6 +173,8 @@ $route['vendor/deactivate-feature/(:num)'] = 'vendor/features/deactivate_feature
 */
 $route['vendor/all-products'] = 'vendor/products/index';
 $route['vendor/add-product'] = 'vendor/products/add_product';
+$route['vendor/export-product'] = 'vendor/products/export_products';
+$route['vendor/import-product'] = 'vendor/products/import_products';
 $route['vendor/edit-product/(:num)'] = 'vendor/products/edit_product/$1';
 $route['vendor/delete-product/(:num)'] = 'vendor/products/delete_product/$1';
 $route['vendor/activate-product/(:num)'] = 'vendor/products/activate_product/$1';

@@ -1,6 +1,6 @@
 <?php
 		
-		$result = '<a href="'.site_url().'vendor/add-product" class="btn btn-success pull-right">Add Product</a>';
+		$result = '<a href="'.site_url().'vendor/export-product" class="btn btn-success pull-right" style="margin-left:10px;">Export Product</a></strong><a href="'.site_url().'vendor/add-product" class="btn btn-success pull-right">Add Product</a>';
 		
 		//if users exist display them
 		if ($query->num_rows() > 0)
@@ -198,7 +198,7 @@
 												</tr>
 												<tr>
 													<th>product Image</th>
-													<td><img src="'.base_url()."assets/images/products/images/".$image.'"></td>
+													<td><img src="'.base_url()."assets/images/products/images/".$image.'" height="150" width="120"></td>
 												</tr>
 												<tr>
 													<th>Gallery Images</th>

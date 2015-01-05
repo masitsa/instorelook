@@ -112,6 +112,7 @@ class Categories extends account {
 					Upload image
 					-----------------------------------------------------------------------------------------
 				*/
+		
 				$response = $this->file_model->upload_file($categories_path, 'category_image', $resize);
 				if($response['check'])
 				{

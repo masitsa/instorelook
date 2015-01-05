@@ -13,6 +13,22 @@ class Products_model extends CI_Model
 		
 		return $query;
 	}
+	/*
+	*	Retrieve all products for export
+	*	@param string $table
+	* 	@param string $where
+	*
+	*/
+	public function get_all_products_export($table, $where,  $limit = NULL, $order_by = 'created', $order_method = 'DESC')
+	{
+		$this->db->from($table);
+		$this->db->select('product.sale_price, product.featured, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_thumb_name, product.product_image_name, category.category_name, brand.brand_name');
+		$this->db->where($where);
+		$this->db->order_by($order_by, $order_method);
+		
+				
+		return $query;
+	}
 	
 	/*
 	*	Retrieve all products
@@ -45,8 +61,10 @@ class Products_model extends CI_Model
 	*	@param string $image_name
 	*
 	*/
+	//public function add_product($image_name, $thumb_name)
 	public function add_product($image_name, $thumb_name)
 	{
+		
 		$code = $this->create_product_code($this->input->post('category_id'));
 		
 		$data = array(
@@ -618,6 +636,99 @@ class Products_model extends CI_Model
 		else{
 			return FALSE;
 		}
+	}
+		/*
+	*	Export Transactions
+	*
+	*/
+	function export_products()
+	{
+		$this->load->library('excel');
+		
+		$table = 'product, category, brand';
+		$this->db->select('product.sale_price, product.featured, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_thumb_name, product.product_image_name, category.category_name, brand.brand_name');
+		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.created_by IN (0, '.$this->session->userdata('vendor_id').')';		
+		$visits_query = $this->db->get($table);
+		
+		$title = 'Export Products';
+		$count=0;
+		$row_count=0;
+		foreach ($visits_query->result() as $row)
+			{
+				
+				$sale_price = $row->sale_price;
+				$featured = $row->featured;
+				$product_id = $row->product_id;
+				$product_name = $row->product_name;
+				$product_buying_price = $row->product_buying_price;
+				$product_selling_price = $row->product_selling_price;
+				$product_status = $row->product_status;
+				$product_description = $row->product_description;
+				$product_code = $row->product_code;
+				$product_balance = $row->product_balance;
+				$brand_id = $row->brand_id;
+				$category_id = $row->category_id;
+				$created = $row->created;
+				$created_by = $row->created_by;
+				$last_modified = $row->last_modified;
+				$modified_by = $row->modified_by;
+				$image = $row->product_image_name;
+				$thumb = $row->product_thumb_name;
+				$category_name = $row->category_name;
+				$brand_name = $row->brand_name;
+				//$query = $this->products_model->get_gallery_images($product_id);
+				
+				if($product_status == 1)
+				{
+					$status = 'Active';
+				}
+				else
+				{
+					$status = 'Disabled';
+				}
+				
+		if($count== 0)	{
+	
+			/*
+				-----------------------------------------------------------------------------------------
+				Document Header
+				-----------------------------------------------------------------------------------------
+			*/
+			
+			$report[$row_count][0] = '#';
+			$report[$row_count][1] = 'Code';
+			$report[$row_count][2] = 'Product Name';
+			$report[$row_count][3] = 'Product Description';
+			$report[$row_count][4] = 'Buying Price';
+			$report[$row_count][5] = 'Selling Price';
+			$report[$row_count][6] = 'Brand';
+			$report[$row_count][7] = 'Status';
+			$current_column = 8;
+			}
+			else
+			{
+					$report[$row_count][0] = $count;
+					$report[$row_count][1] = $product_code;
+					$report[$row_count][2] = $product_name;
+					$report[$row_count][3] = $product_description;
+					$report[$row_count][4] = $product_buying_price;
+					$report[$row_count][5] = $product_selling_price;
+					$report[$row_count][6] = $category_name;
+					$report[$row_count][7] = $status;
+					$current_column = 8;
+		
+			}
+			
+			$row_count++;
+			$count++;		
+			
+			
+		
+		}
+		
+		//create the excel document
+		$this->excel->addArray ( $report );
+		$this->excel->generateXML ($title);
 	}
 }
 ?>
