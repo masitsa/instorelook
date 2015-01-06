@@ -79,6 +79,8 @@ class Products_model extends CI_Model
 				'product_balance'=>$this->input->post('product_balance'),
 				'brand_id'=>$this->input->post('brand_id'),
 				'category_id'=>$this->input->post('category_id'),
+				'minimum_order_quantity'=>$this->input->post('minimum_order_quantity'),
+				'maximum_purchase_quantity'=>$this->input->post('maximum_purchase_quantity'),
 				'created'=>date('Y-m-d H:i:s'),
 				'created_by'=>$this->session->userdata('vendor_id'),
 				'modified_by'=>$this->session->userdata('vendor_id'),
@@ -114,6 +116,8 @@ class Products_model extends CI_Model
 				'product_balance'=>$this->input->post('product_balance'),
 				'brand_id'=>$this->input->post('brand_id'),
 				'category_id'=>$this->input->post('category_id'),
+				'minimum_order_quantity'=>$this->input->post('minimum_order_quantity'),
+				'maximum_purchase_quantity'=>$this->input->post('maximum_purchase_quantity'),
 				'modified_by'=>$this->session->userdata('vendor_id'),
 				'product_image_name'=>$file_name,
 				'product_thumb_name'=>$thumb_name
@@ -138,7 +142,7 @@ class Products_model extends CI_Model
 	{
 		//retrieve all users
 		$this->db->from('product, category, brand');
-		$this->db->select('product.sale_price, product.featured, product.product_thumb_name, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_image_name, category.category_name, brand.brand_name');
+		$this->db->select('product.minimum_order_quantity, product.maximum_purchase_quantity, product.sale_price, product.featured, product.product_thumb_name, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_image_name, category.category_name, brand.brand_name');
 		$this->db->where('product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product_id = '.$product_id);
 		$query = $this->db->get();
 		
@@ -637,7 +641,8 @@ class Products_model extends CI_Model
 			return FALSE;
 		}
 	}
-		/*
+	
+	/*
 	*	Export Transactions
 	*
 	*/
@@ -645,90 +650,515 @@ class Products_model extends CI_Model
 	{
 		$this->load->library('excel');
 		
+		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.created_by = '.$this->session->userdata('vendor_id');
 		$table = 'product, category, brand';
-		$this->db->select('product.sale_price, product.featured, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_thumb_name, product.product_image_name, category.category_name, brand.brand_name');
-		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.created_by IN (0, '.$this->session->userdata('vendor_id').')';		
-		$visits_query = $this->db->get($table);
+		$this->db->select('product.clicks, product.minimum_order_quantity, product.maximum_purchase_quantity, product.sale_price, product.featured, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_thumb_name, product.product_image_name, category.category_name, brand.brand_name');
 		
-		$title = 'Export Products';
-		$count=0;
+		$this->db->where($where);		
+		$visits_query = $this->db->get($table);
+		//var_dump($visits_query->result());die();
+		$title = 'Export Products '.date('jS M Y H:i a');
+		$count=1;
 		$row_count=0;
+		
+		
+		/*
+			-----------------------------------------------------------------------------------------
+			Document Header
+			-----------------------------------------------------------------------------------------
+		*/
+		
+		$report[$row_count][0] = '#';
+		$report[$row_count][1] = 'Code';
+		$report[$row_count][2] = 'Category';
+		$report[$row_count][3] = 'Brand';
+		$report[$row_count][4] = 'Product Name';
+		$report[$row_count][5] = 'Product Description';
+		$report[$row_count][6] = 'Buying Price';
+		$report[$row_count][7] = 'Selling Price';
+		$report[$row_count][8] = 'Sale Price (% off)';
+		$report[$row_count][9] = 'Balance';
+		$report[$row_count][10] = 'Featured';
+		$report[$row_count][11] = 'Views';
+		$report[$row_count][12] = 'Maximum Purchase Quantity';
+		$report[$row_count][13] = 'Minimum Order Quantity';
+		$report[$row_count][14] = 'Status';
+		$row_count++;
+		
 		foreach ($visits_query->result() as $row)
-			{
-				
-				$sale_price = $row->sale_price;
-				$featured = $row->featured;
-				$product_id = $row->product_id;
-				$product_name = $row->product_name;
-				$product_buying_price = $row->product_buying_price;
-				$product_selling_price = $row->product_selling_price;
-				$product_status = $row->product_status;
-				$product_description = $row->product_description;
-				$product_code = $row->product_code;
-				$product_balance = $row->product_balance;
-				$brand_id = $row->brand_id;
-				$category_id = $row->category_id;
-				$created = $row->created;
-				$created_by = $row->created_by;
-				$last_modified = $row->last_modified;
-				$modified_by = $row->modified_by;
-				$image = $row->product_image_name;
-				$thumb = $row->product_thumb_name;
-				$category_name = $row->category_name;
-				$brand_name = $row->brand_name;
-				//$query = $this->products_model->get_gallery_images($product_id);
-				
-				if($product_status == 1)
-				{
-					$status = 'Active';
-				}
-				else
-				{
-					$status = 'Disabled';
-				}
-				
-		if($count== 0)	{
-	
-			/*
-				-----------------------------------------------------------------------------------------
-				Document Header
-				-----------------------------------------------------------------------------------------
-			*/
+		{
+			$sale_price = $row->sale_price;
+			$featured = $row->featured;
+			$product_id = $row->product_id;
+			$product_name = $row->product_name;
+			$product_buying_price = $row->product_buying_price;
+			$product_selling_price = $row->product_selling_price;
+			$product_status = $row->product_status;
+			$product_description = $row->product_description;
+			$product_code = $row->product_code;
+			$product_balance = $row->product_balance;
+			$brand_id = $row->brand_id;
+			$category_id = $row->category_id;
+			$created = $row->created;
+			$created_by = $row->created_by;
+			$last_modified = $row->last_modified;
+			$modified_by = $row->modified_by;
+			$image = $row->product_image_name;
+			$thumb = $row->product_thumb_name;
+			$category_name = $row->category_name;
+			$brand_name = $row->brand_name;
+			$clicks = $row->clicks;
+			$minimum_order_quantity = $row->minimum_order_quantity;
+			$maximum_purchase_quantity = $row->maximum_purchase_quantity;
+			//$query = $this->products_model->get_gallery_images($product_id);
 			
-			$report[$row_count][0] = '#';
-			$report[$row_count][1] = 'Code';
-			$report[$row_count][2] = 'Product Name';
-			$report[$row_count][3] = 'Product Description';
-			$report[$row_count][4] = 'Buying Price';
-			$report[$row_count][5] = 'Selling Price';
-			$report[$row_count][6] = 'Brand';
-			$report[$row_count][7] = 'Status';
-			$current_column = 8;
+			if($product_status == 1)
+			{
+				$status = 'Active';
 			}
 			else
 			{
-					$report[$row_count][0] = $count;
-					$report[$row_count][1] = $product_code;
-					$report[$row_count][2] = $product_name;
-					$report[$row_count][3] = $product_description;
-					$report[$row_count][4] = $product_buying_price;
-					$report[$row_count][5] = $product_selling_price;
-					$report[$row_count][6] = $category_name;
-					$report[$row_count][7] = $status;
-					$current_column = 8;
-		
+				$status = 'Disabled';
 			}
 			
+			if($featured == 1)
+			{
+				$featured = 'Yes';
+			}
+			else
+			{
+				$featured = 'No';
+			}
+			
+			$report[$row_count][0] = $count;
+			$report[$row_count][1] = $product_code;
+			$report[$row_count][2] = $category_name;
+			$report[$row_count][3] = $brand_name;
+			$report[$row_count][4] = $product_name;
+			$report[$row_count][5] = $product_description;
+			$report[$row_count][6] = $product_buying_price;
+			$report[$row_count][7] = $product_selling_price;
+			$report[$row_count][8] = $sale_price;
+			$report[$row_count][9] = $product_balance;
+			$report[$row_count][10] = $featured;
+			$report[$row_count][11] = $clicks;
+			$report[$row_count][12] = $maximum_purchase_quantity;
+			$report[$row_count][13] = $minimum_order_quantity;
+			$report[$row_count][14] = $status;
+			
 			$row_count++;
-			$count++;		
-			
-			
-		
+			$count++;	
 		}
 		
 		//create the excel document
 		$this->excel->addArray ( $report );
 		$this->excel->generateXML ($title);
+	}
+	
+	/*
+	*	Import Template
+	*
+	*/
+	function import_template()
+	{
+		$this->load->library('excel');
+		
+		$title = 'In Store Look Import Template V1';
+		$count=1;
+		$row_count=0;
+		
+		$report[$row_count][0] = 'Category (Is required & Must be from the list of your categories)';
+		$report[$row_count][1] = 'Brand';
+		$report[$row_count][2] = 'Product Name';
+		$report[$row_count][3] = 'Product Description';
+		$report[$row_count][4] = 'Buying Price (Must be numeric, $)';
+		$report[$row_count][5] = 'Selling Price (Must be numeric, $)';
+		$report[$row_count][6] = 'Sale Price (% off. Must be numeric)';
+		$report[$row_count][7] = 'Balance (Must be numeric)';
+		$report[$row_count][8] = 'Featured (Yes or No)';
+		$report[$row_count][9] = 'Maximum Purchase Quantity (Must be numeric)';
+		$report[$row_count][10] = 'Minimum Order Quantity (Must be numeric)';
+		$report[$row_count][11] = 'Status (Active or Inactive)';
+		$row_count++;
+		
+		//create the excel document
+		$this->excel->addArray ( $report );
+		$this->excel->generateXML ($title);
+	}
+	
+	public function vendor_categories()
+	{
+		$where = 'category_status = 1';
+		$table = 'category';
+		
+		$this->db->where($where);
+		$this->db->order_by('category_name');
+		$visits_query = $this->db->get($table);
+		
+		return $visits_query;
+	}
+	
+	/*
+	*	Import Categories
+	*
+	*/
+	function import_categories()
+	{
+		//get vendors categories
+		$visits_query = $this->vendor_categories();
+		
+		$this->load->library('excel');
+		//var_dump($visits_query->result());die();
+		$title = $this->session->userdata('vendor_name').' Product Categories';
+		$count=1;
+		$row_count=0;
+		
+		
+		/*
+			-----------------------------------------------------------------------------------------
+			Document Header
+			-----------------------------------------------------------------------------------------
+		*/
+		
+		$report[$row_count][0] = '#';
+		$report[$row_count][2] = 'Category';
+		$row_count++;
+		
+		foreach ($visits_query->result() as $row)
+		{
+			$category_name = $row->category_name;
+			
+			$report[$row_count][0] = $count;
+			$report[$row_count][2] = $category_name;
+			
+			$row_count++;
+			$count++;	
+		}
+		
+		//create the excel document
+		$this->excel->addArray ( $report );
+		$this->excel->generateXML ($title);
+	}
+	
+	public function import_csv_products($upload_path)
+	{
+		//load the file model
+		$this->load->model('admin/file_model');
+		/*
+			-----------------------------------------------------------------------------------------
+			Upload csv
+			-----------------------------------------------------------------------------------------
+		*/
+		$response = $this->file_model->upload_csv($upload_path, 'import_csv');
+		
+		if($response['check'])
+		{
+			$file_name = $response['file_name'];
+			
+			$array = $this->file_model->get_array_from_csv($upload_path.'/'.$file_name);
+			//var_dump($array); die();
+			$response2 = $this->sort_csv_data($array);
+		
+			if($this->file_model->delete_file($upload_path."\\".$file_name))
+			{
+			}
+			
+			return $response2;
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', $response['error']);
+			return FALSE;
+		}
+	}
+	
+	public function sort_csv_data($array)
+	{
+		//get vendors categories
+		$visits_query = $this->vendor_categories();
+		
+		foreach ($visits_query->result() as $row)
+		{
+			$category_name = $row->category_name;
+		}
+		
+		//count total rows
+		$total_rows = count($array);
+		$total_columns = count($array[0]);//var_dump($array);die();
+		
+		//if products exist in array
+		if(($total_rows > 0) && ($total_columns == 12))
+		{
+			$items['modified_by'] = $this->session->userdata('vendor_id');
+			$items['created_by'] = $this->session->userdata('vendor_id');
+			$response = '
+				<table class="table table-condensed table-striped table-hover">
+					<tr>
+						<th>#</th>
+						<th>Category</th>
+						<th>Brand</th>
+						<th>Product name</th>
+						<th>Product description</th>
+						<th>Buying price</th>
+						<th>Selling price</th>
+						<th>Sale price</th>
+						<th>Balance</th>
+						<th>Featured</th>
+						<th>Maximum purchase quantity</th>
+						<th>Minimum order quantity</th>
+						<th>Status</th>
+						<th>Comment</th>
+					</tr>
+			';
+			
+			//retrieve the data from array
+			for($r = 1; $r < $total_rows; $r++)
+			{
+				$category_name = $array[$r][0];
+				$brand_name = $array[$r][1];
+				$items['product_name'] = ucwords(strtolower($array[$r][2]));
+				$items['product_description'] = $array[$r][3];
+				$items['product_buying_price'] = $array[$r][4];
+				$items['product_selling_price'] = $array[$r][5];
+				$items['sale_price'] = $array[$r][6];
+				$items['product_balance'] = $array[$r][7];
+				$featured = $array[$r][8];
+				$items['maximum_purchase_quantity'] = $array[$r][9];
+				$items['minimum_order_quantity'] = $array[$r][10];
+				$product_status = $array[$r][11];
+				$items['created'] = date('Y-m-d H:i:s');
+				$comment = '';
+				
+				//get category_id
+				$category_id = $this->get_category_id($category_name);
+				
+				//only continue if category_id exists
+				if(!empty($category_id))
+				{
+					$class = 'success';
+					
+					$items['category_id'] = $category_id;
+					
+					//generate product code
+					$items['product_code'] = $this->create_product_code($category_id);
+					
+					//get brand_id
+					$brand_id = $this->get_brand_id($brand_name);
+					
+					//validate buying price
+					if((!is_numeric($items['product_buying_price'])) && (!empty($items['product_buying_price'])))
+					{
+						$class = 'warning';
+						$comment .= '<br/>The buying price is not numeric. Product added with \'0\' as the buying price';
+						$items['product_buying_price'] = 0;
+					}
+					
+					else if(empty($items['product_buying_price']))
+					{
+						$items['product_buying_price'] = 0;
+					}
+					
+					//validate selling price
+					if((!is_numeric($items['product_selling_price'])) && (!empty($items['product_selling_price'])))
+					{
+						$class = 'warning';
+						$comment .= '<br/>The selling price is not numeric. Product added with \'0\' as the selling price';
+						$items['product_selling_price'] = 0;
+					}
+					
+					else if(empty($items['product_selling_price']))
+					{
+						$items['product_selling_price'] = 0;
+					}
+					
+					//validate sale price
+					if((!is_numeric($items['sale_price'])) && (!empty($items['sale_price'])))
+					{
+						$class = 'warning';
+						$comment .= '<br/>The sale price is not numeric. Product added with \'0\' as the sale price';
+						$items['sale_price'] = 0;
+					}
+					
+					else if(empty($items['sale_price']))
+					{
+						$items['sale_price'] = 0;
+					}
+					
+					//validate product balance
+					if(!is_numeric($items['product_balance']))
+					{
+						$class = 'warning';
+						$comment .= '<br/>The product balance is not numeric. Product added with \'0\' as the balance';
+						$items['product_balance'] = 0;
+					}
+					
+					//validate featured
+					if(empty($featured))
+					{
+						$items['featured'] = 0;
+					}
+					else
+					{
+						if($featured == 'Yes')
+						{
+							$items['featured'] = 1;
+						}
+						else
+						{
+							$items['featured'] = 0;
+						}
+					}
+					
+					//validate maximum purchase quantity
+					if((!is_numeric($items['maximum_purchase_quantity'])) && (!empty($items['maximum_purchase_quantity'])))
+					{
+						$class = 'warning';
+						$comment .= '<br/>The maximum purchase quantity is not numeric. Product added with \'0\' as the maximum purchase quantity';
+						$items['maximum_purchase_quantity'] = 0;
+					}
+					
+					else if(empty($items['maximum_purchase_quantity']))
+					{
+						$items['maximum_purchase_quantity'] = 0;
+					}
+					
+					//validate maximum purchase quantity
+					if((!is_numeric($items['minimum_order_quantity'])) && (!empty($items['minimum_order_quantity'])))
+					{
+						$class = 'warning';
+						$comment .= '<br/>The minimum order quantity is not numeric. Product added with \'0\' as the minimum order quantity';
+						$items['minimum_order_quantity'] = 0;
+					}
+					
+					else if(empty($items['minimum_order_quantity']))
+					{
+						$items['minimum_order_quantity'] = 0;
+					}
+					
+					//validate product status
+					if(empty($product_status))
+					{
+						$items['product_status'] = 0;
+					}
+					else
+					{
+						if($product_status == 'Active')
+						{
+							$items['product_status'] = 1;
+						}
+						else
+						{
+							$items['product_status'] = 0;
+						}
+					}
+					
+					//save product in the db
+					if($this->db->insert('product', $items))
+					{
+						$comment .= '<br/>Product successfully added to the database';
+					}
+					
+					else
+					{
+						$comment .= '<br/>Internal error. Could not add product to the database. Please contact the site administrator. Product code '.$items['product_code'];
+					}
+				}
+				
+				else
+				{
+					$class = 'danger';
+					$comment = 'Unable to save product. Category not available. Please download the list of available categories <a href="'.site_url().'vendor/import-categories">here.</a>';
+				}
+				
+				$response .= '
+					<tr class="'.$class.'">
+						<td>'.$r.'</td>
+						<td>'.$category_name.'</td>
+						<td>'.$brand_name.'</td>
+						<td>'.$items['product_name'].'</td>
+						<td>'.implode(' ', array_slice(explode(' ', $items['product_description']), 0, 10)).'...</td>
+						<td>'.$items['product_buying_price'].'</td>
+						<td>'.$items['product_selling_price'].'</td>
+						<td>'.$items['sale_price'].'</td>
+						<td>'.$items['product_balance'].'</td>
+						<td>'.$featured.'</td>
+						<td>'.$items['maximum_purchase_quantity'].'</td>
+						<td>'.$items['minimum_order_quantity'].'</td>
+						<td>'.$product_status.'</td>
+						<td>'.$comment.'</td>
+					</tr>
+				';
+			}
+			
+			$response .= '</table>';
+			
+			$return['response'] = $response;
+			$return['check'] = TRUE;
+		}
+		
+		//if no products exist
+		else
+		{
+			$return['response'] = 'Product data not found';
+			$return['check'] = FALSE;
+		}
+		
+		return $return;
+	}
+	
+	public function get_category_id($category_name)
+	{
+		$this->db->where('category_name = \''.$category_name.'\'');
+		$query = $this->db->get('category');
+		
+		if($query->num_rows() > 0)
+		{
+			$row = $query->row();
+			$category_id = $row->category_id;
+		}
+		
+		else
+		{
+			$category_id = '';
+		}
+		
+		return $category_id;
+	}
+	
+	public function get_brand_id($brand_name)
+	{
+		//if brand was added
+		if(!empty($brand_name))
+		{
+			$this->db->where('brand_name = \''.$brand_name.'\'');
+			$query = $this->db->get('brand');
+			
+			//if brand exists
+			if($query->num_rows() > 0)
+			{
+				$row = $query->row();
+				$brand_id = $row->brand_id;
+			}
+			
+			//if brand doesn't exist add a new brand
+			else
+			{
+				$data['brand_name'] = ucwords(strtolower($brand_name));
+				$data['brand_status'] = 1;
+				
+				$this->db->insert('brand', $data);
+				$brand_id = $this->db->insert_id();
+			}
+		}
+		
+		//if brand wasn't added
+		else
+		{
+			$brand_id = 0;
+		}
+		
+		return $brand_id;
 	}
 }
 ?>

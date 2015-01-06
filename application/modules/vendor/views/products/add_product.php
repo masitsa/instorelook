@@ -1,6 +1,6 @@
           <link href="<?php echo base_url()."assets/themes/jasny/css/jasny-bootstrap.css"?>" rel="stylesheet"/>
           <div class="padd">
-			<h3>Product Details</h3>
+          	<a href="<?php echo site_url().'vendor/all-products';?>" class="btn btn-sm btn-info">Back to products</a>
 			<?php echo form_open_multipart($this->uri->uri_string(), array("class" => "form-horizontal", "role" => "form"));?>
          	<div class="row">
             	<div class="col-md-6">
@@ -20,16 +20,16 @@
                     
                     <!-- product Name -->
                     <div class="form-group">
-                        <label class="col-lg-4 control-label">Product Name</label>
+                        <label class="col-lg-4 control-label">Product Name <span class="required">*</span></label>
                         <div class="col-lg-7">
-                            <input type="text" class="form-control" name="product_name" placeholder="Product Name" value="<?php echo set_value('product_name');?>" required>
+                            <input type="text" class="form-control" name="product_name" placeholder="Product Name" value="<?php echo set_value('product_name');?>">
                         </div>
                     </div>
                     <!-- Product Category -->
                     <div class="form-group">
-                        <label class="col-lg-4 control-label">Product Category</label>
+                        <label class="col-lg-4 control-label">Product Category <span class="required">*</span></label>
                         <div class="col-lg-7">
-                            <select name="category_id" id="category_id" class="form-control" required>
+                            <select name="category_id" id="category_id" class="form-control">
                                 <?php
                                 echo '<option value="0">No Category</option>';
                                 if($all_categories->num_rows() > 0)
@@ -56,7 +56,7 @@
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Product Brand</label>
                         <div class="col-lg-7">
-                            <select name="brand_id" class="form-control" required>
+                            <select name="brand_id" class="form-control">
                                 <?php
                                 echo '<option value="0">No Brand</option>';
                                 if($all_brands->num_rows() > 0)
@@ -84,14 +84,14 @@
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Product Buying Price</label>
                         <div class="col-lg-7">
-                            <input type="number" class="form-control" name="product_buying_price" placeholder="Product Buying Price" value="<?php echo set_value('product_buying_price');?>" required>
+                            <input type="number" class="form-control" name="product_buying_price" placeholder="Product Buying Price" value="<?php echo set_value('product_buying_price');?>">
                         </div>
                     </div>
                     <!-- Product Selling Price -->
                     <div class="form-group">
-                        <label class="col-lg-4 control-label">Product Selling Price</label>
+                        <label class="col-lg-4 control-label">Product Selling Price <span class="required">*</span></label>
                         <div class="col-lg-7">
-                            <input type="number" class="form-control" name="product_selling_price" placeholder="Product Selling Price" value="<?php echo set_value('product_selling_price');?>" required>
+                            <input type="number" class="form-control" name="product_selling_price" placeholder="Product Selling Price" value="<?php echo set_value('product_selling_price');?>">
                         </div>
                     </div>
                     <!-- Product Sle Price -->
@@ -103,9 +103,55 @@
                     </div>
                     <!-- Product Balance -->
                     <div class="form-group">
-                        <label class="col-lg-4 control-label">Product Balance</label>
+                        <label class="col-lg-4 control-label">Product Balance <span class="required">*</span></label>
                         <div class="col-lg-7">
                             <input type="number" class="form-control" name="product_balance" placeholder="Product Balance" value="<?php echo set_value('product_balance');?>">
+                        </div>
+                    </div>
+                    <!-- Minimum order qty -->
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">Minimum Order Quantity</label>
+                        <div class="col-lg-7">
+                            <input type="number" class="form-control" name="minimum_order_quantity" placeholder="Minimum Order Quantity" value="<?php echo set_value('minimum_order_quantity');?>">
+                        </div>
+                    </div>
+                    <!-- Maximum purchase qty -->
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">Maximum Purchase Quantity</label>
+                        <div class="col-lg-7">
+                            <input type="number" class="form-control" name="maximum_purchase_quantity" placeholder="Maximum Purchase Quantity" value="<?php echo set_value('maximum_purchase_quantity');?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                
+                    <!-- Image -->
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">Product Image</label>
+                        <div class="col-lg-7">
+                            
+                            <div class="row">
+                            
+                                <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="height:160px; width:212px;">
+                                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" />
+                                        </div>
+                                        <div>
+                                            <span class="btn btn-file btn-info"><span class="fileinput-new">Select Image</span><span class="fileinput-exists">Change</span><input type="file" name="product_image"></span>
+                                            <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <!-- Gallery Images -->
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">Gallery Images</label>
+                        <div class="col-lg-7">
+                            <?php echo form_upload(array( 'name'=>'gallery[]', 'multiple'=>true, 'class'=>'btn'));?>
                         </div>
                     </div>
                     <!-- Activate checkbox -->
@@ -144,38 +190,6 @@
                             </div>
                         </div>
                     </div> 
-                </div>
-                <div class="col-md-6">
-                
-                    <!-- Image -->
-                    <div class="form-group">
-                        <label class="col-lg-4 control-label">Product Image</label>
-                        <div class="col-lg-7">
-                            
-                            <div class="row">
-                            
-                                <div class="col-md-4 col-sm-4 col-xs-4">
-                                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="height:160px; width:212px;">
-                                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" />
-                                        </div>
-                                        <div>
-                                            <span class="btn btn-file btn_pink"><span class="fileinput-new">Select Image</span><span class="fileinput-exists">Change</span><input type="file" name="product_image"></span>
-                                            <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                    <!-- Gallery Images -->
-                    <div class="form-group">
-                        <label class="col-lg-4 control-label">Gallery Images</label>
-                        <div class="col-lg-7">
-                            <?php echo form_upload(array( 'name'=>'gallery[]', 'multiple'=>true, 'class'=>'btn'));?>
-                        </div>
-                    </div>
                     
                     <!-- Features -->
                     <div class="form-group">
@@ -192,7 +206,7 @@
             	<div class="col-md-12">
                     <!-- Product Description -->
                     <div class="form-group">
-                      <label class="col-lg-2 control-label">Product Description</label>
+                      <label class="col-lg-2 control-label">Product Description <span class="required">*</span></label>
                       <div class="col-lg-10">
                         <textarea class="cleditor" name="product_description"><?php echo set_value('product_description');?></textarea>
                       </div>

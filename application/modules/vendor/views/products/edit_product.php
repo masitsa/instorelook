@@ -1,5 +1,6 @@
           <link href="<?php echo base_url()."assets/themes/jasny/css/jasny-bootstrap.css"?>" rel="stylesheet"/>
           <div class="padd">
+          <a href="<?php echo site_url().'vendor/all-products';?>" class="btn btn-sm btn-info">Back to products</a>
             <!-- Adding Errors -->
             <?php
             if(isset($error)){
@@ -22,6 +23,8 @@
 			$product_balance = $product[0]->product_balance;
 			$brand_name = $product[0]->brand_name;
 			$category_name = $product[0]->category_name;
+			$minimum_order_quantity = $product[0]->minimum_order_quantity;
+			$maximum_purchase_quantity = $product[0]->maximum_purchase_quantity;
             
             $validation_errors = validation_errors();
             
@@ -65,16 +68,16 @@
                     
                     <!-- product Name -->
                     <div class="form-group">
-                        <label class="col-lg-4 control-label">Product Name</label>
+                        <label class="col-lg-4 control-label">Product Name <span class="required">*</span></label>
                         <div class="col-lg-7">
-                            <input type="text" class="form-control" name="product_name" placeholder="Product Name" value="<?php echo $product_name;?>" required>
+                            <input type="text" class="form-control" name="product_name" placeholder="Product Name" value="<?php echo $product_name;?>">
                         </div>
                     </div>
                     <!-- Product Category -->
                     <div class="form-group">
-                        <label class="col-lg-4 control-label">Product Category</label>
+                        <label class="col-lg-4 control-label">Product Category <span class="required">*</span></label>
                         <div class="col-lg-7">
-                            <select name="category_id" id="category_id" class="form-control" required>
+                            <select name="category_id" id="category_id" class="form-control">
                                 <?php
                                 echo '<option value="0">No Category</option>';
                                 if($all_categories->num_rows() > 0)
@@ -101,7 +104,7 @@
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Product Brand</label>
                         <div class="col-lg-7">
-                            <select name="brand_id" class="form-control" required>
+                            <select name="brand_id" class="form-control">
                                 <?php
                                 echo '<option value="0">No Brand</option>';
                                 if($all_brands->num_rows() > 0)
@@ -129,28 +132,91 @@
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Product Buying Price</label>
                         <div class="col-lg-7">
-                            <input type="number" class="form-control" name="product_buying_price" placeholder="Product Buying Price" value="<?php echo $product_buying_price;?>" required>
+                            <input type="number" class="form-control" name="product_buying_price" placeholder="Product Buying Price" value="<?php echo $product_buying_price;?>">
                         </div>
                     </div>
                     <!-- Product Selling Price -->
                     <div class="form-group">
-                        <label class="col-lg-4 control-label">Product Selling Price</label>
+                        <label class="col-lg-4 control-label">Product Selling Price <span class="required">*</span></label>
                         <div class="col-lg-7">
-                            <input type="number" class="form-control" name="product_selling_price" placeholder="Product Selling Price" value="<?php echo $product_selling_price;?>" required>
+                            <input type="number" class="form-control" name="product_selling_price" placeholder="Product Selling Price" value="<?php echo $product_selling_price;?>">
                         </div>
                     </div>
                     <!-- Product Sale Price -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Sale % Off</label>
                         <div class="col-lg-7">
-                            <input type="number" class="form-control" name="product_sale_price" placeholder="Product Sale Price" value="<?php echo $sale_price;?>" required>
+                            <input type="number" class="form-control" name="product_sale_price" placeholder="Product Sale Price" value="<?php echo $sale_price;?>">
                         </div>
                     </div>
                     <!-- Product Balance -->
                     <div class="form-group">
-                        <label class="col-lg-4 control-label">Product Balance</label>
+                        <label class="col-lg-4 control-label">Product Balance <span class="required">*</span></label>
                         <div class="col-lg-7">
-                            <input type="number" class="form-control" name="product_balance" placeholder="Product Balance" value="<?php echo $product_balance;?>" required>
+                            <input type="number" class="form-control" name="product_balance" placeholder="Product Balance" value="<?php echo $product_balance;?>">
+                        </div>
+                    </div>
+                    <!-- Minimum order qty -->
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">Minimum Order Quantity</label>
+                        <div class="col-lg-7">
+                            <input type="number" class="form-control" name="minimum_order_quantity" placeholder="Minimum Order Quantity" value="<?php echo $minimum_order_quantity;?>">
+                        </div>
+                    </div>
+                    <!-- Maximum purchase qty -->
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">Maximum Purchase Quantity</label>
+                        <div class="col-lg-7">
+                            <input type="number" class="form-control" name="maximum_purchase_quantity" placeholder="Maximum Purchase Quantity" value="<?php echo $maximum_purchase_quantity;?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                
+                    <!-- Image -->
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">Product Image</label>
+                        <div class="col-lg-7">
+                            
+                            <div class="row">
+                            
+                                <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="height:160px;">
+                                    		<img src="<?php echo base_url()."assets/images/products/images/".$image;?>">
+                                        </div>
+                                        <div>
+                                            <span class="btn btn-file btn-info"><span class="fileinput-new">Select Image</span><span class="fileinput-exists">Change</span><input type="file" name="product_image"></span>
+                                            <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <!-- Gallery Images -->
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">Gallery Images</label>
+                        <div class="col-lg-7">
+                            <?php echo form_upload(array( 'name'=>'gallery[]', 'multiple'=>true, 'class'=>'btn'));?>
+                            <?php
+                            	if($gallery_images->num_rows() > 0)
+								{
+									$galleries = $gallery_images->result();
+									
+									foreach($galleries as $gal)
+									{
+										$thumb = $gal->product_image_thumb;
+										$product_image_id = $gal->product_image_id;
+										?>
+                                        <div class="col-md-4">
+                                        	<a href="<?php echo site_url()."admin/products/delete_gallery_image/".$product_image_id.'/'.$product_id;?>" style="color:red;"><img src="<?php echo base_url()."assets/images/products/gallery/".$thumb;?>"/>Delete</a>
+                                        </div>
+                                        <?php
+									}
+								}
+							?>
                         </div>
                     </div>
                     <!-- Activate checkbox -->
@@ -201,55 +267,6 @@
                             </div>
                         </div>
                     </div> 
-                </div>
-                <div class="col-md-6">
-                
-                    <!-- Image -->
-                    <div class="form-group">
-                        <label class="col-lg-4 control-label">Product Image</label>
-                        <div class="col-lg-7">
-                            
-                            <div class="row">
-                            
-                                <div class="col-md-4 col-sm-4 col-xs-4">
-                                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="height:160px;">
-                                    		<img src="<?php echo base_url()."assets/images/products/images/".$image;?>">
-                                        </div>
-                                        <div>
-                                            <span class="btn btn-file btn_pink"><span class="fileinput-new">Select Image</span><span class="fileinput-exists">Change</span><input type="file" name="product_image"></span>
-                                            <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                    <!-- Gallery Images -->
-                    <div class="form-group">
-                        <label class="col-lg-4 control-label">Gallery Images</label>
-                        <div class="col-lg-7">
-                            <?php echo form_upload(array( 'name'=>'gallery[]', 'multiple'=>true, 'class'=>'btn'));?>
-                            <?php
-                            	if($gallery_images->num_rows() > 0)
-								{
-									$galleries = $gallery_images->result();
-									
-									foreach($galleries as $gal)
-									{
-										$thumb = $gal->product_image_thumb;
-										$product_image_id = $gal->product_image_id;
-										?>
-                                        <div class="col-md-4">
-                                        	<a href="<?php echo site_url()."admin/products/delete_gallery_image/".$product_image_id.'/'.$product_id;?>" style="color:red;"><img src="<?php echo base_url()."assets/images/products/gallery/".$thumb;?>"/>Delete</a>
-                                        </div>
-                                        <?php
-									}
-								}
-							?>
-                        </div>
-                    </div>
                     
                     <!-- Features -->
                     <div class="form-group">
@@ -266,7 +283,7 @@
             	<div class="col-md-12">
                     <!-- Product Description -->
                     <div class="form-group">
-                      <label class="col-lg-2 control-label">Product Description</label>
+                      <label class="col-lg-2 control-label">Product Description <span class="required">*</span></label>
                       <div class="col-lg-10">
                         <textarea class="cleditor" name="product_description"><?php echo $product_description;?></textarea>
                       </div>

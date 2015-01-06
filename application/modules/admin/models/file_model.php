@@ -348,5 +348,51 @@ class File_model extends CI_Model
 			return TRUE;
 		}
 	}
+	
+	/*
+	*	Upload csv
+	*	@param string $upload_path
+	* 	@param string $field_name
+	*
+	*/
+	public function upload_csv($upload_path, $field_name)
+	{
+		$config = array(
+				'allowed_types' => 'csv|CSV',
+				'upload_path' => $upload_path,
+				'file_name' => md5(date('Y-m-d H:i:s'))
+			);
+			
+		$this->load->library('upload', $config);
+		
+		if ( ! $this->upload->do_upload($field_name))
+		{
+			// if upload fail, grab error
+			$upload_data = $this->upload->data();
+			$response['check'] = FALSE;
+			$response['error'] =  $this->upload->display_errors().'<br/>'.$upload_data['file_ext'].'<br/>'.$upload_data['file_path'];
+		}
+		
+		else
+		{
+			$file_upload_data = $this->upload->data();
+			$file_name = $file_upload_data['file_name'];
+			
+			$response['check'] = TRUE;
+			$response['file_name'] =  $file_name;
+		}
+		$upload_data = $this->upload->data();
+		$file_name = $upload_data['file_name'];
+		
+        unset($_FILES[$field_name]);
+		return $response;
+	}
+	
+	public function get_array_from_csv($path)
+	{
+		$csv = array_map('str_getcsv', file($path));
+		
+		return $csv;
+	}
 }
 ?>

@@ -287,6 +287,23 @@ padding:5px;height:83px; width:126px;}
     margin-bottom: 3px;
 }
 
+.fileUpload {
+	position: relative;
+	overflow: hidden;
+	margin: 10px;
+}
+.fileUpload input.upload {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+
 
 /* Media Queries */
 /* Desktops and laptops ----------- */

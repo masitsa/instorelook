@@ -9,6 +9,7 @@ class Categories_model extends CI_Model
 	public function all_categories()
 	{
 		$this->db->where('category_status = 1');
+		$this->db->order_by('category_name');
 		$query = $this->db->get('category');
 		
 		return $query;

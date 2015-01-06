@@ -6,6 +6,7 @@ class Products extends account {
 	var $products_path;
 	var $gallery_path;
 	var $features_path;
+	var $csv_path;
 	
 	function __construct()
 	{
@@ -21,6 +22,7 @@ class Products extends account {
 		$this->products_path = realpath(APPPATH . '../assets/images/products/images');
 		$this->gallery_path = realpath(APPPATH . '../assets/images/products/gallery');
 		$this->features_path = realpath(APPPATH . '../assets/images/features');
+		$this->csv_path = realpath(APPPATH . '../assets/csv');
 	}
     
 	/*
@@ -30,7 +32,7 @@ class Products extends account {
 	*/
 	public function index() 
 	{
-		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.created_by IN (0, '.$this->session->userdata('vendor_id').')';
+		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.created_by = '.$this->session->userdata('vendor_id');
 		$table = 'product, category, brand';
 		$segment = 3;
 		//pagination
@@ -95,13 +97,15 @@ class Products extends account {
 	{
 		//form validation rules
 		$this->form_validation->set_rules('product_name', 'Product Name', 'required|xss_clean');
-		$this->form_validation->set_rules('product_status', 'Product Status', 'required|xss_clean');
-		$this->form_validation->set_rules('product_buying_price', 'Product Buying Price', 'numeric|required|xss_clean');
+		$this->form_validation->set_rules('product_status', 'Product Status', 'xss_clean');
+		$this->form_validation->set_rules('product_buying_price', 'Product Buying Price', 'numeric|xss_clean');
 		$this->form_validation->set_rules('product_selling_price', 'Product Selling Price', 'numeric|required|xss_clean');
 		$this->form_validation->set_rules('product_description', 'Product Description', 'required|xss_clean');
-		$this->form_validation->set_rules('product_balance', 'Product Balance', 'numeric|required|xss_clean');
-		$this->form_validation->set_rules('brand_id', 'Product Brand', 'required|xss_clean');
+		$this->form_validation->set_rules('product_balance', 'Product Balance', 'greater_than[0]|required|xss_clean');
+		$this->form_validation->set_rules('brand_id', 'Product Brand', 'xss_clean');
 		$this->form_validation->set_rules('category_id', 'Product Category', 'required|xss_clean');
+		$this->form_validation->set_rules('minimum_order_quantity', 'Minimum Order Quantity', 'numeric|xss_clean');
+		$this->form_validation->set_rules('maximum_purchase_quantity', 'Maximum Purchase Quantity', 'numeric|xss_clean');
 		
 		//if form has been submitted
 		if ($this->form_validation->run())
@@ -210,13 +214,15 @@ class Products extends account {
 	{
 		//form validation rules
 		$this->form_validation->set_rules('product_name', 'Product Name', 'required|xss_clean');
-		$this->form_validation->set_rules('product_status', 'Product Status', 'required|xss_clean');
-		$this->form_validation->set_rules('product_buying_price', 'Product Buying Price', 'numeric|required|xss_clean');
+		$this->form_validation->set_rules('product_status', 'Product Status', 'xss_clean');
+		$this->form_validation->set_rules('product_buying_price', 'Product Buying Price', 'numeric|xss_clean');
 		$this->form_validation->set_rules('product_selling_price', 'Product Selling Price', 'numeric|required|xss_clean');
 		$this->form_validation->set_rules('product_description', 'Product Description', 'required|xss_clean');
-		$this->form_validation->set_rules('product_balance', 'Product Balance', 'numeric|required|xss_clean');
-		$this->form_validation->set_rules('brand_id', 'Product Brand', 'required|xss_clean');
+		$this->form_validation->set_rules('product_balance', 'Product Balance', 'greater_than[0]|required|xss_clean');
+		$this->form_validation->set_rules('brand_id', 'Product Brand', 'xss_clean');
 		$this->form_validation->set_rules('category_id', 'Product Category', 'required|xss_clean');
+		$this->form_validation->set_rules('minimum_order_quantity', 'Minimum Order Quantity', 'numeric|xss_clean');
+		$this->form_validation->set_rules('maximum_purchase_quantity', 'Maximum Purchase Quantity', 'numeric|xss_clean');
 		
 		//if form has been submitted
 		if ($this->form_validation->run())
@@ -291,7 +297,7 @@ class Products extends account {
 						
 						if($response)
 						{
-							$this->session->set_userdata('success_message', 'product updated successfully');
+							$this->session->set_userdata('success_message', 'Product updated successfully');
 							redirect('vendor/all-products');
 						}
 						
@@ -361,7 +367,7 @@ class Products extends account {
 			//delete image
 			$this->file_model->delete_file($this->products_path."\\".$image);
 			//delete thumbnail
-			$this->file_model->delete_file($this->products_path."\\thumb_".$image);
+			$this->file_model->delete_file($this->products_path."\\thumbnail_".$image);
 		}
 		
 		//delete gallery images
@@ -616,12 +622,81 @@ class Products extends account {
 	{
 		//export products in excel 
 		 $this->products_model->export_products();
-	
 	}
 	
-	function import_products(){
-		$this->load->view('products/bulk_import');
-		
+	function import_template()
+	{
+		//export products template in excel 
+		 $this->products_model->import_template();
+	}
+	
+	function import_categories()
+	{
+		//export product categories in excel 
+		$this->products_model->import_categories();
+	}
+	
+	function import_products()
+	{
+		//open the add new product
+		$v_data['title'] = 'Import Products';
+		$data['title'] = 'Import Products';
+		$data['content'] = $this->load->view('products/import_product', $v_data, true);
+		$this->load->view('account_template', $data);
+	}
+	
+	function do_products_import()
+	{
+		if(isset($_FILES['import_csv']))
+		{
+			if(is_uploaded_file($_FILES['import_csv']['tmp_name']))
+			{
+				//import products from excel 
+				$response = $this->products_model->import_csv_products($this->csv_path);
+				
+				if($response == FALSE)
+				{
+				}
+				
+				else
+				{
+					if($response['check'])
+					{
+						$v_data['import_response'] = $response['response'];
+					}
+					
+					else
+					{
+						$v_data['import_response_error'] = $response['response'];
+					}
+				}
+			}
+			
+			else
+			{
+				$v_data['import_response_error'] = 'Please select a file to import.';
+			}
 		}
+		
+		else
+		{
+			$v_data['import_response_error'] = 'Please select a file to import.';
+		}
+		
+		//open the add new product
+		$v_data['title'] = 'Import Products';
+		$data['title'] = 'Import Products';
+		$data['content'] = $this->load->view('products/import_product', $v_data, true);
+		$this->load->view('account_template', $data);
+	}
+	
+	public function check_export()
+	{
+		$this->load->dbutil();
+				
+		$query = $this->db->query("SELECT product.clicks, product.minimum_order_quantity, product.maximum_purchase_quantity, product.sale_price, product.featured, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_thumb_name, product.product_image_name, category.category_name, brand.brand_name FROM product, category, brand WHERE product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.created_by = ".$this->session->userdata('vendor_id'));
+		
+		echo $this->dbutil->csv_from_result($query);
+	}
 }
 ?>
