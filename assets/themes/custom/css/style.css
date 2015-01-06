@@ -16,7 +16,7 @@
 body {font-family: 'Century Gothic', sans-serif; font-size:1.5em;}
 
 /* Misc */
-.pull-right{float:right;}
+.pull-right{float:right; float: right; padding-top: 4px;}
 .pull-left{float:left;}
 .center-align{margin:0 auto; text-align:center;}
 .divider-line {margin: auto; z-index: 1; width: 165px; height: 2px; background-color:#ccc; margin-top:10px; margin-bottom:10px;}
@@ -75,7 +75,7 @@ nav .container-fluid{padding-left:0px;}
 .navbar-default .navbar-nav > li > a:hover { background-color: #f3f3f3;color: #404040;}
 .navbar-nav > li {}
 .navbar-nav > li::before {content: ''; position: absolute; height: 50%; left: 0; top: 25%;}
-.navbar-nav > li:first-child {border-left:none;}
+.navbar-nav > li:first-child {border-left:none; width: 158px;}
 .navbar-default .navbar-toggle{background-color:#f3f3f3; color:#404040; border:none;}
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{background-color:#f3f3f3; color:#404040; border:none;}
 .navbar-default .navbar-toggle .icon-bar{background-color: #fff;}
