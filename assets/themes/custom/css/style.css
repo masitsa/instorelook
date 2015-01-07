@@ -210,7 +210,11 @@ padding:5px;height:83px; width:126px;}
 
 /* Footer */
 .footer {border-bottom: 1px solid #cccccc;border-top: 1px solid #dddddd; height: auto;padding-bottom: 30px;position: relative;width: 100%;}
-.footer ul{list-style:none;}
+.footer ul {
+  list-style: none;
+  margin-left: -39px;
+}
+
 .footer a{color:#fff;}
 
 /* Footer Bottom */
@@ -363,3 +367,19 @@ and (min-width : 1824px) {
 	h1{font-size:1.3em;}
 	body {font-size:1.2em;}
 }
+
+
+
+
+
+
+/*Custom CSS over writting */
+.navbar-nav {
+float: left;
+}
+.navbar-nav {
+margin: 0px -22px;
+}
+
+/*end of the custom css*/
+

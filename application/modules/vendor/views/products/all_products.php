@@ -1,6 +1,47 @@
+<?php echo $this->load->view('vendor/search/search_products', '', TRUE); ?>
 <?php
+
+		$error = $this->session->userdata('error_message');
+		$success = $this->session->userdata('success_message');
+		$search_result ='';
+		$search_result2  ='';
+		if(!empty($error))
+		{
+			$search_result2 = '<div class="alert alert-danger">'.$error.'</div>';
+			$this->session->unset_userdata('error_message');
+		}
 		
-		$result = '<a href="'.site_url().'vendor/import-product" class="btn btn-success pull-right" style="margin-left:10px;">Import Product</a><a href="'.site_url().'vendor/export-product" class="btn btn-success pull-right" style="margin-left:10px;">Export Product</a></strong><a href="'.site_url().'vendor/add-product" class="btn btn-success pull-right">Add Product</a>';
+		if(!empty($success))
+		{
+			$search_result2 ='<div class="alert alert-success">'.$success.'</div>';
+			$this->session->unset_userdata('success_message');
+		}
+				
+		$search = $this->session->userdata('product_search');
+		
+		if(!empty($search))
+		{
+			$search_result = '<a href="'.site_url().'vendor/close-product-search" class="btn btn-success">Close Search</a>';
+		}
+
+
+		$result = '<div class="padd">';	
+		$result .= ''.$search_result2.'';
+		$result .= '
+					<div class="row" style="margin-bottom:8px;">
+						<div class="pull-left">
+						'.$search_result.'
+						</div>
+	            		<div class="pull-right">
+							<a href="'.site_url().'vendor/import-product" class="btn btn-success " style="margin-left:10px;">Import Product</a>
+							<a href="'.site_url().'vendor/export-product" class="btn btn-success " style="margin-left:10px;">Export Product</a>
+							<a href="'.site_url().'vendor/add-product" class="btn btn-success ">Add Product</a>
+						
+						</div>
+					</div>
+				';
+
+		
 		
 		//if users exist display them
 		if ($query->num_rows() > 0)
@@ -8,6 +49,7 @@
 			$count = $page;
 			$result .= 
 			'
+			<div class="row">
 				<table class="table table-hover table-bordered ">
 				  <thead>
 					<tr>
@@ -233,6 +275,7 @@
 			'
 						  </tbody>
 						</table>
+						</div>
 			';
 		}
 		
@@ -241,5 +284,6 @@
 			$result .= "There are no products";
 		}
 		
+		$result .= '</div>';
 		echo $result;
 ?>

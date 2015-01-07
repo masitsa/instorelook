@@ -208,7 +208,7 @@
                     <div class="form-group">
                       <label class="col-lg-2 control-label">Product Description <span class="required">*</span></label>
                       <div class="col-lg-10">
-                        <textarea class="cleditor" name="product_description"><?php echo set_value('product_description');?></textarea>
+                        <textarea name="product_description"><?php echo set_value('product_description');?></textarea>
                       </div>
                     </div>
             	</div>
@@ -246,8 +246,10 @@
                 </div>
             </div>
 		</div>
-
+<script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+<script>tinymce.init({selector:'textarea'});</script>
 <script type="text/javascript">
+
 	$(document).on("change","select#category_id",function()
 	{			
 		value = $(this).val();

@@ -34,6 +34,13 @@ class Products extends account {
 	{
 		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.created_by = '.$this->session->userdata('vendor_id');
 		$table = 'product, category, brand';
+
+		$product_search = $this->session->userdata('product_search');
+		
+		if(!empty($product_search))
+		{
+			$where .= $product_search;
+		}
 		$segment = 3;
 		//pagination
 		$this->load->library('pagination');
@@ -76,12 +83,33 @@ class Products extends account {
 		{
 			$v_data['query'] = $query;
 			$v_data['page'] = $page;
+			$v_data['all_categories'] = $this->categories_model->all_categories();
+			$v_data['all_brands'] = $this->brands_model->all_active_brands();
+			$v_data['features'] = $this->features_model->all_features_by_category(0);
 			$data['content'] = $this->load->view('products/all_products', $v_data, true);
 		}
 		
 		else
 		{
-			$data['content'] = '<a href="'.site_url().'vendor/export-product" class="btn btn-error pull-right">Export Product</a> <a href="'.site_url().'vendor/add-product" class="btn btn-success pull-right">Add Product <a>There are no products';
+			$search = $this->session->userdata('product_search');
+			$search_result = '';
+			if(!empty($search))
+			{
+				$search_result = '<a href="'.site_url().'vendor/close-product-search" class="btn btn-success">Close Search</a>';
+			}
+
+			$data['content'] = '
+								<div class="row" style="margin-bottom:8px;">
+									<div class="pull-left">
+									'.$search_result.'
+									</div>
+				            		<div class="pull-right">
+										<a href="'.site_url().'vendor/import-product" class="btn btn-success " style="margin-left:10px;">Import Product</a>
+										<a href="'.site_url().'vendor/export-product" class="btn btn-success " style="margin-left:10px;">Export Product</a>
+										<a href="'.site_url().'vendor/add-product" class="btn btn-success ">Add Product</a>
+									
+									</div>
+								</div>';
 		}
 		$data['title'] = 'All Products';
 		
@@ -697,6 +725,50 @@ class Products extends account {
 		$query = $this->db->query("SELECT product.clicks, product.minimum_order_quantity, product.maximum_purchase_quantity, product.sale_price, product.featured, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_thumb_name, product.product_image_name, category.category_name, brand.brand_name FROM product, category, brand WHERE product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.created_by = ".$this->session->userdata('vendor_id'));
 		
 		echo $this->dbutil->csv_from_result($query);
+	}
+	public function search_products()
+	{
+		$product_name = $this->input->post('product_name');
+		$product_code = $this->input->post('product_code');
+		$category_id = $this->input->post('category_id');
+		$brand_id = $this->input->post('brand_id');
+
+
+		if(!empty($product_name))
+		{
+			$product_name = ' AND product.product_name LIKE \'%'.mysql_real_escape_string($product_name).'%\' ';
+		}
+		
+		if(!empty($product_code))
+		{
+			$product_code = ' AND product.product_code LIKE \'%'.mysql_real_escape_string($product_code).'%\' ';
+		}
+
+		if(!empty($brand_id))
+		{
+			$brand_id = ' AND product.brand_id = '.$brand_id.'';
+		}
+		else
+		{
+			$brand_id = '';
+		}
+		if(!empty($category_id))
+		{
+			$category_id = ' AND product.category_id = '.$category_id.'';
+		}
+		else
+		{
+			$category_id = '';
+		}
+		$search = $product_name.$product_code.$brand_id.$category_id;
+		$this->session->set_userdata('product_search', $search);
+		
+		$this->index();
+	}
+	public function close_product_search($page = NULL)
+	{
+		$this->session->unset_userdata('product_search');
+		redirect('vendor/all-products');
 	}
 }
 ?>

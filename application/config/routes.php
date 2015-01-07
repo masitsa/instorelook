@@ -172,6 +172,8 @@ $route['vendor/deactivate-feature/(:num)'] = 'vendor/features/deactivate_feature
 *	Products Routes
 */
 $route['vendor/all-products'] = 'vendor/products/index';
+$route['vendor/search-products'] = 'vendor/products/search_products';
+$route['vendor/close-product-search'] = 'vendor/products/close_product_search';
 $route['vendor/add-product'] = 'vendor/products/add_product';
 $route['vendor/export-product'] = 'vendor/products/export_products';
 $route['vendor/import-product'] = 'vendor/products/import_products';
