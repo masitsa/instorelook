@@ -55,6 +55,32 @@ class Products_model extends CI_Model
 		
 		return $query;
 	}
+
+	/*
+	*	Retrieve all products
+	*	@param string $table
+	* 	@param string $where
+	*
+	*/
+	public function get_all_product_bundle($table, $where, $per_page, $page, $limit = NULL, $order_by = 'created_on', $order_method = 'DESC')
+	{
+		$this->db->from($table);
+		$this->db->select('*');
+		$this->db->where($where);
+		$this->db->order_by($order_by, $order_method);
+		
+		if(isset($limit))
+		{
+			$query = $this->db->get('', $limit);
+		}
+		
+		else
+		{
+			$query = $this->db->get('', $per_page, $page);
+		}
+		
+		return $query;
+	}
 	
 	/*
 	*	Add a new product
@@ -1173,6 +1199,148 @@ class Products_model extends CI_Model
 		}
 		
 		return $brand_id;
+	}
+	/*
+	*	Add a new product
+	*	@param string $image_name
+	*
+	*/
+	//public function add_product($image_name, $thumb_name)
+	public function add_product_bundle($image_name, $thumb_name)
+	{
+		
+		
+		$data = array(
+				'product_bundle_name'=>ucwords(strtolower($this->input->post('product_bundle_name'))),
+				'product_bundle_status'=>$this->input->post('product_bundle_status'),
+				'product_bundle_price'=>$this->input->post('product_bundle_price'),
+				'product_bundle_description'=>$this->input->post('product_bundle_description'),
+				'created_on'=>date('Y-m-d H:i:s'),
+				'created_by'=>$this->session->userdata('vendor_id'),
+				'last_modified_by'=>$this->session->userdata('vendor_id'),
+				'product_bundle_thumb_name'=>$thumb_name,
+				'product_bundle_image_name'=>$image_name
+			);
+			
+		if($this->db->insert('product_bundle', $data))
+		{
+			return $this->db->insert_id();
+		}
+		else{
+			return FALSE;
+		}
+	}
+	/*
+	*	Retrieve all products bundle items
+	*	@param string $table
+	* 	@param string $where
+	*
+	*/
+	public function get_all_product_bundle_items($table, $where, $per_page, $page, $limit = NULL, $order_by = 'created', $order_method = 'DESC')
+	{
+		$this->db->from($table);
+		$this->db->select('product_bundle_item.product_bundle_item_id,product.sale_price,product.product_thumb_name,product_bundle_item.product_bundle_item_status, product.product_image_name, product.featured, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_balance, product_bundle.product_bundle_id, product_bundle.product_bundle_name, product.product_id, product.product_name, product.product_code, product.brand_id, product.category_id, product_bundle_item.created, product_bundle_item.created_by, product_bundle_item.last_modified, product_bundle_item.modified_by, product_bundle.product_bundle_thumb_name, product_bundle.product_bundle_image_name, category.category_name, brand.brand_name');
+		$this->db->where($where);
+		$this->db->order_by($order_by, $order_method);
+		
+		if(isset($limit))
+		{
+			$query = $this->db->get('');
+		}
+		
+		else
+		{
+			$query = $this->db->get('');
+		}
+		
+		return $query;
+	}
+
+	public function get_product_bundle_details($bundle_id)
+	{
+		
+		$this->db->select('*');
+		$this->db->where('product_bundle.product_bundle_id ='.$bundle_id);
+		$this->db->order_by('product_bundle_id', 'DESC');
+		$query = $this->db->get('product_bundle');
+				
+		return $query;
+	}
+	public function add_product_to_bundle($product_id,$bundle_id)
+	{
+		$data = array(
+				'product_bundle_id'=>$bundle_id,
+				'product_id'=>$product_id,
+				'created'=>date('Y-m-d H:i:s'),
+				'created_by'=>$this->session->userdata('vendor_id'),
+				'modified_by'=>$this->session->userdata('vendor_id'),
+				'product_bundle_item_status'=>1
+			);
+			
+		if($this->db->insert('product_bundle_item', $data))
+		{
+			return $this->db->insert_id();
+		}
+		else{
+			return FALSE;
+		}
+	}
+	public function check_product_if_exists_in_bundle($product_id,$bundle_id)
+	{
+		$this->db->where('product_id = '.$product_id.' AND product_bundle_id = '.$bundle_id );
+		$query = $this->db->get('product_bundle_item');
+		
+		if($query->num_rows() > 0)
+		{
+			return TRUE;
+		}
+		
+		else
+		{
+			return FALSE;
+		}
+		
+	}
+	/*
+	*	Activate a deactivated product
+	*	@param int $product_id
+	*
+	*/
+	public function activate_product_from_bundle($product_bundle_item_id)
+	{
+		$data = array(
+				'product_bundle_item_status' => 1
+			);
+		$this->db->where('product_bundle_item_id', $product_bundle_item_id);
+		
+		if($this->db->update('product_bundle_item', $data))
+		{
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
+	
+	/*
+	*	Deactivate an activated product
+	*	@param int $product_id
+	*
+	*/
+	public function deactivate_product_from_bundle($product_bundle_item_id)
+	{
+		$data = array(
+				'product_bundle_item_status' => 0
+			);
+		$this->db->where('product_bundle_item_id', $product_bundle_item_id);
+		
+		if($this->db->update('product_bundle_item', $data))
+		{
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
 	}
 }
 ?>

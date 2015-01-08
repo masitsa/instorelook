@@ -23,6 +23,9 @@ class Products extends account {
 		$this->gallery_path = realpath(APPPATH . '../assets/images/products/gallery');
 		$this->features_path = realpath(APPPATH . '../assets/images/features');
 		$this->csv_path = realpath(APPPATH . '../assets/csv');
+
+		$this->product_bundle_path = realpath(APPPATH . '../assets/images/product_bundle/images');
+		$this->gallery_bundle_path = realpath(APPPATH . '../assets/images/product_bundle/gallery');
 	}
     
 	/*
@@ -86,6 +89,7 @@ class Products extends account {
 			$v_data['all_categories'] = $this->categories_model->all_categories();
 			$v_data['all_brands'] = $this->brands_model->all_active_brands();
 			$v_data['features'] = $this->features_model->all_features_by_category(0);
+
 			$data['content'] = $this->load->view('products/all_products', $v_data, true);
 		}
 		
@@ -773,6 +777,355 @@ class Products extends account {
 	{
 		$this->session->unset_userdata('product_search');
 		redirect('vendor/all-products');
+	}
+
+
+
+	/*
+	*
+	*	Default action is to show all the product bundle
+	*
+	*/
+	public function all_product_bundles() 
+	{
+		$where = 'product_bundle.created_by = '.$this->session->userdata('vendor_id');
+		$table = 'product_bundle';
+
+		$product_bundle_search = $this->session->userdata('product_bundle_search');
+		
+		if(!empty($product_bundle_search))
+		{
+			$where .= $product_bundle_search;
+		}
+		$segment = 3;
+		//pagination
+		$this->load->library('pagination');
+		$config['base_url'] = base_url().'vendor/all-product-bundle';
+		$config['total_rows'] = $this->users_model->count_items($table, $where);
+		$config['uri_segment'] = $segment;
+		$config['per_page'] = 20;
+		$config['num_links'] = 5;
+		
+		
+		$config['full_tag_open'] = '<ul class="pagination pull-right">';
+		$config['full_tag_close'] = '</ul>';
+		
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		
+		$config['next_tag_open'] = '<li>';
+		$config['next_link'] = 'Next';
+		$config['next_tag_close'] = '</span>';
+		
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_link'] = 'Prev';
+		$config['prev_tag_close'] = '</li>';
+		
+		$config['cur_tag_open'] = '<li class="active">';
+		$config['cur_tag_close'] = '</li>';
+		
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$this->pagination->initialize($config);
+		
+		$page = ($this->uri->segment($segment)) ? $this->uri->segment($segment) : 0;
+        $data["links"] = $this->pagination->create_links();
+		$query = $this->products_model->get_all_product_bundle($table, $where, $config["per_page"], $page);
+		
+		if ($query->num_rows() > 0)
+		{
+			$v_data['query'] = $query;
+			$v_data['page'] = $page;
+			$data['content'] = $this->load->view('products/all_product_bundle', $v_data, true);
+		}
+		
+		else
+		{
+			$search = $this->session->userdata('product_bundle_search');
+			$search_result = '';
+			if(!empty($search))
+			{
+				$search_result = '<a href="'.site_url().'vendor/close-product-bundle-search" class="btn btn-success">Close Search</a>';
+			}
+
+			$data['content'] = '
+								<div class="row" style="margin-bottom:8px;">
+									<div class="pull-left">
+									'.$search_result.'
+									</div>
+				            		<div class="pull-right">
+											<a href="'.site_url().'vendor/add-product-bundle" class="btn btn-success ">Add Product bundle</a>
+									
+									</div>
+								</div>';
+		}
+		$data['title'] = 'All Product Bundles';
+		
+		$this->load->view('account_template', $data);
+	}
+
+	/*
+	*
+	*	Add a new product
+	*
+	*/
+	public function add_product_bundle() 
+	{
+		//form validation rules
+		$this->form_validation->set_rules('product_bundle_name', 'Product Bundle Name', 'required|xss_clean');
+		$this->form_validation->set_rules('product_bundle_status', 'Product Bundle Status', 'xss_clean');
+		$this->form_validation->set_rules('product_bundle_price', 'Product Bundle Price', 'xss_clean');
+		$this->form_validation->set_rules('product_bundle_description', 'Product Bundle Description', 'required|xss_clean');
+		
+		//if form has been submitted
+		if ($this->form_validation->run())
+		{
+			//upload product's gallery images
+			$resize['width'] = 600;
+			$resize['height'] = 800;
+			
+			if(is_uploaded_file($_FILES['product_bundle_image']['tmp_name']))
+			{
+				$this->load->library('image_lib');
+				
+				$product_bundle_path = $this->product_bundle_path;
+				/*
+					-----------------------------------------------------------------------------------------
+					Upload image
+					-----------------------------------------------------------------------------------------
+				*/
+				$response = $this->file_model->upload_file($product_bundle_path, 'product_bundle_image', $resize);
+				if($response['check'])
+				{
+					$file_name = $response['file_name'];
+					$thumb_name = $response['thumb_name'];
+				}
+			
+				else
+				{
+					$this->session->set_userdata('error_message', $response['error']);
+					
+					/*$data['title'] = 'Add New User';
+					$v_data['all_categories'] = $this->categories_model->all_categories();
+					$v_data['all_brands'] = $this->brands_model->all_active_brands();
+					$v_data['features'] = $this->features_model->all_features_by_category(0);
+					$data['content'] = $this->load->view('products/add_product', $v_data, true);
+					$this->load->view('account_template', $data);*/
+					//break;
+					$break = TRUE;
+				}
+			}
+			
+			else{
+				$file_name = '';
+				$thumb_name = '';
+			}
+			
+			if(!isset($break))
+			{
+			
+				$product_bundle_id = $this->products_model->add_product_bundle($file_name, $thumb_name);
+				
+				if($product_bundle_id > 0)
+				{
+					//Libraries
+					$this->load->library('upload');
+					
+					
+					$response = $this->file_model->upload_gallery($product_bundle_id, $this->gallery_bundle_path, $resize);
+					
+					if($response)
+					{
+						$this->session->set_userdata('success_message', 'Product bundle added successfully');
+						redirect('vendor/all-product-bundle');
+					}
+					
+					else
+					{
+						if(isset($response['upload']))
+						{
+							$this->session->set_userdata('error_message', $error['upload'][0]);
+						}
+						else if(isset($response['resize']))
+						{
+							$this->session->set_userdata('error_message', $error['resize'][0]);
+						}
+						redirect('vendor/all-product-bundle');
+					}
+					
+				}
+				
+				else
+				{
+					$this->session->set_userdata('error_message', 'Could not add product. Please try again');
+				}
+			}
+		}
+		
+		//open the add new product
+		$data['title'] = 'Add New product bundle';
+		$data['content'] = $this->load->view('products/add_product_bundle', '' , true);
+		$this->load->view('account_template', $data);
+	}
+
+	public function add_product_bundle_items($bundle_id)
+	{
+		$where = 'product_bundle.product_bundle_id = product_bundle_item.product_bundle_id AND product_bundle.product_bundle_id = '.$bundle_id.' AND product_bundle.created_by = '.$this->session->userdata('vendor_id').' AND product.product_id = product_bundle_item.product_id AND product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.created_by = '.$this->session->userdata('vendor_id');
+		$table = 'product_bundle_item, product_bundle,brand, category, product';
+
+		$product_bundle_search = $this->session->userdata('product_bundle_search');
+		
+		if(!empty($product_bundle_search))
+		{
+			$where .= $product_bundle_search;
+		}
+		$segment = 3;
+		//pagination
+		$this->load->library('pagination');
+		$config['base_url'] = base_url().'vendor/all-product-bundle';
+		$config['total_rows'] = $this->users_model->count_items($table, $where);
+		$config['uri_segment'] = $segment;
+		$config['per_page'] = 20;
+		$config['num_links'] = 5;
+		
+		
+		$config['full_tag_open'] = '<ul class="pagination pull-right">';
+		$config['full_tag_close'] = '</ul>';
+		
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		
+		$config['next_tag_open'] = '<li>';
+		$config['next_link'] = 'Next';
+		$config['next_tag_close'] = '</span>';
+		
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_link'] = 'Prev';
+		$config['prev_tag_close'] = '</li>';
+		
+		$config['cur_tag_open'] = '<li class="active">';
+		$config['cur_tag_close'] = '</li>';
+		
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$this->pagination->initialize($config);
+		
+		$page = ($this->uri->segment($segment)) ? $this->uri->segment($segment) : 0;
+        $data["links"] = $this->pagination->create_links();
+		$query = $this->products_model->get_all_product_bundle_items($table, $where, $config["per_page"], $page);
+		
+		
+		$v_data['query'] = $query;
+		$v_data['page'] = $page;
+		$v_data['all_categories'] = $this->categories_model->all_categories();
+		$v_data['all_brands'] = $this->brands_model->all_active_brands();
+		$v_data['features'] = $this->features_model->all_features_by_category(0);
+		$v_data['bundle_query'] = $this->products_model->get_product_bundle_details($bundle_id);
+		$v_data['bundle_id'] = $bundle_id;
+		$data['content'] = $this->load->view('products/all_product_bundle_items', $v_data, true);
+		
+		
+		
+		$data['title'] = 'Product Bundles Items';
+		
+		$this->load->view('account_template', $data);
+	}
+
+	public function search_product_to_bundles($bundle_id)
+	{
+		$product_name = $this->input->post('product_name');
+		$product_code = $this->input->post('product_code');
+		$category_id = $this->input->post('category_id');
+		$brand_id = $this->input->post('brand_id');
+
+
+		if(!empty($product_name))
+		{
+			$product_name = ' AND product.product_name LIKE \'%'.mysql_real_escape_string($product_name).'%\' ';
+		}
+		
+		if(!empty($product_code))
+		{
+			$product_code = ' AND product.product_code LIKE \'%'.mysql_real_escape_string($product_code).'%\' ';
+		}
+
+		if(!empty($brand_id))
+		{
+			$brand_id = ' AND product.brand_id = '.$brand_id.'';
+		}
+		else
+		{
+			$brand_id = '';
+		}
+		if(!empty($category_id))
+		{
+			$category_id = ' AND product.category_id = '.$category_id.'';
+		}
+		else
+		{
+			$category_id = '';
+		}
+		$search = $product_name.$product_code.$brand_id.$category_id;
+		$this->session->set_userdata('product_to_bundle_search', $search);
+		
+		$this->add_product_bundle_items($bundle_id);
+	}
+	public function close_product_to_bundle_search($bundle_id)
+	{
+		$this->session->unset_userdata('product_to_bundle_search');
+		redirect('vendor/add-product-bundle-items/'.$bundle_id);
+	}
+	public function add_product_to_bundle($product_id,$bundle_id)
+	{
+		if(empty($product_id) || empty($bundle_id))
+		{
+			$this->session->set_userdata('error_message', 'Could not add product to bundle. Please try again');
+		}
+		else
+		{
+			$checker = $this->products_model->check_product_if_exists_in_bundle($product_id,$bundle_id);
+			if($checker == TRUE)
+			{
+				$this->session->set_userdata('error_message', 'This product exist in this bundle');
+			}
+			else
+			{
+				$this->products_model->add_product_to_bundle($product_id,$bundle_id);
+				redirect('vendor/add-product-bundle-items/'.$bundle_id);	
+			}
+			
+		}
+	}
+	/*
+	*
+	*	Activate an existing product
+	*	@param int $product_id
+	*
+	*/
+	public function activate_product_from_bundle($product_bundle_item_id,$bundle_id)
+	{
+		$this->products_model->activate_product_from_bundle($product_bundle_item_id);
+		$this->session->set_userdata('success_message', 'Product activated in bundle successfully');
+		redirect('vendor/add-product-bundle-items/'.$bundle_id);	
+	}
+    
+	/*
+	*
+	*	Deactivate an existing product
+	*	@param int $product_id
+	*
+	*/
+	public function deactivate_product_from_bundle($product_bundle_item_id,$bundle_id)
+	{
+		$this->products_model->deactivate_product_from_bundle($product_bundle_item_id);
+		$this->session->set_userdata('success_message', 'Product disabled from bundle successfully');
+		redirect('vendor/add-product-bundle-items/'.$bundle_id);	
 	}
 }
 ?>

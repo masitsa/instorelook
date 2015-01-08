@@ -186,6 +186,20 @@ $route['vendor/activate-product/(:num)'] = 'vendor/products/activate_product/$1'
 $route['vendor/deactivate-product/(:num)'] = 'vendor/products/deactivate_product/$1';
 
 /*
+*	Products Routes
+*/
+$route['vendor/all-product-bundle'] = 'vendor/products/all_product_bundles';
+$route['vendor/search-products-to-bundle/(:num)'] = 'vendor/products/search_product_to_bundles/$1';
+$route['vendor/close-product-to-bundle-search/(:num)'] = 'vendor/products/close_product_to_bundle_search/$1';
+$route['vendor/add-product-bundle'] = 'vendor/products/add_product_bundle';
+$route['vendor/add-product-bundle-items/(:num)'] = 'vendor/products/add_product_bundle_items/$1';
+$route['vendor/add-product-to-bundle/(:num)/(:num)'] = 'vendor/products/add_product_to_bundle/$1/$2';
+$route['vendor/activate-product-from-bundle/(:num)/(:num)'] = 'vendor/products/activate_product_from_bundle/$1/$2';
+$route['vendor/deactivate-product-from-bundle/(:num)/(:num)'] = 'vendor/products/deactivate_product_from_bundle/$1/$2';
+
+
+
+/*
 *	Brands Routes
 */
 $route['vendor/all-brands'] = 'vendor/brands/index';
