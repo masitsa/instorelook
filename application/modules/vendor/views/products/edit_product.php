@@ -25,6 +25,7 @@
 			$category_name = $product[0]->category_name;
 			$minimum_order_quantity = $product[0]->minimum_order_quantity;
 			$maximum_purchase_quantity = $product[0]->maximum_purchase_quantity;
+            $sale_price_type = $product[0]->sale_price_type;
             
             $validation_errors = validation_errors();
             
@@ -142,9 +143,47 @@
                             <input type="number" class="form-control" name="product_selling_price" placeholder="Product Selling Price" value="<?php echo $product_selling_price;?>">
                         </div>
                     </div>
-                    <!-- Product Sale Price -->
                     <div class="form-group">
+                         <label class="col-lg-4 control-label">Sale price type</label>
+                          <div class="col-lg-7">
+                            <?php
+                             if($all_discount_types->num_rows() > 0)
+                                {
+                                    $result = $all_discount_types->result();
+                                    
+                                    foreach($result as $res)
+                                    {
+                                        $type_id = $res->discount_type_id;
+
+                                        if($sale_price_type == $type_id)
+                                        {
+                                            ?>
+                                                <input type="radio" name="sale_price_type_id" value="<?php echo $res->discount_type_id?>" checked="checked" onclick="discount_type(<?php echo $res->discount_type_id?>)"><?php echo $res->discount_type_name;?>
+                                            <?php
+                                        }
+                                        else
+                                        {
+                                            ?>
+                                            <input type="radio" name="sale_price_type_id" value="<?php echo $res->discount_type_id?>" onclick="discount_type(<?php echo $res->discount_type_id?>)"><?php echo $res->discount_type_name;?>
+                                            <?php
+                                        }
+                                        
+                                    }
+                                }
+                              ?>
+                         
+                        </div>
+                    </div>
+                    <!-- Product Sale Price -->
+
+                    <div id="percentage_div" class="form-group" style="display:none;">
                         <label class="col-lg-4 control-label">Sale % Off</label>
+                        <div class="col-lg-7">
+                            <input type="number" class="form-control" name="product_sale_price" placeholder="Product Sale Price" value="<?php echo $sale_price;?>">
+                        </div>
+                    </div>
+                    <div id="amount_div" class="form-group" style="display:none;">
+                        <label class="col-lg-4 control-label">Amount $ off</label>
                         <div class="col-lg-7">
                             <input type="number" class="form-control" name="product_sale_price" placeholder="Product Sale Price" value="<?php echo $sale_price;?>">
                         </div>
@@ -285,7 +324,7 @@
                     <div class="form-group">
                       <label class="col-lg-2 control-label">Product Description <span class="required">*</span></label>
                       <div class="col-lg-10">
-                        <textarea class="cleditor" name="product_description"><?php echo $product_description;?></textarea>
+                         <textarea name="product_description"><?php echo $product_description;?></textarea>
                       </div>
                     </div>
             	</div>
@@ -323,8 +362,38 @@
                 </div>
             </div>
 		</div>
-
+<script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+<script>tinymce.init({selector:'textarea'});</script>
 <script type="text/javascript">
+    $(document).ready(function(){
+      discount_type(<?php echo $sale_price_type;?>);
+    });
+    function discount_type(id){
+
+        var myTarget1 = document.getElementById("percentage_div");
+        var myTarget2 = document.getElementById("amount_div");
+        if(id == 1)
+        {
+          myTarget1.style.display = 'none';
+          myTarget2.style.display = 'none';
+        }
+        else if(id == 2)
+        {
+          myTarget1.style.display = 'block';
+          myTarget2.style.display = 'none';
+        }
+        else if(id == 3)
+        {
+          myTarget1.style.display = 'none';
+          myTarget2.style.display = 'block';
+        }
+        else
+        {
+          myTarget1.style.display = 'none';
+          myTarget2.style.display = 'none';
+        }
+        
+    }
 	$(document).on("change","select#category_id",function()
 	{			
 		value = $(this).val();
