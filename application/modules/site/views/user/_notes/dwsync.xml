@@ -4,4 +4,8 @@
 <file name="my_details.php" server="148.251.2.43/public_html/clothes/" local="130520548639341238" remote="130520577000000000" Dst="0" />
 <file name="orders_list.php" server="148.251.2.43/public_html/clothes/" local="130520507213101793" remote="130520577000000000" Dst="0" />
 <file name="wishlist.php" server="148.251.2.43/public_html/clothes/" local="130520566778178720" remote="130520577000000000" Dst="0" />
+<file name="my_account.php" server="ftp.instorelook.com.au//public_html/development/" local="130520570339742430" remote="130651467000000000" Dst="0" />
+<file name="my_details.php" server="ftp.instorelook.com.au//public_html/development/" local="130520548639341238" remote="130651467000000000" Dst="0" />
+<file name="orders_list.php" server="ftp.instorelook.com.au//public_html/development/" local="130520507213101793" remote="130651467000000000" Dst="0" />
+<file name="wishlist.php" server="ftp.instorelook.com.au//public_html/development/" local="130520566778178720" remote="130651467000000000" Dst="0" />
 </dwsync>
