@@ -227,6 +227,7 @@ class Products extends account {
 		$data['title'] = 'Add New product';
 		$v_data['all_categories'] = $this->categories_model->all_categories();
 		$v_data['all_brands'] = $this->brands_model->all_active_brands();
+		$v_data['all_discount_types'] = $this->products_model->get_discount_types();
 		$v_data['features'] = $this->features_model->all_features_by_category(0);
 		$data['content'] = $this->load->view('products/add_product', $v_data, true);
 		$this->load->view('account_template', $data);
@@ -317,6 +318,8 @@ class Products extends account {
 				//update product
 				if($this->products_model->update_product($file_name, $thumb_name, $product_id))
 				{
+					$resize['width'] = 600;
+					$resize['height'] = 800;
 					$features_response = $this->products_model->save_features($product_id);
 					
 					if($features_response)
@@ -363,6 +366,7 @@ class Products extends account {
 			$v_data['all_brands'] = $this->brands_model->all_active_brands();
 			$v_data['features'] = $this->products_model->get_features($product_id);
 			$v_data['gallery_images'] = $this->products_model->get_gallery_images($product_id);
+			$v_data['all_discount_types'] = $this->products_model->get_discount_types();
 			$v_data['all_features'] = $this->features_model->all_features();
 			$v_data['product'] = $query->result();
 			$data['content'] = $this->load->view('products/edit_product', $v_data, true);

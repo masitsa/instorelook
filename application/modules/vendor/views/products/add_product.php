@@ -94,11 +94,37 @@
                             <input type="number" class="form-control" name="product_selling_price" placeholder="Product Selling Price" value="<?php echo set_value('product_selling_price');?>">
                         </div>
                     </div>
-                    <!-- Product Sle Price -->
                     <div class="form-group">
+                         <label class="col-lg-4 control-label">Sale price type</label>
+                          <div class="col-lg-7">
+                            <?php
+                             if($all_discount_types->num_rows() > 0)
+                                {
+                                    $result = $all_discount_types->result();
+                                    
+                                    foreach($result as $res)
+                                    {
+                                        ?>
+                                        <input type="radio" name="sale_price_type_id" value="<?php echo $res->discount_type_id?>" onclick="discount_type(<?php echo $res->discount_type_id?>)"><?php echo $res->discount_type_name;?>
+                                        <?php
+                                    }
+                                }
+                              ?>
+                         
+                        </div>
+                    </div>
+                    <!-- Product Sale Price -->
+
+                    <div id="percentage_div" class="form-group" style="display:none;">
                         <label class="col-lg-4 control-label">Sale % Off</label>
                         <div class="col-lg-7">
-                            <input type="number" class="form-control" name="product_sale_price" placeholder="Product Sale Price" value="<?php echo set_value('product_sale_price');?>">
+                            <input type="number" class="form-control" name="product_sale_price" placeholder="Product Sale Price" value="">
+                        </div>
+                    </div>
+                    <div id="amount_div" class="form-group" style="display:none;">
+                        <label class="col-lg-4 control-label">Amount $ off</label>
+                        <div class="col-lg-7">
+                            <input type="number" class="form-control" name="product_sale_price" placeholder="Product Sale Price" value="">
                         </div>
                     </div>
                     <!-- Product Balance -->
@@ -249,7 +275,32 @@
 <script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
 <script>tinymce.init({selector:'textarea'});</script>
 <script type="text/javascript">
+     function discount_type(id){
 
+        var myTarget1 = document.getElementById("percentage_div");
+        var myTarget2 = document.getElementById("amount_div");
+        if(id == 1)
+        {
+          myTarget1.style.display = 'none';
+          myTarget2.style.display = 'none';
+        }
+        else if(id == 2)
+        {
+          myTarget1.style.display = 'block';
+          myTarget2.style.display = 'none';
+        }
+        else if(id == 3)
+        {
+          myTarget1.style.display = 'none';
+          myTarget2.style.display = 'block';
+        }
+        else
+        {
+          myTarget1.style.display = 'none';
+          myTarget2.style.display = 'none';
+        }
+        
+    }
 	$(document).on("change","select#category_id",function()
 	{			
 		value = $(this).val();

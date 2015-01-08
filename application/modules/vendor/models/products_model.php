@@ -81,6 +81,7 @@ class Products_model extends CI_Model
 				'category_id'=>$this->input->post('category_id'),
 				'minimum_order_quantity'=>$this->input->post('minimum_order_quantity'),
 				'maximum_purchase_quantity'=>$this->input->post('maximum_purchase_quantity'),
+				'sale_price_type'=>$this->input->post('sale_price_type_id'),
 				'created'=>date('Y-m-d H:i:s'),
 				'created_by'=>$this->session->userdata('vendor_id'),
 				'modified_by'=>$this->session->userdata('vendor_id'),
@@ -118,6 +119,7 @@ class Products_model extends CI_Model
 				'category_id'=>$this->input->post('category_id'),
 				'minimum_order_quantity'=>$this->input->post('minimum_order_quantity'),
 				'maximum_purchase_quantity'=>$this->input->post('maximum_purchase_quantity'),
+				'sale_price_type'=>$this->input->post('sale_price_type_id'),
 				'modified_by'=>$this->session->userdata('vendor_id'),
 				'product_image_name'=>$file_name,
 				'product_thumb_name'=>$thumb_name
@@ -142,7 +144,7 @@ class Products_model extends CI_Model
 	{
 		//retrieve all users
 		$this->db->from('product, category, brand');
-		$this->db->select('product.minimum_order_quantity, product.maximum_purchase_quantity, product.sale_price, product.featured, product.product_thumb_name, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_image_name, category.category_name, brand.brand_name');
+		$this->db->select('product.minimum_order_quantity, product.maximum_purchase_quantity, product.sale_price, product.featured, product.product_thumb_name, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_image_name, category.category_name, brand.brand_name, product.sale_price_type');
 		$this->db->where('product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product_id = '.$product_id);
 		$query = $this->db->get();
 		
@@ -560,6 +562,18 @@ class Products_model extends CI_Model
 		return $query;
 	}
 	
+
+	/*
+	*	Retrieve latest products
+	*
+	*/
+	public function get_discount_types()
+	{
+		$this->db->select('*')->from('discount_type')->where("discount_type_status = 1")->order_by("discount_type_id", 'ACS');
+		$query = $this->db->get('',12);
+		
+		return $query;
+	}
 	/*
 	*	Retrieve featured products
 	*
