@@ -380,6 +380,8 @@ float: left;
 .navbar-nav {
 margin: 0px -22px;
 }
-
+.form-horizontal .control-label {
+padding-top: 0px;
+}
 /*end of the custom css*/
 

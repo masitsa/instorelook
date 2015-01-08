@@ -1,3 +1,13 @@
+<?php
+if(!empty($view_type))
+{
+	$add = '-to-bundle/'.$bundle_id;
+}
+else
+{
+	$add = '';
+}
+?>
 <div class="row" style="background-color:#fff; margin-bottom:5px;">
 	<!-- Widget -->
 	<div class="widget boxed" >
@@ -19,7 +29,7 @@
 				<?php
 				
 				
-				echo form_open("vendor/search-products", array("class" => "form-horizontal"));
+				echo form_open("vendor/search-products".$add, array("class" => "form-horizontal"));
 				
 	            
 	            ?>

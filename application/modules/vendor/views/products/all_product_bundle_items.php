@@ -1,6 +1,7 @@
-<?php 
-$v_data['view_type'] = 0;
-echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
+<?php  $product_bundle_id = $bundle_id;?>
+<?php echo $this->load->view('vendor/products/product_bundle_details', '', TRUE); ?>
+
+
 <?php
 
 		$error = $this->session->userdata('error_message');
@@ -19,11 +20,11 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 			$this->session->unset_userdata('success_message');
 		}
 				
-		$search = $this->session->userdata('product_search');
+		$search = $this->session->userdata('product_to_bundle_search');
 		
 		if(!empty($search))
 		{
-			$search_result = '<a href="'.site_url().'vendor/close-product-search" class="btn btn-success">Close Search</a>';
+			$search_result = '<a href="'.site_url().'vendor/close-product-to-bundle-search/'.$product_bundle_id.'" class="btn btn-success">Close Search</a>';
 		}
 
 
@@ -35,10 +36,8 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 						'.$search_result.'
 						</div>
 	            		<div class="pull-right">
-							<a href="'.site_url().'vendor/import-product" class="btn btn-success " style="margin-left:10px;">Import Product</a>
-							<a href="'.site_url().'vendor/export-product" class="btn btn-success " style="margin-left:10px;">Export Product</a>
-							<a href="'.site_url().'vendor/add-product" class="btn btn-success ">Add Product</a>
-						
+							<a id="open_div" onclick="open_div(1)" class="btn btn-success ">Add Product to bundle</a>
+							<a id="close_div" onclick="open_div(2)"  style="display:none;" class="btn btn-success ">Close add product to bundle</a>
 						</div>
 					</div>
 				';
@@ -88,7 +87,7 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 				$product_name = $row->product_name;
 				$product_buying_price = $row->product_buying_price;
 				$product_selling_price = $row->product_selling_price;
-				$product_status = $row->product_status;
+				$product_bundle_item_status = $row->product_bundle_item_status;
 				$product_description = $row->product_description;
 				$product_code = $row->product_code;
 				$product_balance = $row->product_balance;
@@ -102,6 +101,7 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 				$thumb = $row->product_thumb_name;
 				$category_name = $row->category_name;
 				$brand_name = $row->brand_name;
+				$product_bundle_item_id = $row->product_bundle_item_id;
 				$query = $this->products_model->get_gallery_images($product_id);
 				$galleries = '';
 				if ($query->num_rows() > 0)
@@ -117,7 +117,7 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 				}
 				
 				//status
-				if($product_status == 1)
+				if($product_bundle_item_status == 1)
 				{
 					$status = 'Active';
 				}
@@ -127,16 +127,16 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 				}
 				
 				//create deactivated status display
-				if($product_status == 0)
+				if($product_bundle_item_status == 0)
 				{
 					$status = '<span class="label label-danger">Deactivated</span>';
-					$button = '<a class="btn btn-info" href="'.site_url().'vendor/activate-product/'.$product_id.'" onclick="return confirm(\'Do you want to activate '.$product_name.'?\');">Activate</a>';
+					$button = '<a class="btn btn-info" href="'.site_url().'vendor/activate-product-from-bundle/'.$product_bundle_item_id.'/'.$product_bundle_id.'" onclick="return confirm(\'Do you want to activate '.$product_name.'?\');">Activate</a>';
 				}
 				//create activated status display
-				else if($product_status == 1)
+				else if($product_bundle_item_status == 1)
 				{
 					$status = '<span class="label label-success">Active</span>';
-					$button = '<a class="btn btn-default" href="'.site_url().'vendor/deactivate-product/'.$product_id.'" onclick="return confirm(\'Do you want to deactivate '.$product_name.'?\');">Deactivate</a>';
+					$button = '<a class="btn btn-default" href="'.site_url().'vendor/deactivate-product-from-bundle/'.$product_bundle_item_id.'/'.$product_bundle_id.'" onclick="return confirm(\'Do you want to deactivate '.$product_name.'?\');">Deactivate</a>';
 				}
 				
 				//creators & editors
@@ -224,22 +224,7 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 													<th>Description</th>
 													<td>'.$product_description.'</td>
 												</tr>
-												<tr>
-													<th>Date Created</th>
-													<td>'.date('jS M Y H:i a',strtotime($row->created)).'</td>
-												</tr>
-												<tr>
-													<th>Created By</th>
-													<td>'.$created_by.'</td>
-												</tr>
-												<tr>
-													<th>Date Modified</th>
-													<td>'.date('jS M Y H:i a',strtotime($row->last_modified)).'</td>
-												</tr>
-												<tr>
-													<th>Modified By</th>
-													<td>'.$modified_by.'</td>
-												</tr>
+												
 												<tr>
 													<th>product Image</th>
 													<td><img src="'.base_url()."assets/images/products/images/".$image.'" height="150" width="120"></td>
@@ -257,18 +242,16 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-											<a href="'.site_url().'vendor/edit-product/'.$product_id.'" class="btn btn-sm btn-success">Edit</a>
 											'.$button.'
-											<a href="'.site_url().'vendor/delete-product/'.$product_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$product_name.'?\');">Delete</a>
+											
 										</div>
 									</div>
 								</div>
 							</div>
 						
 						</td>
-						<td><a href="'.site_url().'vendor/edit-product/'.$product_id.'" class="btn btn-sm btn-success">Edit</a></td>
 						<td>'.$button.'</td>
-						<td><a href="'.site_url().'vendor/delete-product/'.$product_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$product_name.'?\');">Delete</a></td>
+						
 					</tr> 
 				';
 			}
@@ -283,9 +266,52 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 		
 		else
 		{
-			$result .= "There are no products";
+			$result .= "There are no product bundle items added";
 		}
 		
 		$result .= '</div>';
 		echo $result;
 ?>
+<div id ="div_to_open" style="display:none;">
+<?php
+
+$v_data['bundle_id'] = $bundle_id;
+echo $this->load->view('vendor/products/all_products_to_bundle', $v_data , TRUE); ?>
+</div>
+<?php
+$data =  $this->session->userdata('product_to_bundle_search');
+if(!empty($data))
+{
+	?>
+	<script type="text/javascript">
+		$(document).ready(function(){
+	    	open_div(1);	
+      	});
+	</script>
+	<?php
+}
+?>
+<script type="text/javascript">
+	
+     function open_div(id){
+      var myTarget1 = document.getElementById("div_to_open");
+      var myTarget2 = document.getElementById("open_div");
+      var myTarget3 = document.getElementById("close_div");
+
+      if(id == 1)
+      {
+      	myTarget1.style.display = 'block';
+      	myTarget3.style.display = 'block';
+      	myTarget2.style.display = 'none';
+      }
+      else
+      {
+      	myTarget1.style.display = 'none';
+      	myTarget2.style.display = 'block';
+      	myTarget3.style.display = 'none';
+      }
+      
+          
+        
+    }
+ </script>

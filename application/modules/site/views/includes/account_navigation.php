@@ -34,6 +34,7 @@
                                         <li><a href="<?php echo site_url().'vendor/all-categories';?>">Categories</a></li>
                                         <li><a href="<?php echo site_url().'vendor/all-features';?>">Features</a></li>
                                         <li><a href="<?php echo site_url().'vendor/all-products';?>">Products</a></li>
+                                        <li><a href="<?php echo site_url().'vendor/all-product-bundle';?>">Product Bundles</a></li>
                                         <!--<li class="divider"></li>
                                         <li class="divider"></li>
                                         <li><a href="#">One more separated link</a></li>-->

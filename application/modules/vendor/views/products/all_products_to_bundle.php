@@ -1,7 +1,61 @@
+
 <?php 
-$v_data['view_type'] = 0;
+$v_data['view_type'] = 2;
+
+$v_data['bundle_id'] = $bundle_id;
+
 echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 <?php
+
+		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.created_by = '.$this->session->userdata('vendor_id');
+		$table = 'product, category, brand';
+
+		$product_to_bundle_search = $this->session->userdata('product_to_bundle_search');
+
+		if(!empty($product_to_bundle_search))
+		{
+			$where .= $product_to_bundle_search;
+		}
+		$segment = 3;
+		//pagination
+		$this->load->library('pagination');
+		$config['base_url'] = base_url().'vendor/all-products';
+		$config['total_rows'] = $this->users_model->count_items($table, $where);
+		$config['uri_segment'] = $segment;
+		$config['per_page'] = 20;
+		$config['num_links'] = 5;
+
+
+		$config['full_tag_open'] = '<ul class="pagination pull-right">';
+		$config['full_tag_close'] = '</ul>';
+
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+
+		$config['next_tag_open'] = '<li>';
+		$config['next_link'] = 'Next';
+		$config['next_tag_close'] = '</span>';
+
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_link'] = 'Prev';
+		$config['prev_tag_close'] = '</li>';
+
+		$config['cur_tag_open'] = '<li class="active">';
+		$config['cur_tag_close'] = '</li>';
+
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$this->pagination->initialize($config);
+
+		$page = ($this->uri->segment($segment)) ? $this->uri->segment($segment) : 0;
+		$data["links"] = $this->pagination->create_links();
+		$query = $this->products_model->get_all_products($table, $where, $config["per_page"], $page);
+		$v_data['query'] = $query;
+		$v_data['page'] = $page;
+
 
 		$error = $this->session->userdata('error_message');
 		$success = $this->session->userdata('success_message');
@@ -35,9 +89,7 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 						'.$search_result.'
 						</div>
 	            		<div class="pull-right">
-							<a href="'.site_url().'vendor/import-product" class="btn btn-success " style="margin-left:10px;">Import Product</a>
-							<a href="'.site_url().'vendor/export-product" class="btn btn-success " style="margin-left:10px;">Export Product</a>
-							<a href="'.site_url().'vendor/add-product" class="btn btn-success ">Add Product</a>
+							
 						
 						</div>
 					</div>
@@ -59,8 +111,6 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 					  <th>Image</th>
 					  <th>Code</th>
 					  <th>Product Name</th>
-					  <th>Date Created</th>
-					  <th>Last Modified</th>
 					  <th>Status</th>
 					  <th colspan="5">Actions</th>
 					</tr>
@@ -169,8 +219,6 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 						<td><img src="'.base_url()."assets/images/products/images/".$thumb.'"></td>
 						<td>'.$product_code.'</td>
 						<td>'.$product_name.'</td>
-						<td>'.date('jS M Y H:i a',strtotime($row->created)).'</td>
-						<td>'.date('jS M Y H:i a',strtotime($row->last_modified)).'</td>
 						<td>'.$status.'</td>
 						<td>
 							
@@ -257,18 +305,15 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-											<a href="'.site_url().'vendor/edit-product/'.$product_id.'" class="btn btn-sm btn-success">Edit</a>
-											'.$button.'
-											<a href="'.site_url().'vendor/delete-product/'.$product_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$product_name.'?\');">Delete</a>
+											<a href="'.site_url().'vendor/add-product-to-bundle/'.$product_id.'" class="btn btn-sm btn-success"  onclick="return confirm(\'Do you really want to add '.$product_name.' to this bundle?\');">Add to bundle</a>
 										</div>
 									</div>
 								</div>
 							</div>
 						
 						</td>
-						<td><a href="'.site_url().'vendor/edit-product/'.$product_id.'" class="btn btn-sm btn-success">Edit</a></td>
-						<td>'.$button.'</td>
-						<td><a href="'.site_url().'vendor/delete-product/'.$product_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$product_name.'?\');">Delete</a></td>
+						<td><a href="'.site_url().'vendor/add-product-to-bundle/'.$product_id.'/'.$bundle_id.'" class="btn btn-sm btn-success"  onclick="return confirm(\'Do you really want to add '.$product_name.' to this bundle?\');">Add to bundle</a></td>
+
 					</tr> 
 				';
 			}
