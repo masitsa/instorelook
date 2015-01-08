@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "blog";
+$route['default_controller'] = "vendor/vendor_signin";
 $route['404_override'] = '';
 
 /*
