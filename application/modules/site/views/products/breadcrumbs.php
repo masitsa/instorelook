@@ -1,9 +1,10 @@
 
   <!-- Main component call to action -->
   
-  <div class="row" style="margin:0;">
-    <div class="breadcrumbDiv col-lg-12">
-      <ul class="breadcrumb" style="border-radius:0;">
+  <div class="row">
+  <div class="col-md-12">
+    <div class="breadcrumbDiv ">
+      <ul class="breadcrumb">
       	<?php
         	$total_crumbs = count($crumbs);
 			
@@ -21,5 +22,6 @@
 			}
 		?>
       </ul>
+    </div>
     </div>
   </div>  <!-- /.row  --> 

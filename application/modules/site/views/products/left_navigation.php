@@ -31,29 +31,33 @@
             
         	<!-- Filter Brand -->
         	<h4>Brand</h4>
-            <form action="<?php echo site_url().'products/filter-brands';?>" id="filter_brand" method="POST">
-            <?php
-                if($brands->num_rows() > 0)
-                {
-                    $brands_result = $brands->result();
-                    
-                    foreach($brands_result as $brand)
+            <div class="product-brand-filter">
+                <form action="<?php echo site_url().'products/filter-brands';?>" id="filter_brand" method="POST">
+                <?php
+                    if($brands->num_rows() > 0)
                     {
-                        $brand_name = $brand->brand_name;
-                        $brand_id = $brand->brand_id;
+                        $brands_result = $brands->result();
                         
-                        echo 
-                        '
-                            <div class="block-element">
-                                <label> <input type="checkbox" name="brand[]" value="'.$brand_id.'"  /> '.$brand_name.' </label>
-                            </div>
-            
-                        ';
+                        foreach($brands_result as $brand)
+                        {
+                            $brand_name = $brand->brand_name;
+                            $brand_id = $brand->brand_id;
+                            
+                            echo 
+                            '
+                                <div class="block-element">
+                                    <label> <input type="checkbox" name="brand[]" value="'.$brand_id.'"  /> '.$brand_name.' </label>
+                                </div>
+                
+                            ';
+                        }
                     }
-                }
-            ?>
-            <button type="submit" class="btn btn-primary">Filter Brands</button>
-            </form>
+                ?>
+                <div class="center-align">
+                    <button type="submit" class="btn btn-primary center-align">Filter Brands</button>
+                </div>
+                </form>
+            </div>
         	<!-- End: Filter Brand -->
 		</section>
     </div>

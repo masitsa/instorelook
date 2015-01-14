@@ -35,7 +35,7 @@ a:hover, a:visited, a:active{text-decoration:none;color: rgba(41,171,226,.75);}
 
 /* Form Elements */
 .form-horizontal{padding:20px 0 20px 0;}
-.form-control{border:none; border-radius:0px;border: 2px solid #fff; background-color:transparent; color:#fff;}
+.form-control{border:none; border-radius:0px;border: 2px solid #ccc; background-color:transparent; color:#404040;}
 .col-sm-8 .alert-danger{background-color: #F2DEDE; border-color: #EBCCD1; color: #A94442;}
 .form-control::-webkit-input-placeholder {color: #29abe2; font-style:italic;}
  /* Firefox 18- */
@@ -325,7 +325,12 @@ letter-spacing: 1px;
 
 /*2. styles */
 .main-container{margin-top:30px;}
-.category-product{margin-top:20px;}
+.category-product
+{
+  margin-top: 20px;
+  padding-left: 3px;
+  padding-right: 3px;
+}
 .item{padding:10px;}
 .price-details {border-top: 1px solid #29ABE2;margin-top: 10px; width:100%}
 .price-number {
@@ -393,7 +398,7 @@ padding: 5.5px 4px;
 border-radius: 0;
 }
 .top-navigation p{padding-top:7px; margin-bottom:0px;}
-
+.top-navigation  .form-control{border:none; border-radius:0px;border: 2px solid #fff; background-color:transparent; color:#fff;}
 /*4. Breadcrumbs*/
 .breadcrumb{background-color:#fff;}
 
@@ -1279,8 +1284,9 @@ box-shadow: 0 1px 2px rgba(71, 73, 72, 0.25);
 .product-content
 {
   background-color: #fff;
+  margin-bottom: 5px;
 }
-.product-price-filter, .product-brand
+.product-price-filter, .product-brand-filter
 {
   padding-left: 5px;
   padding-right: 5px;
