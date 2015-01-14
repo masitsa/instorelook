@@ -22,12 +22,12 @@
 	if($sale_price > 0)
 	{
 		$selling_price = $product_selling_price - ($product_selling_price * ($sale_price/100));
-		$price = '<span class="price-sales">KES '. number_format($selling_price, 0, '.', ',').'</span> <span class="price-standard">KES '. number_format($product_selling_price, 0, '.', ',').'</span> ';
+		$price = '<span class="price-sales" style="text-decoration: line-through;"> $ '. number_format($selling_price, 0, '.', ',').'</span> <span class="price-standard">$ '. number_format($product_selling_price, 0, '.', ',').'</span> ';
 	}
 	
 	else
 	{
-		$price = '<span class="price-sales">KES '. number_format($product_selling_price, 0, '.', ',').'</span>';
+		$price = '<span class="price-sales">$ '. number_format($product_selling_price, 0, '.', ',').'</span>';
 	}
 ?>
 <!-- styles needed by smoothproducts.js for product zoom  -->
@@ -39,270 +39,468 @@
   <?php echo $this->load->view('products/breadcrumbs');?>
   
   <div class="row transitionfx">
-  
+  <div class="product-info">
    <!-- left column -->
-    <div class="col-lg-6 col-md-6 col-sm-6">
-    	<!-- product Image and Zoom -->
+    <div class="col-lg-4 col-md-4 col-sm-4">
+    	<div class="product-images">
+                <div class="box">
+                   	<div id="main">
+						<div id="gallery">
+							<div id="slides">
+								<?php
+								if($product_images->num_rows() > 0)
+								{
+									$galleries = $product_images->result();
+									
+									foreach($galleries as $gal)
+									{
+										$thumb = $gal->product_image_thumb;
+										$image = $gal->product_image_name;
+										?>
+										<div class="slide"><img src="<?php echo base_url()."assets/images/products/gallery/".$image;?>" width="920" height="400" /></div>
+									<?php
+											}
+										}
+									?>
+							</div>
+							<div id="menu">
+								<ul>
+									<li class="fbar">&nbsp;</li>
+									
+									 <?php
+										if($product_images->num_rows() > 0)
+										{
+											$galleries = $product_images->result();
+											
+											foreach($galleries as $gal)
+											{
+												$thumb = $gal->product_image_thumb;
+												$image = $gal->product_image_name;
+												?>
+												<li class="menuItem"><a href="<?php echo base_url()."assets/images/products/gallery/".$image;?>"><img src="<?php echo base_url()."assets/images/products/gallery/".$image;?>" class="img-responsive" alt="img"/></a></li>
+								                
+												<?php
+											}
+										}
+									?>
+								</ul>
+							</div>
+						</div>
+					</div>
 
-    <div class="main-image sp-wrap col-lg-12 no-padding style2"> 
-    	<a href="<?php echo base_url()."assets/images/products/images/".$image;?>"><img src="<?php echo base_url()."assets/images/products/images/".$image;?>" class="img-responsive" alt="img"></a> 
-    <?php
-		if($product_images->num_rows() > 0)
-		{
-			$galleries = $product_images->result();
-			
-			foreach($galleries as $gal)
-			{
-				$thumb = $gal->product_image_thumb;
-				$image = $gal->product_image_name;
-				?>
-                <a href="<?php echo base_url()."assets/images/products/gallery/".$image;?>"><img src="<?php echo base_url()."assets/images/products/gallery/".$image;?>" class="img-responsive" alt="img"></a> 
-				<?php
-			}
-		}
-	?>
-      </div>
-    </div><!--/ left column end -->
+                    <div class="social">
+                        <div id="sharrre">
+                            <div class="facebook sharrre"><button class="btn btn-mini btn-facebook"><i  class="fa fa-facebook"></i></button></div>
+                            <div class="twitter sharrre"><button class="btn btn-mini btn-twitter"><i  class="fa fa-twitter"></i></button></div>
+                            <div class="googleplus sharrre"><button class="btn btn-mini btn-twitter"><i  class="fa fa-google-plus"></i> </button></div>                                                   
+                            <div class="pinterest sharrre"><button class="btn btn-mini btn-pinterest"><i  class="fa fa-pinterest"></i></button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <!--/ left column end -->
     
     
     <!-- right column -->
-    <div class="col-lg-6 col-md-6 col-sm-5">
-    
-      <h1 class="product-title"> <?php echo $product_name;?></h1>
-      <h3 class="product-code">Product Code : <?php echo $product_code;?></h3>
-      <div class="product-price"> 
-          <?php echo $price;?>
-      </div>
+    <div class="col-lg-8 col-md-8 col-sm-8">
+
+    	<div class="product-content">
+            <div class="box">
+
+                <!-- Tab panels' navigation -->
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#product" data-toggle="tab">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            <span class="hidden-phone">Product</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#description" data-toggle="tab">
+                       
+                        	 <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                           
+                            <span class="hidden-phone">Info</span>
+                        </a>
+                    </li>
+
+                    <li class="">
+                        <a href="#shipping" data-toggle="tab">
+                      
+                        <span class="glyphicon glyphicon-plane" aria-hidden="true"></span>
+                            
+                            <span class="hidden-phone">Shipping</span>
+                        </a>
+                    </li>
+
+                    <li class="">
+                        <a href="#returns" data-toggle="tab">
+                            <span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>
+                            <span class="hidden-phone">Returns</span>
+                        </a>
+                    </li>
+
+                    <li class="">
+                        <a href="#ratings" data-toggle="tab">
+                            <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                            <span class="hidden-phone">Ratings</span>
+                        </a>
+                    </li>
+                </ul>
+                <!-- End Tab panels' navigation -->
+                
+
+                <!-- Tab panels container -->
+                
+                <div class="tab-content">
+                    
+                    <!-- Product tab -->
+                    <div class="tab-pane active" id="product">
+                        <form enctype="multipart/form-data" action="#" onsubmit="return false;" method="post">
+                            
+                            <div class="details">
+                                <h1><?php echo $product_name;?>  </h1>
+                                <div class="prices"><span class="price"><?php echo $price;?></span></div>
+
+                                <div class="meta">
+                                    <div class="sku">
+                                    
+                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                        <span rel="tooltip" title="" data-original-title="SKU is 0092">Product Code : <?php echo $product_code;?></span>
+                                    </div>
+
+                                    <div class="categories">
+                                       <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>  <span><a href="" title="<?php echo $brand_name;?>"><?php echo $brand_name;?></a></span>, <a href="" title="<?php echo $category_name;?>"><?php echo $category_name;?></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="short-description">
+                                <p><?php echo $mini_desc;?></p>
+                            </div>
+                             <?php
+						      	//product features
+								if(($all_features->num_rows() > 0) && ($product_features->num_rows() > 0))
+								{
+									$feature = $all_features->result();
+									$product_feature = $product_features->result();
+								
+									$count = 0;
+									foreach($feature as $feat)
+									{	
+										//feature details
+										$feature_id = $feat->feature_id;
+										$feature_name = $feat->feature_name;
+										$count = 0;
+										
+										//product feature details
+										$feature_values = '';
+										
+										foreach($product_feature as $f)
+										{
+											$feat_id = $f->feature_id;
+											
+											if($feat_id == $feature_id)
+											{
+												$product_feature_id = $f->product_feature_id;
+												$name = $f->feature_value;
+												$price = $f->price;
+												$quantity = $f->quantity;
+												$image = $f->thumb;
+												//$image = '<img src="'. base_url().'assets/images/features/'.$f->thumb.'" alt="'.$name.'"/>';
+												
+												if(!empty($image))
+												{
+
+						                                        
+													//open section
+													if($count == 0)
+													{
+														$feature_values .= '
+														<div class="options">
+						                                	<div class="row-fluid">
+						                                    	<div class="span6">
+						                                    	<div class="control-group">
+
+						                                            <label for="product_options" class="control-label">'.$feature_name.'</label>
+						                                            <div class="controls">
+						                                               <ul class="swatches Color">';
+																		}
+																		//add values
+																		$feature_values .= '<li> <a ><img src="'. base_url().'assets/images/features/'.$image.'" alt="'.$name.'"/></a> </li>';
+																		//close section
+																		if($count == (count($product_feature) - 1))
+																		{
+																			$feature_values .= '
+																		</ul>
+						                                            </div>dd
+						                                        </div>
+						                                    </div>
+						                                </div>
+						                            </div>';
+													}
+												}
+												
+												else
+												{
+													//open section
+													if($count == 0)
+													{
+														$feature_values .= '
+														<div class="productFilter">
+															<div class="filterBox">
+																<select>';
+													}
+													//add values
+													$feature_values .= '<option value="'.$product_feature_id.'">'.$name.'"</option>';
+													//close section
+													if($count == (count($product_feature) - 1))
+													{
+														$feature_values .= '
+															</select>
+						        						</div>';
+													}
+													
+												}
+												
+												$count++;
+											}
+										}
+									}
+								}
+							  ?>
+                            
+
+                            <div class="add-to-cart">
+                                <button class="btn btn-primary btn-large" onclick="$('#added').modal('show')">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  &nbsp; Add to cart
+                                </button>
+                            </div>
+                        </form>						
+                    </div>
+                    <!-- End id="product" -->
+                    
+                    <!-- Description tab -->
+                    <div class="tab-pane" id="description">
+                        <?php echo $product_description;?>						
+                    </div>
+                    <!-- End id="description" -->
+
+                    <!-- Shipping tab -->
+                    <div class="tab-pane" id="shipping">
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
+                        <p><img class="img-polaroid" src="http://www.tfingi.com/repo/royal-mail.png" alt=""><img class="img-polaroid" src="http://www.tfingi.com/repo/ups-logo.png" alt=""></p>
+                        <p>Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                        <h6><em class="icon-gift"></em> Giftwrap?</h6>
+                        <p>Let us take care of giftwrapping your presents by selecting <strong>Giftwrap</strong> in the order process. Eligible items can be giftwrapped for as little as £0.99, and larger items may be presented in gift bags.</p>						
+                    </div>
+                    <!-- End id="shipping" -->
+
+                    <!-- Returns tab -->
+                    <div class="tab-pane" id="returns">
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                        <p class="lead">For any unwanted goods La Boutique offers a <strong>21-day return policy</strong>.</p>
+                        <p>If you receive items from us that differ from what you have ordered, then you must notify us as soon as possible using our <a href="#">online contact form</a>.</p>
+                        <p>If you find that your items are faulty or damaged on arrival, then you are entitled to a repair, replacement or a refund. Please note that for some goods it may be disproportionately costly to repair, and so where this is the case, then we will give you a replacement or a refund.</p>
+                        <p>Please visit our <a href="#">Warranty section</a> for more details.</p>						
+                    </div>
+                    <!-- End id="returns" -->
+
+                    
+                    <!-- Ratings tab -->
+                    <div class="tab-pane " id="ratings">
+                        <div class="ratings-items">
+
+                            <article class="rating-item">
+                                <div class="row-fluid">
+                                    <div class="span9">
+                                        <h5>Shaped for crush</h5>
+                                        <p>I hope they release some more colours of this dress. It feels great and looks sexier.<br>
+                                            <br>
+                                            I love it!</p>
+                                    </div>
+
+                                    <div class="span3">
+                                        <img src="img/thumbnails/avatar.png" class="gravatar" alt="">
+                                        <h6>Sam Ritora</h6>
+                                        <small>08/30/2013</small>
+                                        <div class="rating rating-5">
+                                            <i class="icon-heart"></i>
+                                            <i class="icon-heart"></i>
+                                            <i class="icon-heart"></i>
+                                            <i class="icon-heart"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+
+                            <hr>
+                        </div>
+
+                        <div class="well">
+                            <div class="row-fluid">
+                                <div class="span8">
+                                    <h6><i class="icon-comment-alt"></i> &nbsp; Share your opinion!</h6>
+                                    <p>Let other people know your thoughts on this product!</p>
+                                </div>
+                                <div class="span4">
+                                    <button class="btn btn-seconary btn-block" onclick="$('#review_form').modal('show')">Rate this product</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review modal window -->
+                        <div id="review_form" class="modal hide fade" tabindex="-1" role="dialog">
+                            <form enctype="multipart/form-data" action="/product/chaser-overalls" method="post">
+
+                                <input type="hidden" name="ls_session_key" value="lsk52286509c22077.63404603">		
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <div class="hgroup title">
+                                        <h3>Modal header</h3>
+                                        <h5>Modal header</h5>
+                                    </div>
+                                </div>
+
+                                <div class="modal-body">
+                                    <div class="row-fluid">
+                                        <div class="span6">
+                                            <div class="control-group">
+                                                <label class="control-label">Rating</label>
+                                                <div class="controls">
+                                                    <select class="span12" name="rate">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="span6">
+                                            <div class="control-group">
+                                                <label for="review_title" class="control-label">Review title</label>
+                                                <div class="controls">
+                                                    <input class="span12" id="review_title" name="review_title" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-fluid">
+                                        <div class="span6">
+                                            <div class="control-group">
+                                                <label for="review_author_name" class="control-label">Your name</label>
+                                                <div class="controls">
+                                                    <input class="span12" id="review_author_name" name="review_author_name" type="text" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="span6">
+                                            <div class="control-group">
+                                                <label for="review_author_email" class="control-label">Your email</label>
+                                                <div class="controls">
+                                                    <input class="span12" id="review_author_email" name="review_author_email" type="text" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <div class="control-group">
+                                                <label for="review_text" class="control-label">Review</label>
+                                                <div class="controls">
+                                                    <textarea class="span12" id="review_text" name="review_text"></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <div class="pull-right">
+                                        <button class="btn btn-primary" type="submit" onclick="">Submit product review</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- End id="review_form" -->
+
+                    </div>
+                    <!-- End id="ratings" -->
+                    
+                    
+                </div>                                            
+                <!-- End tab panels container -->
+                
+            </div>
+            
+        </div>
       
-      <div class="details-description">
-        <p><?php echo $mini_desc;?></p>
-      </div>
-      
-      <?php
-      	//product features
-		if(($all_features->num_rows() > 0) && ($product_features->num_rows() > 0))
-		{
-			$feature = $all_features->result();
-			$product_feature = $product_features->result();
-		
-			$count = 0;
-			foreach($feature as $feat)
-			{	
-				//feature details
-				$feature_id = $feat->feature_id;
-				$feature_name = $feat->feature_name;
-				$count = 0;
-				
-				//product feature details
-				$feature_values = '';
-				
-				foreach($product_feature as $f)
-				{
-					$feat_id = $f->feature_id;
-					
-					if($feat_id == $feature_id)
-					{
-						$product_feature_id = $f->product_feature_id;
-						$name = $f->feature_value;
-						$price = $f->price;
-						$quantity = $f->quantity;
-						$image = $f->thumb;
-						//$image = '<img src="'. base_url().'assets/images/features/'.$f->thumb.'" alt="'.$name.'"/>';
-						
-						if(!empty($image))
-						{
-							//open section
-							if($count == 0)
-							{
-								$feature_values .= '
-								<div class="color-details"> 
-									<span class="selected-color"><strong>'.$feature_name.'</strong></span>
-									<ul class="swatches Color">';
-							}
-							//add values
-							$feature_values .= '<li> <a ><img src="'. base_url().'assets/images/features/'.$image.'" alt="'.$name.'"/></a> </li>';
-							//close section
-							if($count == (count($product_feature) - 1))
-							{
-								$feature_values .= '
-									</ul>
-      							</div>';
-							}
-						}
-						
-						else
-						{
-							//open section
-							if($count == 0)
-							{
-								$feature_values .= '
-								<div class="productFilter">
-									<div class="filterBox">
-										<select>';
-							}
-							//add values
-							$feature_values .= '<option value="'.$product_feature_id.'">'.$name.'"</option>';
-							//close section
-							if($count == (count($product_feature) - 1))
-							{
-								$feature_values .= '
-									</select>
-        						</div>';
-							}
-							
-						}
-						
-						$count++;
-					}
-				}
-			}
-		}
-	  ?>
-      
-      <div class="cart-actions">
-        <div class="addto">
-        	<a href="<?php echo $product_id;?>" class="add_to_cart"><button class="button btn-cart cart first" title="Add to Cart" type="button">Add to Cart</button></a>
-          <!--<a class="link-wishlist wishlist add_to_wishlist" href="<?php echo $product_id;?>">Add to Wishlist</a> </div> -->
-          
-        <div style="clear:both"></div>
-        
-        <?php
-        	if($product_balance > 0)
-			{
-				echo '<h3 class="incaps"><i class="fa fa fa-check-circle-o color-in"></i> In stock</h3>';
-			}
-			
-			else
-			{
-				echo '<h3 style="display:none" class="incaps"><i class="fa fa-minus-circle color-out"></i> Out of stock</h3>';
-			}
-		?>
-        <h3 class="incaps"> <i class="glyphicon glyphicon-lock"></i> Secure online ordering</h3>
-      </div>
-      <!--/.cart-actions-->
-      
-      <div class="clear"></div>
-      
-      <div class="product-tab w100 clearfix">
-      
-        <ul class="nav nav-tabs">
-          <li class="active"><a href="#details" data-toggle="tab">Details</a></li>
-          <li><a href="#shipping" data-toggle="tab">How to Order</a></li>
-        </ul>
-        
-        <!-- Tab panes -->
-        <div class="tab-content">
-          <div class="tab-pane active" id="details">
-          	<?php echo $product_description;?>
-          </div>
-          
-          <div class="tab-pane" id="shipping">
-            <table >
-              <colgroup>
-              <col style="width:33%">
-              <col style="width:33%">
-              <col style="width:33%">
-              </colgroup>
-              <tbody>
-                <tr>
-                  <td>Browse for the items that you would liketo purchase</td>
-                </tr>
-                <tr>
-                  <td>Add the items to your cart</td>
-                </tr>
-                <tr>
-                  <td>If you would like to buy the items later add them to your wish list</td>
-                </tr>
-                <tr>
-                  <td>Proceed to checkout to confirm your order</td>
-                </tr>
-                <tr>
-                  <td>We will get back to you as soon as we receive your order</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colspan="3">* We offer free delivery for your order</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-          
-        </div> <!-- /.tab content -->
-        
-      </div><!--/.product-tab-->
-      
-      <div style="clear:both"></div>
-      
-      <div class="product-share clearfix">
-        <p> SHARE </p>
-        <div class="socialIcon"> 
-        	<a href="#"> <i  class="fa fa-facebook"></i></a> 
-            <a href="#"> <i  class="fa fa-twitter"></i></a> 
-            <a href="#"> <i  class="fa fa-google-plus"></i></a> 
-            <a href="#"> <i  class="fa fa-pinterest"></i></a> </div>
-      </div>
-      <!--/.product-share--> 
-      
-    </div><!--/ right column end -->
-    
+  	</div>
+  	<!--end of right column-->
+ 	
   </div>
-  <!--/.row-->
-  
-  <div class="row recommended">
-  
-    <h1> YOU MAY ALSO LIKE </h1>
-    
-    <div id="SimilarProductSlider">
-    	<?php
-        	if($similar_products->num_rows() > 0)
-			{
-				$product = $similar_products->result();
-				
-				foreach($product as $prods)
-				{
-					$sale_price = $prods->sale_price;
-					$thumb = $prods->product_image_name;
-					$product_id = $prods->product_id;
-					$product_name = $prods->product_name;
-					$product_price = $prods->product_selling_price;
-					$description = $prods->product_description;
-					$mini_desc = implode(' ', array_slice(explode(' ', $description), 0, 10));
-					$price = number_format($product_price, 2, '.', ',');
-					$sale = '';
-					
-					if($sale_price > 0)
-					{
-						$sale = '<div class="promotion"> <span class="discount">'.$sale_price.'% OFF</span> </div>';
-					}
-					
-					echo
-					'
-					<div class="item">
-						<div class="product"> <a class="product-image" href="'.site_url().'products/view-product/'.$product_id.'"> <img src="'.base_url().'assets/images/products/images/'.$thumb.'"  alt="img"> </a>
-						'.$sale.'
-						  <div class="description">
-							<h4><a href="san-remo-spaghetti">'.$product_name.'</a></h4>
-							<div class="price"> <span>KES '.$price.'</span> </div>
-						  </div>
-						</div>
-					  </div>
-					';
-				}
-			}
-		?>
-    </div><!--/.SimilarProductSlider-->
-  </div>  <!--/.recommended--> 
-  
-  
-  <div style="clear:both"></div>
-  
   
 </div> <!-- /main-container -->
 
 
 <div class="gap"></div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function(){
+    /* This code is executed after the DOM has been completely loaded */
 
+    var totWidth=0;
+    var positions = new Array();
+
+    $('#slides .slide').each(function(i){
+        /* Loop through all the slides and store their accumulative widths in totWidth */
+        positions[i]= totWidth;
+        totWidth += $(this).width();
+
+        /* The positions array contains each slide's commulutative offset from the left part of the container */
+
+        if(!$(this).width())
+        {
+            alert("Please, fill in width & height for all your images!");
+            return false;
+        }
+    });
+
+    $('#slides').width(totWidth);
+
+    /* Change the cotnainer div's width to the exact width of all the slides combined */
+
+    $('#menu ul li a').click(function(e){
+
+        /* On a thumbnail click */
+        $('li.menuItem').removeClass('act').addClass('inact');
+        $(this).parent().addClass('act');
+
+        var pos = $(this).parent().prevAll('.menuItem').length;
+
+        $('#slides').stop().animate({marginLeft:-positions[pos]+'px'},450);
+        /* Start the sliding animation */
+
+        e.preventDefault();
+        /* Prevent the default action of the link */
+    });
+
+    $('#menu ul li.menuItem:first').addClass('act').siblings().addClass('inact');
+    /* On page load, mark the first thumbnail as active */
+});
+
+
+</script>
 <!-- include smoothproducts // product zoom plugin  --> 
 <script type="text/javascript" src="<?php echo base_url()."assets/themes/tshop/";?>js/smoothproducts.min.js"></script> 

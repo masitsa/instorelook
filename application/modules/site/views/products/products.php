@@ -7,8 +7,9 @@
   	<?php echo $this->load->view('products/left_navigation');?>
     
     <!--right column-->
-    <div class="col-lg-9 col-md-9 col-sm-12">
-  		<?php echo $this->load->view('products/top_navigation');?>
+    <div class="col-lg-9 col-md-9 col-sm-12 product-content">
+
+  	  <?php echo $this->load->view('products/top_navigation');?>
       
       <?php
       /*if($product_sub_categories->num_rows() > 0)
@@ -124,6 +125,7 @@
           <?php if(isset($links)){echo $links;}?>
         </div>
       </div> <!--/.categoryFooter-->
+   
     </div><!--/right column end-->
   </div><!-- /.row  --> 
 </div>
