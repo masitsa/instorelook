@@ -8,13 +8,10 @@
     
     <!--right column-->
     <div class="col-lg-9 col-md-9 col-sm-12">
-    
-      <div class="w100 clearfix category-top">
-        <h2> PRODUCTS </h2>
-      </div><!--/.category-top-->
+  		<?php echo $this->load->view('products/top_navigation');?>
       
       <?php
-      if($product_sub_categories->num_rows() > 0)
+      /*if($product_sub_categories->num_rows() > 0)
 	  {
 		  ?>
           <div class="row subCategoryList clearfix">
@@ -46,28 +43,10 @@
 		  ?>
 		  </div><!--/.subCategoryList-->
 		  <?php
-	  }
+	  }*/
 	  ?>
       
-      <div class="w100 productFilter clearfix">
-        <p class="pull-left"> Showing <strong><?php echo $last;?></strong> products </p>
-        <div class="pull-right ">
-          <div class="change-order pull-right">
-            <select class="form-control" name="orderby" id="sort_products">
-              <option selected="created" >Default Sorting (Newness)</option>
-              <!-- <option value="popularity">Sort by popularity</option> 
-              <option value="rating">Sort by average rating</option>
-              <option value="product_date">Sort by newness</option> -->
-              <option value="price">Sort by Price: low to high</option>
-              <option value="price_desc">Sort by Price: high to low</option>
-            </select>
-          </div>
-          <div class="change-view pull-right"> 
-          <a href="#" title="Grid" class="grid-view"> <i class="fa fa-th-large"></i> </a> 
-          <a href="#" title="List" class="list-view "><i class="fa fa-th-list"></i></a> </div>
-        </div>
-      </div> <!--/.productFilter-->
-      <div class="row  categoryProduct xsResponse clearfix">
+      <div class="row category-product">
       
       	<?php
         	if($products->num_rows() > 0)
@@ -80,6 +59,7 @@
 					$thumb = $prods->product_image_name;
 					$product_id = $prods->product_id;
 					$product_name = $prods->product_name;
+					$brand_name = $prods->brand_name;
 					$product_price = $prods->product_selling_price;
 					$description = $prods->product_description;
 					$mini_desc = implode(' ', array_slice(explode(' ', $description), 0, 10));
@@ -88,7 +68,7 @@
 					
 					if($sale_price > 0)
 					{
-						$sale = '<div class="promotion"> <span class="discount">'.$sale_price.'% OFF</span> </div>';
+						$sale = '<div class="promotion"> <span class="discount">'.$sale_price.'% OFF</span> </div><div class="clear-both"></div>';
 					}
 					
 					echo
@@ -100,19 +80,32 @@
 							</div>
 							
 							<div class="description">
-								<h4><a href="'.site_url().'products/view-product/'.$product_id.'">'.$product_name.'</a></h4>
-								<p>'.$mini_desc.'</p>
+								<h4><a href="'.site_url().'products/view-product/'.$product_id.'">'.$brand_name.'</a></h4>
+								<h6><a href="'.site_url().'products/view-product/'.$product_id.'">'.$product_name.'</a></h6>
 								<!-- <span class="size">XL / XXL / S </span> -->
 							</div>
-							<div class="price"> 
-								<span>KES '.$price.'</span>
+							
+							<div class="price-details row">
+								
+								<div class="col-md-3 price-number">
+									<p>
+										<span class="rupees">$'.$price.'</span>
+									</p>
+								</div>
+								<div class="col-md-9 add-cart">
+									<h4>
+										<a class="add_to_cart" href="'.$product_id.'"><i class="glyphicon glyphicon-shopping-cart"> </i></a>
+										<a class="product_details" href="'.site_url().'products/view-product/'.$product_id.'">Details >></a>
+									</h4>
+								</div>
+								<div class="clear"></div>
 							</div>
 							
-							<div class="action-control">
+							<!--<div class="action-control">
 								<a class="btn btn-primary add_to_cart" href="'.$product_id.'"> 
 									<span class="add2cart"><i class="glyphicon glyphicon-shopping-cart"> </i> Add to cart </span> 
 								</a>
-							</div>
+							</div>-->
 						</div>
 					</div><!--/.item-->
 					';
@@ -129,9 +122,6 @@
       <div class="w100 categoryFooter">
         <div class="pagination pull-left no-margin-top">
           <?php if(isset($links)){echo $links;}?>
-        </div>
-        <div class="pull-right pull-right col-sm-4 col-xs-12 no-padding text-right text-left-xs">
-          <p>Showing <?php echo $first;?>–<?php echo $last;?> of <?php echo $total;?> results</p>
         </div>
       </div> <!--/.categoryFooter-->
     </div><!--/right column end-->

@@ -5,16 +5,15 @@ class Site extends MX_Controller {
 	function __construct()
 	{
 		parent:: __construct();
-		/*$this->load->model('admin/products_model');
-		$this->load->model('admin/categories_model');
-		$this->load->model('admin/features_model');
-		$this->load->model('admin/brands_model');
-		$this->load->model('admin/users_model');
+		$this->load->model('vendor/products_model');
+		$this->load->model('vendor/categories_model');
+		$this->load->model('vendor/features_model');
+		$this->load->model('vendor/brands_model');
 		$this->load->model('cart_model');
 		$this->load->model('admin/users_model');
-		$this->load->model('login/login_model');
+		//$this->load->model('login/login_model');
 		
-		$this->load->library('cart');*/
+		$this->load->library('cart');
 		$this->load->model('site/site_model');
 	}
     

@@ -188,7 +188,7 @@ class Site_model extends CI_Model
 		for($r = 0; $r < 5; $r++)
 		{
 			$end = $start + $interval;
-			$value = 'KES '.number_format(($start+1), 0, '.', ',').' - KES '.number_format($end, 0, '.', ',');
+			$value = '$'.number_format(($start+1), 0, '.', ',').' - $'.number_format($end, 0, '.', ',');
 			$range .= '<label> <input type="radio" name="agree" value="'.$start.'-'.$end.'"  /> '.$value.'</label> <br>';
 			
 			$start = $end;

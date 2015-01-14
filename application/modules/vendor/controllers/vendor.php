@@ -291,12 +291,13 @@ class Vendor extends MX_Controller {
 			$response = $this->vendor_model->send_account_verification_email($this->session->userdata('vendor_email'), $this->session->userdata('vendor_first_name'), $this->session->userdata('vendor_store_email'));
 			//new session array
 			$newdata = array(
-				   'login_status'   => TRUE,
+				   'vendor_login_status'   => TRUE,
 				   'first_name'     => $this->session->userdata('vendor_user_first_name'),
 				   'vendor_name'     => $this->session->userdata('vendor_name'),
 				   'email'     		=> $this->session->userdata('vendor_user_email'),
-				   'user_id' 		=> $vendor_id,
-				   'user_type_id'  	=> 2
+				   'vendor_id' 		=> $vendor_id,
+				   'vendor_activation_status'  	=> 0,
+				   'vendor_subscription_status'  	=> 1
 			   );
 			
 			//unset sign up session

@@ -308,6 +308,78 @@ padding:5px;height:83px; width:126px;}
 	filter: alpha(opacity=0);
 }
 
+/* Products page */
+
+/* 1. Left Nav */
+.left-nav h4 { background: none repeat scroll 0 0 #F7F7F7; border: 1px solid #E6E6E6; color: #555555; font-size: 0.9em; padding: 15px 15px; margin:0 0 10px 0; text-transform:uppercase; font-weight:normal; letter-spacing:1px;}
+
+/*2. styles */
+.main-container{margin-top:30px;}
+.category-product{margin-top:20px;}
+.item{padding:10px;}
+.price-details {border-top: 1px solid #29ABE2;margin-top: 10px; width:100%}
+.price-number {
+    float: left;
+    padding-top: 5px;
+}
+
+.add-cart {display: inline-block; padding-right:0;}
+.add-cart h4{float: right;  border-bottom: thin solid #29ABE2; border-right: thin solid #29ABE2; display:inline-flex; margin:0;}
+
+.add-cart h4 a.add_to_cart {
+    background: none repeat scroll 0 0 #29ABE2;
+    color: #FFFFFF;
+    font-size: 0.9em;
+    outline: 0 none;
+    padding: 10px 15px;
+    text-decoration: none;
+    transition: all 0.5s ease-in-out 0s;
+}
+
+.add-cart h4 a.product_details {
+    background: none repeat scroll 0 0 #fff;
+    color: #29ABE2;
+    font-size: 0.9em;
+    outline: 0 none;
+    padding: 10px 15px;
+    text-decoration: none;
+    transition: all 0.5s ease-in-out 0s;
+}
+
+.product .image img{height: 200px;}
+.promotion {
+    line-height: 18px;
+    border-radius: 4px;
+    bottom: 150px;
+    height: 24px;
+    left: 0;
+    position: absolute;
+    width: auto;
+    z-index: 10;
+}
+.promotion:after {clear:both}
+.discount {
+    background: none repeat scroll 0 0 rgba(255, 0, 48, 0.9) !important;
+    border-radius: 0 4px 4px 0;
+    color: #FFFFFF;
+    display: inline-block;
+    float: left;
+    font-family: Dosis;
+    font-size: 18px;
+    font-weight: 300;
+    height: 100%;
+    padding: 3px 5px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+}
+.product .row{margin:0;}
+
+/*3. top navigation */
+.top-navigation{background: none repeat scroll 0 0 #F7F7F7; border: 1px solid #E6E6E6; color: #555555; font-size: 0.9em; padding: 5.5px 4px; border-radius:0;}
+.top-navigation p{padding-top:7px; margin-bottom:0px;}
+
+/*4. Breadcrumbs*/
+.breadcrumb{background-color:#fff;}
+
 
 /* Media Queries */
 /* Desktops and laptops ----------- */

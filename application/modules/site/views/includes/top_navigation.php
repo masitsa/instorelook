@@ -30,7 +30,7 @@
 			$count++;
 			
 			$categories .= '<li class="dropdown-header">'.$res->category_name.'</li>
-			<li><a href="'.$res->category_id.'">All '.$res->category_name.'</a></li>
+			<li><a href="category/'.$res->category_id.'">All '.$res->category_name.'</a></li>
 			';
 			
 			if($all_categories->num_rows() > 0)
@@ -39,7 +39,7 @@
 				{
 					if($res->category_id == $cat_res->category_parent)
 					{
-						$categories .= '<li><a href="'.$cat_res->category_id.'">'.$cat_res->category_name.'</a></li>';
+						$categories .= '<li><a href="category/'.$cat_res->category_id.'">'.$cat_res->category_name.'</a></li>';
 					}
 				}
 			}

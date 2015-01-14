@@ -209,6 +209,61 @@ $route['vendor/delete-brand/(:num)'] = 'vendor/brands/delete_brand/$1';
 $route['vendor/activate-brand/(:num)'] = 'vendor/brands/activate_brand/$1';
 $route['vendor/deactivate-brand/(:num)'] = 'vendor/brands/deactivate_brand/$1';
 
+/*
+*	Products Routes
+*/
+$route['products/new-products'] = 'site/products/__/0/0/created/1';
+$route['products/new-category'] = 'site/products/__/0/0/created/0/1';
+$route['products/new-brand'] = 'site/products/__/0/0/created/0/0/1';
+$route['products/category/(:num)'] = 'site/products/__/$1';
+$route['products/brand/(:num)'] = 'site/products/__/0/$1';
+$route['products/category'] = 'site/products/__/0';
+$route['products/brand'] = 'site/products/__/0';
+$route['products/brand/(:num)'] = 'site/products/__/0/$1';
+$route['products/all-products'] = 'site/products/__/0';
+$route['products'] = 'site/products/__/0';
+$route['products/search'] = 'site/search';
+$route['products/search/(:any)'] = 'site/products/$1';
+$route['products/price-range/(:any)'] = 'site/products/__/0/0/created/0/0/0/$1';
+$route['products/filter-brands/(:any)'] = 'site/products/__/0/0/created/0/0/0/__/$1';
+$route['products/filter-brands'] = 'site/filter_brands';
+$route['products/sort-by/(:any)'] = 'site/products/__/0/0/$1';
+$route['products/view-product/(:num)'] = 'site/view_product/$1';
+
+/*
+*	Cart Routes
+*/
+$route['cart'] = 'site/cart/view_cart';
+$route['cart/delete-item/(:any)/(:num)'] = 'site/cart/delete_cart_item/$1/$2';
+$route['cart/update-cart'] = 'site/cart/update_cart';
+
+/*
+*	Account Routes
+*/
+$route['account'] = 'site/account/my_account';
+$route['account/orders-list'] = 'site/account/orders_list';
+$route['account/my-details'] = 'site/account/my_details';
+$route['account/wishlist'] = 'site/account/wishlist';
+$route['account/update-details'] = 'site/account/update_account';
+$route['account/update-password'] = 'site/account/update_password';
+$route['account/sign-out'] = 'login/logout_user';
+
+/*
+*	Checkout Routes
+*/
+$route['checkout'] = 'site/checkout/checkout_user';
+$route['checkout/register'] = 'site/checkout/register';
+$route['checkout/login'] = 'site/checkout/login_user/1';
+$route['checkout/my-details'] = 'site/checkout/my_details';
+$route['checkout/delivery'] = 'site/checkout/delivery';
+$route['checkout/payment'] = 'site/checkout/payment_options';
+$route['checkout/order'] = 'site/checkout/order_details';
+$route['checkout/add-delivery-instructions'] = 'site/checkout/add_delivery_instructions';
+$route['checkout/add-payment-options'] = 'site/checkout/add_payment_options';
+$route['checkout/confirm-order'] = 'site/checkout/confirm_order';
+
+$route['forgot-password'] = 'site/checkout/forgot_password';
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
