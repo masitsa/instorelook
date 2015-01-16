@@ -247,5 +247,90 @@ class Cart_model extends CI_Model
 		
 		return TRUE;
 	}
+	public function get_navigation($page_name)
+	{
+
+		// $page = explode("/",uri_string());
+		// $total = count($page);
+		
+		$name = $page_name;
+		
+		$billing = '';
+		$shipping = '';
+		$method = '';
+		$payment = '';
+		$review = '';
+		
+		if($name == 'billing')
+		{
+			$billing = 'active';
+		}
+		
+		else if($name == 'shipping')
+		{
+			$shipping = 'active';
+		}
+		
+		else if($name == 'method')
+		{
+			$method = 'active';
+		}
+		
+		else if($name == 'payment')
+		{
+			$payment = 'active';
+		}
+		
+		else if($name == 'review')
+		{
+			$review = 'active';
+		}
+		
+		else
+		{
+			$billing = 'active';
+		}
+		
+		$navigation = 
+		'
+
+		 	 	<li class="'.$billing.'">
+                    <a href="'.base_url().'checkout-progress/billing">
+                            <span class="glyphicon glyphicon-map-marker"></span>
+                            <span>Billing address</span>
+                     </a>
+                  	
+                </li>
+                <li class="'.$shipping.'">
+                    <a href="'.base_url().'checkout-progress/shipping">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                            <span>SHIPPING ADDRESS</span>
+                     </a>
+                </li>
+                 <li class="'.$method.'">
+                     <a href="'.base_url().'checkout-progress/method">
+                            <span class="glyphicon glyphicon-transfer glyphicon-large"></span>
+                            <span>SHIPPING METHOD</span>
+                     </a>
+                   
+                </li>
+                
+                 <li class="'.$payment.'">
+                 	 <a href="'.base_url().'checkout-progress/payment">
+                            <span class="glyphicon glyphicon-check"></span>
+                            <span>Payment Method</span>
+                     </a>
+                </li>
+                 <li class="'.$review.'">
+                     <a href="'.base_url().'checkout-progress/review">
+                            <span class="glyphicon glyphicon-search"></span>
+                            <span>ORDER REVIEW</span>
+                     </a>
+                </li>
+                
+		';
+		
+		return $navigation;
+	}
 }
 

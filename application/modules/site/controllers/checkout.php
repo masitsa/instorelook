@@ -29,7 +29,35 @@ class Checkout extends site {
 			$this->load->view('templates/general_page', $data);
 		
 	}
-    
+    /*
+	*
+	*	Open the checkout page
+	*
+	*/
+	public function checkout_progress($page_name = NULL)
+	{
+		//user has logged in
+		
+			//Required general page data
+			$v_data['all_children'] = $this->categories_model->all_child_categories();
+			$v_data['parent_categories'] = $this->categories_model->all_parent_categories();
+			$v_data['crumbs'] = $this->site_model->get_crumbs();
+			if($page_name == NULL)
+			{
+				$v_data['page_name'] = 'billing';
+			}
+			else
+			{
+				$v_data['page_name'] = $page_name;
+			}
+			
+			
+			$data['content'] = $this->load->view('checkout/checkout_progress', $v_data, true);
+			
+			$data['title'] = $this->site_model->display_page_title();
+			$this->load->view('templates/general_page', $data);
+		
+	}
 	/*
 	*
 	*	Register a front end user
