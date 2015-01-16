@@ -165,6 +165,7 @@
                                 <li><a href="#">Fashion</a></li>
                                 <li><a href="#">Beauty</a></li>
                                 <li><a href="#">Automotive</a></li>
+                                <li><a href="<?php echo site_url().'products';?>">Products</a></li>
                             </ul>
                         </div><!-- /.navbar-collapse -->
                     </div><!-- /.container-fluid -->

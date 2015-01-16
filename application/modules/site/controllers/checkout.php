@@ -17,13 +17,7 @@ class Checkout extends site {
 	public function checkout_user()
 	{
 		//user has logged in
-		if($this->login_model->check_login())
-		{
-			redirect('checkout/my-details');
-		}
 		
-		else
-		{
 			//Required general page data
 			$v_data['all_children'] = $this->categories_model->all_child_categories();
 			$v_data['parent_categories'] = $this->categories_model->all_parent_categories();
@@ -33,7 +27,7 @@ class Checkout extends site {
 			
 			$data['title'] = $this->site_model->display_page_title();
 			$this->load->view('templates/general_page', $data);
-		}
+		
 	}
     
 	/*
