@@ -17,6 +17,20 @@
                 
         		<div class="search-flights">
                 	<div class="divider-line"></div>
+                	<h1 class="center-align">Site Location Disclaimer</h1>
+                	<div class="divider-line" style="margin-bottom:2%;"></div>
+                    
+                    <p>
+                    	The Location Of Web Site (the "Site") is an online merchant service provider, developed and maintained by In Store Look ("Location Of") located in Sydney Australia, subject to your compliance with the terms and conditions set forth in "terms and conditions"
+                    </p>
+                    
+                    <p>
+                    	Established in 2013 and launched in Bryn's local area of Castle Hill.
+                    </p>
+                </div>
+                
+        		<div class="search-flights">
+                	<div class="divider-line"></div>
                 	<h1 class="center-align">Why Us</h1>
                 	<div class="divider-line" style="margin-bottom:2%;"></div>
                     

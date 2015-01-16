@@ -6,9 +6,11 @@
                     <div class="col-md-3">
                         <h3>Contacts</h3>
                         <ul>
-                            <li><a href="mailto:info@pbf.com"><span class="glyphicon glyphicon-envelope"></span> info@instorelook.com.au</a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-map-marker"></span> 123456</a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-phone"></span> (214) 616 886</a></li>
+                            <li><a href="">In Store Look</li>
+                            <li><a href="mailto:info@instorelook.com.au"><span class="glyphicon glyphicon-envelope"></span> info@instorelook.com.au</a></li>
+                            <li><a href="tel:0405486426"><span class="glyphicon glyphicon-phone"></span> 0405 486 426</a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-map-marker"></span> 16 Winchcombe Place<br/>Castle Hill, NSW<br/>2154<br/></a></li>
+                            <li><a href="#">ABN: 25 997 516 795</a></li>
                         </ul>
                         <div>
                             
@@ -30,11 +32,12 @@
                 
                     <!-- Quick Links -->
                     <div class="col-md-3">
-                        <h3>Customers</h3>
+                        <h3>Pages</h3>
                         <ul>
-                            <li><a href="#">Customer Sign Up</a></li>
-                            <li><a href="#">Customer Sign In</a></li>
-                            <li><a href="#">My Account</a></li>
+                            <li><a href="<?php echo site_url().'products';?>">Products</a></li>
+                            <li><a href="<?php echo site_url().'products/view-product/39';?>">Single Product</a></li>
+                            <li><a href="<?php echo site_url().'cart';?>">Cart</a></li>
+                            <li><a href="<?php echo site_url().'checkout';?>">Checkout</a></li>
                         </ul>
                     </div><!-- End Quick Links -->
                 
@@ -43,6 +46,7 @@
                         <h3>Quick Links</h3>
                         <ul>
                             <li><a href="<?php echo site_url().'about';?>">About</a></li>
+                            <li><a href="<?php echo site_url().'privacy';?>">Privacy</a></li>
                             <li><a href="<?php echo site_url().'terms';?>">Terms & Conditions</a></li>
                         </ul>
                     </div><!-- End Quick Links -->

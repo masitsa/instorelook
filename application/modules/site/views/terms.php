@@ -21,9 +21,8 @@ Any new features or tools which are added to the current store shall also be sub
                     <p>
 Our store is hosted on Shopify Inc. They provide us with the online e-commerce platform that allows us to sell our products and services to you.
                     </p>
-
-
-<h4>SECTION 1 - ONLINE STORE TERMS</h4>
+                    
+                    <h4>SECTION 1 - ONLINE STORE TERMS</h4>
 
 
                     <p>
@@ -176,7 +175,7 @@ You agree that your comments will not violate any right of any third-party, incl
 <h4>SECTION 10 - PERSONAL INFORMATION</h4>
 
                     <p>
-Your submission of personal information through the store is governed by our Privacy Policy. To view our Privacy Policy.
+Your submission of personal information through the store is governed by our <a href="<?php echo site_url().'privacy';?>">Privacy Policy.</a>
                     </p>
 
 
@@ -288,6 +287,31 @@ We reserve the right, at our sole discretion, to update, change or replace any p
 
                     <p>
 Questions about the Terms of Service should be sent to us at info@instorelook.com.au.
+                    </p>
+
+<h4>SECTION 21 - RETURN POLICY</h4>
+
+                    <p>
+When you order from a seller that fulfills and ships its own inventory (also called a third party seller), your return will be sent back to the seller instead of In Store Look. Some seller returns policies may vary. You can view each seller's return policy in the Online Returns Center or Company Profiles. All returns are subject to the third party seller unless stated upon purchase.
+                    </p>
+
+<h4>SECTION 22 - CANCELATION POLICY</h4>
+
+                    <p>
+A customer may cancel a product with a recurring billing subscription at any time. A cancellation means that no future payments are charged to the customer's account. The cancellation of a recurring billing product does not generate a refund - it will only stop any future payments.</p>
+<P>
+Monthly Subscription Products:
+If you've been charged for your product, your product will be canceled at the end of your current billing cycle. For our customers who have signed up for a free trial, if you are still in the free trial period, your product will be canceled immediately.
+                    </p>
+
+<h4>SECTION 23 - SITE DISCLAIMER</h4>
+
+                    <p>
+                    	The Location Of Web Site (the "Site") is an online merchant service provider, developed and maintained by In Store Look ("Location Of") located in Sydney Australia, subject to your compliance with the terms and conditions set forth in "terms and conditions"
+                    </p>
+                    
+                    <p>
+                    	Established in 2013 and launched in Bryn's local area of Castle Hill.
                     </p>
                 </div>
             </div>

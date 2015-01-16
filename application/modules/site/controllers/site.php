@@ -322,6 +322,20 @@ class Site extends MX_Controller {
     
 	/*
 	*
+	*	About Privacy
+	*
+	*/
+	public function privacy() 
+	{
+		//get page data
+		$data['content'] = $this->load->view('privacy', '', true);
+		
+		$data['title'] = $this->site_model->display_page_title();
+		$this->load->view('templates/general_page', $data);
+	}
+    
+	/*
+	*
 	*	About Page
 	*
 	*/
@@ -345,6 +359,20 @@ class Site extends MX_Controller {
 		$data['content'] = $this->load->view('terms', '', true);
 		
 		$data['title'] = $this->site_model->display_page_title();
+		$this->load->view('templates/general_page', $data);
+	}
+    
+	/*
+	*
+	*	About Privacy
+	*
+	*/
+	public function image() 
+	{
+		//get page data
+		$data['content'] = $this->load->view('image', '', true);
+		
+		$data['title'] = 'Image';//$this->site_model->display_page_title();
 		$this->load->view('templates/general_page', $data);
 	}
 }

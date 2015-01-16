@@ -46,6 +46,7 @@ $route['404_override'] = '';
 */
 $route['home'] = 'site/home_page';
 $route['about'] = 'site/about';
+$route['privacy'] = 'site/privacy';
 $route['terms'] = 'site/terms';
 
 /*
