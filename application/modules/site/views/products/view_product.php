@@ -41,8 +41,11 @@
   <div class="row transitionfx">
   <div class="product-info">
    <!-- left column -->
+
     <div class="col-lg-4 col-md-4 col-sm-4">
+
     	<div class="product-images">
+    			<h4>Product Image</h4>
                 <div class="box">
                    	<div id="main">
 						<div id="gallery">
@@ -106,6 +109,9 @@
     <div class="col-lg-8 col-md-8 col-sm-8">
 
     	<div class="product-content">
+    		<div class="product-content-header">
+    		<h4>Product details</h4>
+    		</div>
             <div class="box">
 
                 <!-- Tab panels' navigation -->
@@ -273,9 +279,34 @@
                             
 
                             <div class="add-to-cart">
-                                <button class="btn btn-primary btn-large" onclick="$('#added').modal('show')">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  &nbsp; Add to cart
-                                </button>
+                               
+                                <a href="#register" class="btn btn-primary btn-small" data-toggle="modal" data-target=".bs-example-modal-md">
+		                          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> &nbsp; Add to cart 
+		                          </a>
+		                          <!-- Large modal -->
+
+								<div class="modal fade bs-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+								  <div class="modal-dialog modal-md">
+								    <div class="modal-content">
+								      	 <div class="modal-header">
+						                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						                    <div class="hgroup title">
+						                        <h3>You're one step closer to owning this product!</h3>
+						                        <h5>"<?php echo $product_name;?>" has been added to your cart</h5>
+						                    </div>
+						                </div>
+						                <div class="modal-footer">	
+						                    <div class="pull-right">				
+						                        <a href="<?php echo site_url().'cart';?>" class="btn btn-primary btn-small">
+						                            Go to cart &nbsp; <span class="glyphicon glyphicon-arrow-right"></span>
+						                        </a>
+						                    </div>
+						                </div>
+						            
+								    </div>
+								  </div>
+								</div>
+
                             </div>
                         </form>						
                     </div>
@@ -350,6 +381,22 @@
                                 </div>
                             </div>
                         </div>
+                        <div  class="modal fade bs-example3-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                            <div class="hgroup title">
+	                                <h3>You're one step closer to owning this product!</h3>
+	                                <h5>"Chaser Overalls" has been added to your cart</h5>
+	                            </div>
+	                        </div>
+	                        <div class="modal-footer">	
+	                            <div class="pull-right">				
+	                                <a href="cart.html" class="btn btn-primary btn-small">
+	                                    Go to cart &nbsp; <i class="icon-chevron-right"></i>
+	                                </a>
+	                            </div>
+	                        </div>
+	                    </div>
 
                         <!-- Review modal window -->
                         <div id="review_form" class="modal hide fade" tabindex="-1" role="dialog">

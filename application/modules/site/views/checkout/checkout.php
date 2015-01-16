@@ -44,8 +44,9 @@
       <div class="row userInfo">
         <div class="col-xs-12 col-sm-6">
          
-            <div class="login">
-    <div class="box">
+            <div class="login-client">
+            <h4><i class="glyphicon glyphicon-user"></i>Customer Login</h4>
+             <div class="box">
         <form onsubmit="return false;" enctype="multipart/form-data" action="<?php echo site_url().'checkout/register';?>" method="post">
 
             <div class="hgroup title">
@@ -59,7 +60,7 @@
                         <div class="control-group">
                             <label class="control-label" for="login_email">Email : </label>
                             <div class="controls">
-                                <input class="col-sm-12" id="login_email" type="text" name="email" value="">
+                                <input class="form-control" id="login_email" type="text" name="email" value="">
                             </div>
                         </div>
                     </div>
@@ -68,7 +69,7 @@
                         <div class="control-group">         
                             <label class="control-label" for="login_password">Password :</label>
                             <div class="controls">
-                                <input class="col-sm-12" id="login_password" type="password" name="password">
+                                <input class="form-control" id="login_password" type="password" name="password">
                             </div>
                         </div>
                     </div>
@@ -92,7 +93,8 @@
         
         
         <div class="col-xs-12 col-sm-6">
-          <div class="register">
+          <div class="register-customer">
+                <h4><i class="glyphicon glyphicon-user"></i>Customer Registration</h4>
                <div class="box">
                   <div class="hgroup title">
                       <h3>Want to Register?</h3>
@@ -108,7 +110,8 @@
                     </div>
                 </div>
             </div>
-            <div class="guest">
+            <div class="guest-checkout">
+                <h4><i class="glyphicon glyphicon-user"></i>Guest Checkout</h4>
                 <div class="box">
                     <div class="hgroup title">
                         <h3>Checkout as Guest</h3>
@@ -117,7 +120,7 @@
 
                     <div class="buttons">
                         <div class="pull-left">
-                            <a class="btn btn-small" href="checkout.html">
+                            <a class="btn btn-primary btn-small" href="<?php echo base_url();?>checkout-progress">
                              Checkout as guest &nbsp; <i class="icon-chevron-right"></i>
                             </a>
                         </div>
@@ -155,7 +158,7 @@
                     <div class="control-group">
                         <label class="control-label" for="first_name">First name</label>
                         <div class="controls">
-                            <input class="col-sm-12" type="text" id="first_name" name="first_name" value="">
+                            <input class="form-control" type="text" id="first_name" name="first_name" value="">
                         </div>
                     </div>
                 </div>
@@ -164,7 +167,7 @@
                     <div class="control-group">
                         <label class="control-label" for="last_name">Last name</label>
                         <div class="controls">
-                            <input class="col-sm-12" type="text" id="last_name" name="last_name" value="">
+                            <input class="form-control" type="text" id="last_name" name="last_name" value="">
                         </div>
                     </div>
                 </div>
@@ -175,7 +178,7 @@
                     <div class="control-group">
                         <label class="control-label" for="email">Email address</label>
                         <div class="controls">
-                            <input class="col-sm-12" type="text" id="email" name="email" value="">
+                            <input class="form-control" type="text" id="email" name="email" value="">
                         </div>
                     </div>
                 </div>
@@ -186,7 +189,7 @@
                     <div class="control-group">
                         <label class="control-label" for="password">Password</label>
                         <div class="controls">
-                            <input class="col-sm-12" type="password" id="password" name="password" autocomplete="off">
+                            <input class="form-control" type="password" id="password" name="password" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -195,7 +198,7 @@
                     <div class="control-group">
                         <label class="control-label" for="password_confirm">Password confirm</label>
                         <div class="controls">
-                            <input class="col-sm-12" type="password" id="password_confirm" name="password_confirm" autocomplete="off">
+                            <input class="form-control" type="password" id="password_confirm" name="password_confirm" autocomplete="off">
                         </div>
                     </div>
                 </div>
