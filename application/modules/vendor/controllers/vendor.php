@@ -8,6 +8,7 @@ class Vendor extends MX_Controller {
 		$this->load->model('vendor_model');
 		$this->load->model('site/site_model');
 		$this->load->model('admin/file_model');
+		$this->load->model('site/cart_model');
 		
 		$this->load->library('image_lib');
 		$this->load->library('encrypt');

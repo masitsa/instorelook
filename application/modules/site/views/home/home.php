@@ -1,18 +1,25 @@
-
-    	<!-- Slider -->
-        <?php echo $this->load->view('home/slider', '', TRUE); ?>
+<div class="container">
+	<div class="row">
         
-    	<!-- New Arrivals -->
-        <?php echo $this->load->view('home/latest', '', TRUE); ?>
+    	<div class="col-md-12 col-lg-12" style="padding:0;">
+            <!-- Slider -->
+            <?php echo $this->load->view('home/slider', '', TRUE); ?>
+        </div>
+	</div>
+    
+    <div class="row">
         
-    	<!-- Parallax -->
-        <?php echo $this->load->view('home/paralax', '', TRUE); ?>
+    	<div class="col-md-3" style="padding:0; padding-right:15px;">
+        	<?php echo $this->load->view('home/home_left_navigation');?>
+        </div>
         
-    	<!-- Featured -->
-        <?php echo $this->load->view('home/featured', '', TRUE); ?>
-        
-    	<!-- Parallax 2 -->
-        <?php echo $this->load->view('home/paralax2', '', TRUE); ?>
-
-<!-- include custom script for only homepage  --> 
-<script src="<?php echo base_url().'assets/themes/tshop/';?>js/home.js"></script> 
+    	<div class="col-md-9 col-lg-9" style="padding:0;">
+            
+            <!-- New Arrivals -->
+            <?php echo $this->load->view('home/latest', '', TRUE); ?>
+            
+            <!-- Featured -->
+            <?php echo $this->load->view('home/featured', '', TRUE); ?>
+        </div>
+	</div>
+</div>

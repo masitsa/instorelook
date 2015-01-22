@@ -125,11 +125,11 @@ class Cart_model extends CI_Model
 								<td style="40%">
 									<div class="miniCartDescription">
 										<h4> <a href="#"> '.$items['name'].' </a> </h4>
-										<div class="price"> <span> KES '.number_format($items['price'], 0, '.', ',').' </span> </div>
+										<div class="price"> <span> $'.number_format($items['price'], 2, '.', ',').' </span> </div>
 									</div>
 								</td>
 								<td  style="10%" class="miniCartQuantity"><a > X '.$items['qty'].' </a></td>
-								<td  style="15%" class="miniCartSubtotal"><span> KES '.$total.' </span></td>
+								<td  style="15%" class="miniCartSubtotal"><span> $'.$total.' </span></td>
 								<td  style="5%" class="delete"><a style="color:red;" href='.$items['rowid'].' class="delete_cart_item"> <i class="glyphicon glyphicon-trash"></i> </a></td>
 							</tr>
 				';
@@ -204,17 +204,19 @@ class Cart_model extends CI_Model
 		
 		//create order
 		$data = array(
-					'user_id'=>$this->session->userdata('user_id'),
-					'created'=>date('Y-m-d H:i:s'),
-					'order_instructions'=>$this->session->userdata('delivery_instructions'),
-					'payment_method'=>$this->session->userdata('payment_option'),
+					'customer_id'=>$this->session->userdata('customer_id'),
+					'order_created'=>date('Y-m-d H:i:s'),
+					//'order_instructions'=>$this->session->userdata('delivery_instructions'),
+					//'payment_method'=>$this->session->userdata('payment_option'),
 					'order_number'=>$order_number,
-					'created_by'=>$this->session->userdata('user_id')
+					'order_created_by'=>$this->session->userdata('customer_id')
 				);
 				
 		if($this->db->insert('orders', $data))
 		{
 			$order_id = $this->db->insert_id();
+			$package_name = 'Order '.$order_number.': ';
+			$total_price = 0;
 			
 			//save order items
 			foreach ($this->cart->contents() as $items): 
@@ -226,23 +228,32 @@ class Cart_model extends CI_Model
 				$data = array(
 						'product_id'=>$cart_product_id,
 						'order_id'=>$order_id,
-						'quantity'=>$quantity,
-						'price'=>$price
+						'order_item_quantity'=>$quantity,
+						'order_item_price'=>$price
 					);
 					
 				if($this->db->insert('order_item', $data))
 				{
+					//get product name
+					$this->db->where('product_id = '.$cart_product_id);
+					$this->db->select('product_name');
+					$query = $this->db->get('product');
 					
+					if($query->num_rows() > 0)
+					{
+						$row = $query->row();
+						$package_name .= $row->product_name.', ';
+						$total_price += ($quantity * $price);
+					}
 				}
 			
 			endforeach; 
 			
-			//remove session data
-			$array_items = array('delivery_instructions' => '', 'payment_option' => '');
-			$this->session->unset_userdata($array_items);
+			//create return data
+			$return['package_name'] = $package_name;
+			$return['price'] = $total_price;
 			
-			//clear the shopping cart
-			$this->cart->destroy();
+			return $return;
 		}
 		
 		return TRUE;

@@ -4,7 +4,10 @@
   
   <div class="row">
   
-  	<?php echo $this->load->view('products/left_navigation');?>
+	<!--left column-->
+	<div class="col-lg-3 col-md-3 col-sm-12">
+  		<?php echo $this->load->view('products/left_navigation');?>
+    </div>
     
     <!--right column-->
     <div class="col-lg-9 col-md-9 col-sm-12 product-content">
@@ -95,7 +98,7 @@
 								</div>
 								<div class="col-md-9 add-cart">
 									<h4>
-										<a class="add_to_cart" href="'.$product_id.'"><i class="glyphicon glyphicon-shopping-cart"> </i></a>
+										<a class="add_to_cart" href="'.$product_id.'" product_id="'.$product_id.'"><i class="glyphicon glyphicon-shopping-cart"> </i></a>
 										<a class="product_details" href="'.site_url().'products/view-product/'.$product_id.'">Details >></a>
 									</h4>
 								</div>

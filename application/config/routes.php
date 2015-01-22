@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "vendor/vendor_signin";
+$route['default_controller'] = "site";
 $route['404_override'] = '';
 
 /*
@@ -254,6 +254,8 @@ $route['account/sign-out'] = 'login/logout_user';
 */
 $route['checkout'] = 'site/checkout/checkout_user';
 $route['checkout/register'] = 'site/checkout/register';
+$route['checkout/update-billing-details'] = 'site/checkout/update_billing_details';
+$route['checkout/update-shipping-details'] = 'site/checkout/update_shipping_details';
 $route['checkout/login'] = 'site/checkout/login_user/1';
 $route['checkout/my-details'] = 'site/checkout/my_details';
 $route['checkout-progress'] = 'site/checkout/checkout_progress';
@@ -264,6 +266,7 @@ $route['checkout/order'] = 'site/checkout/order_details';
 $route['checkout/add-delivery-instructions'] = 'site/checkout/add_delivery_instructions';
 $route['checkout/add-payment-options'] = 'site/checkout/add_payment_options';
 $route['checkout/confirm-order'] = 'site/checkout/confirm_order';
+$route['checkout/order-complete'] = 'site/checkout/order_complete';
 
 $route['forgot-password'] = 'site/checkout/forgot_password';
 

@@ -65,15 +65,15 @@
 
 <div class="box-footer">
     <div class="pull-left">
-        <a href="shipping.html" class="btn btn-small">
+        <a href="<?php echo site_url().'checkout-progress/shipping';?>" class="btn btn-default btn-small">
             <i class="icon-chevron-left"></i> &nbsp; Shipping address
         </a>
     </div>
 
     <div class="pull-right">                                                    
-        <button type="submit" class="btn btn-primary">
+        <a href="<?php echo site_url().'checkout-progress/payment';?>" class="btn btn-primary btn-small">
             Payment method &nbsp; <i class="icon-chevron-right"></i>
-        </button>
+        </a>
     </div>
 </div>					
 </div>

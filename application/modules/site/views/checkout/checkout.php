@@ -47,48 +47,48 @@
             <div class="login-client">
             <h4><i class="glyphicon glyphicon-user"></i>Customer Login</h4>
              <div class="box">
-        <form onsubmit="return false;" enctype="multipart/form-data" action="<?php echo site_url().'checkout/register';?>" method="post">
+        		<?php echo form_open('checkout/login');?>
 
-            <div class="hgroup title">
-                <h3>Customer login</h3>
-                <h5>Please login using your existing account</h5>
-            </div>
-
-            <div class="box-content">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="control-group">
-                            <label class="control-label" for="login_email">Email : </label>
-                            <div class="controls">
-                                <input class="form-control" id="login_email" type="text" name="email" value="">
-                            </div>
-                        </div>
+                    <div class="hgroup title">
+                        <h3>Customer login</h3>
+                        <h5>Please login using your existing account</h5>
                     </div>
-
-                    <div class="col-sm-6"> 
-                        <div class="control-group">         
-                            <label class="control-label" for="login_password">Password :</label>
-                            <div class="controls">
-                                <input class="form-control" id="login_password" type="password" name="password">
+        
+                    <div class="box-content">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="control-group">
+                                    <label class="control-label" for="login_email">Email : </label>
+                                    <div class="controls">
+                                        <input class="form-control" id="login_email" type="text" name="email" value="">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+        
+                            <div class="col-sm-6"> 
+                                <div class="control-group">         
+                                    <label class="control-label" for="login_password">Password :</label>
+                                    <div class="controls">
+                                        <input class="form-control" id="login_password" type="password" name="password">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
                     </div>
-                </div>  
+        
+                    <div class="buttons">
+                        <div class="pull-left">
+                            <a href="reset-password.html" class="btn btn-success btn-small">
+                                Reset my password
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-small" name="login" value="Login">
+                                Login
+                            </button>
+                        </div>
+                    </div>               
+                <?php echo form_close();?>
             </div>
-
-            <div class="buttons">
-                <div class="pull-left">
-                    <button type="submit" class="btn btn-success btn-small" name="login" value="Login">
-                        Login
-                    </button>
-                    <a href="reset-password.html" class="btn btn-primary btn-small">
-                        Reset my password
-                    </a>
-                </div>
-            </div>               
-        </form>   
-    </div>
-</div>
+        </div>
         </div>
         
         
@@ -141,7 +141,6 @@
   </div> <!--/row-->
             <div class="modal fade bs-example2-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                   <div class="modal-dialog modal-lg">
-                      <form onsubmit="return false;" enctype="multipart/form-data" action="#" method="post">
 
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -151,14 +150,14 @@
             </div>
         </div>
 
+		<?php echo form_open('checkout/register');?>
         <div class="modal-body">
-
             <div class="row">
                 <div class="col-sm-6">
                     <div class="control-group">
                         <label class="control-label" for="first_name">First name</label>
                         <div class="controls">
-                            <input class="form-control" type="text" id="first_name" name="first_name" value="">
+                            <input class="form-control" type="text" id="first_name" name="first_name" value="<?php echo set_value('first_name');?>">
                         </div>
                     </div>
                 </div>
@@ -167,18 +166,26 @@
                     <div class="control-group">
                         <label class="control-label" for="last_name">Last name</label>
                         <div class="controls">
-                            <input class="form-control" type="text" id="last_name" name="last_name" value="">
+                            <input class="form-control" type="text" id="last_name" name="last_name" value="<?php echo set_value('last_name');?>">
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                     <div class="control-group">
                         <label class="control-label" for="email">Email address</label>
                         <div class="controls">
-                            <input class="form-control" type="text" id="email" name="email" value="">
+                            <input class="form-control" type="text" id="email" name="email" value="<?php echo set_value('email');?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="control-group">
+                        <label class="control-label" for="email">Phone</label>
+                        <div class="controls">
+                            <input class="form-control" type="text" id="phone" name="phone" value="<?php echo set_value('phone');?>">
                         </div>
                     </div>
                 </div>
@@ -189,7 +196,7 @@
                     <div class="control-group">
                         <label class="control-label" for="password">Password</label>
                         <div class="controls">
-                            <input class="form-control" type="password" id="password" name="password" autocomplete="off">
+                            <input class="form-control" type="password" id="password" name="password" value="<?php echo set_value('password');?>" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -198,7 +205,7 @@
                     <div class="control-group">
                         <label class="control-label" for="password_confirm">Password confirm</label>
                         <div class="controls">
-                            <input class="form-control" type="password" id="password_confirm" name="password_confirm" autocomplete="off">
+                            <input class="form-control" type="password" id="password_confirm" name="password_confirm" value="<?php echo set_value('password_confirm');?>" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -210,8 +217,7 @@
                 Register now &nbsp; <i class="icon-ok"></i>
             </button>
         </div>                           
-
-    </form>
+		<?php echo form_close();?>
                   </div>
               </div>
   

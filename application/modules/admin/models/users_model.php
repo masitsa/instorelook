@@ -107,17 +107,16 @@ class Users_model extends CI_Model
 	public function add_frontend_user()
 	{
 		$data = array(
-				'first_name'=>ucwords(strtolower($this->input->post('first_name'))),
-				'other_names'=>ucwords(strtolower($this->input->post('other_names'))),
-				'email'=>$this->input->post('email'),
-				'password'=>md5($this->input->post('password')),
-				'phone'=>$this->input->post('phone'),
-				'created'=>date('Y-m-d H:i:s'),
-				'user_level_id'=>2,
+				'customer_first_name'=>ucwords(strtolower($this->input->post('first_name'))),
+				'customer_surname'=>ucwords(strtolower($this->input->post('last_name'))),
+				'customer_email'=>$this->input->post('email'),
+				'customer_password'=>md5($this->input->post('password')),
+				'customer_phone'=>$this->input->post('phone'),
+				'customer_created'=>date('Y-m-d H:i:s'),
 				'activated'=>1
 			);
 			
-		if($this->db->insert('users', $data))
+		if($this->db->insert('customer', $data))
 		{
 			return TRUE;
 		}

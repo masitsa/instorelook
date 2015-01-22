@@ -240,7 +240,7 @@
 																		{
 																			$feature_values .= '
 																		</ul>
-						                                            </div>dd
+						                                            </div>
 						                                        </div>
 						                                    </div>
 						                                </div>
@@ -280,7 +280,7 @@
 
                             <div class="add-to-cart">
                                
-                                <a href="#register" class="btn btn-primary btn-small" data-toggle="modal" data-target=".bs-example-modal-md">
+                                <a href="#register" product_id="<?php echo $product_id;?>" class="btn btn-primary btn-small add_to_cart" data-toggle="modal" data-target=".bs-example-modal-md">
 		                          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> &nbsp; Add to cart 
 		                          </a>
 		                          <!-- Large modal -->

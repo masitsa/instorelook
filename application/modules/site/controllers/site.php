@@ -13,7 +13,6 @@ class Site extends MX_Controller {
 		$this->load->model('admin/users_model');
 		//$this->load->model('login/login_model');
 		
-		$this->load->library('cart');
 		$this->load->model('site/site_model');
 	}
     
@@ -24,7 +23,7 @@ class Site extends MX_Controller {
 	*/
 	public function index() 
 	{
-		$this->load->view('includes/top_navigation');
+		redirect('home');
 	}
     
 	/*
@@ -43,7 +42,7 @@ class Site extends MX_Controller {
 		$data['content'] = $this->load->view('home/home', $v_data, true);
 		
 		$data['title'] = $this->site_model->display_page_title();
-		$this->load->view('templates/general_page', $data);
+		$this->load->view('templates/home_page', $data);
 	}
     
 	/*
@@ -96,7 +95,6 @@ class Site extends MX_Controller {
 		$v_data['product_sub_categories'] = $this->categories_model->get_sub_categories($category_id);
 		$v_data['all_children'] = $this->categories_model->all_child_categories();
 		$v_data['parent_categories'] = $this->categories_model->all_parent_categories();
-		$v_data['price_range'] = $this->site_model->generate_price_range();
 		
 		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product_status = 1 AND category_status = 1 AND brand_status = 1';
 		$table = 'product, category, brand';

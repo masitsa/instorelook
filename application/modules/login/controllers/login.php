@@ -50,7 +50,15 @@ class Login extends MX_Controller {
 	
 	public function logout_user()
 	{
-		$this->session->sess_destroy();
+		//create user's login session
+		$newdata = array(
+			   'customer_login_status'     => '',
+			   'customer_first_name'     => '',
+			   'email'     => '',
+			   'customer_id'     => '',
+			   'user_type_id'  => ''
+		   );
+		$this->session->unset_userdata($newdata);
 		$this->session->set_userdata('front_success_message', 'Your have been signed out of your account');
 		redirect('checkout');
 	}

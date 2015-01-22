@@ -3,17 +3,14 @@
 <file name="home.php" server="148.251.2.43/public_html/clothes/" local="130519575203788007" remote="130519575600000000" Dst="0" />
 <file name="slider.php" server="148.251.2.43/public_html/clothes/" local="130519576259228374" remote="130519576800000000" Dst="0" />
 <file name="latest.php" server="148.251.2.43/public_html/clothes/" local="130519589876997266" remote="130519645200000000" Dst="0" />
-<file name="paralax.php" server="148.251.2.43/public_html/clothes/" local="130519652788677618" remote="130519652400000000" Dst="0" />
 <file name="featured.php" server="148.251.2.43/public_html/clothes/" local="130519668129425058" remote="130519785000000000" Dst="0" />
 <file name="brands.php" server="148.251.2.43/public_html/clothes/" local="130519657210140511" remote="130519657200000000" Dst="0" />
 <file name="categories.php" server="148.251.2.43/public_html/clothes/" local="130517163611029487" remote="130519785000000000" Dst="0" />
-<file name="paralax2.php" server="148.251.2.43/public_html/clothes/" local="130517454785390381" remote="130519785000000000" Dst="0" />
 <file name="brands.php" server="ftp.instorelook.com.au//public_html/development/" local="130519657210140511" remote="130651466400000000" Dst="0" />
 <file name="categories.php" server="ftp.instorelook.com.au//public_html/development/" local="130517163611029487" remote="130651466400000000" Dst="0" />
-<file name="latest.php" server="ftp.instorelook.com.au//public_html/development/" local="130519589876997266" remote="130651466400000000" Dst="0" />
-<file name="home.php" server="ftp.instorelook.com.au//public_html/development/" local="130519575203788007" remote="130651466400000000" Dst="0" />
-<file name="paralax2.php" server="ftp.instorelook.com.au//public_html/development/" local="130517454785390381" remote="130651466400000000" Dst="0" />
-<file name="featured.php" server="ftp.instorelook.com.au//public_html/development/" local="130519668129425058" remote="130651466400000000" Dst="0" />
-<file name="paralax.php" server="ftp.instorelook.com.au//public_html/development/" local="130519652788677618" remote="130651466400000000" Dst="0" />
-<file name="slider.php" server="ftp.instorelook.com.au//public_html/development/" local="130519576259228374" remote="130651466400000000" Dst="0" />
+<file name="latest.php" server="ftp.instorelook.com.au//public_html/development/" local="130663959625124512" remote="130664140800000000" Dst="0" />
+<file name="home.php" server="ftp.instorelook.com.au//public_html/development/" local="130663885462892675" remote="130664106000000000" Dst="0" />
+<file name="featured.php" server="ftp.instorelook.com.au//public_html/development/" local="130663938776292027" remote="130664118600000000" Dst="0" />
+<file name="slider.php" server="ftp.instorelook.com.au//public_html/development/" local="130663954248166967" remote="130664134800000000" Dst="0" />
+<file name="home_left_navigation.php" server="ftp.instorelook.com.au//public_html/development/" local="130663939360555445" remote="130664119200000000" Dst="0" />
 </dwsync>

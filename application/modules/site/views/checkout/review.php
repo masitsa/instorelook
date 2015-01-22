@@ -11,15 +11,16 @@
         <div class="row">
             <div class="col-lg-12 col-md-12  col-sm-12">
                 <div class="cart-items">
+                        
                         <table class="styled-table">
                             <thead>
                                 <tr>
                                     <th class="col_product text-left">Product</th>
-                                    <th class="col_remove text-right">&nbsp;</th>
-                                    <th class="col_qty text-right">Qty</th>
-                                    <th class="col_single text-right">Single</th>
-                                    <th class="col_discount text-right">Discount</th>
-                                    <th class="col_total text-right">Total</th>
+                                    <th class="col_qty text-left">Qty</th>
+                                    <th class="col_single text-left">Price</th>
+                                    <th class="col_discount text-left">Discount</th>
+                                    <th class="col_total text-left">Total</th>
+                                    <th class="col_remove text-left">&nbsp;</th>
                                 </tr>
                             </thead>
 
@@ -63,28 +64,28 @@
 
                                             </td>
 
-                                            <td data-title="Remove" class="col_remove text-right">
+                                            <td data-title="Qty" class="col_qty text-left">
+                                                <input type="text" name="quantity'.$items['rowid'].'" value="'.$items['qty'].'" class="form-control quanitySniper">
+                                            </td>
+
+                                            <td data-title="Single" class="col_single text-left">
+                                                <span class="single-price">$'.number_format($items['price'], 0, '.', ',').'</span>
+                                            </td>
+
+                                            <td data-title="Discount" class="col_discount text-left">
+                                                <span class="single-price">$'.$discount.'</span>
+                                            </td>
+
+                                            <td data-title="Total" class="col_total text-left">
+                                                <span class="total-price">$'.$total.'</span>
+                                            </td>
+
+                                            <td data-title="Remove" class="col_remove text-left">
                                                 <a href="'.site_url().'cart/delete-item/'.$items['rowid'].'/2">
                                                
                                                    <span class=" glyphicon glyphicon-trash" aria-hidden="true"></span>
                                                   
                                                 </a>
-                                            </td>
-
-                                            <td data-title="Qty" class="col_qty text-right">
-                                                <input type="text" name="quantity'.$items['rowid'].'" value="">
-                                            </td>
-
-                                            <td data-title="Single" class="col_single text-right">
-                                                <span class="single-price">$ '.number_format($items['price'], 0, '.', ',').'</span>
-                                            </td>
-
-                                            <td data-title="Discount" class="col_discount text-right">
-                                                <span class="discount"> '.$discount.'</span>
-                                            </td>
-
-                                            <td data-title="Total" class="col_total text-right">
-                                                <span class="total-price">$ '.$total.'</span>
                                             </td>
                                         </tr>';
                                      
@@ -105,15 +106,15 @@
 
 <div class="box-footer">
     <div class="pull-left">
-        <a href="shipping.html" class="btn btn-small">
-            <i class="icon-chevron-left"></i> &nbsp; Shipping address
+        <a href="<?php echo site_url().'checkout-progress/payment';?>" class="btn btn-default btn-small">
+            <i class="icon-chevron-left"></i> &nbsp; Payment method
         </a>
     </div>
 
-    <div class="pull-right">                                                    
-        <button type="submit" class="btn btn-primary">
-            Payment method &nbsp; <i class="icon-chevron-right"></i>
-        </button>
+    <div class="pull-right">                            
+        <a href="<?php echo site_url().'checkout/confirm-order';?>" class="btn btn-primary btn-small">
+            Confirm Order &nbsp; <i class="icon-chevron-right"></i>
+        </a>
     </div>
 </div>					
 </div>

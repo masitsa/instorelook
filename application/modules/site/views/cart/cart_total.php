@@ -1,1 +1,1 @@
-<?php echo number_format($this->cart->total(), 0, '.', ',');?>
+<?php echo number_format($this->cart->total(), 2, '.', ',');?>

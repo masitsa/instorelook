@@ -18,6 +18,22 @@ class Login_model extends CI_Model
 			return FALSE;
 		}
 	}
+	/*
+	*	Check if user has logged in
+	*
+	*/
+	public function check_customer_login()
+	{
+		if($this->session->userdata('customer_login_status'))
+		{
+			return TRUE;
+		}
+		
+		else
+		{
+			return FALSE;
+		}
+	}
 	
 	/*
 	*	Validate a user's login request
@@ -55,6 +71,55 @@ class Login_model extends CI_Model
 		{
 			return FALSE;
 		}
+	}
+	
+	/*
+	*	Validate a customer's login request
+	*
+	*/
+	public function validate_customer()
+	{
+		//select the user by email from the database
+		$this->db->select('*');
+		$this->db->where(array('customer_email' => $this->input->post('email'), 'activated' => 1, 'customer_password' => md5($this->input->post('password'))));
+		$query = $this->db->get('customer');
+		
+		//if users exists
+		if ($query->num_rows() > 0)
+		{
+			$result = $query->result();
+			//create user's login session
+			$newdata = array(
+                   'customer_login_status'     => TRUE,
+                   'customer_first_name'     => $result[0]->customer_first_name,
+                   'email'     => $result[0]->customer_email,
+                   'customer_id'     => $result[0]->customer_id,
+                   'user_type_id'  => 3
+               );
+
+			$this->session->set_userdata($newdata);
+			
+			//update user's last login date time
+			$this->update_customer_login($result[0]->customer_id);
+			return TRUE;
+		}
+		
+		//if user doesn't exist
+		else
+		{
+			return FALSE;
+		}
+	}
+	
+	/*
+	*	Update customer's last login date
+	*
+	*/
+	private function update_customer_login($customer_id)
+	{
+		$data['customer_last_login'] = date('Y-m-d H:i:s');
+		$this->db->where('customer_id', $customer_id);
+		$this->db->update('customer', $data); 
 	}
 	
 	/*

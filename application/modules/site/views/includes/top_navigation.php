@@ -79,6 +79,8 @@
                             <a class="navbar-brand" href="#">Categories</a>
                             </button>
                         </div>
+                        
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-cart"> <i class="fa fa-shopping-cart colorWhite"> </i> <span class="cartRespons colorWhite" id="menu_cart_total"> Cart (KES <?php echo $this->load->view('site/cart/cart_total', '', TRUE);?>) </span> </button>
                 
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse js-navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -167,6 +169,7 @@
                                 <li><a href="#">Automotive</a></li>
                                 <li><a href="<?php echo site_url().'products';?>">Products</a></li>
                             </ul>
+                            <?php echo $this->load->view('site/cart/mini_cart', '', TRUE);?>
                         </div><!-- /.navbar-collapse -->
                     </div><!-- /.container-fluid -->
                 </nav>

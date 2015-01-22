@@ -86,7 +86,7 @@
         <!-- WOW --> 
         <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/wow.min.js"></script> 
         <!-- Retina -->
-        <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/retina.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/retina.min.js"></script>-->
         <!-- Owl Carousel -->
         <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/owl.carousel.min.js"></script>
         <!-- Smooth Scroll -->
@@ -94,3 +94,85 @@
         <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/smooth-scroll.js"></script>
         <!-- Custom --> 
         <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/custom.js"></script> 
+
+		<script type="text/javascript">
+        //Add to cart
+        $(document).on("click","a.add_to_cart",function()
+        {
+            var product_id = $(this).attr('product_id');
+			
+            $.ajax({
+                type:'POST',
+                url: '<?php echo site_url();?>site/cart/add_item/'+product_id,
+                cache:false,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success:function(data){
+                    
+                    if(data.result == "success")
+                    {
+                        var total = 'Cart ($'+data.cart_total+')';
+                        var sub_total = 'Subtotal: $'+data.cart_total;
+                        
+                        $("#menu_cart_total").html(total);
+                        $("#menu_cart_sub_total").html(sub_total);
+                        
+                        $("#mini_menu_cart_total").html(total);
+                        $("#mini_menu_cart_sub_total").html(sub_total);
+                        
+                        $("#menu_cart").html(data.cart_items);
+                        $("#mini_menu_cart").html(data.cart_items);
+                    }
+                    else
+                    {
+                        alert('Could not add items to cart');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert("XMLHttpRequest=" + xhr.responseText + "\ntextStatus=" + status + "\nerrorThrown=" + error);
+                }
+            });
+            
+            return false;
+        });
+        
+        //Delete from cart
+        $(document).on("click","a.delete_cart_item",function()
+        {
+            var row_id = $(this).attr('href');
+            
+            $.ajax({
+                type:'POST',
+                url: '<?php echo site_url();?>site/cart/delete_cart_item/'+row_id,
+                cache:false,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success:function(data){
+                    
+                    if(data.result == "success")
+                    {
+                        var total = 'Cart ($'+data.cart_total+')';
+                        var sub_total = 'Subtotal: $'+data.cart_total;
+                        
+                        $("#menu_cart_total").html(total);
+                        $("#mini_menu_cart_total").html(total);
+                        $("#cart_sub_total").html(sub_total);
+                        
+                        $("#menu_cart").html(data.cart_items);
+                        $("#mini_menu_cart").html(data.cart_items);
+                    }
+                    else
+                    {
+                        alert('Could not add items to cart');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert("XMLHttpRequest=" + xhr.responseText + "\ntextStatus=" + status + "\nerrorThrown=" + error);
+                }
+            });
+            
+            return false;
+        });
+        </script>
