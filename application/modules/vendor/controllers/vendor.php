@@ -157,7 +157,7 @@ class Vendor extends MX_Controller {
 		$this->form_validation->set_rules('vendor_store_name', 'Business Name', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('vendor_store_phone', 'Phone', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('vendor_store_email', 'Store Email', 'trim|valid_email|required|xss_clean');
-		$this->form_validation->set_rules('vendor_store_summary', 'Store Summary', 'trim|required|min_length[50]|xss_clean');
+		$this->form_validation->set_rules('vendor_store_summary', 'Store Summary', 'trim|required|min_length[25]|xss_clean');
 		$this->form_validation->set_rules('vendor_categories', 'Categories', 'trim|xss_clean');
 		$this->form_validation->set_rules('vendor_store_address', 'Address', 'trim|xss_clean');
 		$this->form_validation->set_rules('vendor_store_mobile', 'Mobile Number', 'trim|xss_clean');

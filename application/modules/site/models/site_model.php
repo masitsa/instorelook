@@ -208,6 +208,33 @@ class Site_model extends CI_Model
 		$this->db->where(array('category_status'=> 1, 'category_parent' => 0));
 		return $this->db->get('category');
 	}
+	
+	public function get_states()
+	{
+		$this->db->order_by('state_name');
+		$query = $this->db->get('state');
+		
+		return $query;
+	}
+	
+	public function get_surburbs()
+	{
+		$this->db->order_by('surburb_name, state_name');
+		$this->db->where('state.state_id = surburb.state');
+		$query = $this->db->get('surburb, state');
+		
+		return $query;
+	}
+	
+	public function search_surburb($search)
+	{
+		$where = "state.state_id = surburb.state AND (surburb.surburb_name LIKE '%".$search."%' OR surburb.post_code LIKE '%".$search."%' OR state.state_name LIKE '%".$search."%')";
+		$this->db->where($where);
+		$this->db->order_by('surburb_name, state_name');
+		$query = $this->db->get('surburb, state');
+		
+		return $query;
+	}
 }
 
 ?>

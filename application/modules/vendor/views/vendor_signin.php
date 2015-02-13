@@ -76,8 +76,8 @@
                             </div>
                         </div>
                         
-                        <div class="row center-align">
-                            <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-12 center-align">
                                 <button type="submit" class="btn btn-red">Continue</button>
                                 <p>Don't have an account?</p>
                                 <a href="<?php echo site_url().'vendor/sign-up/user-details';?>">Sign Up</a>

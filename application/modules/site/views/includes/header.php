@@ -14,6 +14,8 @@
         <link rel="stylesheet" href="<?php echo base_url();?>assets/themes/jasny/css/jasny-bootstrap.css">
         <!-- Font Awesome -->
         <link rel="stylesheet" href="<?php echo base_url();?>assets/font-awesome/css/font-awesome.min.css">
+        <!-- Typeahead -->
+        <link rel="stylesheet" href="<?php echo base_url();?>assets/themes/typeahead/css/typeahead.css">
         <!-- Custom -->
         <link rel="stylesheet" href="<?php echo base_url();?>assets/themes/custom/css/style.css">
         

@@ -48,6 +48,7 @@ $route['home'] = 'site/home_page';
 $route['about'] = 'site/about';
 $route['privacy'] = 'site/privacy';
 $route['terms'] = 'site/terms';
+$route['sign-in'] = 'login/sign_in';
 
 /*
 *	Settings Routes
@@ -83,6 +84,30 @@ $route['admin/edit-category/(:num)'] = 'admin/categories/edit_category/$1';
 $route['admin/delete-category/(:num)'] = 'admin/categories/delete_category/$1';
 $route['admin/activate-category/(:num)'] = 'admin/categories/activate_category/$1';
 $route['admin/deactivate-category/(:num)'] = 'admin/categories/deactivate_category/$1';
+/*
+*	Promotion charges Routes
+*/
+$route['admin/all-promotion-charges'] = 'admin/promotion_charges/index';
+$route['admin/all-promotion-charges/(:num)'] = 'admin/promotion_charges/index/$1';
+$route['admin/add-promotion-charge'] = 'admin/promotion_charges/add_promotion_charge';
+$route['admin/edit-promotion-charge/(:num)'] = 'admin/promotion_charges/edit_promotion_charge/$1';
+$route['admin/delete-promotion-charge/(:num)'] = 'admin/promotion_charges/delete_promotion_charge/$1';
+$route['admin/activate-promotion-charge/(:num)'] = 'admin/promotion_charges/activate_promotion_charge/$1';
+$route['admin/deactivate-promotion-charge/(:num)'] = 'admin/promotion_charges/deactivate_promotion_charge/$1';
+
+/*
+*	Banners Routes
+*/
+$route['admin/banners/revolving-banners'] = 'admin/banners/revolving_banners';
+$route['admin/banners/revolving-banners/(:num)'] = 'admin/banners/revolving_banners/$1';
+$route['admin/banners/static-banners'] = 'admin/banners/static_banners';
+$route['admin/banners/static-banners/(:num)'] = 'admin/banners/static_banners/$1';
+$route['admin/banners/delete-revolving-banners/(:num)/(:num)'] = 'admin/banners/delete_revolving_banner/$1/$2';
+$route['admin/banners/activate-revolving-banner/(:num)/(:num)'] = 'admin/banners/activate_revolving_banner/$1/$2';
+$route['admin/banners/deactivate-revolving-banner/(:num)/(:num)'] = 'admin/banners/deactivate_revolving_banner/$1/$2';
+$route['admin/banners/delete-static-banner/(:num)/(:num)'] = 'admin/banners/delete_static_banner/$1/$2';
+$route['admin/banners/activate-static-banner/(:num)/(:num)'] = 'admin/banners/activate_static_banner/$1/$2';
+$route['admin/banners/deactivate-static-banner/(:num)/(:num)'] = 'admin/banners/deactivate_static_banner/$1/$2';
 
 /*
 *	Admin Blog Routes
@@ -198,8 +223,6 @@ $route['vendor/add-product-to-bundle/(:num)/(:num)'] = 'vendor/products/add_prod
 $route['vendor/activate-product-from-bundle/(:num)/(:num)'] = 'vendor/products/activate_product_from_bundle/$1/$2';
 $route['vendor/deactivate-product-from-bundle/(:num)/(:num)'] = 'vendor/products/deactivate_product_from_bundle/$1/$2';
 
-
-
 /*
 *	Brands Routes
 */
@@ -209,6 +232,28 @@ $route['vendor/edit-brand/(:num)'] = 'vendor/brands/edit_brand/$1';
 $route['vendor/delete-brand/(:num)'] = 'vendor/brands/delete_brand/$1';
 $route['vendor/activate-brand/(:num)'] = 'vendor/brands/activate_brand/$1';
 $route['vendor/deactivate-brand/(:num)'] = 'vendor/brands/deactivate_brand/$1';
+
+//slides
+$route['vendor/all-banners'] = 'vendor/slideshow/index';
+$route['vendor/all-banners/(:num)'] = 'vendor/slideshow/index/$1';//with a page number
+$route['vendor/add-banner'] = 'vendor/slideshow/add_slide';
+$route['vendor/edit-banner/(:num)/(:num)'] = 'vendor/slideshow/edit_slide/$1/$2';
+$route['vendor/purchase-banner/(:num)/(:num)'] = 'vendor/slideshow/purchase_slide/$1/$2';
+$route['vendor/renew-banner/(:num)/(:num)'] = 'vendor/slideshow/renew_slide/$1/$2';
+$route['vendor/delete-banner/(:num)/(:num)'] = 'vendor/slideshow/delete_slide/$1/$2';
+$route['banner/purchase-success/(:num)/(:num)'] = 'vendor/slideshow/purchase_success/$1/$2';
+$route['banner/purchase-cancel/(:num)/(:num)'] = 'vendor/slideshow/purchase_cancel/$1/$2';
+
+//static banners
+$route['vendor/all-static-banners'] = 'vendor/static_banners/index';
+$route['vendor/all-static-banners/(:num)'] = 'vendor/static_banners/index/$1';//with a page number
+$route['vendor/add-static-banner'] = 'vendor/static_banners/add_static_banner';
+$route['vendor/edit-static-banner/(:num)/(:num)'] = 'vendor/static_banners/edit_static_banner/$1/$2';
+$route['vendor/purchase-static-banner/(:num)/(:num)'] = 'vendor/static_banners/purchase_static_banner/$1/$2';
+$route['vendor/renew-static-banner/(:num)/(:num)'] = 'vendor/static_banners/renew_static_banner/$1/$2';
+$route['vendor/delete-static-banner/(:num)/(:num)'] = 'vendor/static_banners/delete_static_banner/$1/$2';
+$route['static-banner/purchase-success/(:num)/(:num)'] = 'vendor/static_banners/purchase_success/$1/$2';
+$route['static-banner/purchase-cancel/(:num)/(:num)'] = 'vendor/static_banners/purchase_cancel/$1/$2';
 
 /*
 *	Products Routes

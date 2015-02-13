@@ -8,7 +8,39 @@
 
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
-    <div class="item active">
+  <?php
+  	if($banners->num_rows() > 0)
+	{
+		$count = 0;
+		foreach($banners->result() as $cat)
+		{			
+			$slideshow_id = $cat->slideshow_id;
+			$slideshow_status = $cat->slideshow_status;
+			$slideshow_name = $cat->slideshow_name;
+			$slideshow_description = $cat->slideshow_description;
+			$slideshow_image_name = $cat->slideshow_image_name;
+			$active = '';
+			$count++;
+			
+			if($count == 1)
+			{
+				$active = 'active';
+			}
+			
+			echo
+			'
+				<div class="item '.$active.'">
+					<img src="'.$slideshow_location.$slideshow_image_name.'">
+					<div class="carousel-caption">
+						<h3>'.$slideshow_name.'</h3>
+						<p>'.$slideshow_description.'</p>
+					</div>
+				</div>
+			';
+		}
+	}
+  ?>
+    <!--<div class="item active">
     	<img src="http://placehold.it/1200x400/16a085/ffffff&text=About Us">
       <div class="carousel-caption">
         <h3>Headline</h3>
@@ -37,7 +69,7 @@
                     tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem
                     ipsum dolor sit amet, consetetur sadipscing elitr.</p>
       </div>
-    </div>
+    </div>-->
   </div>
 
   <!-- Controls -->
@@ -52,7 +84,4 @@
 </div>
 
 <script type="text/javascript">
-	$('.carousel').carousel({
-	  interval: 2000
-	});
 </script>

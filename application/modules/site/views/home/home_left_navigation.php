@@ -1,10 +1,90 @@
-<div class="aside">
+<?php
+$popular = $this->products_model->get_popular_products();
+$top_sellers = $this->products_model->get_top_sellers();
+$states = $this->site_model->get_states();
 
+//if there are no sellers
+if($top_sellers->num_rows() == 0)
+{
+	$top_sellers = $this->products_model->get_top_sellers2();
+}
+?>
+                <div class="aside">
+                    <div class="widget">
+						<h3 class="widget-title">Location</h3>
+						<div class="widget-body">
+							<ul class="list-unstyled">
+                                <li>
+                                    <div class="input-group">
+                                        <div id="the-basics">
+                                            <input class="typeahead" type="text" placeholder="Search Surburb">
+                                        </div>
+                                        <span class="input-group-btn">
+                                        	<button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                        </span>
+                                    </div>
+                                </li>
+							<?php
+								if($states->num_rows() > 0)
+								{
+									$states_result = $states->result();
+									
+									foreach($states_result as $sel)
+									{
+										$state_name = $sel->state_name;
+										$state_id = $sel->state_id;
+										
+										echo 
+										'
+                                            <li>
+												<input type="checkbox" name="state[]" value="'.$state_id.'" id="state'.$state_id.'"/>
+                                                <label for="brand'.$state_id.'"><span></span> '.$state_name.'</label>
+                                            </li>
+							
+										';
+									}
+								}
+								
+								else
+								{
+									echo '<p>There are no locations :-(</p>';
+								}
+							?>
+							</ul>
+						</div>
+					</div> <!-- states widget -->
+                    
 					<div class="widget">
 						<h3 class="widget-title">Top Sellers</h3>
 						<div class="widget-body">
 							<ul class="list-unstyled">
-								<li>
+							<?php
+								if($top_sellers->num_rows() > 0)
+								{
+									$top_sellers_result = $top_sellers->result();
+									
+									foreach($top_sellers_result as $sel)
+									{
+										$vendor_store_name = $sel->vendor_store_name;
+										$vendor_id = $sel->vendor_id;
+										
+										echo 
+										'
+                                            <li>
+												<input type="checkbox" name="vendor[]" value="'.$vendor_id.'" id="vendor'.$vendor_id.'"/>
+                                                <label for="vendor'.$vendor_id.'"><span></span> '.$vendor_store_name.'</label>
+                                            </li>
+							
+										';
+									}
+								}
+								
+								else
+								{
+									echo '<p>There are no top sellers :-(</p>';
+								}
+							?>
+								<!--<li>
 									<input type="checkbox" value="beige" id="colors-beige" name="colors">
 									<label for="colors-beige"><span></span> Beige <span>(35)</span></label>
 								</li>
@@ -39,7 +119,7 @@
 								<li>
 									<input type="checkbox" value="white" id="colors-white" name="colors">
 									<label for="colors-white"><span></span> White <span>(789)</span></label>
-								</li>
+								</li>-->
 							</ul>
 						</div>
 					</div> <!-- colors widget -->
@@ -48,58 +128,32 @@
 						<h3 class="widget-title">Brands</h3>
 						<div class="widget-body">
 							<ul class="list-unstyled">
-								<li>
-									<input type="checkbox" value="abs" id="brands-abs" name="brands">
-									<label for="brands-abs"><span></span> A.B.S. by Allen Schwartz</label>
-								</li>
-								<li>
-									<input type="checkbox" value="ag" id="brands-ag" name="brands">
-									<label for="brands-ag"><span></span> AG Adriano Goldshmeid</label>
-								</li>
-								<li>
-									<input type="checkbox" value="aliceolivia" id="brands-aliceolivia" name="brands">
-									<label for="brands-aliceolivia"><span></span> Alice &amp; Olivia</label>
-								</li>
-								<li>
-									<input type="checkbox" value="autumn" id="brands-autumn" name="brands">
-									<label for="brands-autumn"><span></span> Autumn Cashmere</label>
-								</li>
-								<li>
-									<input type="checkbox" value="bcbgmaxazria" id="brands-bcbgmaxazria" name="brands">
-									<label for="brands-bcbgmaxazria"><span></span> BCBGMAXAZRIA</label>
-								</li>
-								<li>
-									<input type="checkbox" value="dkny" id="brands-dkny" name="brands">
-									<label for="brands-dkny"><span></span> DKNY</label>
-								</li>
-								<li>
-									<input type="checkbox" value="elie" id="brands-elie" name="brands">
-									<label for="brands-elie"><span></span> Elie Tahari</label>
-								</li>
-								<li>
-									<input type="checkbox" value="megaschoni" id="brands-megaschoni" name="brands">
-									<label for="brands-megaschoni"><span></span> Magaschoni</label>
-								</li>
-								<li>
-									<input type="checkbox" value="newyork" id="brands-newyork" name="brands">
-									<label for="brands-newyork"><span></span> Marc New York</label>
-								</li>
-								<li>
-									<input type="checkbox" value="miller" id="brands-miller" name="brands">
-									<label for="brands-miller"><span></span> Nicole Miller</label>
-								</li>
-								<li>
-									<input type="checkbox" value="redvalentino" id="brands-redvalentino" name="brands">
-									<label for="brands-redvalentino"><span></span> Red Valentino</label>
-								</li>
-								<li>
-									<input type="checkbox" value="suewong" id="brands-suewong" name="brands">
-									<label for="brands-suewong"><span></span> Sue Wong</label>
-								</li>
-								<li>
-									<input type="checkbox" value="wyatt" id="brands-wyatt" name="brands">
-									<label for="brands-wyatt"><span></span> Wyatt</label>
-								</li>
+							<?php
+								if($brands->num_rows() > 0)
+								{
+									$brands_result = $brands->result();
+									
+									foreach($brands_result as $brand)
+									{
+										$brand_name = $brand->brand_name;
+										$brand_id = $brand->brand_id;
+										
+										echo 
+										'
+                                            <li>
+												<input type="checkbox" name="brand[]" value="'.$brand_id.'" id="brand'.$brand_id.'"/>
+                                                <label for="brand'.$brand_id.'"><span></span> '.$brand_name.'</label>
+                                            </li>
+							
+										';
+									}
+								}
+								
+								else
+								{
+									echo '<p>There are no brands</p>';
+								}
+							?>
 							</ul>
 						</div>
 					</div> <!-- brands widget -->
@@ -166,34 +220,45 @@
 						<h3 class="widget-title">Best Sellers</h3>
 						<div class="widget-body">
 							<div class="beta-sales beta-lists">
-								<div class="media beta-sales-item">
-									<a href="product.html" class="pull-left"><img alt="" src="<?php echo base_url().'assets/images/1.png';?>"></a>
-									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
-									</div>
-								</div>
-								<div class="media beta-sales-item">
-									<a href="product.html" class="pull-left"><img alt="" src="<?php echo base_url().'assets/images/1.png';?>"></a>
-									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
-									</div>
-								</div>
-								<div class="media beta-sales-item">
-									<a href="product.html" class="pull-left"><img alt="" src="<?php echo base_url().'assets/images/1.png';?>"></a>
-									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
-									</div>
-								</div>
-								<div class="media beta-sales-item">
-									<a href="product.html" class="pull-left"><img alt="" src="<?php echo base_url().'assets/images/1.png';?>"></a>
-									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
-									</div>
-								</div>
+                            
+                            	<?php
+								if($popular->num_rows() > 0)
+								{
+									$popular_products = $popular->result();
+									$count = 0;
+									
+									foreach($popular_products as $prods)
+									{
+										$sale_price = $prods->sale_price;
+										$thumb = $prods->product_image_name;
+										$product_id = $prods->product_id;
+										$product_name = $prods->product_name;
+										$brand_name = $prods->brand_name;
+										$product_price = $prods->product_selling_price;
+										$description = $prods->product_description;
+										$mini_desc = implode(' ', array_slice(explode(' ', $description), 0, 10));
+										$price = number_format($product_price, 2, '.', ',');
+										$sale = '';
+										$count++;
+										
+										echo 
+										'
+										<div class="media beta-sales-item">
+                                            <a href="'.site_url().'products/view-product/'.$product_id.'" class="pull-left"><img alt="" src="'.base_url().'assets/images/products/images/'.$thumb.'"></a>
+                                            <div class="media-body">
+                                                '.$brand_name.'
+                                                <span class="beta-sales-price">$'.$price.'</span>
+                                            </div>
+                                        </div>
+										';
+									}
+								}
+								
+								else
+								{
+									echo '<p>No products have been added yet :-(</p>';
+								}
+							?>
 							</div>
 						</div>
 					</div> <!-- best sellers widget -->

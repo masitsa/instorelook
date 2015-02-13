@@ -109,7 +109,7 @@ fieldset[disabled] .btn-default.active {
 
 .btn-primary {
   color: #ffffff;
-  background-color: #428bca;
+  background-color: #55A4DA;
   border-color: #357ebd;
 }
 
@@ -144,7 +144,7 @@ fieldset[disabled] .btn-primary:active,
 .btn-primary.disabled.active,
 .btn-primary[disabled].active,
 fieldset[disabled] .btn-primary.active {
-  background-color: #428bca;
+  background-color: #55A4DA;
   border-color: #357ebd;
 }
 
@@ -314,7 +314,7 @@ fieldset[disabled] .btn-info.active {
 
 .btn-link {
   font-weight: normal;
-  color: #428bca;
+  color: #55A4DA;
   cursor: pointer;
   border-radius: 0;
 }

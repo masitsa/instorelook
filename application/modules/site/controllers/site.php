@@ -1,6 +1,9 @@
 <?php   if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Site extends MX_Controller {
+class Site extends MX_Controller 
+{	
+	var $slideshow_location;
+	var $static_banner_location;
 	
 	function __construct()
 	{
@@ -9,11 +12,14 @@ class Site extends MX_Controller {
 		$this->load->model('vendor/categories_model');
 		$this->load->model('vendor/features_model');
 		$this->load->model('vendor/brands_model');
+		$this->load->model('vendor/slideshow_model');
+		$this->load->model('vendor/static_banners_model');
 		$this->load->model('cart_model');
 		$this->load->model('admin/users_model');
 		//$this->load->model('login/login_model');
 		
 		$this->load->model('site/site_model');
+		$this->slideshow_location = base_url().'assets/slideshow/';
 	}
     
 	/*
@@ -39,6 +45,10 @@ class Site extends MX_Controller {
 		$v_data['brands'] = $this->brands_model->all_active_brands();
 		$v_data['all_children'] = $this->categories_model->all_child_categories();
 		$v_data['parent_categories'] = $this->categories_model->all_parent_categories();
+		$v_data['banners'] = $this->slideshow_model->get_slideshow_images();
+		$v_data['static_banners'] = $this->static_banners_model->get_static_banner_images('DESC');
+		$v_data['slideshow_location'] = $this->slideshow_location;
+		$v_data['static_banner_location'] = $this->static_banner_location;
 		$data['content'] = $this->load->view('home/home', $v_data, true);
 		
 		$data['title'] = $this->site_model->display_page_title();
@@ -372,6 +382,88 @@ class Site extends MX_Controller {
 		
 		$data['title'] = 'Image';//$this->site_model->display_page_title();
 		$this->load->view('templates/general_page', $data);
+	}
+	
+	public function typeahead()
+	{
+		$data['content'] = $this->load->view('typeahead', '', true);
+		
+		$data['title'] = $this->site_model->display_page_title();
+		$this->load->view('templates/home_page', $data);
+	}
+	
+	public function capitalize_surburbs()
+	{
+		$surburbs = $this->site_model->get_surburbs();
+		
+		if($surburbs->num_rows() > 0)
+		{
+			$surburbs_result = $surburbs->result();
+			
+			foreach($surburbs_result as $sel)
+			{
+				$surburb_name = $sel->surburb_name;
+				$state_abbr = $sel->state_abbr;
+				$post_code = $sel->post_code;
+				$surburb_id = $sel->surburb_id;
+				
+				$data = array
+				(
+					"surburb_name" => ucwords(strtolower($surburb_name))
+				);
+				$this->db->where('surburb_id', $surburb_id);
+				$this->db->update('surburb', $data);
+			}
+		}
+	}
+	
+	public function search_surburbs($search)
+	{
+		/*$surburbs = $this->site_model->search_surburb($search);
+		
+		if($surburbs->num_rows() > 0)
+		{
+			$results = array();
+			foreach ($surburbs->result() as $row) {
+				$results[] = $row->surburb_name.', '.$row->state_abbr.' '.$row->post_code;
+			}
+		}
+		
+		else
+		{
+			$results[0] = 'No surburb found';
+		}
+		echo json_encode($results);*/
+		header('Content-Type: application/json');
+		
+		function startsWith($haystack, $needle)
+		{
+			return !strncmp(strtoupper($haystack), strtoupper($needle), strlen($needle)); 	
+		} 	 	
+		
+		$data[] = "Abrams, J.J."; 	
+		$data[] = "Connery, Sean"; 	
+		$data[] = "Darwin, Charles"; 	
+		$data[] = "Davis, Ben"; 	
+		$data[] = "Davis, Patrick"; 	
+		$data[] = "Drake"; 	
+		$data[] = "Ellington, Duke"; 	 	
+		$query = $_GET['q']; 	
+		if(ISSET($query)) 	
+		{ 		
+			foreach ($data as $value) 		
+			{ 			
+				if(startsWith($value, $query)) 			
+				{ 				
+					$result[] = $value; 			
+				} 		
+			} 		
+			echo json_encode($result);      	
+		} 	
+		else 	
+		{ 		
+			echo json_encode($data); 	
+		}
 	}
 }
 ?>

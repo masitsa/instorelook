@@ -6,6 +6,8 @@ class Login extends MX_Controller {
 	{
 		parent:: __construct();
 		$this->load->model('login_model');
+		$this->load->model('site/site_model');
+		$this->load->model('site/cart_model');
 	}
     
 	/*
@@ -61,6 +63,14 @@ class Login extends MX_Controller {
 		$this->session->unset_userdata($newdata);
 		$this->session->set_userdata('front_success_message', 'Your have been signed out of your account');
 		redirect('checkout');
+	}
+	
+	public function sign_in()
+	{
+		$data['content'] = $this->load->view('sign_in', '', true);
+		
+		$data['title'] = 'Sign in';
+		$this->load->view('site/templates/general_page', $data);
 	}
 }
 ?>

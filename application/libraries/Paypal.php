@@ -98,12 +98,12 @@ class PayPal {
 	 * 
 	 * @return array error info
 	 */
-	public function doExpressCheckout($amount, $desc, $invoice='', $currency='USD'){
+	public function doExpressCheckout($amount, $desc, $invoice='', $currency='USD', $return = self::PP_RETURN, $cancel = self::PP_CANCEL){
 		$data = array(
 		'PAYMENTACTION' =>'Sale',
 		'AMT' =>$amount,
-		'RETURNURL' => self::PP_RETURN,
-		'CANCELURL'  => self::PP_CANCEL,
+		'RETURNURL' => $return,
+		'CANCELURL'  => $cancel,
 		'DESC'=>$desc,
 		'NOSHIPPING'=>"1",
 		'ALLOWNOTE'=>"1",

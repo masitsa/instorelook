@@ -64,7 +64,22 @@
                 
                 <div class="pull-right auto-width-right">
                 	<ul class="top-menu menu-beta l-inline">
-                    	<li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Account</a></li>
+                    	<?php
+                        if($this->session->userdata('login_status'))
+						{
+							?>
+                            <li><a href="<?php echo site_url().'vendor/account'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Account</a></li>
+                            <?php
+						}
+						
+						else
+						{
+							?>
+                            <li><a href="<?php echo site_url().'sign-in'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Sign in</a></li>
+                            <?php
+						}
+						?>
+                    	
                     	<li><a href="#"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Wishlist</a></li>
                     </ul>
                 </div>

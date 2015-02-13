@@ -195,9 +195,13 @@ class File_model extends CI_Model
 		if(file_exists($file_path)) 
 		{
 			unlink($file_path);
+			return TRUE;
 		}
 		
-		return TRUE;
+		else
+		{
+			return FALSE;
+		}
 	}
 	
 	// Upload & Resize in action
@@ -393,6 +397,82 @@ class File_model extends CI_Model
 		$csv = array_map('str_getcsv', file($path));
 		
 		return $csv;
+	}
+	
+	/*
+	*	Upload banner
+	*	@param string $upload_path
+	* 	@param string $field_name
+	*
+	*/
+	public function upload_banner($upload_path, $field_name, $resize, $master_dim = 'width')
+	{
+		$config = array(
+				'allowed_types'	=> 'JPG|JPEG|jpg|jpeg|gif|png',
+				'upload_path' 	=> $upload_path,
+				'quality' 		=> "100%",
+				'max_size'      => '0',
+				'file_name' 	=> md5(date('Y-m-d H:i:s'))
+			);
+			
+		$this->load->library('upload', $config);
+		
+		if ( ! $this->upload->do_upload($field_name))
+		{
+			// if upload fail, grab error
+			$response['check'] = FALSE;
+			$response['error'] =  $this->upload->display_errors();
+		}
+		
+		else
+		{
+			// otherwise, put the upload datas here.
+			// if you want to use database, put insert query in this loop
+			$image_upload_data = $this->upload->data();
+			
+			$file_name = $image_upload_data['file_name'];
+			
+			// set the resize config
+			$resize_conf = array(
+					'source_image'  => $image_upload_data['full_path'], 
+					'width' => $resize['width'],
+					'height' => $resize['height'],
+					'master_dim' => $master_dim,
+					'maintain_ratio' => TRUE
+				);
+
+			// initializing
+			$this->image_lib->initialize($resize_conf);
+
+			// do it!
+			if ( ! $this->image_lib->resize())
+			{
+				$response['check'] = FALSE;
+				$response['error'] =  $this->image_lib->display_errors();
+			}
+			else
+			{
+				//Create thumbnail
+				$create = $this->resize_image($image_upload_data['full_path'], $image_upload_data['file_path'].'thumbnail_'.$file_name, 80, 80);
+				
+				if($create)
+				{
+					$response['check'] = TRUE;
+					$response['file_name'] =  $file_name;
+					$response['thumb_name'] =  'thumbnail_'.$file_name;
+					$response['upload_data'] =  $image_upload_data;
+				}
+				
+				else
+				{
+					$response['check'] = FALSE;
+					$response['error'] =  $this->image_lib->display_errors();
+				}
+			}
+		}
+		
+        unset($_FILES[$field_name]);
+		return $response;
 	}
 }
 ?>

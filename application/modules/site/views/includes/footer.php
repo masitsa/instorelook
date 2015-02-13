@@ -1,3 +1,32 @@
+<?php
+$surburbs = $this->site_model->get_surburbs();
+$surburb_list = '';
+$count = 0;
+
+if($surburbs->num_rows() > 0)
+{
+	$surburbs_result = $surburbs->result();
+	
+	foreach($surburbs_result as $sel)
+	{
+		$count++;
+		$surburb_name = $sel->surburb_name;
+		$state_abbr = $sel->state_abbr;
+		$post_code = $sel->post_code;
+		$surburb_id = $sel->surburb_id;
+		
+		if($count == $surburbs->num_rows())
+		{
+			$surburb_list .= '"'.$surburb_name.' '.$state_abbr.' '.$post_code.'"';
+		}
+		
+		else
+		{
+			$surburb_list .= '"'.$surburb_name.' '.$state_abbr.' '.$post_code.'", ';
+		}
+	}
+}
+?>
 <!-- Footer  --> 
        	<div class="footer dark-grey-background">
             <div class="container">
@@ -86,12 +115,15 @@
         <!-- WOW --> 
         <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/wow.min.js"></script> 
         <!-- Retina -->
-        <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/retina.min.js"></script>-->
+        <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/retina.min.js"></script>
         <!-- Owl Carousel -->
         <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/owl.carousel.min.js"></script>
         <!-- Smooth Scroll -->
         <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/bind-polyfill.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/smooth-scroll.js"></script>
+        <!-- Typeahead --> 
+        <script type="text/javascript" src="<?php echo base_url();?>assets/themes/typeahead/js/typeahead.bundle.min.js"></script> 
+        <script type="text/javascript" src="<?php echo base_url();?>assets/themes/typeahead/js/typeahead.jquery.min.js"></script> 
         <!-- Custom --> 
         <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/custom.js"></script> 
 
@@ -175,4 +207,92 @@
             
             return false;
         });
-        </script>
+		
+var substringMatcher = function(strs) {
+  return function findMatches(q, cb) {
+    var matches, substrRegex;
+ 
+    // an array that will be populated with substring matches
+    matches = [];
+ 
+    // regex used to determine if a string contains the substring `q`
+    substrRegex = new RegExp(q, 'i');
+ 
+    // iterate through the pool of strings and for any string that
+    // contains the substring `q`, add it to the `matches` array
+    $.each(strs, function(i, str) {
+      if (substrRegex.test(str)) {
+        // the typeahead jQuery plugin expects suggestions to a
+        // JavaScript object, refer to typeahead docs for more info
+        matches.push({ value: str });
+      }
+    });
+ 
+    cb(matches);
+  };
+};
+ 
+var states = [<?php echo $surburb_list;?>];
+/*var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
+  'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
+  'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
+  'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
+  'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
+  'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
+  'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
+  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
+];*/
+ 
+/*$('#the-basics .typeahead').typeahead({
+  hint: true,
+  highlight: true,
+  minLength: 1
+  //remote: '<?php echo site_url();?>/site/search_surburbs/%QUERY'
+},
+{
+  name: 'Surburbs',
+  displayKey: 'value',
+  source: substringMatcher(states)
+});*/
+
+/*var surburbs = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  //prefetch: states,
+  //remote: '<?php echo site_url();?>site/search_surburbs/%QUERY'
+  remote: {
+        url: '<?php echo site_url();?>site/search_surburbs/%QUERY',
+        filter: function (parsedResponse) {
+            // parsedResponse is the array returned from your backend
+            console.log(parsedResponse);
+
+            // do whatever processing you need here
+            return parsedResponse;
+        }
+    }
+});
+ 
+surburbs.initialize();
+ 
+$('#the-basics .typeahead').typeahead(null, {
+  name: 'Surburbs',
+  displayKey: 'value',
+  source: surburbs.ttAdapter()
+});*/
+
+/*source: function (query, process) {
+        return $.get('/typeahead', { query: query }, function (data) {
+            return process(data.options);
+        });
+    }*/
+	$('#the-basics .typeahead').typeahead([
+	{
+		name: 'Surburbs',
+		remote: '<?php echo site_url();?>site/search_surburbs/%QUERY',
+	}]);
+	
+	$('.carousel').carousel({
+	  interval: 2000
+	});
+</script>

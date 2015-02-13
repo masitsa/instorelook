@@ -29,6 +29,21 @@
                 </li>
 				<!-- End: Admin Menu -->
 
+                <!-- Start: Banners Menu -->
+                <li class="has_submenu">
+                    <a href="#">
+                        <!-- Menu name with icon -->
+                        <i class="icon-th"></i> Banners
+                        <!-- Icon for dropdown -->
+                    </a>
+                    <ul>
+                        <li><a href="<?php echo base_url()."admin/all-promotion-charges";?>">Banner Charges</a></li>
+                        <li><a href="<?php echo base_url()."admin/banners/revolving-banners";?>">Revolving Banners</a></li>
+                        <li><a href="<?php echo base_url()."admin/banners/static-banners";?>">Static Banners</a></li>
+                    </ul>
+                </li>
+				<!-- End: Blog Menu -->
+
                 <!-- Start: Blog Menu -->
                 <li class="has_submenu">
                     <a href="#">

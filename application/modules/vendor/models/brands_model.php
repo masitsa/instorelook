@@ -8,7 +8,8 @@ class Brands_model extends CI_Model
 	*/
 	public function all_active_brands()
 	{
-		$this->db->where('brand_status = 1');
+		$this->db->where('brand_status = 1 AND brand_id > 0');
+		$this->db->order_by('brand_name');
 		$query = $this->db->get('brand');
 		
 		return $query;

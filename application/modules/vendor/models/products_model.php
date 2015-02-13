@@ -582,8 +582,8 @@ class Products_model extends CI_Model
 	*/
 	public function get_latest_products()
 	{
-		$this->db->select('*')->from('product')->where("product_status = 1")->order_by("created", 'DESC');
-		$query = $this->db->get('',12);
+		$this->db->select('product.*, category.category_name, brand.brand_name')->from('product, category, brand')->where("product.product_status = 1 AND product.category_id = category.category_id AND product.brand_id = brand.brand_id")->order_by("created", 'DESC');
+		$query = $this->db->get('',8);
 		
 		return $query;
 	}
@@ -606,8 +606,19 @@ class Products_model extends CI_Model
 	*/
 	public function get_featured_products()
 	{
-		$this->db->select('*')->from('product')->where("product_status = 1 AND featured = 1")->order_by("created", 'DESC');
-		$query = $this->db->get();
+		$this->db->select('product.*, category.category_name, brand.brand_name')->from('product, category, brand')->where("product.product_status = 1 AND product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.featured = 1")->order_by("created", 'DESC');
+		$query = $this->db->get('',8);
+		
+		return $query;
+	}
+	/*
+	*	Retrieve popular products
+	*
+	*/
+	public function get_popular_products()
+	{
+		$this->db->select('product.*, category.category_name, brand.brand_name')->from('product, category, brand')->where("product.product_status = 1 AND product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.featured = 1")->order_by("clicks", 'DESC');
+		$query = $this->db->get('',4);
 		
 		return $query;
 	}
@@ -1341,6 +1352,30 @@ class Products_model extends CI_Model
 		else{
 			return FALSE;
 		}
+	}
+	
+	/*
+	*	Retrieve top sellers
+	*
+	*/
+	public function get_top_sellers()
+	{
+		$this->db->select('vendor.vendor_id, vendor.vendor_store_name, count(vendor.vendor_id) AS total_occurences')->from('product, vendor, order_item')->where("product.product_id = order_item.product_id AND product.created_by = vendor.vendor_id")->order_by("total_occurences", 'DESC');
+		$query = $this->db->get('',10);
+		
+		return $query;
+	}
+	
+	/*
+	*	Retrieve top sellers
+	*
+	*/
+	public function get_top_sellers2()
+	{
+		$this->db->select('vendor.vendor_id, vendor.vendor_store_name')->from('vendor')->where("vendor.vendor_status = 1")->order_by("vendor_store_name", 'ASC');
+		$query = $this->db->get('',10);
+		
+		return $query;
 	}
 }
 ?>

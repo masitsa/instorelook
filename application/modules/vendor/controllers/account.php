@@ -10,6 +10,7 @@ class Account extends vendor_auth
 	{
 		parent:: __construct();
 		$this->load->model('vendor_model');
+		$this->load->model('site/site_model');
 	}
     
 	/*
