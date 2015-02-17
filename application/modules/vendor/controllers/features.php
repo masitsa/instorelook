@@ -21,6 +21,12 @@ class Features extends account {
 	{
 		$where = 'feature.category_id = category.category_id AND feature.created_by IN (0, '.$this->session->userdata('vendor_id').')';
 		$table = 'feature, category';
+		$feature_search = $this->session->userdata('feature_search');
+		
+		if(!empty($feature_search))
+		{
+			$where .= $feature_search;
+		}
 		$segment = 3;
 		//pagination
 		$this->load->library('pagination');
@@ -58,7 +64,7 @@ class Features extends account {
 		$page = ($this->uri->segment($segment)) ? $this->uri->segment($segment) : 0;
         $data["links"] = $this->pagination->create_links();
 		$query = $this->features_model->get_all_features($table, $where, $config["per_page"], $page);
-		
+		$v_data['all_categories'] = $this->categories_model->all_categories();
 		if ($query->num_rows() > 0)
 		{
 			$v_data['query'] = $query;
@@ -198,6 +204,50 @@ class Features extends account {
 	{
 		$this->features_model->deactivate_feature($feature_id);
 		$this->session->set_userdata('success_message', 'feature disabled successfully');
+		redirect('vendor/all-features');
+	}
+	/*
+	*
+	*	Search a feature
+	*	@param int $feature name 
+	*
+	*/
+	public function search_features()
+	{
+
+		$feature_name = $this->input->post('feature_name');
+		$category_id = $this->input->post('category_id');
+
+
+		if(!empty($feature_name))
+		{
+			$feature_name = ' AND feature.feature_name LIKE \'%'.mysql_real_escape_string($feature_name).'%\' ';
+		}
+		if(!empty($category_id))
+		{
+			$category_id = ' AND feature.category_id = '.$category_id.'';
+		}
+		else
+		{
+			$category_id = '';
+		}
+		
+		
+		$search = $feature_name.$category_id;
+		$this->session->set_userdata('feature_search', $search);
+		
+		$this->index();
+		
+	}
+	/*
+	*
+	*	Close feature search
+	*	@param int $feature_id
+	*
+	*/
+	public function close_features_search()
+	{
+		$this->session->unset_userdata('feature_search');
 		redirect('vendor/all-features');
 	}
 }

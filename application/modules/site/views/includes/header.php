@@ -17,6 +17,7 @@
         <!-- Typeahead -->
         <link rel="stylesheet" href="<?php echo base_url();?>assets/themes/typeahead/css/typeahead.css">
         <!-- Custom -->
+        <link rel="stylesheet" href="<?php echo base_url();?>assets/themes/custom/css/table.css">
         <link rel="stylesheet" href="<?php echo base_url();?>assets/themes/custom/css/style.css">
         
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -27,3 +28,4 @@
         <![endif]-->
         <!-- Jquery  --> 
         <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/table.js"></script>

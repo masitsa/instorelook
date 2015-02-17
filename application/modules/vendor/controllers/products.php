@@ -1127,5 +1127,42 @@ class Products extends account {
 		$this->session->set_userdata('success_message', 'Product disabled from bundle successfully');
 		redirect('vendor/add-product-bundle-items/'.$bundle_id);	
 	}
+
+	/*
+	*
+	*	Search a feature
+	*	@param int $feature name 
+	*
+	*/
+	public function search_product_bundles()
+	{
+
+		$product_bundle_name = $this->input->post('product_bundle_name');
+
+
+		if(!empty($product_bundle_name))
+		{
+			$product_bundle_name = ' AND product_bundle.product_bundle_name LIKE \'%'.mysql_real_escape_string($product_bundle_name).'%\' ';
+		}
+		
+		
+		
+		$search = $product_bundle_name;
+		$this->session->set_userdata('product_bundle_search', $search);
+		
+		$this->all_product_bundles();
+		
+	}
+	/*
+	*
+	*	Close feature search
+	*	@param int $feature_id
+	*
+	*/
+	public function close_product_bundles_search()
+	{
+		$this->session->unset_userdata('product_bundle_search');
+		redirect('vendor/all-product-bundle');
+	}
 }
 ?>

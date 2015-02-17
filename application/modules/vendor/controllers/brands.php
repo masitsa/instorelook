@@ -30,6 +30,12 @@ class Brands extends account
 	{
 		$where = 'created_by IN (0, '.$this->session->userdata('vendor_id').')';
 		$table = 'brand';
+		$brand_search = $this->session->userdata('brand_search');
+		
+		if(!empty($brand_search))
+		{
+			$where .= $brand_search;
+		}
 		$segment = 3;
 		
 		//pagination
@@ -306,6 +312,29 @@ class Brands extends account
 	{
 		$this->brands_model->deactivate_brand($brand_id);
 		$this->session->set_userdata('success_message', 'brand disabled successfully');
+		redirect('vendor/all-brands');
+	}
+	public function search_brands()
+	{
+
+		$brand_name = $this->input->post('brand_name');
+
+
+		if(!empty($brand_name))
+		{
+			$brand_name = ' AND brand.brand_name LIKE \'%'.mysql_real_escape_string($brand_name).'%\' ';
+		}
+		
+		
+		$search = $brand_name;
+		$this->session->set_userdata('brands_search', $search);
+		
+		$this->index();
+		
+	}
+	public function close_brands_search()
+	{
+		$this->session->unset_userdata('brands_search');
 		redirect('vendor/all-brands');
 	}
 }

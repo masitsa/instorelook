@@ -1,4 +1,6 @@
-
+<?php 
+$v_data['view_type'] = 0;
+echo $this->load->view('vendor/search/search_product_bundle', $v_data, TRUE); ?>
 <?php
 
 		$error = $this->session->userdata('error_message');
@@ -17,11 +19,11 @@
 			$this->session->unset_userdata('success_message');
 		}
 				
-		$search = $this->session->userdata('product_search');
+		$search = $this->session->userdata('product_bundle_search');
 		
 		if(!empty($search))
 		{
-			$search_result = '<a href="'.site_url().'vendor/close-product-search" class="btn btn-success">Close Search</a>';
+			$search_result = '<a href="'.site_url().'vendor/close-product-bundle-search" class="btn btn-success">Close Search</a>';
 		}
 
 
@@ -48,14 +50,14 @@
 			$result .= 
 			'
 			<div class="row">
-				<table class="table table-hover table-bordered ">
+				<table class="example table-autosort:0 table-stripeclass:alternate table table-hover table-bordered " id="TABLE_2">
 				  <thead>
 					<tr>
 					  <th>#</th>
-					  <th>Bundle Image</th>
-					  <th>Bundle Name</th>
-					  <th>Date Created</th>
-					  <th>Last Modified</th>
+					  <th >Bundle Image</th>
+					  <th class="table-sortable:default table-sortable" title="Click to sort">Bundle Name</th>
+					  <th class="table-sortable:default table-sortable" title="Click to sort">Date Created</th>
+					  <th class="table-sortable:default table-sortable" title="Click to sort">Last Modified</th>
 					  <th>Status</th>
 					  <th colspan="6">Actions</th>
 					</tr>

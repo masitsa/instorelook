@@ -52,15 +52,15 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 			$result .= 
 			'
 			<div class="row">
-				<table class="table table-hover table-bordered ">
+				<table class="example table-autosort:0 table-stripeclass:alternate table table-hover table-bordered " id="TABLE_2">
 				  <thead>
 					<tr>
-					  <th>#</th>
+					  <th class="table-sortable:default table-sortable" title="Click to sort">#</th>
 					  <th>Image</th>
-					  <th>Code</th>
-					  <th>Product Name</th>
-					  <th>Date Created</th>
-					  <th>Last Modified</th>
+					  <th class="table-sortable:default table-sortable" title="Click to sort">Code</th>
+					  <th class="table-sortable:default table-sortable" title="Click to sort">Product Name</th>
+					  <th class="table-sortable:default table-sortable" title="Click to sort">Date Created</th>
+					  <th class="table-sortable:default table-sortable" title="Click to sort">Last Modified</th>
 					  <th>Status</th>
 					  <th colspan="5">Actions</th>
 					</tr>

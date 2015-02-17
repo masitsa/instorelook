@@ -23,10 +23,18 @@ class Categories extends account {
 	*	Default action is to show all the categories
 	*
 	*/
+
 	public function index() 
 	{
 		$where = 'created_by IN (0, '.$this->session->userdata('vendor_id').')';
 		$table = 'category';
+
+		$category_search = $this->session->userdata('category_search');
+		
+		if(!empty($category_search))
+		{
+			$where .= $category_search;
+		}
 		$segment = 3;
 		//pagination
 		$this->load->library('pagination');
@@ -311,6 +319,29 @@ class Categories extends account {
 	{
 		$this->categories_model->deactivate_category($category_id);
 		$this->session->set_userdata('success_message', 'Category disabled successfully');
+		redirect('vendor/all-categories');
+	}
+	public function search_categories()
+	{
+
+		$category_name = $this->input->post('category_name');
+
+
+		if(!empty($category_name))
+		{
+			$category_name = ' AND category.category_name LIKE \'%'.mysql_real_escape_string($category_name).'%\' ';
+		}
+		
+		
+		$search = $category_name;
+		$this->session->set_userdata('category_search', $search);
+		
+		$this->index();
+		
+	}
+	public function close_categories_search()
+	{
+		$this->session->unset_userdata('category_search');
 		redirect('vendor/all-categories');
 	}
 }
