@@ -108,7 +108,11 @@ span.feature-text{font-size:0.6em;}
 @media (max-width: 768px) {
     .my_feature { text-align: center}
  }
-.my_featureRow { margin-top: 0.2em;margin-bottom: 0.2em;border: 0.1em solid rgb(163, 163, 163);}    
+.my_featureRow { margin-top: 0.2em;margin-bottom: 0.2em;border: 0.1em solid rgb(163, 163, 163);}
+.my_featureRow div.col-xs-12, .my_featureRow div.col-sm-8{padding:0;}
+.my_featureRow .row{margin-top:0;}
+.subscribe-header .col-xs-12, .subscribe-header .col-sm-offset-4, .subscribe-header .col-sm-8{padding:0;}
+.my_featureRow div.my_feature, .my_featureRow div.my_feature{padding-left: 2%;}
 
 /* --- Plan 1 --------------------------- */
 .my_plan1 {background: rgba(41, 171, 226, 0.1);}
@@ -2486,5 +2490,5 @@ color:#fff;
 .form-group{margin-top: 10px;}
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control{cursor: pointer;}
 .padd{background-color:#fff; padding:10px; margin-bottom:10px;}
-.my_planHeader.my_plan2 a.more-details:before, .my_planHeader.my_plan1 a.more-details:before{clear:both;}
 .my_planHeader.my_plan2 a.more-details, .my_planHeader.my_plan1 a.more-details{background-color:transparent; width:100%;}
+.my_planHeader.my_plan2 a.more-details{color:#55A4DA;}

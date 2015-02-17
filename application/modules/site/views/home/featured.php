@@ -69,7 +69,7 @@
 						</p>
 					</div>
 					<div class="single-item-caption">
-						<a href="'.$product_id.'" class="add_to_cart add-to-cart pull-left"><i class="fa fa-shopping-cart"></i></a>
+						<a href="'.$product_id.'" product_id="'.$product_id.'" class="add_to_cart add-to-cart pull-left"><i class="fa fa-shopping-cart"></i></a>
 						<a href="'.site_url().'products/view-product/'.$product_id.'" class="beta-btn primary">Details <i class="fa fa-chevron-right"></i></a>
 						<div class="clearfix"></div>
 					</div>

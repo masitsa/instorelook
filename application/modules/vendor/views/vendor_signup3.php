@@ -30,7 +30,7 @@
                     <p class="center-align">Please choose your preferred subscription type.</p>
 
                     <div class="container">
-                        <div class="row">
+                        <div class="row subscribe-header">
                             <div class="col-xs-12 col-sm-offset-4 col-sm-8">
                                 <div class="row">
                                     <div class="col-xs-4 my_planHeader my_plan2">
@@ -38,6 +38,7 @@
                                         <div class="my_planPrice">$0.00</div>
                                         <div class="my_planDuration"> </div>
                                         <a type="button" class="btn btn-default" href="<?php echo site_url().'vendor/subscribe/free';?>">Sign Up</a>
+                                        <p></p>
                                         <a type="button" href="#" class="more-details">More details</a>
                                     </div>
                                     <div class="col-xs-4 my_planHeader my_plan1">
@@ -45,6 +46,7 @@
                                         <div class="my_planPrice">$30.00</div>
                                         <div class="my_planDuration">per month</div>
                                         <a type="button" class="btn btn-default" href="<?php echo site_url().'vendor/subscribe/basic';?>">Sign Up</a>
+                                        <p></p>
                                         <a type="button" href="#" class="more-details">More details</a>
                                     </div>
                                     <div class="col-xs-4 my_planHeader my_plan2">
@@ -52,6 +54,7 @@
                                         <div class="my_planPrice">$40.00*</div>
                                         <div class="my_planDuration">per month</div>
                                         <a type="button" class="btn btn-default" href="<?php echo site_url().'vendor/subscribe/unlimited';?>">Sign Up</a>
+                                        <p></p>
                                         <a type="button" href="#" class="more-details">More details</a>
                                     </div>
                                 </div>
