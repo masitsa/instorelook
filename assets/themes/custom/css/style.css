@@ -2,7 +2,7 @@
 body {font-family: 'Dosis', sans-serif; font-size:1.5em; background-color: #f0f0f0;}
 
 /* Misc */
-.row{margin:0; margin-top:10px;}
+.row{margin:0; margin-top:10px; margin-bottom:10px;}
 .pull-right{float:right;}
 .pull-left{float:left;}
 .center-align{margin:0 auto; text-align:center;}

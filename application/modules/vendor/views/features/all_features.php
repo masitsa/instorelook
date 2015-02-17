@@ -1,6 +1,46 @@
+<?php 
+$v_data['view_type'] = 0;
+echo $this->load->view('vendor/search/search_features', $v_data, TRUE); ?>
 <?php
+
+		$error = $this->session->userdata('error_message');
+		$success = $this->session->userdata('success_message');
+		$search_result ='';
+		$search_result2  ='';
+		if(!empty($error))
+		{
+			$search_result2 = '<div class="alert alert-danger">'.$error.'</div>';
+			$this->session->unset_userdata('error_message');
+		}
 		
-		$result = '<a href="'.site_url().'vendor/add-feature" class="btn btn-success pull-right">Add Feature</a>';
+		if(!empty($success))
+		{
+			$search_result2 ='<div class="alert alert-success">'.$success.'</div>';
+			$this->session->unset_userdata('success_message');
+		}
+				
+		$search = $this->session->userdata('feature_search');
+		
+		if(!empty($search))
+		{
+			$search_result = '<a href="'.site_url().'vendor/close-features-search" class="btn btn-danger">Close Search</a>';
+		}
+
+
+		$result = '<div class="padd">';	
+		$result .= ''.$search_result2.'';
+		$result .= '
+					<div class="row" style="margin-bottom:8px;">
+						<div class="pull-left">
+						'.$search_result.'
+						</div>
+	            		<div class="pull-right">
+							<a href="'.site_url().'vendor/add-feature" class="btn btn-primary pull-right">Add Feature</a>
+						
+						</div>
+					</div>
+				';
+			
 		
 		//if users exist display them
 		if ($query->num_rows() > 0)
@@ -9,14 +49,14 @@
 			
 			$result .= 
 			'
-				<table class="table table-hover table-bordered ">
+				<table class="example table-autosort:0 table-stripeclass:alternate table table-hover table-bordered " id="TABLE_2">
 				  <thead>
 					<tr>
-					  <th>#</th>
-					  <th>Category</th>
-					  <th>Feature Name</th>
-					  <th>Date Created</th>
-					  <th>Last Modified</th>
+					  <th class="table-sortable:default table-sortable" title="Click to sort">#</th>
+					  <th class="table-sortable:default table-sortable" title="Click to sort">Category</th>
+					  <th class="table-sortable:default table-sortable" title="Click to sort">Feature Name</th>
+					  <th class="table-sortable:default table-sortable" title="Click to sort">Date Created</th>
+					  <th class="table-sortable:default table-sortable" title="Click to sort">Last Modified</th>
 					  <th>Status</th>
 					  <th colspan="5">Actions</th>
 					</tr>
@@ -125,6 +165,7 @@
 			'
 						  </tbody>
 						</table>
+					</div>
 			';
 		}
 		
@@ -132,6 +173,7 @@
 		{
 			$result .= "There are no features";
 		}
-		
+		$result .= '</div>';
 		echo $result;
+
 ?>

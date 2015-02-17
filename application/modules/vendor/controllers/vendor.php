@@ -501,5 +501,6 @@ class Vendor extends MX_Controller {
 		$this->session->set_userdata('success_message', 'Your have been signed out of your account');
 		redirect('vendor/sign-in');
 	}
+	
 }
 ?>
