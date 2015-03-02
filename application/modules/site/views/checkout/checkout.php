@@ -60,7 +60,7 @@
                                 <div class="control-group">
                                     <label class="control-label" for="login_email">Email : </label>
                                     <div class="controls">
-                                        <input class="form-control" id="login_email" type="text" name="email" value="">
+                                        <input class="form-control" id="login_email" type="text" name="customer_email" value="">
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                                 <div class="control-group">         
                                     <label class="control-label" for="login_password">Password :</label>
                                     <div class="controls">
-                                        <input class="form-control" id="login_password" type="password" name="password">
+                                        <input class="form-control" id="login_password" type="password" name="customer_password">
                                     </div>
                                 </div>
                             </div>

@@ -49,6 +49,7 @@ $route['about'] = 'site/about';
 $route['privacy'] = 'site/privacy';
 $route['terms'] = 'site/terms';
 $route['sign-in'] = 'login/sign_in';
+$route['join'] = 'login/sign_up';
 
 /*
 *	Settings Routes
@@ -159,6 +160,14 @@ $route['vendor/subscribe/unlimited'] = 'vendor/subscribe/3';
 $route['vendor/sign-in'] = 'vendor/vendor_signin';
 $route['vendor/sign-out'] = 'vendor/vendor_signout';
 $route['confirm-account/(:any)'] = 'vendor/verify_email/$1';
+$route['vendor/account-profile'] = 'vendor/account/vendor_profile';
+$route['vendor/account-profile/(:any)'] = 'vendor/account/vendor_profile/$1';
+$route['vendor/update-password'] = 'vendor/account/update_vendor_password';
+$route['vendor/update-details'] = 'vendor/account/update_vendor_details';
+$route['vendor/update-store'] = 'vendor/account/update_store_details';
+$route['vendor/deactivate-account'] = 'vendor/account/deactivate_account';
+$route['vendor/goodbye'] = 'vendor/goodbye';
+$route['vendor/change-subscription'] = 'vendor/vendor_signup3/2';
 
 /*
 *	Categories Routes
@@ -168,6 +177,7 @@ $route['vendor/add-category'] = 'vendor/categories/add_category';
 $route['vendor/search-categories'] = 'vendor/categories/search_categories';
 $route['vendor/close-categories-search'] = 'vendor/categories/close_categories_search';
 $route['vendor/edit-category/(:num)'] = 'vendor/categories/edit_category/$1';
+$route['vendor/update-categories'] = 'vendor/account/update_categories';
 $route['vendor/delete-category/(:num)'] = 'vendor/categories/delete_category/$1';
 $route['vendor/activate-category/(:num)'] = 'vendor/categories/activate_category/$1';
 $route['vendor/deactivate-category/(:num)'] = 'vendor/categories/deactivate_category/$1';
@@ -211,12 +221,13 @@ $route['vendor/import-template'] = 'vendor/products/import_template';
 $route['vendor/validate-import'] = 'vendor/products/do_products_import';
 $route['vendor/import-categories'] = 'vendor/products/import_categories';
 $route['vendor/edit-product/(:num)'] = 'vendor/products/edit_product/$1';
+$route['vendor/duplicate-product/(:num)'] = 'vendor/products/duplicate_product/$1';
 $route['vendor/delete-product/(:num)'] = 'vendor/products/delete_product/$1';
 $route['vendor/activate-product/(:num)'] = 'vendor/products/activate_product/$1';
 $route['vendor/deactivate-product/(:num)'] = 'vendor/products/deactivate_product/$1';
 
 /*
-*	Products Routes
+*	Product bundles Routes
 */
 $route['vendor/all-product-bundle'] = 'vendor/products/all_product_bundles';
 $route['vendor/search-products-to-bundle/(:num)'] = 'vendor/products/search_product_to_bundles/$1';
@@ -292,9 +303,13 @@ $route['cart/delete-item/(:any)/(:num)'] = 'site/cart/delete_cart_item/$1/$2';
 $route['cart/update-cart'] = 'site/cart/update_cart';
 
 /*
-*	Account Routes
+*	Customer Routes
 */
-$route['account'] = 'site/account/my_account';
+$route['customer/join'] = 'login/register_customer';
+$route['customer/sign-in'] = 'login/sign_in_customer';
+$route['customer/sign-in/(:num)'] = 'login/sign_in_customer/$1';
+$route['account'] = 'login/redirect_account';
+$route['customer/account'] = 'site/account/my_account';
 $route['account/orders-list'] = 'site/account/orders_list';
 $route['account/my-details'] = 'site/account/my_details';
 $route['account/wishlist'] = 'site/account/wishlist';

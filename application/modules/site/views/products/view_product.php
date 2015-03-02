@@ -42,7 +42,7 @@
   <div class="product-info">
    <!-- left column -->
 
-    <div class="col-lg-4 col-md-4 col-sm-4">
+    <div class="col-lg-6 col-md-6 col-sm-6">
 
     	<div class="product-images">
     			<h4>Product Image</h4>
@@ -59,8 +59,9 @@
 									{
 										$thumb = $gal->product_image_thumb;
 										$image = $gal->product_image_name;
+										$image = $this->products_model->image_display($products_path, $products_location, $image);
 										?>
-										<div class="slide"><img src="<?php echo base_url()."assets/images/products/gallery/".$image;?>" width="920" height="400" /></div>
+										<div class="slide"><img src="<?php echo $image;?>" /></div>
 									<?php
 											}
 										}
@@ -93,10 +94,10 @@
 
                     <div class="social">
                         <div id="sharrre">
-                            <div class="facebook sharrre"><button class="btn btn-mini btn-facebook"><i  class="fa fa-facebook"></i></button></div>
+                            <!--<div class="facebook sharrre"><button class="btn btn-mini btn-facebook"><i  class="fa fa-facebook"></i></button></div>
                             <div class="twitter sharrre"><button class="btn btn-mini btn-twitter"><i  class="fa fa-twitter"></i></button></div>
                             <div class="googleplus sharrre"><button class="btn btn-mini btn-twitter"><i  class="fa fa-google-plus"></i> </button></div>                                                   
-                            <div class="pinterest sharrre"><button class="btn btn-mini btn-pinterest"><i  class="fa fa-pinterest"></i></button></div>
+                            <div class="pinterest sharrre"><button class="btn btn-mini btn-pinterest"><i  class="fa fa-pinterest"></i></button></div>-->
                         </div>
                     </div>
                 </div>
@@ -106,7 +107,7 @@
     
     
     <!-- right column -->
-    <div class="col-lg-8 col-md-8 col-sm-8">
+    <div class="col-lg-6 col-md-6 col-sm-6">
 
     	<div class="product-content">
     		<div class="product-content-header">
@@ -127,7 +128,7 @@
                        
                         	 <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                            
-                            <span class="hidden-phone">Info</span>
+                            <span class="hidden-phone">Business</span>
                         </a>
                     </li>
 
@@ -166,7 +167,8 @@
                         <form enctype="multipart/form-data" action="#" onsubmit="return false;" method="post">
                             
                             <div class="details">
-                                <h1><?php echo $product_name;?>  </h1>
+                            	<h3><?php echo $brand_name;?></h3>
+								<h6><?php echo $product_name;?></h6>
                                 <div class="prices"><span class="price"><?php echo $price;?></span></div>
 
                                 <div class="meta">
@@ -183,7 +185,7 @@
                             </div>
 
                             <div class="short-description">
-                                <p><?php echo $mini_desc;?></p>
+                                <p><?php echo $product_description;?></p>
                             </div>
                              <?php
 						      	//product features
@@ -278,9 +280,9 @@
 							  ?>
                             
 
-                            <div class="add-to-cart">
-                               
-                                <a href="#register" product_id="<?php echo $product_id;?>" class="btn btn-primary btn-small add_to_cart" data-toggle="modal" data-target=".bs-example-modal-md">
+                            <div class="sadd-to-cart">
+                               <a class="cbp-vm-icon cbp-vm-add add_to_wishlist" href="<?php echo $product_id;?>" product_id="<?php echo $product_id;?>" data-toggle="modal" data-target=".wishlist-modal"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Add to wishlist</a>
+                                <a href="#register" product_id="<?php echo $product_id;?>" class="btn btn-primary add_to_cart" data-toggle="modal" data-target=".bs-example-modal-md">
 		                          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> &nbsp; Add to cart 
 		                          </a>
 		                          <!-- Large modal -->

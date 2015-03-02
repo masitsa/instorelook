@@ -1,7 +1,7 @@
 <div class="container">
 	<div class="row">
         
-    	<div class="col-md-12 col-lg-12" style="padding:0;">
+    	<div class="col-md-12 col-lg-12" style="padding:0; margin-bottom:10px;">
             <!-- Slider -->
             <?php echo $this->load->view('home/slider', '', TRUE); ?>
         </div>

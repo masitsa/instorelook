@@ -11,9 +11,6 @@
         <div class="content light-grey-background">
         	<div class="container">
         		<div class="search-flights">
-                	<div class="divider-line"></div>
-                	<h1 class="center-align"><?php echo $title;?></h1>
-                	<div class="divider-line" style="margin-bottom:2%;"></div>
                     
                     <div class="center-align">
                     <?php

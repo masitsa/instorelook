@@ -29,6 +29,8 @@ class CI_Upload {
 	public $max_size				= 0;
 	public $max_width				= 0;
 	public $max_height				= 0;
+	public $min_width               = 0;
+	public $min_height              = 0;
 	public $max_filename			= 0;
 	public $allowed_types			= "";
 	public $file_temp				= "";
@@ -83,6 +85,8 @@ class CI_Upload {
 							'max_size'			=> 0,
 							'max_width'			=> 0,
 							'max_height'		=> 0,
+							'min_width'			=> 0,
+							'min_height'		=> 0,
 							'max_filename'		=> 0,
 							'allowed_types'		=> "",
 							'file_temp'			=> "",
@@ -252,6 +256,14 @@ class CI_Upload {
 		if ( ! $this->is_allowed_dimensions())
 		{
 			$this->set_error('upload_invalid_dimensions');
+			return FALSE;
+		}
+
+		// Are the image dimensions within the allowed size?
+		// Note: This can fail if the server has an open_basdir restriction.
+		if ( ! $this->is_allowed_min_dimensions())
+		{
+			$this->set_error('upload_invalid_min_dimensions');
 			return FALSE;
 		}
 
@@ -677,6 +689,39 @@ class CI_Upload {
 			}
 
 			if ($this->max_height > 0 AND $D['1'] > $this->max_height)
+			{
+				return FALSE;
+			}
+
+			return TRUE;
+		}
+
+		return TRUE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Verify that the image is within the allowed width/height
+	 *
+	 * @return	bool
+	 */
+	public function is_allowed_min_dimensions()
+	{
+		if ( ! $this->is_image())
+		{
+			return TRUE;
+		}
+
+		if (function_exists('getimagesize'))
+		{
+			$D = @getimagesize($this->file_temp);
+			
+			if ($this->min_width > 0 AND $D['0'] < $this->min_width)
+			{
+				return FALSE;
+			}
+			if ($this->min_height > 0 AND $D['1'] < $this->min_height)
 			{
 				return FALSE;
 			}

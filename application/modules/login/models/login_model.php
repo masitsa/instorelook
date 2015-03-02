@@ -19,14 +19,52 @@ class Login_model extends CI_Model
 		}
 	}
 	/*
-	*	Check if user has logged in
+	*	Check if customer has logged in
 	*
 	*/
 	public function check_customer_login()
 	{
-		if($this->session->userdata('customer_login_status'))
+		if($this->session->userdata('login_status'))
 		{
-			return TRUE;
+			$type = $this->session->userdata('user_type_id');
+			//var_dump($type); die();
+			if($type == 3)
+			{
+				return TRUE;
+			}
+			
+			else
+			{
+				return FALSE;
+			}
+		}
+		
+		else
+		{
+			return FALSE;
+		}
+	}
+	/*
+	*	Check if vendor has logged in
+	*
+	*/
+	public function check_vendor_login()
+	{
+		$status = $this->session->userdata('login_status');
+		
+		if($this->session->userdata('login_status'))
+		{
+			$type = $this->session->userdata('user_type_id');
+			
+			if($type == 2)
+			{
+				return TRUE;
+			}
+			
+			else
+			{
+				return FALSE;
+			}
 		}
 		
 		else
@@ -81,7 +119,7 @@ class Login_model extends CI_Model
 	{
 		//select the user by email from the database
 		$this->db->select('*');
-		$this->db->where(array('customer_email' => $this->input->post('email'), 'activated' => 1, 'customer_password' => md5($this->input->post('password'))));
+		$this->db->where(array('customer_email' => $this->input->post('customer_email'), 'activated' => 1, 'customer_password' => md5($this->input->post('customer_password'))));
 		$query = $this->db->get('customer');
 		
 		//if users exists
@@ -90,13 +128,13 @@ class Login_model extends CI_Model
 			$result = $query->result();
 			//create user's login session
 			$newdata = array(
-                   'customer_login_status'     => TRUE,
+                   'login_status'     => TRUE,
                    'customer_first_name'     => $result[0]->customer_first_name,
                    'email'     => $result[0]->customer_email,
                    'customer_id'     => $result[0]->customer_id,
                    'user_type_id'  => 3
                );
-
+			   
 			$this->session->set_userdata($newdata);
 			
 			//update user's last login date time
@@ -146,5 +184,29 @@ class Login_model extends CI_Model
 		$this->db->update('users', $data); 
 		
 		return $new_password;
+	}
+	
+	public function register_customer()
+	{
+		$data = array( 
+				'customer_first_name' => $this->input->post('customer_first_name'),
+				'customer_surname' => $this->input->post('customer_surname'),
+				'customer_email' => $this->input->post('customer_email'),
+				'customer_phone' => $this->input->post('customer_phone'),
+				'customer_password' => md5($this->input->post('customer_password')),
+				'customer_created' => date('Y-m-d H:i:s'),
+				'customer_last_login' => date('Y-m-d H:i:s'),
+				'activated' => 1
+		);
+		
+		if($this->db->insert('customer', $data))
+		{
+			return TRUE;
+		}
+		
+		else
+		{
+			return FALSE;
+		}
 	}
 }

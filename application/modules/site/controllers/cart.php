@@ -6,6 +6,7 @@ class Cart extends site {
 	
 	function __construct()
 	{
+		$this->load->model('login/login_model');
 		parent:: __construct();
 	}
 	
@@ -23,6 +24,36 @@ class Cart extends site {
 		else
 		{
 			$data['result'] = 'failure';
+		}
+		
+		echo json_encode($data);
+	}
+	
+	public function add_to_wishlist($product_id)
+	{
+		//check if a customer is logged in
+		if($this->login_model->check_customer_login())
+		{
+			if($this->cart_model->add_wishlist_item($product_id, $this->session->userdata('customer_id')))
+			{
+				$cart_items = $this->cart_model->get_cart();
+				
+				$data['result'] = 'success';
+				$data['message'] = 'You have added the product to your wishlist';
+			}
+			
+			else
+			{
+				$data['result'] = 'failure';
+				$data['message'] = 'Unable to add the product to your wishlist. Please try again';
+			}
+		}
+		
+		//user has not logged in
+		else
+		{
+			$data['result'] = 'Please sign in to continue';
+			$data['message'] = $this->load->view('login/customer', '', TRUE);;
 		}
 		
 		echo json_encode($data);

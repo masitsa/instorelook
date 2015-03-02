@@ -117,11 +117,40 @@ class Products_model extends CI_Model
 			
 		if($this->db->insert('product', $data))
 		{
-			return $this->db->insert_id();
+			$product_id = $this->db->insert_id();
+			
+			//save locations
+			$this->save_product_locations($product_id);
+			
+			return $product_id;
 		}
 		else{
 			return FALSE;
 		}
+	}
+	
+	public function save_product_locations($product_id)
+	{
+		//delete previous locations
+		$this->db->where('product_id', $product_id);
+		$this->db->delete('product_location');
+		
+		//save locations
+		$product_locations = $this->input->post('product_locations');
+		
+		$total_locations = count($product_locations);
+		$data['product_id'] = $product_id;
+		
+		for($r = 0; $r < $total_locations; $r++)
+		{
+			$surburb_id = $product_locations[$r];
+			$data['surburb_id'] = $surburb_id;
+			$data['product_location_status'] = 1;
+			
+			$this->db->insert('product_location', $data);
+		}
+		
+		return TRUE;
 	}
 	
 	/*
@@ -154,6 +183,9 @@ class Products_model extends CI_Model
 		$this->db->where('product_id', $product_id);
 		if($this->db->update('product', $data))
 		{
+			//save locations
+			$this->save_product_locations($product_id);
+			
 			return TRUE;
 		}
 		else{
@@ -910,7 +942,7 @@ class Products_model extends CI_Model
 			//var_dump($array); die();
 			$response2 = $this->sort_csv_data($array);
 		
-			if($this->file_model->delete_file($upload_path."\\".$file_name))
+			if($this->file_model->delete_file($upload_path."\\".$file_name, $upload_path))
 			{
 			}
 			
@@ -1107,7 +1139,18 @@ class Products_model extends CI_Model
 					//save product in the db
 					if($this->db->insert('product', $items))
 					{
-						$comment .= '<br/>Product successfully added to the database';
+						//add product location
+						$data['product_id'] = $this->db->insert_id();
+						$data['product_location_status'] = 1;
+						$data['surburb_id'] = $this->vendor_model->get_vendor_surburb($this->session->userdata('vendor_id'));
+						if($this->db->insert('product_location', $data))
+						{
+							$comment .= '<br/>Product successfully added to the database';
+						}
+						else
+						{
+							$comment .= '<br/>Product successfully added to the database but the product\'s location was not added';
+						}
 					}
 					
 					else
@@ -1376,6 +1419,122 @@ class Products_model extends CI_Model
 		$query = $this->db->get('',10);
 		
 		return $query;
+	}
+	
+	public function get_product_locations($product_id)
+	{
+		$this->db->where(array('product_id'=>$product_id, 'product_location_status'=>1));
+		$query = $this->db->get('product_location');
+		
+		return $query;
+	}
+	
+	public function duplicate_features($old_product_id, $product_id)
+	{
+		$features = $this->products_model->get_features($old_product_id);
+		if($features->num_rows() > 0)
+		{
+			$feat = $features->result();
+			
+			foreach($feat as $f)
+			{
+				$feature_id = $f->feature_id;
+				$name = $f->feature_value;
+				$price = $f->price;
+				$quantity = $f->quantity;
+				$image = $f->image;
+				$thumb = $f->thumb;
+				
+				$data = array(
+						'feature_id'=>$feature_id,
+						'product_id'=>$product_id,
+						'feature_value'=>$name,
+						'quantity'=>$quantity,
+						'price'=>$price,
+						'image'=>$image,
+						'thumb'=>$thumb
+					);
+					
+				$this->db->insert('product_feature', $data);
+			}
+		}	
+	}
+	
+	public function duplicate_gallery_images($old_product_id, $product_id)
+	{
+		$gallery_images = $this->products_model->get_gallery_images($old_product_id);
+		if($gallery_images->num_rows() > 0)
+		{
+			$feat = $gallery_images->result();
+			
+			foreach($feat as $f)
+			{
+				$image = $f->product_image_name;
+				$thumb = $f->product_image_thumb;
+				
+				$data = array(
+						'product_image_name'=>$image,
+						'product_image_thumb'=>$thumb
+					);
+					
+				$this->db->insert('product_image', $data);
+			}
+		}	
+	}
+	
+	public function duplicate_locations($old_product_id, $product_id)
+	{
+		$locations = $this->products_model->get_product_locations($old_product_id);
+		if($locations->num_rows() > 0)
+		{
+			$feat = $locations->result();
+			
+			foreach($feat as $f)
+			{
+				$surburb_id = $f->surburb_id;
+				
+				$data = array(
+						'surburb_id'=>$surburb_id,
+						'product_location_status'=>1
+					);
+					
+				$this->db->insert('product_location', $data);
+			}
+		}	
+	}
+	
+	public function image_display($base_path, $location, $image_name = NULL)
+	{
+		$default_image = 'http://placehold.it/300x300&text=ISL';
+		$file_path = $base_path.'/'.$image_name;
+		//echo $file_path.'<br/>';
+		
+		//Check if image was passed
+		if($image_name != NULL)
+		{
+			if(!empty($image_name))
+			{
+				if((file_exists($file_path)) && ($file_path != $base_path.'\\'))
+				{
+					return $location.$image_name;
+				}
+				
+				else
+				{
+					return $default_image;
+				}
+			}
+			
+			else
+			{
+				return $default_image;
+			}
+		}
+		
+		else
+		{
+			return $default_image;
+		}
 	}
 }
 ?>

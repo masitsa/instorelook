@@ -63,6 +63,25 @@ class Cart_model extends CI_Model
     
 	/*
 	*
+	*	Add an item to the wishlist
+	*	@param int product_id
+	*
+	*/
+	public function add_wishlist_item($product_id, $customer_id)
+	{
+		$data = array(
+			   'product_id'      => $product_id,
+			   'date_added'     => date('Y-m-d H:i:s'),
+			   'customer_id'   => $customer_id
+			);
+
+		$this->db->insert('wishlist', $data); 
+		
+		return TRUE;
+	}
+    
+	/*
+	*
 	*	Check if cart contains a particular product
 	*	@param int product_id
 	*

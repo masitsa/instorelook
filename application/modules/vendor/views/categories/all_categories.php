@@ -35,7 +35,7 @@ echo $this->load->view('vendor/search/search_categories', $v_data, TRUE); ?>
 						'.$search_result.'
 						</div>
 	            		<div class="pull-right">
-							<a href="'.site_url().'vendor/add-category" class="btn btn-primary pull-right">Add Category</a>
+							<a href="'.site_url().'vendor/account-profile/subscription" class="btn btn-primary pull-right">Add Category</a>
 						
 						</div>
 					</div>
@@ -56,7 +56,6 @@ echo $this->load->view('vendor/search/search_categories', $v_data, TRUE); ?>
 						  <th class="table-sortable:default table-sortable" title="Click to sort">#</th>
 						  <th>Image</th>
 						  <th class="table-sortable:default table-sortable" title="Click to sort">Category Name</th>
-						  <th class="table-sortable:default table-sortable" title="Click to sort">Category Parent</th>
 						  <th class="table-sortable:default table-sortable" title="Click to sort">Date Created</th>
 						  <th class="table-sortable:default table-sortable" title="Click to sort">Last Modified</th>
 						  <th>Status</th>
@@ -110,6 +109,26 @@ echo $this->load->view('vendor/search/search_categories', $v_data, TRUE); ?>
 							break;
 						}
 					}
+					
+					/*$children = '';
+					//Display child categories
+					if($child_categories->num_rows() > 0)
+					{
+						foreach($child_categories->result() as $res)
+						{
+							$child_category_id = $row->category_id;
+							$child_category_name = $row->category_name;
+							$child_parent = $row->category_parent;
+							$child_category_status = $row->category_status;
+							$child_image = $row->category_image_name;
+							
+							//display only the particular category's children
+							if($child_parent == $category_id)
+							{
+								
+							}
+						}
+					}*/
 					
 					//create deactivated status display
 					if($category_status == 0)
@@ -167,7 +186,6 @@ echo $this->load->view('vendor/search/search_categories', $v_data, TRUE); ?>
 							<td>'.$count.'</td>
 							<td><img src="'.base_url()."assets/images/categories/thumbnail_".$image.'"></td>
 							<td>'.$category_name.'</td>
-							<td>'.$category_parent.'</td>
 							<td>'.date('jS M Y H:i a',strtotime($row->created)).'</td>
 							<td>'.date('jS M Y H:i a',strtotime($row->last_modified)).'</td>
 							<td>'.$status.'</td>
@@ -186,44 +204,62 @@ echo $this->load->view('vendor/search/search_categories', $v_data, TRUE); ?>
 											</div>
 											
 											<div class="modal-body">
-												<table class="table table-stripped table-condensed table-hover">
-													<tr>
-														<th>Category Name</th>
-														<td>'.$category_name.'</td>
-													</tr>
-													<tr>
-														<th>Category Parent</th>
-														<td>'.$category_parent.'</td>
-													</tr>
-													<tr>
-														<th>Status</th>
-														<td>'.$status.'</td>
-													</tr>
-													<tr>
-														<th>Category Preffix</th>
-														<td>'.$row->category_preffix.'</td>
-													</tr>
-													<tr>
-														<th>Date Created</th>
-														<td>'.date('jS M Y H:i a',strtotime($row->created)).'</td>
-													</tr>
-													<tr>
-														<th>Created By</th>
-														<td>'.$created_by.'</td>
-													</tr>
-													<tr>
-														<th>Date Modified</th>
-														<td>'.date('jS M Y H:i a',strtotime($row->last_modified)).'</td>
-													</tr>
-													<tr>
-														<th>Modified By</th>
-														<td>'.$modified_by.'</td>
-													</tr>
-													<tr>
-														<th>Category Image</th>
-														<td><img src="'.base_url()."assets/images/categories/".$image.'"></td>
-													</tr>
-												</table>
+												<div class="tabbable">
+													<ul id="myTab" class="nav nav-tabs">
+														<li class="active">
+															<a data-toggle="tab" href="#category">Category details</a>
+														</li>
+														<!--<li>
+															<a data-toggle="tab" href="#level1">Sub categories</a>
+														</li>-->
+													</ul>
+													<div id="myTabContent" class="tab-content">
+														<div class="tab-pane fade in active" id="category">
+																													<table class="table table-stripped table-condensed table-hover">
+															<tr>
+																<th>Category Name</th>
+																<td>'.$category_name.'</td>
+															</tr>
+															<tr>
+																<th>Category Parent</th>
+																<td>'.$category_parent.'</td>
+															</tr>
+															<tr>
+																<th>Status</th>
+																<td>'.$status.'</td>
+															</tr>
+															<tr>
+																<th>Category Preffix</th>
+																<td>'.$row->category_preffix.'</td>
+															</tr>
+															<tr>
+																<th>Date Created</th>
+																<td>'.date('jS M Y H:i a',strtotime($row->created)).'</td>
+															</tr>
+															<tr>
+																<th>Created By</th>
+																<td>'.$created_by.'</td>
+															</tr>
+															<tr>
+																<th>Date Modified</th>
+																<td>'.date('jS M Y H:i a',strtotime($row->last_modified)).'</td>
+															</tr>
+															<tr>
+																<th>Modified By</th>
+																<td>'.$modified_by.'</td>
+															</tr>
+															<tr>
+																<th>Category Image</th>
+																<td><img src="'.base_url()."assets/images/categories/".$image.'"></td>
+															</tr>
+														</table>
+
+														</div>
+														<div class="tab-pane fade in" id="level1">
+															
+														</div>
+													</div>
+												</div>
 											</div>
 											<div class="modal-footer">
 												'.$actions.'

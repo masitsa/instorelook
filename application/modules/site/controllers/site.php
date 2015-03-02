@@ -4,6 +4,8 @@ class Site extends MX_Controller
 {	
 	var $slideshow_location;
 	var $static_banner_location;
+	var $products_path;
+	var $products_location;
 	
 	function __construct()
 	{
@@ -20,6 +22,8 @@ class Site extends MX_Controller
 		
 		$this->load->model('site/site_model');
 		$this->slideshow_location = base_url().'assets/slideshow/';
+		$this->products_path = realpath(APPPATH . '../assets/images/products/images');
+		$this->products_location = base_url().'assets/images/products/images/';
 	}
     
 	/*
@@ -40,6 +44,8 @@ class Site extends MX_Controller
 	public function home_page() 
 	{
 		//get page data
+		$v_data['products_path'] = $this->products_path;
+		$v_data['products_location'] = $this->products_location;
 		$v_data['latest'] = $this->products_model->get_latest_products();
 		$v_data['featured'] = $this->products_model->get_featured_products();
 		$v_data['brands'] = $this->brands_model->all_active_brands();

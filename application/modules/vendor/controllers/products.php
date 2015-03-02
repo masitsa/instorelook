@@ -2,8 +2,10 @@
 
 require_once "./application/modules/vendor/controllers/account.php";
 
-class Products extends account {
+class Products extends account 
+{
 	var $products_path;
+	var $products_location;
 	var $gallery_path;
 	var $features_path;
 	var $csv_path;
@@ -16,10 +18,12 @@ class Products extends account {
 		$this->load->model('categories_model');
 		$this->load->model('brands_model');
 		$this->load->model('features_model');
+		$this->load->model('vendor_model');
 		$this->load->model('admin/file_model');
 		
 		//path to image directory
 		$this->products_path = realpath(APPPATH . '../assets/images/products/images');
+		$this->products_location = base_url().'assets/images/products/images/';
 		$this->gallery_path = realpath(APPPATH . '../assets/images/products/gallery');
 		$this->features_path = realpath(APPPATH . '../assets/images/features');
 		$this->csv_path = realpath(APPPATH . '../assets/csv');
@@ -232,6 +236,8 @@ class Products extends account {
 		$v_data['all_categories'] = $this->categories_model->all_categories();
 		$v_data['all_brands'] = $this->brands_model->all_active_brands();
 		$v_data['all_discount_types'] = $this->products_model->get_discount_types();
+		$v_data['surburbs_query'] = $this->vendor_model->get_all_surburbs();
+		$v_data['vendor_surburb_id'] = $this->vendor_model->get_vendor_surburb($this->session->userdata('vendor_id'));
 		$v_data['features'] = $this->features_model->all_features_by_category(0);
 		$data['content'] = $this->load->view('products/add_product', $v_data, true);
 		$this->load->view('account_template', $data);
@@ -372,8 +378,168 @@ class Products extends account {
 			$v_data['gallery_images'] = $this->products_model->get_gallery_images($product_id);
 			$v_data['all_discount_types'] = $this->products_model->get_discount_types();
 			$v_data['all_features'] = $this->features_model->all_features();
+			$v_data['surburbs_query'] = $this->vendor_model->get_all_surburbs();
+			$v_data['product_locations'] = $this->products_model->get_product_locations($product_id);
 			$v_data['product'] = $query->result();
 			$data['content'] = $this->load->view('products/edit_product', $v_data, true);
+		}
+		
+		else
+		{
+			$data['content'] = 'product does not exist';
+		}
+		
+		$this->load->view('account_template', $data);
+	}
+    
+	/*
+	*
+	*	Duplicate an existing product
+	*	@param int $product_id
+	*
+	*/
+	public function duplicate_product($product_id) 
+	{
+		//form validation rules
+		$this->form_validation->set_rules('product_name', 'Product Name', 'required|xss_clean');
+		$this->form_validation->set_rules('product_status', 'Product Status', 'xss_clean');
+		$this->form_validation->set_rules('product_buying_price', 'Product Buying Price', 'numeric|xss_clean');
+		$this->form_validation->set_rules('product_selling_price', 'Product Selling Price', 'numeric|required|xss_clean');
+		$this->form_validation->set_rules('product_description', 'Product Description', 'required|xss_clean');
+		$this->form_validation->set_rules('product_balance', 'Product Balance', 'greater_than[0]|required|xss_clean');
+		$this->form_validation->set_rules('brand_id', 'Product Brand', 'xss_clean');
+		$this->form_validation->set_rules('category_id', 'Product Category', 'required|xss_clean');
+		$this->form_validation->set_rules('minimum_order_quantity', 'Minimum Order Quantity', 'numeric|xss_clean');
+		$this->form_validation->set_rules('maximum_purchase_quantity', 'Maximum Purchase Quantity', 'numeric|xss_clean');
+		
+		//if form has been submitted
+		if ($this->form_validation->run())
+		{
+			if(is_uploaded_file($_FILES['product_image']['tmp_name']))
+			{
+				$this->load->library('image_lib');
+				
+				$products_path = $this->products_path;
+				
+				//delete original image
+				$this->file_model->delete_file($products_path."\images\\".$this->input->post('current_image'));
+				
+				//delete original thumbnail
+				$this->file_model->delete_file($products_path."\images\\".$this->input->post('current_thumb'));
+				/*
+					-----------------------------------------------------------------------------------------
+					Upload image
+					-----------------------------------------------------------------------------------------
+				*/
+				$resize['width'] = 600;
+				$resize['height'] = 800;
+				
+				$response = $this->file_model->upload_file($products_path, 'product_image', $resize);
+				
+				if($response['check'])
+				{
+					$file_name = $response['file_name'];
+					$thumb_name = $response['thumb_name'];
+				}
+			
+				else
+				{
+					$this->session->set_userdata('error_message', $response['error']);
+					
+					$data['title'] = 'Duplicate product';
+					$query = $this->products_model->get_product($product_id);
+					if ($query->num_rows() > 0)
+					{
+						/*$v_data['all_categories'] = $this->categories_model->all_categories();
+						$v_data['all_brands'] = $this->brands_model->all_active_brands();
+						$data['content'] = $this->load->view('products/edit_product', $v_data, true);*/
+					}
+					
+					else
+					{
+						$data['content'] = 'product does not exist';
+					}
+					
+					/*$this->load->view('account_template', $data);
+					break;*/
+					$break = TRUE;
+				}
+			}
+			
+			else{
+				$file_name = $this->input->post('current_image');
+				$thumb_name = $this->input->post('current_thumb');
+			}
+			
+			
+			if(!isset($break))
+			{
+				//duplicate product
+				$old_product_id = $product_id;
+				$product_id = $this->products_model->add_product($file_name, $thumb_name);
+				if($product_id > 0)
+				{
+					//duplicate features
+					$this->products_model->duplicate_features($old_product_id, $product_id);
+					//duplicate gallery images
+					$this->products_model->duplicate_gallery_images($old_product_id, $product_id);
+					//duplicate locations
+					$this->products_model->duplicate_locations($old_product_id, $product_id);
+					
+					$resize['width'] = 600;
+					$resize['height'] = 800;
+					$features_response = $this->products_model->save_features($product_id);
+					
+					if($features_response)
+					{
+						$response = $this->file_model->upload_gallery($product_id, $this->gallery_path, $resize);
+						
+						if($response)
+						{
+							$this->session->set_userdata('success_message', 'Product duplicated successfully');
+							redirect('vendor/all-products');
+						}
+						
+						else
+						{
+							$this->session->set_userdata('error_message', 'Could not duplicated gallery. Please try again');
+							redirect('vendor/all-products');
+						}
+					}
+						
+					else
+					{
+						$this->session->set_userdata('error_message', 'Could not duplicated features. Please try again');
+						redirect('vendor/all-products');
+					}
+				}
+				
+				else
+				{
+					$this->session->set_userdata('error_message', 'Could not duplicated product. Please try again');
+					redirect('vendor/all-products');
+				}
+			}
+		}
+		
+		//open the add new product
+		$data['title'] = 'Duplicate product';
+		
+		//select the product from the database
+		$query = $this->products_model->get_product($product_id);
+		
+		if ($query->num_rows() > 0)
+		{
+			$v_data['all_categories'] = $this->categories_model->all_categories();
+			$v_data['all_brands'] = $this->brands_model->all_active_brands();
+			$v_data['features'] = $this->products_model->get_features($product_id);
+			$v_data['gallery_images'] = $this->products_model->get_gallery_images($product_id);
+			$v_data['all_discount_types'] = $this->products_model->get_discount_types();
+			$v_data['all_features'] = $this->features_model->all_features();
+			$v_data['surburbs_query'] = $this->vendor_model->get_all_surburbs();
+			$v_data['product_locations'] = $this->products_model->get_product_locations($product_id);
+			$v_data['product'] = $query->result();
+			$data['content'] = $this->load->view('products/duplicate_product', $v_data, true);
 		}
 		
 		else
@@ -982,10 +1148,10 @@ class Products extends account {
 		{
 			$where .= $product_bundle_search;
 		}
-		$segment = 3;
+		$segment = 4;
 		//pagination
 		$this->load->library('pagination');
-		$config['base_url'] = base_url().'vendor/all-product-bundle';
+		$config['base_url'] = base_url().'vendor/all-product-bundle/'.$bundle_id;
 		$config['total_rows'] = $this->users_model->count_items($table, $where);
 		$config['uri_segment'] = $segment;
 		$config['per_page'] = 20;

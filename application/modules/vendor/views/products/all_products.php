@@ -258,6 +258,7 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
 											<a href="'.site_url().'vendor/edit-product/'.$product_id.'" class="btn btn-sm btn-success">Edit</a>
+											<a href="'.site_url().'vendor/duplicate-product/'.$product_id.'" class="btn btn-sm btn-warning">Duplicate</a>
 											'.$button.'
 											<a href="'.site_url().'vendor/delete-product/'.$product_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$product_name.'?\');">Delete</a>
 										</div>
@@ -267,6 +268,7 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 						
 						</td>
 						<td><a href="'.site_url().'vendor/edit-product/'.$product_id.'" class="btn btn-sm btn-success">Edit</a></td>
+						<td><a href="'.site_url().'vendor/duplicate-product/'.$product_id.'" class="btn btn-sm btn-warning">Duplicate</a></td>
 						<td>'.$button.'</td>
 						<td><a href="'.site_url().'vendor/delete-product/'.$product_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$product_name.'?\');">Delete</a></td>
 					</tr> 

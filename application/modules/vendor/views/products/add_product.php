@@ -2,21 +2,21 @@
           <div class="padd">
           	<a href="<?php echo site_url().'vendor/all-products';?>" class="btn btn-sm btn-info">Back to products</a>
 			<?php echo form_open_multipart($this->uri->uri_string(), array("class" => "form-horizontal", "role" => "form"));?>
-         	<div class="row">
-            	<div class="col-md-6">
                     <!-- Adding Errors -->
                     <?php
                     if(isset($error)){
-                        echo '<div class="alert alert-danger"> Oh snap! Change a few things up and try submitting again. </div>';
+                        echo '<div class="alert alert-danger center-align"> Oh snap! Change a few things up and try submitting again. </div>';
                     }
                     
                     $validation_errors = validation_errors();
                     
                     if(!empty($validation_errors))
                     {
-                        echo '<div class="alert alert-danger"> Oh snap! '.$validation_errors.' </div>';
+                        echo '<div class="alert alert-danger center-align"> Oh snap! '.$validation_errors.' </div>';
                     }
                     ?>
+         	<div class="row">
+            	<div class="col-md-6">
                     
                     <!-- product Name -->
                     <div class="form-group">
@@ -80,18 +80,40 @@
                             </select>
                         </div>
                     </div> 
+                    <!-- Product locations -->
+                    <div class="form-group multiselect_items">
+                        <label for="categories" class="col-sm-4 control-label">Product Locations</label>
+                        <div class="col-sm-7">
+                            <select type="text" class="form-control multiselect multiselect-icon" multiple="multiple" role="multiselect" name="product_locations[]">
+                                <?php
+                                if($surburbs_query->num_rows() > 0)
+                                {
+                                    foreach($surburbs_query->result() as $cat)
+                                    {
+                                        $selected = '';
+										if($vendor_surburb_id == $cat->surburb_id)
+										{
+											$selected = 'selected';
+										}
+                                        echo '<option value="'.$cat->surburb_id.'" '.$selected.'>'.$cat->surburb_name.', '.$cat->post_code.'</option>';
+                                    }
+                                }
+                                ?>
+                            </select> 
+                        </div>
+                    </div>
                     <!-- Product Buying Price -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Product Buying Price</label>
                         <div class="col-lg-7">
-                            <input type="number" class="form-control" name="product_buying_price" placeholder="Product Buying Price" value="<?php echo set_value('product_buying_price');?>">
+                            <input type="text" class="form-control" name="product_buying_price" placeholder="Product Buying Price" value="<?php echo set_value('product_buying_price');?>">
                         </div>
                     </div>
                     <!-- Product Selling Price -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Product Selling Price <span class="required">*</span></label>
                         <div class="col-lg-7">
-                            <input type="number" class="form-control" name="product_selling_price" placeholder="Product Selling Price" value="<?php echo set_value('product_selling_price');?>">
+                            <input type="text" class="form-control" name="product_selling_price" placeholder="Product Selling Price" value="<?php echo set_value('product_selling_price');?>">
                         </div>
                     </div>
                     <div class="form-group">
@@ -118,13 +140,13 @@
                     <div id="percentage_div" class="form-group" style="display:none;">
                         <label class="col-lg-4 control-label">Sale % Off</label>
                         <div class="col-lg-7">
-                            <input type="number" class="form-control" name="product_sale_price" placeholder="Product Sale Price" value="">
+                            <input type="text" class="form-control" name="product_sale_price" placeholder="Product Sale Price" value="">
                         </div>
                     </div>
                     <div id="amount_div" class="form-group" style="display:none;">
                         <label class="col-lg-4 control-label">Amount $ off</label>
                         <div class="col-lg-7">
-                            <input type="number" class="form-control" name="product_sale_price" placeholder="Product Sale Price" value="">
+                            <input type="text" class="form-control" name="product_sale_price" placeholder="Product Sale Price" value="">
                         </div>
                     </div>
                     <!-- Product Balance -->
@@ -377,3 +399,4 @@
 		return false;
 	});
 </script>
+<?php echo $this->load->view('vendor/multiselect_js');?>

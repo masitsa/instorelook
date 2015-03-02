@@ -117,8 +117,8 @@ class Checkout extends site {
 	public function login_user($page)
 	{
 		//form validation rules
-		$this->form_validation->set_rules('email', 'Email', 'required|xss_clean|exists[customer.customer_email]');
-		$this->form_validation->set_rules('password', 'Password', 'required|xss_clean');
+		$this->form_validation->set_rules('customer_email', 'Email', 'required|xss_clean|exists[customer.customer_email]');
+		$this->form_validation->set_rules('customer_password', 'Password', 'required|xss_clean');
 		$this->form_validation->set_message('exists', 'That email does not exist. Are you trying to sign up?');
 		
 		//if form has been submitted

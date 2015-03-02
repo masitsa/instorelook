@@ -9,13 +9,13 @@ echo $this->load->view('vendor/search/search_product_bundle', $v_data, TRUE); ?>
 		$search_result2  ='';
 		if(!empty($error))
 		{
-			$search_result2 = '<div class="alert alert-danger">'.$error.'</div>';
+			$search_result2 = '<div class="alert alert-danger center-align">'.$error.'</div>';
 			$this->session->unset_userdata('error_message');
 		}
 		
 		if(!empty($success))
 		{
-			$search_result2 ='<div class="alert alert-success">'.$success.'</div>';
+			$search_result2 ='<div class="alert alert-success center-align">'.$success.'</div>';
 			$this->session->unset_userdata('success_message');
 		}
 				

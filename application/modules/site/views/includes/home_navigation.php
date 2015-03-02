@@ -68,14 +68,15 @@
                         if($this->session->userdata('login_status'))
 						{
 							?>
-                            <li><a href="<?php echo site_url().'vendor/account'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Account</a></li>
+                            <li><a href="<?php echo site_url().'account'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Account</a></li>
                             <?php
 						}
 						
 						else
 						{
 							?>
-                            <li><a href="<?php echo site_url().'sign-in'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Sign in</a></li>
+                            <!--<li><a href="<?php echo site_url().'sign-in'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Sign in</a></li>-->
+                            <li><a href="<?php echo site_url().'join'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Join</a></li>
                             <?php
 						}
 						?>
@@ -97,7 +98,7 @@
                 <div class="pull-right">
                 	<form id="searchform" action="/" method="get" role="search">
                         <input id="s" type="text" placeholder="Search entire store here..." name="s" value="">
-                        <button id="searchsubmit" class="fa fa-search" type="submit"></button>
+                        <button id="searchsubmit" class="glyphicon glyphicon-search" type="submit"></button>
                     </form>
                 </div>
             </div>
@@ -122,7 +123,7 @@
                             </button>
                         </div>
                         
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-cart"> <i class="fa fa-shopping-cart colorWhite"> </i> <span class="cartRespons colorWhite" id="menu_cart_total"> Cart (KES <?php echo $this->load->view('site/cart/cart_total', '', TRUE);?>) </span> </button>
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-cart"> <i class="glyphicon glyphicon-shopping-cart"> </i> <span class="cartRespons colorWhite" id="menu_cart_total"> Cart ($<?php echo $this->load->view('site/cart/cart_total', '', TRUE);?>) </span> </button>
                 
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse js-navbar-collapse" id="bs-example-navbar-collapse-1">

@@ -38,7 +38,7 @@
 						<div class="col-md-6">
 							<div class="form-group"><input type="text" class="form-control feature_input" placeholder="Feature Name" id="sub_feature_name'.$category_feature_id.'" name="sub_feature_name'.$category_feature_id.'"/></div>
 							<div class="form-group"><input type="number" class="form-control feature_input" placeholder="Quantity" id="sub_feature_qty'.$category_feature_id.'" name="sub_feature_qty'.$category_feature_id.'"/></div>
-							<div class="form-group"><input type="number" class="form-control feature_input" placeholder="Additional Price" id="sub_feature_price'.$category_feature_id.'" name="sub_feature_price'.$category_feature_id.'"/></div>
+							<div class="form-group"><input type="text" class="form-control feature_input" placeholder="Additional Price" id="sub_feature_price'.$category_feature_id.'" name="sub_feature_price'.$category_feature_id.'"/></div>
 						</div>
 						<div class="col-md-6">
 							<div class="fileinput fileinput-new" data-provides="fileinput">

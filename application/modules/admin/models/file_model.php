@@ -77,6 +77,25 @@ class File_model extends CI_Model
 		return $response;
 	}
 	
+	public function validate_min_dimensions($data, $width_check = 300, $height_check = 300)
+	{
+		return TRUE;
+		/*list($width, $height) = getimagesize($data['full_path']);
+		
+		if(($width < $width_check) || ($height < $height_check))
+		{
+			//delete the uploaded file
+			$this->file_model->delete_file($image_upload_data['full_path']);
+			
+			return FALSE;
+		}
+		
+		else
+		{
+			return TRUE;
+		}*/
+	}
+	
 	/*
 	*	Upload file
 	*	@param string $upload_path
@@ -90,6 +109,8 @@ class File_model extends CI_Model
 				'upload_path' 	=> $upload_path,
 				'quality' 		=> "100%",
 				'max_size'      => '0',
+				'min_width'      => '300',
+				'min_height'      => '300',
 				'file_name' 	=> md5(date('Y-m-d H:i:s'))
 			);
 			
@@ -104,48 +125,59 @@ class File_model extends CI_Model
 		
 		else
 		{
-			// otherwise, put the upload datas here.
+			// otherwise, put the upload data here.
 			// if you want to use database, put insert query in this loop
 			$image_upload_data = $this->upload->data();
 			
-			$file_name = $image_upload_data['file_name'];
+			//check for minimum dimensions (300px by 300px)
+			if($this->file_model->validate_min_dimensions($image_upload_data))
+			{
 			
-			// set the resize config
-			$resize_conf = array(
-					'source_image'  => $image_upload_data['full_path'], 
-					'width' => $resize['width'],
-					'height' => $resize['height'],
-					'master_dim' => 'width',
-					'maintain_ratio' => TRUE
-				);
-
-			// initializing
-			$this->image_lib->initialize($resize_conf);
-
-			// do it!
-			if ( ! $this->image_lib->resize())
-			{
-				$response['check'] = FALSE;
-				$response['error'] =  $this->image_lib->display_errors();
-			}
-			else
-			{
-				//Create thumbnail
-				$create = $this->resize_image($image_upload_data['full_path'], $image_upload_data['file_path'].'thumbnail_'.$file_name, 80, 80);
+				$file_name = $image_upload_data['file_name'];
 				
-				if($create)
-				{
-					$response['check'] = TRUE;
-					$response['file_name'] =  $file_name;
-					$response['thumb_name'] =  'thumbnail_'.$file_name;
-					$response['upload_data'] =  $image_upload_data;
-				}
-				
-				else
+				// set the resize config
+				$resize_conf = array(
+						'source_image'  => $image_upload_data['full_path'], 
+						'width' => $resize['width'],
+						'height' => $resize['height'],
+						'master_dim' => 'width',
+						'maintain_ratio' => TRUE
+					);
+	
+				// initializing
+				$this->image_lib->initialize($resize_conf);
+	
+				// do it!
+				if ( ! $this->image_lib->resize())
 				{
 					$response['check'] = FALSE;
 					$response['error'] =  $this->image_lib->display_errors();
 				}
+				else
+				{
+					//Create thumbnail
+					$create = $this->resize_image($image_upload_data['full_path'], $image_upload_data['file_path'].'thumbnail_'.$file_name, 80, 80);
+					
+					if($create)
+					{
+						$response['check'] = TRUE;
+						$response['file_name'] =  $file_name;
+						$response['thumb_name'] =  'thumbnail_'.$file_name;
+						$response['upload_data'] =  $image_upload_data;
+					}
+					
+					else
+					{
+						$response['check'] = FALSE;
+						$response['error'] =  $this->image_lib->display_errors();
+					}
+				}
+			}
+				
+			else
+			{
+				$response['check'] = FALSE;
+				$response['error'] =  'Please upload an image that is at least 300px by 300px';
 			}
 		}
 		
@@ -190,9 +222,9 @@ class File_model extends CI_Model
 	*	@param string $file_path
 	*
 	*/
-	public function delete_file($file_path)
+	public function delete_file($file_path, $base_path)
 	{
-		if(file_exists($file_path)) 
+		if((!empty($file_path)) &&(file_exists($file_path)) && ($file_path != $base_path.'\\'))
 		{
 			unlink($file_path);
 			return TRUE;

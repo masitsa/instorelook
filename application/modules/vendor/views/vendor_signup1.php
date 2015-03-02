@@ -3,7 +3,7 @@
         	<div class="container">
         		<div class="search-flights">
                 	<div class="divider-line"></div>
-                	<h1 class="center-align">Vendor Sign Up</h1>
+                	<h1 class="center-align">Business sign up</h1>
                 	<div class="divider-line" style="margin-bottom:2%;"></div>
                     
                     <!-- Steps -->
@@ -171,7 +171,7 @@
                             <div class="col-sm-12">
                                 <button type="submit" class="btn btn-red">Continue</button>
                                 <p>already have an account?</p>
-                                <a href="#">Sign In</a>
+                                <a href="<?php echo site_url().'sign-in';?>">Sign In</a>
                             </div>
                         </div>
                     <?php echo form_close();?>

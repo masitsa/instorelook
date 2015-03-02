@@ -26,8 +26,9 @@ class Categories extends account {
 
 	public function index() 
 	{
-		$where = 'created_by IN (0, '.$this->session->userdata('vendor_id').')';
-		$table = 'category';
+		//$where = 'created_by IN (0, '.$this->session->userdata('vendor_id').')';
+		$where = 'vendor_category.vendor_category_status = 1 AND category.category_id = vendor_category.category_id AND vendor_category.vendor_id = '.$this->vendor_id;
+		$table = 'category, vendor_category';
 
 		$category_search = $this->session->userdata('category_search');
 		
@@ -62,8 +63,8 @@ class Categories extends account {
 		$config['prev_link'] = 'Prev';
 		$config['prev_tag_close'] = '</li>';
 		
-		$config['cur_tag_open'] = '<li class="active">';
-		$config['cur_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li class="active"><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
 		
 		$config['num_tag_open'] = '<li>';
 		$config['num_tag_close'] = '</li>';
@@ -77,12 +78,13 @@ class Categories extends account {
 		{
 			$v_data['query'] = $query;
 			$v_data['page'] = $page;
+			//$v_data['child_categories'] = $this->categories_model->all_child_categories();
 			$data['content'] = $this->load->view('categories/all_categories', $v_data, true);
 		}
 		
 		else
 		{
-			$data['content'] = '<a href="'.site_url().'vendor/add-category" class="btn btn-success pull-right">Add Category</a>There are no categories';
+			$data['content'] = '<a href="'.site_url().'vendor/account-profile/subscription" class="btn btn-success pull-right">Add Category</a>There are no categories';
 		}
 		$data['title'] = 'All Categories';
 		

@@ -55,81 +55,46 @@ $static_banner2 = '';//$static_banner_location.$cat[1]->static_banner_image_name
     	if($latest->num_rows() > 0)
 		{
 			?>
-            <div class="row">
-            <?php
-			$latest_products = $latest->result();
-			$count = 0;
-			
-			foreach($latest_products as $prods)
-			{
-				$sale_price = $prods->sale_price;
-				$thumb = $prods->product_image_name;
-				$product_id = $prods->product_id;
-				$product_name = $prods->product_name;
-				$brand_name = $prods->brand_name;
-				$product_price = $prods->product_selling_price;
-				$description = $prods->product_description;
-				$mini_desc = implode(' ', array_slice(explode(' ', $description), 0, 10));
-				$price = number_format($product_price, 2, '.', ',');
-				$sale = '';
-				$count++;
+            <div id="cbp-vm" class="cbp-vm-switcher cbp-vm-view-grid">
+            <ul>
+            	<?php
+				$product = $latest->result();
 				
-				//begin next row
-				if($count == 5)
+				foreach($product as $prods)
 				{
-					echo '</div><div class="row">';
+					$sale_price = $prods->sale_price;
+					$thumb = $prods->product_image_name;
+					$product_id = $prods->product_id;
+					$product_name = $prods->product_name;
+					$brand_name = $prods->brand_name;
+					$product_price = $prods->product_selling_price;
+					$description = $prods->product_description;
+					$mini_desc = implode(' ', array_slice(explode(' ', $description), 0, 10));
+					$price = number_format($product_price, 2, '.', ',');
+					$sale = '';
+					$image = $this->products_model->image_display($products_path, $products_location, $thumb);
+					
+					if($sale_price > 0)
+					{
+						$sale = '<div class="promotion"> <span class="discount">'.$sale_price.'% OFF</span> </div><div class="clear-both"></div>';
+					}
+					
+					echo
+					'
+					<li>
+						<a class="cbp-vm-image" href="'.site_url().'products/view-product/'.$product_id.'"><img src="'.$image.'"></a>
+						<h3 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_id.'">'.$brand_name.'</a></h3>
+						<h6 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_id.'">'.$product_name.'</a></h6>
+						<div class="cbp-vm-price">$'.$price.'</div>
+						<a class="cbp-vm-icon cbp-vm-add add_to_wishlist" href="'.$product_id.'" product_id="'.$product_id.'" data-toggle="modal" data-target=".wishlist-modal"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a>
+						<a class="cbp-vm-icon cbp-vm-add add_to_cart" href="'.$product_id.'" product_id="'.$product_id.'"><i class="glyphicon glyphicon-shopping-cart"> </i></a>
+						<a class="beta-btn primary" href="'.site_url().'products/view-product/'.$product_id.'">Details <i class="glyphicon glyphicon-chevron-right"></i></a>
+					</li>
+					';
 				}
-				
-				//different css class for the first item
-				if($count == 1)
-				{
-					echo '<div class="col-sm-3 first-product" style="visibility: visible;">';
-				}
-				
-				else
-				{
-					echo '<div class="col-sm-3 other-product" style="visibility: visible;">';
-				}
-				
-				if($sale_price > 0)
-				{
-					$offer = $price - ($price * ($sale_price/100));
-					$sale = '<div class="ribbon-wrapper"><div class="ribbon sale">'.$sale_price.'%</div></div>';
-					$price = '<span class="flash-del">$'.$price.'</span>
-							<span>$'.$offer.'</span>';
-				}
-				
-				else
-				{
-					$price = '<span>$'.$price.'</span>';
-				}
-				
-				echo 
-				'
-				<div class="single-item">
-					'.$sale.'
-					<div class="single-item-header">
-						<a href="#"><img alt="" src="'.base_url().'assets/images/products/images/'.$thumb.'"></a>
-					</div>
-					<div class="single-item-body">
-						<p class="single-item-title">'.$brand_name.'</p>
-						<p class="single-item-title">'.$product_name.'</p>
-						<p class="single-item-price">
-							'.$price.'
-						</p>
-					</div>
-					<div class="single-item-caption">
-						<a href="'.$product_id.'" product_id="'.$product_id.'" class="add_to_cart add-to-cart pull-left"><i class="fa fa-shopping-cart"></i></a>
-						<a href="'.site_url().'products/view-product/'.$product_id.'" class="beta-btn primary">Details <i class="fa fa-chevron-right"></i></a>
-						<div class="clearfix"></div>
-					</div>
-				</div>
-			</div>
-				';
-			}
-			?>
-            </div>
-    		<!--/.productslider--> 
+		?>
+            </ul>
+        </div>
             <?php
 		}
 		

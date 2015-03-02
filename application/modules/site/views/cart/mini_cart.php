@@ -2,7 +2,7 @@
 <div class="nav navbar-nav navbar-right hidden-xs">
     <div class="dropdown  cartMenu "> 
 		<a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
-			<i class="fa fa-shopping-cart"> </i> 
+			<i class="glyphicon glyphicon-shopping-cart"> </i>
 			<span class="cartRespons" id="mini_menu_cart_total"> Cart ($<?php echo $this->load->view('site/cart/cart_total', '', TRUE);?>) </span> 
 			<b class="caret"> </b> 
 		</a>

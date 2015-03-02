@@ -9,18 +9,19 @@ class Account extends site {
 		parent:: __construct();
 		
 		$this->load->model('admin/orders_model');
+		$this->load->model('login/login_model');
 		
 		//user has logged in
-		if($this->login_model->check_login())
+		if($this->login_model->check_customer_login())
 		{
 		}
 		
 		//user has not logged in
 		else
 		{
-			$this->session->set_userdata('front_error_message', 'Please sign up/in to continue');
+			$this->session->set_userdata('error_message', 'Please sign up/in to continue');
 				
-			redirect('checkout');
+			redirect('sign-in');
 		}
 	}
     
@@ -30,6 +31,10 @@ class Account extends site {
 	*
 	*/
 	public function my_account()
+	{
+		echo 'Coming soon <a href="'.site_url().'account/sign-out">Sign out</a>';
+	}
+	public function my_account_old()
 	{
 		//Required general page data
 		$v_data['all_children'] = $this->categories_model->all_child_categories();

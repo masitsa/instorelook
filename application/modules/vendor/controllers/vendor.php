@@ -1,6 +1,9 @@
 <?php   if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Vendor extends MX_Controller {
+class Vendor extends MX_Controller 
+{
+	var $vendor_path;
+	var $vendor_location;
 	
 	function __construct()
 	{
@@ -126,19 +129,19 @@ class Vendor extends MX_Controller {
 	public function vendor_signup2() 
 	{
 		//initialize required variables
-		$v_data['vendor_logo_location'] = 'http://placehold.it/300x300';
+		$v_data['vendor_logo_location'] = 'http://placehold.it/300x300&text=Upload+logo';
 		$v_data['vendor_store_name_error'] = '';
 		$v_data['vendor_store_phone_error'] = '';
 		$v_data['vendor_store_email_error'] = '';
 		$v_data['vendor_store_summary_error'] = '';
-		$v_data['vendor_categories_error'] = '';
 		$v_data['vendor_logo_error'] = '';
 		$v_data['vendor_store_address_error'] = '';
 		$v_data['vendor_store_mobile_error'] = '';
 		$v_data['vendor_store_state_error'] = '';
 		$v_data['vendor_store_country_error'] = '';
 		$v_data['vendor_business_type_error'] = '';
-		$v_data['vendor_store_surburb_error'] = '';
+		$v_data['surburb_id_error'] = '';
+		$v_data['country_id_error'] = '';
 		$v_data['vendor_store_postcode_error'] = '';
 		
 		//upload image if it has been selected
@@ -158,13 +161,12 @@ class Vendor extends MX_Controller {
 		$this->form_validation->set_rules('vendor_store_phone', 'Phone', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('vendor_store_email', 'Store Email', 'trim|valid_email|required|xss_clean');
 		$this->form_validation->set_rules('vendor_store_summary', 'Store Summary', 'trim|required|min_length[25]|xss_clean');
-		$this->form_validation->set_rules('vendor_categories', 'Categories', 'trim|xss_clean');
 		$this->form_validation->set_rules('vendor_store_address', 'Address', 'trim|xss_clean');
 		$this->form_validation->set_rules('vendor_store_mobile', 'Mobile Number', 'trim|xss_clean');
 		$this->form_validation->set_rules('vendor_store_state', 'State', 'trim|xss_clean');
 		$this->form_validation->set_rules('country_id', 'Country', 'trim|xss_clean');
 		$this->form_validation->set_rules('vendor_business_type', 'Business Type', 'trim|xss_clean');
-		$this->form_validation->set_rules('vendor_store_surburb', 'Surburb', 'trim|xss_clean');
+		$this->form_validation->set_rules('surburb_id', 'Surburb', 'required|xss_clean');
 		$this->form_validation->set_rules('vendor_store_postcode', 'Postcode', 'trim|xss_clean');
 		
 		//if form conatins invalid data
@@ -172,7 +174,11 @@ class Vendor extends MX_Controller {
 		{
 			if($this->vendor_model->register_store_details())
 			{
-				redirect('vendor/sign-up/subscribe');
+				//redirect only if logo error isnt present
+				if(empty($v_data['vendor_logo_error']))
+				{
+					redirect('vendor/sign-up/subscribe');
+				}
 			}
 			
 			else
@@ -180,84 +186,78 @@ class Vendor extends MX_Controller {
 				$this->session->set_userdata('vendor_signup2_error_message', 'Unable to add user details. Please try again');
 			}
 		}
+		$validation_errors = validation_errors();
+		
+		//repopulate form data if validation errors are present
+		if(!empty($validation_errors))
+		{
+			//create errors
+			$v_data['vendor_store_name_error'] = form_error('vendor_store_name');
+			$v_data['vendor_store_phone_error'] = form_error('vendor_store_phone');
+			$v_data['vendor_store_email_error'] = form_error('vendor_store_email');
+			$v_data['vendor_store_summary_error'] = form_error('vendor_store_summary');
+			$v_data['vendor_store_address_error'] = form_error('vendor_store_address');
+			$v_data['vendor_store_mobile_error'] = form_error('vendor_store_mobile');
+			$v_data['vendor_store_state_error'] = form_error('vendor_store_state');
+			$v_data['country_id_error'] = form_error('country_id');
+			$v_data['vendor_business_type_error'] = form_error('vendor_business_type');
+			$v_data['surburb_id_error'] = form_error('surburb_id');
+			$v_data['vendor_store_postcode_error'] = form_error('vendor_store_postcode');
+			
+			//repopulate fields
+			$v_data['vendor_store_name'] = set_value('vendor_store_name');
+			$v_data['vendor_store_phone'] = set_value('vendor_store_phone');
+			$v_data['vendor_store_email'] = set_value('vendor_store_email');
+			$v_data['vendor_store_summary'] = set_value('vendor_store_summary');
+			$v_data['vendor_store_address'] = set_value('vendor_store_address');
+			$v_data['vendor_store_mobile'] = set_value('vendor_store_mobile');
+			$v_data['vendor_store_state'] = set_value('vendor_store_state');
+			$v_data['country_id'] = set_value('country_id');
+			$v_data['vendor_business_type'] = set_value('vendor_business_type');
+			$v_data['surburb_id'] = set_value('surburb_id');
+			$v_data['vendor_store_postcode'] = set_value('vendor_store_postcode');
+		}
+		
+		//populate form data on initial load of page
 		else
 		{
-			$validation_errors = validation_errors();
+			$vendor_store_name = $this->session->userdata('vendor_store_name');
 			
-			//repopulate form data if validation errors are present
-			if(!empty($validation_errors))
+			//If session data already exists
+			if(!empty($vendor_store_name))
 			{
-				//create errors
-				$v_data['vendor_store_name_error'] = form_error('vendor_store_name');
-				$v_data['vendor_store_phone_error'] = form_error('vendor_store_phone');
-				$v_data['vendor_store_email_error'] = form_error('vendor_store_email');
-				$v_data['vendor_store_summary_error'] = form_error('vendor_store_summary');
-				$v_data['vendor_categories_error'] = form_error('vendor_categories');
-				$v_data['vendor_store_address_error'] = form_error('vendor_store_address');
-				$v_data['vendor_store_mobile_error'] = form_error('vendor_store_mobile');
-				$v_data['vendor_store_state_error'] = form_error('vendor_store_state');
-				$v_data['country_id'] = form_error('country_id');
-				$v_data['vendor_business_type_error'] = form_error('vendor_business_type');
-				$v_data['vendor_store_surburb_error'] = form_error('vendor_store_surburb');
-				$v_data['vendor_store_postcode_error'] = form_error('vendor_store_postcode');
-				
-				//repopulate fields
-				$v_data['vendor_store_name'] = set_value('vendor_store_name');
-				$v_data['vendor_store_phone'] = set_value('vendor_store_phone');
-				$v_data['vendor_store_email'] = set_value('vendor_store_email');
-				$v_data['vendor_store_summary'] = set_value('vendor_store_summary');
-				$v_data['vendor_categories'] = set_value('vendor_categories');
-				$v_data['vendor_store_address'] = set_value('vendor_store_address');
-				$v_data['vendor_store_mobile'] = set_value('vendor_store_mobile');
-				$v_data['vendor_store_state'] = set_value('vendor_store_state');
-				$v_data['country_id'] = set_value('country_id');
-				$v_data['vendor_business_type'] = set_value('vendor_business_type');
-				$v_data['vendor_store_surburb'] = set_value('vendor_store_surburb');
-				$v_data['vendor_store_postcode'] = set_value('vendor_store_postcode');
+				$v_data['vendor_store_name'] = $vendor_store_name;
+				$v_data['vendor_store_phone'] = $this->session->userdata('vendor_store_phone');
+				$v_data['vendor_store_email'] = $this->session->userdata('vendor_store_email');
+				$v_data['vendor_store_summary'] = $this->session->userdata('vendor_store_summary');
+				$v_data['vendor_store_address'] = $this->session->userdata('vendor_store_address');
+				$v_data['vendor_logo_location'] = $this->vendor_location.$this->session->userdata('vendor_logo_file_name');
+				$v_data['vendor_store_mobile'] = $this->session->userdata('vendor_store_mobile');
+				$v_data['vendor_store_state'] = $this->session->userdata('vendor_store_state');
+				$v_data['country_id'] = $this->session->userdata('country_id');
+				$v_data['vendor_business_type'] = $this->session->userdata('vendor_business_type');
+				$v_data['surburb_id'] = $this->session->userdata('surburb_id');
+				$v_data['vendor_store_postcode'] = $this->session->userdata('vendor_store_postcode');
 			}
 			
-			//populate form data on initial load of page
 			else
 			{
-				$vendor_store_name = $this->session->userdata('vendor_store_name');
-				
-				//If session data already exists
-				if(!empty($vendor_store_name))
-				{
-					$v_data['vendor_store_name'] = $vendor_store_name;
-					$v_data['vendor_store_phone'] = $this->session->userdata('vendor_store_phone');
-					$v_data['vendor_store_email'] = $this->session->userdata('vendor_store_email');
-					$v_data['vendor_store_summary'] = $this->session->userdata('vendor_store_summary');
-					$v_data['vendor_categories'] = $this->session->userdata('vendor_categories');
-					$v_data['vendor_store_address'] = $this->session->userdata('vendor_store_address');
-					$v_data['vendor_logo_location'] = $this->vendor_location.$this->session->userdata('vendor_logo_file_name');
-					$v_data['vendor_store_mobile'] = $this->session->userdata('vendor_store_mobile');
-					$v_data['vendor_store_state'] = $this->session->userdata('vendor_store_state');
-					$v_data['country_id'] = $this->session->userdata('country_id');
-					$v_data['vendor_business_type'] = $this->session->userdata('vendor_business_type');
-					$v_data['vendor_store_surburb'] = $this->session->userdata('vendor_store_surburb');
-					$v_data['vendor_store_postcode'] = $this->session->userdata('vendor_store_postcode');
-				}
-				
-				else
-				{
-					$v_data['vendor_store_name'] = '';
-					$v_data['vendor_store_phone'] = '';
-					$v_data['vendor_store_email'] = '';
-					$v_data['vendor_store_summary'] = '';
-					$v_data['vendor_categories'] = '';
-					$v_data['vendor_store_address'] = '';
-					$v_data['vendor_store_mobile'] = '';
-					$v_data['vendor_store_state'] = '';
-					$v_data['country_id'] = '';
-					$v_data['vendor_business_type'] = '';
-					$v_data['vendor_store_surburb'] = '';
-					$v_data['vendor_store_postcode'] = '';
-				}
+				$v_data['vendor_store_name'] = '';
+				$v_data['vendor_store_phone'] = '';
+				$v_data['vendor_store_email'] = '';
+				$v_data['vendor_store_summary'] = '';
+				$v_data['vendor_store_address'] = '';
+				$v_data['vendor_store_mobile'] = '';
+				$v_data['vendor_store_state'] = '';
+				$v_data['country_id'] = '';
+				$v_data['vendor_business_type'] = '';
+				$v_data['surburb_id'] = '';
+				$v_data['vendor_store_postcode'] = '';
 			}
 		}
 		
 		$v_data['countries_query'] = $this->vendor_model->get_all_countries();
+		$v_data['surburbs_query'] = $this->vendor_model->get_all_surburbs();
 		$data['content'] = $this->load->view('vendor_signup2', $v_data, true);
 		
 		$data['title'] = 'Sign Up';
@@ -271,9 +271,12 @@ class Vendor extends MX_Controller {
 	*	Vendor Signup 3
 	*
 	*/
-	public function vendor_signup3() 
+	public function vendor_signup3($page = 1) 
 	{
-		$data['content'] = $this->load->view('vendor_signup3', '', true);
+		$v_data['page'] = $page;
+		$this->session->set_userdata('page', $page);
+		$v_data['current_plan'] = $this->session->userdata('subscription_id');
+		$data['content'] = $this->load->view('vendor_signup3', $v_data, true);
 		
 		$data['title'] = 'Sign Up';
 		$this->load->view('site/templates/general_page', $data);
@@ -286,42 +289,102 @@ class Vendor extends MX_Controller {
 	*/
 	public function subscribe($type) 
 	{
-		$vendor_id = $this->vendor_model->register_vendor($type);
-		if($vendor_id > 0)
+		$v_data['page'] = $this->session->userdata('page');
+		
+		$this->form_validation->set_error_delimiters('', '');
+		$this->form_validation->set_rules('categories', 'Categories', 'required');
+		
+		//if form conatins invalid data
+		if ($this->form_validation->run())
 		{
-			$response = $this->vendor_model->send_account_verification_email($this->session->userdata('vendor_email'), $this->session->userdata('vendor_first_name'), $this->session->userdata('vendor_store_email'));
-			//new session array
-			$newdata = array(
-				   'vendor_login_status'   => TRUE,
-				   'first_name'     => $this->session->userdata('vendor_user_first_name'),
-				   'vendor_name'     => $this->session->userdata('vendor_name'),
-				   'email'     		=> $this->session->userdata('vendor_user_email'),
-				   'vendor_id' 		=> $vendor_id,
-				   'vendor_activation_status'  	=> 0,
-				   'vendor_subscription_status'  	=> 1
-			   );
+			//save categories
+			if($v_data['page'] == 1)
+			{
+				if($this->vendor_model->save_categories($this->input->post('categories'), $type))
+				{
+					$vendor_id = $this->vendor_model->register_vendor($type);
+					if($vendor_id > 0)
+					{
+						$response = $this->vendor_model->send_account_verification_email($this->session->userdata('vendor_email'), $this->session->userdata('vendor_first_name'), $this->session->userdata('vendor_store_email'));
+						//new session array
+						$newdata = array(
+							   'vendor_login_status'   		=> TRUE,
+							   'first_name'     			=> $this->session->userdata('vendor_user_first_name'),
+							   'vendor_name'     			=> $this->session->userdata('vendor_name'),
+							   'email'     					=> $this->session->userdata('vendor_user_email'),
+							   'vendor_id' 					=> $vendor_id,
+							   'vendor_activation_status'  	=> 0,
+							   'vendor_subscription_status'	=> 1
+						   );
+						
+						//unset sign up session
+						$this->session->sess_destroy();
+						
+						//create user session
+						$this->session->set_userdata($newdata);
+						
+						//update user's last login date time
+						//$this->vendor_model->update_vendor_login($vendor_id);
+						redirect('vendor/success');
+						/*$v_data['response'] = $response;
+						$data['content'] = $this->load->view('success', $v_data, true);
+						
+						$data['title'] = 'Success';
+						$this->load->view('site/templates/general_page', $data);*/
+						
+						//unset page session
+						$this->session->unset_userdata('page');
+					}
+					
+					else
+					{
+						$this->session->set_userdata('vendor_signup3_error_message', 'Unable to add user details. Please try again');
+						$this->load->view('select');
+					}
+				}
+			}
 			
-			//unset sign up session
-			$this->session->sess_destroy();
-			
-			//create user session
-			$this->session->set_userdata($newdata);
-			
-			//update user's last login date time
-			//$this->vendor_model->update_vendor_login($vendor_id);
-			redirect('vendor/success');
-			/*$v_data['response'] = $response;
-			$data['content'] = $this->load->view('success', $v_data, true);
-			
-			$data['title'] = 'Success';
-			$this->load->view('site/templates/general_page', $data);*/
+			else
+			{
+				//update categories
+				if($this->vendor_model->update_categories($this->input->post('categories'), $this->session->userdata('vendor_id'), $v_data['page'], $type))
+				{
+					//subscribe vendor
+					$this->vendor_model->subscribe_vendor($this->session->userdata('vendor_id'), $type);
+					
+					//change the vendor's subscription type
+					$this->session->set_userdata('subscription_id', $type);
+					
+					$this->session->unset_userdata('categories');
+					$this->session->set_userdata('success_message', 'Your categories have been updated successfully');
+					
+					//go to account page
+					redirect('vendor/account-profile/subscription');
+				}
+			}
 		}
 		
 		else
 		{
-			$this->session->set_userdata('vendor_signup3_error_message', 'Unable to add user details. Please try again');
-			$this->load->view('select');
+			$this->session->set_userdata('vendor_signup3_error_message', 'Please select at least 1 category');
 		}
+		$v_data['vendor_categories'] = $this->vendor_model->get_vendor_categories($this->session->userdata('vendor_id'));
+		
+		$subscription_name = $this->vendor_model->get_subscription_name($type);
+		
+		if($subscription_name != 'Unable to find subscription')
+		{
+			$data['title'] = $subscription_name.' subscription';
+			$v_data['title'] = $subscription_name.' subscription';
+		}
+		else
+		{
+			$data['title'] = $subscription_name;
+			$v_data['title'] = $subscription_name;
+		}
+		$v_data['categories'] = $this->vendor_model->get_parent_categories();
+		$data['content'] = $this->load->view('subscription', $v_data, true);
+		$this->load->view('site/templates/general_page', $data);
 	}
 	
 	public function success()
@@ -438,28 +501,25 @@ class Vendor extends MX_Controller {
 				$this->session->set_userdata('error_message', 'Unable to sign into your account. Please try again');
 			}
 		}
+		$validation_errors = validation_errors();
+			
+		//repopulate form data if validation errors are present
+		if(!empty($validation_errors))
+		{
+			//create errors
+			$v_data['vendor_email_error'] = form_error('vendor_email');
+			$v_data['vendor_password_error'] = form_error('vendor_password');
+			
+			//repopulate fields
+			$v_data['vendor_email'] = set_value('vendor_email');
+			$v_data['vendor_password'] = set_value('vendor_password');
+		}
+		
+		//populate form data on initial load of page
 		else
 		{
-			$validation_errors = validation_errors();
-			
-			//repopulate form data if validation errors are present
-			if(!empty($validation_errors))
-			{
-				//create errors
-				$v_data['vendor_email_error'] = form_error('vendor_email');
-				$v_data['vendor_password_error'] = form_error('vendor_password');
-				
-				//repopulate fields
-				$v_data['vendor_email'] = set_value('vendor_email');
-				$v_data['vendor_password'] = set_value('vendor_password');
-			}
-			
-			//populate form data on initial load of page
-			else
-			{
-				$v_data['vendor_email'] = '';
-				$v_data['vendor_password'] = '';
-			}
+			$v_data['vendor_email'] = '';
+			$v_data['vendor_password'] = '';
 		}
 		
 		$data['content'] = $this->load->view('vendor_signin', $v_data, true);
@@ -502,5 +562,12 @@ class Vendor extends MX_Controller {
 		redirect('vendor/sign-in');
 	}
 	
+	public function goodbye()
+	{
+		$data['content'] = $this->load->view('goodbye', '', true);
+		
+		$data['title'] = 'Goodbye';
+		$this->load->view('site/templates/general_page', $data);
+	}
 }
 ?>

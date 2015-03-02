@@ -95,7 +95,7 @@ h2{font-size:1.5em;}
     .container {width: initial;padding-left: 2em;padding-right: 2em;}
 }
 /* --- Plans ---------------------------- */
-.my_planHeader {text-align: center; color: white; padding-top:0.2em; padding-bottom:0.2em;}
+.my_planHeader {text-align: center; color: white; padding-top:0.2em; padding-bottom:0.2em; min-height: 158px;}
 .my_planTitle { font-size:2em; font-weight: bold;}
 .my_planPrice { font-size:1.4em; font-weight: bold;    }
 .my_planDuration { margin-top: -0.6em;}
@@ -110,9 +110,11 @@ span.feature-text{font-size:0.6em;}
  }
 .my_featureRow { margin-top: 0.2em;margin-bottom: 0.2em;border: 0.1em solid rgb(163, 163, 163);}
 .my_featureRow div.col-xs-12, .my_featureRow div.col-sm-8{padding:0;}
-.my_featureRow .row{margin-top:0;}
+.my_featureRow .row{margin-top:0;margin-bottom: 0;}
+.subscribe-header, .subscribe-header .row{margin-bottom: 0;}
 .subscribe-header .col-xs-12, .subscribe-header .col-sm-offset-4, .subscribe-header .col-sm-8{padding:0;}
 .my_featureRow div.my_feature, .my_featureRow div.my_feature{padding-left: 2%;}
+.subscribe p{text-align:justify;}
 
 /* --- Plan 1 --------------------------- */
 .my_plan1 {background: rgba(41, 171, 226, 0.1);}
@@ -142,7 +144,7 @@ span.feature-text{font-size:0.6em;}
 .multiselect-container>li>a>label.radio,.multiselect-container>li>a>label.checkbox{margin:0}
 .multiselect-container>li>a>label>input[type="checkbox"]{margin-bottom:5px}
 .btn-group, .btn-group-vertical {display: inline-block;position: relative; vertical-align: middle;width: 100%;}
-.multiselect{width:100%;border: 2px solid #ccc; background-color:transparent; color:#404040;}
+.btn-group .multiselect{width:100%;border: 2px solid #ccc; background-color:transparent; color:#404040; border-radius:0;}
 .btn .caret {float: right; margin-top:2%;}
 
 /* Blog */
@@ -347,6 +349,7 @@ letter-spacing: 1px;
 }
 
 .add-cart {display: inline-block; padding-right:0;}
+.cbp-vm-add.add_to_wishlist{background-color: #D0D0D0;}
 .add-cart h4{float: right;  border-bottom: thin solid #55A4DA; border-right: thin solid #55A4DA; display:inline-flex; margin:0;}
 
 .add-cart h4 a.add_to_cart {
@@ -822,8 +825,8 @@ box-shadow: 0 1px 2px rgba(71, 73, 72, 0.25);
 }
 .product-info .product-content #product .details .prices {
   line-height: 24px;
-  margin: 0 0 20px;
 }
+.details h6{margin: 0;}
 .product-info .product-content #product .details .prices .price {
   color: #1abc9c;
   font-weight: 600;
@@ -1988,7 +1991,13 @@ color:#f90
 .beta-btn.primary {
   color: #606366;
   line-height: 100%;
-  padding: 9px 20px;
+  padding: 9.2px 6px;
+  background-color:#fff;
+}
+.cbp-vm-view-list .beta-btn.primary {
+  color: #606366;
+  line-height: 100%;
+  padding: 7px 6px 12px;
   background-color:#fff;
 }
 .beta-btn {
@@ -2492,3 +2501,9 @@ color:#fff;
 .padd{background-color:#fff; padding:10px; margin-bottom:10px;}
 .my_planHeader.my_plan2 a.more-details, .my_planHeader.my_plan1 a.more-details{background-color:transparent; width:100%;}
 .my_planHeader.my_plan2 a.more-details{color:#55A4DA;}
+
+/* View switch mode */
+.breadcrumbDiv .row{margin: 0; padding-top: 1%; height: 41px;}
+.slide img{max-width:550px;}
+
+.cbp-vm-image img {height: 150px;}

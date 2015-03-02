@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="account_template.php" server="ftp.instorelook.com.au//public_html/development/" local="130650020064991433" remote="130650200400000000" Dst="0" />
-<file name="dashboard.php" server="ftp.instorelook.com.au//public_html/development/" local="130588866791413760" remote="130596858600000000" Dst="0" />
+<file name="account_template.php" server="ftp.instorelook.com.au//public_html/development/" local="130673293633088374" remote="130687375200000000" Dst="0" />
+<file name="dashboard.php" server="ftp.instorelook.com.au//public_html/development/" local="130692444667252222" remote="130692627000000000" Dst="0" />
 <file name="select.php" server="ftp.instorelook.com.au//public_html/development/" local="130596677423415574" remote="130596858600000000" Dst="0" />
-<file name="vendor_signup1.php" server="ftp.instorelook.com.au//public_html/development/" local="130637920276053243" remote="130638100200000000" Dst="0" />
-<file name="vendor_signup3.php" server="ftp.instorelook.com.au//public_html/development/" local="130637920358653837" remote="130638100200000000" Dst="0" />
-<file name="vendor_signup2.php" server="ftp.instorelook.com.au//public_html/development/" local="130637920173597764" remote="130638100200000000" Dst="0" />
-<file name="success.php" server="ftp.instorelook.com.au//public_html/development/" local="130614919530299734" remote="130615099200000000" Dst="0" />
+<file name="vendor_signup1.php" server="ftp.instorelook.com.au//public_html/development/" local="130693318210000000" remote="130693498200000000" Dst="0" />
+<file name="vendor_signup3.php" server="ftp.instorelook.com.au//public_html/development/" local="130693319708302294" remote="130693499400000000" Dst="0" />
+<file name="vendor_signup2.php" server="ftp.instorelook.com.au//public_html/development/" local="130693318268959969" remote="130693498200000000" Dst="0" />
+<file name="success.php" server="ftp.instorelook.com.au//public_html/development/" local="130652680951714172" remote="130687376400000000" Dst="0" />
 <file name="test.php" server="ftp.instorelook.com.au//public_html/development/" local="130619973055343690" remote="130620154200000000" Dst="0" />
-<file name="vendor_signin.php" server="ftp.instorelook.com.au//public_html/development/" local="130638896952268910" remote="130650185400000000" Dst="0" />
+<file name="vendor_signin.php" server="ftp.instorelook.com.au//public_html/development/" local="130683049286028437" remote="130687376400000000" Dst="0" />
+<file name="subscription.php" server="ftp.instorelook.com.au//public_html/development/" local="130691503830409039" remote="130691689200000000" Dst="0" />
+<file name="goodbye.php" server="ftp.instorelook.com.au//public_html/development/" local="130692540077379369" remote="130692723600000000" Dst="0" />
 </dwsync>

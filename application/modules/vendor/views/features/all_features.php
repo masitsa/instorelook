@@ -136,9 +136,9 @@ echo $this->load->view('vendor/search/search_features', $v_data, TRUE); ?>
 				if($created_by == $this->session->userdata('vendor_id'))
 				{
 					$actions = '
-					<td><a href="'.site_url().'vendor/edit-brand/'.$brand_id.'" class="btn btn-sm btn-success">Edit</a></td>
+					<td><a href="'.site_url().'vendor/edit-feature/'.$feature_id.'" class="btn btn-sm btn-success">Edit</a></td>
 					<td>'.$button.'</td>
-					<td><a href="'.site_url().'vendor/delete-brand/'.$brand_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$brand_name.'?\');">Delete</a></td>
+					<td><a href="'.site_url().'vendor/delete-feature/'.$feature_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$feature_name.'?\');">Delete</a></td>
 					';
 				}
 				

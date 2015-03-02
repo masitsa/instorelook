@@ -184,7 +184,6 @@ class Slideshow extends account
 	
 	function edit_slide($slideshow_id, $page)
 	{
-		var_dump(realpath(APPPATH . '../assets/slideshow')); die();
 		//get slideshow data
 		$table = "slideshow";
 		$where = "slideshow_id = ".$slideshow_id;
