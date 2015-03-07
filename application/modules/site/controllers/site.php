@@ -106,6 +106,8 @@ class Site extends MX_Controller
 	*/
 	public function products($search = '__', $category_id = 0, $brand_id = 0, $order_by = 'created', $new_products = 0, $new_categories = 0, $new_brands = 0, $price_range = '__', $filter_brands = '__') 
 	{
+		$v_data['products_path'] = $this->products_path;
+		$v_data['products_location'] = $this->products_location;
 		$v_data['crumbs'] = $this->site_model->get_crumbs();
 		$v_data['brands'] = $this->brands_model->all_active_brands();
 		$v_data['product_sub_categories'] = $this->categories_model->get_sub_categories($category_id);
@@ -316,6 +318,8 @@ class Site extends MX_Controller
 	*/
 	public function view_product($product_id)
 	{
+		$v_data['products_path'] = $this->products_path;
+		$v_data['products_location'] = $this->products_location;
 		$this->products_model->update_clicks($product_id);
 		//Required general page data
 		$v_data['all_children'] = $this->categories_model->all_child_categories();

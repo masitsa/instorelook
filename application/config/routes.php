@@ -305,17 +305,22 @@ $route['cart/update-cart'] = 'site/cart/update_cart';
 /*
 *	Customer Routes
 */
+$route['customer/deactivate-account'] = 'login/deactivate_account';
 $route['customer/join'] = 'login/register_customer';
 $route['customer/sign-in'] = 'login/sign_in_customer';
 $route['customer/sign-in/(:num)'] = 'login/sign_in_customer/$1';
 $route['account'] = 'login/redirect_account';
 $route['customer/account'] = 'site/account/my_account';
 $route['account/orders-list'] = 'site/account/orders_list';
-$route['account/my-details'] = 'site/account/my_details';
+$route['account/personnal-information'] = 'site/account/my_details';
+$route['account/edit-shipping'] = 'site/account/edit_shipping';
 $route['account/wishlist'] = 'site/account/wishlist';
 $route['account/update-details'] = 'site/account/update_account';
+$route['account/my-addresses'] = 'site/account/my_addresses';
 $route['account/update-password'] = 'site/account/update_password';
 $route['account/sign-out'] = 'login/logout_user';
+$route['account/update-billing-details'] = 'site/checkout/update_billing_details/1';
+$route['account/update-shipping-details'] = 'site/checkout/update_shipping_details/1';
 
 /*
 *	Checkout Routes

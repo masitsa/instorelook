@@ -8,6 +8,7 @@ class Login extends MX_Controller {
 		$this->load->model('login_model');
 		$this->load->model('site/site_model');
 		$this->load->model('site/cart_model');
+		$this->load->model('vendor/vendor_model');
 	}
     
 	/*
@@ -52,15 +53,7 @@ class Login extends MX_Controller {
 	
 	public function logout_user()
 	{
-		//create user's login session
-		$newdata = array(
-			   'login_status'     => '',
-			   'customer_first_name'     => '',
-			   'email'     => '',
-			   'customer_id'     => '',
-			   'user_type_id'  => ''
-		   );
-		$this->session->unset_userdata($newdata);
+		$this->session->sess_destroy();
 		$this->session->set_userdata('success_message', 'Your have been signed out of your account');
 		redirect('sign-in');
 	}
@@ -95,6 +88,9 @@ class Login extends MX_Controller {
 		$v_data['customer_phone_error'] = '';
 		$v_data['customer_password_error'] = '';
 		$v_data['confirm_password_error'] = '';
+		$v_data['customer_address_error'] = '';
+		$v_data['surburb_id_error'] = '';
+		$v_data['surburbs_query'] = $this->vendor_model->get_all_surburbs();
 		
 		$this->form_validation->set_error_delimiters('', '');
 		$this->form_validation->set_rules('customer_first_name', 'First Name', 'trim|required|xss_clean');
@@ -103,6 +99,8 @@ class Login extends MX_Controller {
 		$this->form_validation->set_rules('customer_phone', 'Phone', 'trim|min_length[8]|xss_clean');
 		$this->form_validation->set_rules('customer_password', 'Password', 'trim|required|matches[confirm_password]|xss_clean');
 		$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('customer_address', 'Address', 'required|trim|xss_clean');
+		$this->form_validation->set_rules('surburb_id', 'Surburb', 'trim|required|xss_clean');
 		$this->form_validation->set_message('is_unique', 'This email has been registered');
 		
 		//if form conatins invalid data
@@ -113,7 +111,18 @@ class Login extends MX_Controller {
 				//sign in customer
 				if($this->login_model->validate_customer())
 				{
-					redirect('account');
+					$redirect = $this->session->userdata('redirect');
+					
+					if(!empty($redirect))
+					{
+						$this->session->unset_userdata('redirect');
+						redirect($redirect);
+					}
+					
+					else
+					{
+						redirect('account');
+					}
 				}
 				
 				else
@@ -140,6 +149,8 @@ class Login extends MX_Controller {
 			$v_data['customer_phone_error'] = form_error('customer_phone');
 			$v_data['customer_password_error'] = form_error('customer_password');
 			$v_data['confirm_password_error'] = form_error('confirm_password');
+			$v_data['surburb_id_error'] = form_error('surburb_id');
+			$v_data['customer_address_error'] = form_error('customer_address');
 			
 			//repopulate fields
 			$v_data['customer_first_name'] = set_value('customer_first_name');
@@ -148,6 +159,8 @@ class Login extends MX_Controller {
 			$v_data['customer_phone'] = set_value('customer_phone');
 			$v_data['customer_password'] = set_value('customer_password');
 			$v_data['confirm_password'] = set_value('confirm_password');
+			$v_data['surburb_id'] = set_value('surburb_id');
+			$v_data['customer_address'] = set_value('customer_address');
 		}
 		
 		//populate form data on initial load of page
@@ -159,6 +172,8 @@ class Login extends MX_Controller {
 			$v_data['customer_phone'] = '';
 			$v_data['customer_password'] = '';
 			$v_data['confirm_password'] = '';
+			$v_data['surburb_id'] = '';
+			$v_data['customer_address'] = '';
 		}
 		
 		$data['content'] = $this->load->view('customer_sign_up', $v_data, true);
@@ -212,7 +227,18 @@ class Login extends MX_Controller {
 				//sign in from form in sign in page
 				else
 				{
-					redirect('account');
+					$redirect = $this->session->userdata('redirect');
+					
+					if(!empty($redirect))
+					{
+						$this->session->unset_userdata('redirect');
+						redirect($redirect);
+					}
+					
+					else
+					{
+						redirect('account');
+					}
 				}
 			}
 			
@@ -251,6 +277,141 @@ class Login extends MX_Controller {
 		{
 			$this->sign_in();
 		}
+	}
+	
+	function facebook_sign_up()
+	{
+		$base_url=$this->config->item('base_url'); //Read the baseurl from the config.php file
+		/**
+		 * Initialize the facebook API
+		 */
+		
+		$params = array(
+			'appId'		=>  $this->config->item('appID'), 
+			'secret'	=> $this->config->item('appSecret')
+			);
+		$this->load->library('facebook', $params);
+		/*
+			-----------------------------------------------------------------------------------------
+			Retrieve the user's profile
+			-----------------------------------------------------------------------------------------
+		*/
+		$fb_user = $this->facebook->getUser();
+		
+		if($fb_user)
+		{
+			try
+			{
+				$user_profile = $this->facebook->api('/me','GET');
+				
+				//check if email is already registered?
+				if($this->login_model->check_email($user_profile['email']))
+				{
+					$this->session->set_userdata('customer_signup_error_message', 'This email is already registered.<br /> Do you want to <a href="'.base_url().'sign-in">sign in?</a>');
+					
+					redirect('customer/join');
+				}
+			
+				//user doesn't exist so sign them up
+				else
+				{
+					if($this->login_model->register_facebook_customer($user_profile))
+					{
+						if($this->login_model->validate_facebook_customer($user_profile))
+						{
+							redirect('account');
+						}
+						else
+						{
+							$this->session->set_userdata('error_message', '<a href="'.base_url().'sign-in">Please sign in?</a>');
+						
+							redirect('sign-in');
+						}
+					}
+					
+					else
+					{
+						$this->session->set_userdata('customer_signup_error_message', 'Unable to sign up. Please try again');
+						
+						redirect('customer/join');
+					}
+				}	
+			}
+			
+			catch(FacebookApiException $e)
+			{
+				error_log($e);
+				$this->session->set_userdata('customer_signup_error_message', $e);
+				redirect("customer/join");
+			}		
+		}
+	}
+	
+	function facebook_sign_in()
+	{
+		$base_url=$this->config->item('base_url'); //Read the baseurl from the config.php file
+		/**
+		 * Initialize the facebook API
+		 */
+		
+		$params = array(
+			'appId'		=>  $this->config->item('appID'), 
+			'secret'	=> $this->config->item('appSecret')
+			);
+		$this->load->library('facebook', $params);
+		/*
+			-----------------------------------------------------------------------------------------
+			Retrieve the user's profile
+			-----------------------------------------------------------------------------------------
+		*/
+		$fb_user = $this->facebook->getUser();
+		
+		if($fb_user)
+		{
+			try
+			{
+				$user_profile = $this->facebook->api('/me','GET');
+				
+				//check if email is already registered?
+				if($this->login_model->check_email($user_profile['email']))
+				{
+					if($this->login_model->validate_facebook_customer($user_profile))
+					{
+						redirect('account');
+					}
+					else
+					{
+						$this->session->set_userdata('error_message', 'Unable to sign in.');
+					
+						redirect('sign-in');
+					}
+				}
+			
+				//user doesn't exist so sign them up
+				else
+				{
+					$this->session->set_userdata('error_message', 'This email has not been registered.<br /> Do you want to <a href="'.base_url().'customer/sign-up">sign up?</a>');
+					
+					redirect('customer/sign-in');
+				}	
+			}
+			
+			catch(FacebookApiException $e)
+			{
+				error_log($e);
+				$this->session->set_userdata('error_message', $e);
+				redirect("customer/join");
+			}		
+		}
+	}
+	
+	public function deactivate_account()
+	{
+		$update = array('activated' => 0);
+		$this->db->where('customer_id', $this->session->userdata('customer_id'));
+		$this->db->update('customer', $update);
+		
+		$this->logout_user();
 	}
 }
 ?>

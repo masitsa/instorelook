@@ -41,11 +41,8 @@ class Checkout_model extends CI_Model
 				'customer_email'=>$this->input->post('email'),
 				'customer_phone'=>$this->input->post('phone'),
 				'customer_company'=>$this->input->post('company'),
-				'customer_town'=>$this->input->post('town'),
-				'customer_post_code'=>$this->input->post('post_code'),
 				'customer_address'=>$this->input->post('address'),
-				'country_id'=>$this->input->post('country'),
-				'customer_state'=>$this->input->post('state')
+				'surburb_id'=>$this->input->post('surburb_id')
 			);
 		
 		$this->db->where('customer_id = '.$this->session->userdata('customer_id'));
@@ -78,11 +75,8 @@ class Checkout_model extends CI_Model
 				'email'=>$this->input->post('email'),
 				'phone'=>$this->input->post('phone'),
 				'company'=>$this->input->post('company'),
-				'town'=>$this->input->post('town'),
-				'post_code'=>$this->input->post('post_code'),
-				'address'=>$this->input->post('address'),
-				'country_id'=>$this->input->post('country'),
-				'state'=>$this->input->post('state')
+				'surburb_id'=>$this->input->post('surburb_id'),
+				'address'=>$this->input->post('address')
 			);
 		
 		//check if customer exists in customer shipping table

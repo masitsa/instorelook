@@ -2,12 +2,13 @@
 
 require_once "./application/modules/site/controllers/site.php";
 
-class Checkout extends site {
-	
+class Checkout extends site 
+{	
 	function __construct()
 	{
 		parent:: __construct();
 		$this->load->model('admin/orders_model');
+		$this->load->model('vendor/vendor_model');
 		$this->load->model('login/login_model');
 		$this->load->model('checkout_model');
 	}
@@ -46,11 +47,14 @@ class Checkout extends site {
 	public function checkout_progress($page_name = NULL)
 	{
 		//user has logged in
-		
+		if($this->login_model->check_customer_login())
+		{
 			//Required general page data
 			$v_data['all_children'] = $this->categories_model->all_child_categories();
 			$v_data['parent_categories'] = $this->categories_model->all_parent_categories();
 			$v_data['crumbs'] = $this->site_model->get_crumbs();
+			$v_data['surburbs_query'] = $this->vendor_model->get_all_surburbs();
+			
 			if($page_name == NULL)
 			{
 				$v_data['page_name'] = 'billing';
@@ -65,6 +69,14 @@ class Checkout extends site {
 			
 			$data['title'] = $this->site_model->display_page_title();
 			$this->load->view('templates/general_page', $data);
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', 'Please sign up/in before you can checkout');
+			$this->session->set_userdata('redirect', 'checkout-progress');
+			redirect('sign-in');
+		}
 		
 	}
 	/*
@@ -477,7 +489,7 @@ class Checkout extends site {
 		}
 	}
 	
-	public function update_billing_details()
+	public function update_billing_details($page = NULL)
 	{
 		//form validation rules
 		$this->form_validation->set_rules('email', 'Email', 'required|xss_clean|exists[customer.customer_email]|valid_email');
@@ -485,11 +497,8 @@ class Checkout extends site {
 		$this->form_validation->set_rules('first_name', 'First Name', 'required|xss_clean');
 		$this->form_validation->set_rules('phone', 'Phone', 'required|xss_clean');
 		$this->form_validation->set_rules('company', 'Company', 'trim|xss_clean');
-		$this->form_validation->set_rules('town', 'Town', 'trim|xss_clean');
-		$this->form_validation->set_rules('post_code', 'Post Code', 'trim|xss_clean');
 		$this->form_validation->set_rules('address', 'Address', 'trim|xss_clean');
-		$this->form_validation->set_rules('country_id', 'Country', 'trim|xss_clean|numeric');
-		$this->form_validation->set_rules('state', 'State', 'trim|xss_clean|numeric');
+		$this->form_validation->set_rules('surburb_id', 'Surburb', 'required|trim|xss_clean|numeric');
 		$this->form_validation->set_message('exists', 'That email does not exist. Are you trying to sign up?');
 		
 		//if form has been submitted
@@ -509,14 +518,22 @@ class Checkout extends site {
 			
 			else
 			{
-				$this->session->set_userdata('billing_success_message', 'Could not update your billing details. Please try again');
+				$this->session->set_userdata('billing_error_message', 'Could not update your billing details. Please try again');
 			}
 		}
 		
-		redirect('checkout-progress/billing');
+		if($page == 1)
+		{
+			redirect('account/personnal-information');
+		}
+		
+		else
+		{
+			redirect('checkout-progress/billing');
+		}
 	}
 	
-	public function update_shipping_details()
+	public function update_shipping_details($page = NULL)
 	{
 		//form validation rules
 		$this->form_validation->set_rules('email', 'Email', 'required|xss_clean|valid_email');
@@ -524,18 +541,14 @@ class Checkout extends site {
 		$this->form_validation->set_rules('first_name', 'First Name', 'required|xss_clean');
 		$this->form_validation->set_rules('phone', 'Phone', 'required|xss_clean');
 		$this->form_validation->set_rules('company', 'Company', 'trim|xss_clean');
-		$this->form_validation->set_rules('town', 'Town', 'trim|xss_clean');
-		$this->form_validation->set_rules('post_code', 'Post Code', 'trim|xss_clean');
 		$this->form_validation->set_rules('address', 'Address', 'trim|xss_clean');
-		$this->form_validation->set_rules('country_id', 'Country', 'trim|xss_clean|numeric');
-		$this->form_validation->set_rules('state', 'State', 'trim|xss_clean|numeric');
+		$this->form_validation->set_rules('surburb_id', 'Country', 'required|trim|xss_clean|numeric');
 		$this->form_validation->set_message('exists', 'That email does not exist. Are you trying to sign up?');
 		
 		//if form has been submitted
 		if ($this->form_validation->run() == FALSE)
 		{
 			$this->session->set_userdata('shipping_error_message', validation_errors());
-			$this->checkout_progress('shipping');
 		}
 		
 		else
@@ -545,14 +558,22 @@ class Checkout extends site {
 			{
 				//check if user has valid login credentials
 				$this->session->set_userdata('shipping_success_message', 'Your shipping details have been updated sucessfully');
-				redirect('checkout-progress/shipping');
 			}
 			
 			else
 			{
-				$this->session->set_userdata('shipping_success_message', 'Could not update your shipping details. Please try again');
-				redirect('checkout-progress/shipping');
+				$this->session->set_userdata('shipping_error_message', 'Could not update your shipping details. Please try again');
 			}
+		}
+		
+		if($page == 1)
+		{
+			redirect('account/edit-shipping');
+		}
+		
+		else
+		{
+			redirect('checkout-progress/shipping');
 		}
 	}
 }

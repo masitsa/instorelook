@@ -6,28 +6,21 @@
 	$validation_errors = validation_errors();
 	
 	//check if user has logged in
-	$login_status = $this->session->userdata('customer_login_status');
 	
 	//If customer has logged in
-	if((!empty($login_status)) && ($login_status == TRUE))
-	{
-		$customer_query = $this->checkout_model->get_customer_details($this->session->userdata('customer_id'));
+	$customer_query = $this->checkout_model->get_customer_details($this->session->userdata('customer_id'));
 		
-		if($customer_query->num_rows() > 0)
-		{
-			$customer = $customer_query->row();
-			
-			$first_name = $customer->customer_first_name;
-			$last_name = $customer->customer_surname;
-			$phone = $customer->customer_phone;
-			$email = $customer->customer_email;
-			$company = $customer->customer_company;
-			$town = $customer->customer_town;
-			$post_code = $customer->customer_post_code;
-			$country_id = $customer->country_id;
-			$state = $customer->customer_state;
-			$address = $customer->customer_address;
-		}
+	if($customer_query->num_rows() > 0)
+	{
+		$customer = $customer_query->row();
+		
+		$first_name = $customer->customer_first_name;
+		$last_name = $customer->customer_surname;
+		$phone = $customer->customer_phone;
+		$email = $customer->customer_email;
+		$company = $customer->customer_company;
+		$surburb_id = $customer->surburb_id;
+		$address = $customer->customer_address;
 	}
 	
 	//repopulate fields if validation errors are present
@@ -38,10 +31,7 @@
 		$phone = set_value('phone');
 		$email = set_value('email');
 		$company = set_value('company');
-		$town = set_value('town');
-		$post_code = set_value('post_code');
-		$country_id = set_value('country_id');
-		$state = set_value('state');
+		$surburb_id = set_value('surburb_id');
 		$address = set_value('address');
 	}
 ?>
@@ -73,85 +63,72 @@
                     <div class="box-content">
                         <div class="row">
                             <div class="col-lg-6 col-md-6  col-sm-6">
-                                <div class="control-group">
-                                    <label for="first_name" class="control-label">First name</label>
+                                <div class="form-group">
+                                    <label for="first_name" class="control-label">First name <span class="required">*</span></label>
                                     <div class="controls">
                                         <input class="form-control" type="text" value="<?php echo $first_name;?>" name="first_name" id="first_name">
                                     </div>
                                 </div>
-                                <div class="control-group">
-                                    <label for="last_name" class="control-label">Last name</label>
+                                <div class="form-group">
+                                    <label for="last_name" class="control-label">Last name <span class="required">*</span></label>
                                     <div class="controls">
                                         <input class="form-control" type="text" value="<?php echo $last_name;?>" name="last_name" id="last_name">
                                     </div>
                                 </div>
-                                <div class="control-group">
-                                    <label for="email" class="control-label">Email</label>
+                                <div class="form-group">
+                                    <label for="email" class="control-label">Email <span class="required">*</span></label>
                                     <div class="controls">
                                         <input class="form-control" type="text" value="<?php echo $email;?>" name="email" id="email">
                                     </div>
                                 </div>
-                                <div class="control-group">
-                                    <label for="phone" class="control-label">Phone</label>
+                                <div class="form-group">
+                                    <label for="phone" class="control-label">Phone <span class="required">*</span></label>
                                     <div class="controls">
                                         <input class="form-control" type="text" value="<?php echo $phone;?>" name="phone" id="phone">
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-lg-6 col-md-6  col-sm-6">
-                                <div class="control-group">
+                                <div class="form-group">
                                     <label for="company" class="control-label">Company</label>
                                     <div class="controls">
                                         <input class="form-control" type="text" value="<?php echo $company;?>" name="company" id="company">
                                     </div>
                                 </div>
-                                <div class="control-group">
-                                    <label for="street_address" class="control-label">Street address</label>
+                                <div class="form-group">
+                                    <label for="street_address" class="control-label">Address</label>
                                     <div class="controls">
                                         <input class="form-control" type="text" value="<?php echo $address;?>" name="address" id="address">
                                     </div>
                                 </div>
-
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6  col-sm-6">
-                                        <div class="control-group">
-                                            <label for="city" class="control-label">Town / City</label>
-                                            <div class="controls">
-                                                <input class="form-control" type="text" value="<?php echo $town;?>" name="town" id="town">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6  col-sm-6">
-                                        <div class="control-group">
-                                            <label for="zip" class="control-label">Zip / Postcode</label>
-                                            <div class="controls">
-                                                <input class="form-control" type="text" value="<?php echo $post_code;?>" name="post_code" id="post_code">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6  col-sm-6">
-                                        <div class="control-group">
-                                            <label for="country" class="control-label">Country</label>
-                                            <div class="controls">
-                                                <select class="form-control" id="country" name="country">
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6  col-sm-6">
-                                        <div class="control-group">
-                                            <label for="state" class="control-label">State</label>
-                                            <div class="controls">
-                                                <div id="states">
-                                                    <select class="form-control" id="state" name="state">                                                                                
-                                                    </select>                           
-                                                </div>
-                                            </div>
-                                        </div>
+                                <div class="form-group">
+                                    <label for="surburb_id" class="control-label">Surburb <span class="required">*</span></label>
+                                    <div class="controls">
+                                    	<select name="surburb_id" class="form-control">
+                                        <?php
+                                            
+                                            if($surburbs_query->num_rows() > 0)
+                                            {
+                                                foreach($surburbs_query->result() as $res)
+                                                {
+                                                    $surburb_id2 = $res->surburb_id;
+                                                    $surburb_name = $res->surburb_name;
+                                                    $post_code = $res->post_code;
+                                                    $state_name = $res->state_name;
+                                                    
+                                                    if($surburb_id2 == $surburb_id)
+                                                    {
+                                                        echo '<option value="'.$surburb_id2.'" selected="selected">'.$surburb_name.', '.$post_code.' '.$state_name.'</option>';
+                                                    }
+                                                    
+                                                    else
+                                                    {
+                                                        echo '<option value="'.$surburb_id2.'">'.$surburb_name.', '.$post_code.' '.$state_name.'</option>';
+                                                    }
+                                                }
+                                            }
+                                        ?>
+                                        </select>
                                     </div>
                                 </div>
                             </div>

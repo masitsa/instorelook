@@ -6,8 +6,6 @@
                 	<h1 class="center-align">Customer sign up</h1>
                 	<div class="divider-line" style="margin-bottom:2%;"></div>
                     
-                    <p class="center-align">Please enter your details here.</p>
-                    
                 	<?php
 						$error = $this->session->userdata('customer_signup_error_message');
 						
@@ -26,6 +24,19 @@
 					?>
                     	<div class="row">
                         	<div class="col-md-offset-3 col-md-5">
+                    
+                                <div class="form-group">
+                                    <div class="col-sm-8 col-md-offset-4">
+                                        <a href="#" class="facebook fb-login-button"><span>Join using Facebook</span></a>
+                                    </div>
+                                </div>
+                                
+                            	<div class="form-group">
+                                	<div class="col-sm-8 col-md-offset-4">
+                                		<p class="center-align">or</p>
+                                    </div>
+                                </div>
+                                
                             	<div class="form-group">
                                     <label for="customer_first_name" class="col-sm-4 control-label">First Name <span class="required">*</span></label>
                                     <div class="col-sm-8">
@@ -88,6 +99,69 @@
 											}
 										?>
                                 	</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="customer_address" class="col-sm-4 control-label">Address <span class="required">*</span></label>
+                                    <div class="col-sm-8">
+                                        <?php
+                                            //case of an input error
+                                            if(!empty($customer_address_error))
+                                            {
+                                                ?>
+                                                <input type="text" class="form-control alert-danger" name="customer_address" placeholder="<?php echo $customer_address_error;?>" onFocus="this.value = '<?php echo $customer_address;?>';">
+                                                <?php
+                                            }
+                                            
+                                            else
+                                            {
+                                                ?>
+                                                <input type="text" class="form-control" name="customer_address" placeholder="Address" value="<?php echo $customer_address;?>">
+                                                <?php
+                                            }
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="surburb_id" class="col-sm-4 control-label">Surburb <span class="required">*</span></label>
+                                    <div class="col-sm-8">
+                                        <?php
+                                            //case of an input error
+                                            if(!empty($surburb_id_error))
+                                            {
+                                                ?>
+                                                <select name="surburb_id" class="form-control alert-danger">
+                                                <?php
+                                            }
+                                            
+                                            else
+                                            {
+                                                ?>
+                                                <select name="surburb_id" class="form-control">
+                                                <?php
+                                            }
+                                            if($surburbs_query->num_rows() > 0)
+                                            {
+                                                foreach($surburbs_query->result() as $res)
+                                                {
+                                                    $surburb_id2 = $res->surburb_id;
+                                                    $surburb_name = $res->surburb_name;
+                                                    $post_code = $res->post_code;
+                                                    $state_name = $res->state_name;
+                                                    
+                                                    if($surburb_id2 == $surburb_id)
+                                                    {
+                                                        echo '<option value="'.$surburb_id2.'" selected="selected">'.$surburb_name.', '.$post_code.' '.$state_name.'</option>';
+                                                    }
+                                                    
+                                                    else
+                                                    {
+                                                        echo '<option value="'.$surburb_id2.'">'.$surburb_name.', '.$post_code.' '.$state_name.'</option>';
+                                                    }
+                                                }
+                                            }
+                                        ?>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="customer_email" class="col-sm-4 control-label">Email <span class="required">*</span></label>
@@ -153,14 +227,15 @@
 										?>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row center-align">
-                            <div class="col-sm-12">
-                                <button type="submit" class="btn btn-red btn-lg">Register</button>
-                                <p>already have an account?</p>
-                                <a href="<?php echo site_url().'sign-in';?>">Sign in</a>
+                                <div class="form-group">
+                                    <div class="col-sm-8 col-md-offset-4">
+                                        <div class="center-align">
+                                            <button type="submit" class="btn btn-red btn-lg">Register</button>
+                                            <p>already have an account?</p>
+                                            <a href="<?php echo site_url().'sign-in';?>">Sign in</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     <?php echo form_close();?>

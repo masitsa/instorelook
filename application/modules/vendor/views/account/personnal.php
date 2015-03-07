@@ -2,12 +2,12 @@
 	if($vendor_details->num_rows() > 0)
 	{
 		//initialize required variables
-		$v_data['vendor_first_name_error'] = '';
-		$v_data['vendor_last_name_error'] = '';
-		$v_data['vendor_email_error'] = '';
-		$v_data['vendor_phone_error'] = '';
-		$v_data['vendor_password_error'] = '';
-		$v_data['confirm_password_error'] = '';
+		$vendor_first_name_error = '';
+		$vendor_last_name_error = '';
+		$vendor_email_error = '';
+		$vendor_phone_error = '';
+		$vendor_password_error = '';
+		$confirm_password_error = '';
 		
 		$vendor = $vendor_details->row();
 		$validation_errors = validation_errors();

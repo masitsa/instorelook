@@ -186,6 +186,82 @@ class Login_model extends CI_Model
 		return $new_password;
 	}
 	
+	/*
+	*	Validate a customer's login request
+	*
+	*/
+	public function validate_facebook_customer($user_profile)
+	{
+		//select the user by email from the database
+		$this->db->select('*');
+		$this->db->where(array('customer_email' => $user_profile['email'], 'activated' => 1, 'customer_facebook' => 1));
+		$query = $this->db->get('customer');
+		
+		//if users exists
+		if ($query->num_rows() > 0)
+		{
+			$result = $query->result();
+			//create user's login session
+			$newdata = array(
+                   'login_status'     => TRUE,
+                   'customer_first_name'     => $result[0]->customer_first_name,
+                   'email'     => $result[0]->customer_email,
+                   'customer_id'     => $result[0]->customer_id,
+                   'user_type_id'  => 3
+               );
+			   
+			$this->session->set_userdata($newdata);
+			
+			//update user's last login date time
+			$this->update_customer_login($result[0]->customer_id);
+			return TRUE;
+		}
+		
+		//if user doesn't exist
+		else
+		{
+			return FALSE;
+		}
+	}
+	
+	public function check_email($email)
+	{
+		$this->db->where('customer_email', $email);
+		$query = $this->db->get('customer');
+		
+		if($query->num_rows() > 0)
+		{
+			return TRUE;
+		}
+		
+		else
+		{
+			return FALSE;
+		}
+	}
+	
+	public function register_facebook_customer($user_profile)
+	{
+		$data = array( 
+				'customer_first_name' => $user_profile['first_name'],
+				'customer_surname' => $user_profile['last_name'],
+				'customer_email' => $user_profile['email'],
+				'customer_facebook' => 1,
+				'customer_created' => date('Y-m-d H:i:s'),
+				'activated' => 1
+		);
+		
+		if($this->db->insert('customer', $data))
+		{
+			return TRUE;
+		}
+		
+		else
+		{
+			return FALSE;
+		}
+	}
+	
 	public function register_customer()
 	{
 		$data = array( 
@@ -193,6 +269,8 @@ class Login_model extends CI_Model
 				'customer_surname' => $this->input->post('customer_surname'),
 				'customer_email' => $this->input->post('customer_email'),
 				'customer_phone' => $this->input->post('customer_phone'),
+				'surburb_id' => $this->input->post('surburb_id'),
+				'customer_address' => $this->input->post('customer_address'),
 				'customer_password' => md5($this->input->post('customer_password')),
 				'customer_created' => date('Y-m-d H:i:s'),
 				'customer_last_login' => date('Y-m-d H:i:s'),

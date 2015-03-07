@@ -4,4 +4,6 @@
 <file name="Excel.php" server="ftp.instorelook.com.au//public_html/development/" local="130649990448242256" remote="130650208200000000" Dst="0" />
 <file name="Paypal.php" server="ftp.instorelook.com.au//public_html/development/" local="130669215032377166" remote="130669462800000000" Dst="0" />
 <file name="Httprequest.php" server="ftp.instorelook.com.au//public_html/development/" local="130311461700000000" remote="130661069400000000" Dst="0" />
+<file name="Facebook.php" server="ftp.instorelook.com.au//public_html/development/" local="130567070676269183" remote="130700316600000000" Dst="0" />
+<file name="Basefacebook.php" server="ftp.instorelook.com.au//public_html/development/" local="130567070676209179" remote="130700334600000000" Dst="0" />
 </dwsync>

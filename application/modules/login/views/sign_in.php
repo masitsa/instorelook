@@ -84,14 +84,15 @@
                                                 ?>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-sm-12 center-align">
-                                        <button type="submit" class="btn btn-red">Continue</button>
-                                        <p>Don't have an account?</p>
-                                        <a href="<?php echo site_url().'vendor/sign-up/user-details';?>">Sign Up</a>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-md-offset-4">
+                                                <div class="center-align">
+                                                    <button type="submit" class="btn btn-red">Sign in</button>
+                                                    <p>Don't have an account?</p>
+                                                    <a href="<?php echo site_url().'vendor/sign-up/user-details';?>">Sign up</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             <?php echo form_close();?>

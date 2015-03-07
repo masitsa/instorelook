@@ -2507,3 +2507,131 @@ color:#fff;
 .slide img{max-width:550px;}
 
 .cbp-vm-image img {height: 150px;}
+
+/* =============================================================== */
+/* Account// Address // Order //  Creation
+/* =============================================================== */
+
+.myAccountList li {
+	text-align: center;
+}
+.myAccountList li a {
+	font-size: 14px;
+	display: block;
+}
+.myAccountList .thumbnail {
+	padding: 10px 0 0;
+}
+.myAccountList .thumbnail:hover {
+	background: #F5F5F5;
+}
+.myAccountList li a i {
+	display: block;
+	clear: both;
+	font-size: 44px;
+	margin-bottom: 10px;
+}
+h2.block-title-2, .formBox h3, .block-title-2 {
+	border-bottom: 1px solid #CECECE;
+	font-size: 13px;
+	font-weight: bold;
+	margin: 0 0 15px;
+	padding: 10px 0 0;
+	position: relative;
+}
+.panel-footer-address .btn {
+	margin-right: 5px;
+}
+ul, ol {
+  list-style: none outside none;
+  margin: 0;
+  padding: 0;
+}
+.equalheight{height: 116px; padding: 10px 0 0;background-color: #FFFFFF;
+border: 1px solid #DDDDDD;
+border-radius: 4px;
+display: block;
+line-height: 1.42857;
+margin-bottom: 20px;
+padding: 4px;
+transition: all 0.2s ease-in-out 0s;}
+/*------- cart & Wisth list -------*/
+
+.CartProductThumb a img, .CartProductThumb a img {
+	width: 86px;
+	max-width: 100%;
+}
+tr.CartProduct {
+	border-bottom: 1px solid #E7E9EC;
+}
+tr.CartProduct td {
+	padding: 10px 0;
+}
+/* mycart */
+
+.cartTableHeader {
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 14px;
+}
+.CartDescription h4{font-size: 17px; line-height: 20px;}
+.CartDescription h4 a{color: #34495E; outline: medium none !important; text-decoration: none; transition: all 0.2s ease-in 0s;}
+.CartDescription .price {color: #2C3E50; font-size: 18px; font-weight: bold;}
+
+.quanitySniper {
+	height: 30px;
+	padding: 0;
+	text-align: center;
+	width: 40px;
+}
+tr.CartProduct td {
+	text-align: center;
+}
+tr.CartProduct td:nth-child(2) {
+	text-align: left;
+}
+.cartTable {
+	border-top: solid 1px #EBEDEF;
+}
+.cartTableHeader {
+	background: #EBEDEF;
+}
+.cartFooter {
+	padding: 20px;
+	border-top: solid 1px #eee;
+	background: #EBEDEF;
+	display: inline-block;
+	width: 100%;
+}
+#cart-summary tr td:nth-child(2) {
+	text-align: right;
+}
+.breadcrumb {
+  border: 1px solid #DDDDDD;
+}
+.panel-default > .panel-heading {
+  border-top: 4px solid #55A4DA;
+}
+.userInfo .panel{padding: 0;}
+
+/* Facebook */
+.facebook {
+  background: none repeat scroll 0 0 #2E4A84;
+  border-radius: 3px;
+  color: #FFFFFF;
+  cursor: pointer;
+  float: left;
+  font-size: 15px;
+  height: 55px;
+  line-height: 55px;
+  margin-bottom: 21px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+}
+.facebook span {
+  background: url("../images/facebook02.gif") no-repeat scroll left center rgba(0, 0, 0, 0);
+  padding: 3px 0 0 35px;
+  color: #ffffff;
+}

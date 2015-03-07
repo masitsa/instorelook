@@ -371,6 +371,8 @@ $config['proxy_ips'] = '';
 $config['modules_locations'] = array(
 		APPPATH.'modules/' => '../modules/',
 	);
+$config['appID']    	= '737733999674371';
+$config['appSecret']    = 'e03a64bb56363f549a8e86bc9d5e6ebf';
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */

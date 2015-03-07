@@ -2,18 +2,23 @@
 
 require_once "./application/modules/site/controllers/site.php";
 
-class Account extends site {
-	
+class Account extends site 
+{
+	var $customer_id;
+		
 	function __construct()
 	{
 		parent:: __construct();
 		
-		$this->load->model('admin/orders_model');
+		$this->load->model('vendor/orders_model');
+		$this->load->model('vendor/vendor_model');
 		$this->load->model('login/login_model');
+		$this->load->model('site/checkout_model');
 		
 		//user has logged in
 		if($this->login_model->check_customer_login())
 		{
+			$this->customer_id = $this->session->userdata('customer_id');
 		}
 		
 		//user has not logged in
@@ -32,18 +37,7 @@ class Account extends site {
 	*/
 	public function my_account()
 	{
-		echo 'Coming soon <a href="'.site_url().'account/sign-out">Sign out</a>';
-	}
-	public function my_account_old()
-	{
-		//Required general page data
-		$v_data['all_children'] = $this->categories_model->all_child_categories();
-		$v_data['parent_categories'] = $this->categories_model->all_parent_categories();
-		$v_data['crumbs'] = $this->site_model->get_crumbs();
-		
-		//page data
-		$v_data['user_details'] = $this->users_model->get_user($this->session->userdata('user_id'));
-		$data['content'] = $this->load->view('user/my_account', $v_data, true);
+		$data['content'] = $this->load->view('account/dashboard', '', true);
 		
 		$data['title'] = $this->site_model->display_page_title();
 		$this->load->view('templates/general_page', $data);
@@ -55,15 +49,10 @@ class Account extends site {
 	*
 	*/
 	public function orders_list()
-	{
-		//Required general page data
-		$v_data['all_children'] = $this->categories_model->all_child_categories();
-		$v_data['parent_categories'] = $this->categories_model->all_parent_categories();
-		$v_data['crumbs'] = $this->site_model->get_crumbs();
-		
+	{	
 		//page data
-		$v_data['all_orders'] = $this->orders_model->get_user_orders($this->session->userdata('user_id'));
-		$data['content'] = $this->load->view('user/orders_list', $v_data, true);
+		$v_data['all_orders'] = $this->orders_model->get_user_orders($this->customer_id);
+		$data['content'] = $this->load->view('account/orders', $v_data, true);
 		
 		$data['title'] = $this->site_model->display_page_title();
 		$this->load->view('templates/general_page', $data);
@@ -76,14 +65,42 @@ class Account extends site {
 	*/
 	public function my_details()
 	{
-		//Required general page data
-		$v_data['all_children'] = $this->categories_model->all_child_categories();
-		$v_data['parent_categories'] = $this->categories_model->all_parent_categories();
-		$v_data['crumbs'] = $this->site_model->get_crumbs();
-		
 		//page data
-		$v_data['user_details'] = $this->users_model->get_user($this->session->userdata('user_id'));
-		$data['content'] = $this->load->view('user/my_details', $v_data, true);
+		$v_data['surburbs_query'] = $this->vendor_model->get_all_surburbs();
+		$v_data['customer_query'] = $this->checkout_model->get_customer_details($this->customer_id);
+		$data['content'] = $this->load->view('account/my_details', $v_data, true);
+		
+		$data['title'] = $this->site_model->display_page_title();
+		$this->load->view('templates/general_page', $data);
+	}
+    
+	/*
+	*
+	*	Open the user's shipping page
+	*
+	*/
+	public function edit_shipping()
+	{
+		//page data
+		$v_data['surburbs_query'] = $this->vendor_model->get_all_surburbs();
+		$v_data['shipping_query'] = $this->checkout_model->get_shipping_details($this->customer_id);
+		$data['content'] = $this->load->view('account/shipping_address', $v_data, true);
+		
+		$data['title'] = $this->site_model->display_page_title();
+		$this->load->view('templates/general_page', $data);
+	}
+    
+	/*
+	*
+	*	Open the user's wishlist
+	*
+	*/
+	public function my_addresses()
+	{
+		$v_data['surburbs_query'] = $this->vendor_model->get_all_surburbs();
+		$v_data['customer_query'] = $this->checkout_model->get_customer_details($this->customer_id);
+		$v_data['shipping_query'] = $this->checkout_model->get_shipping_details($this->customer_id);
+		$data['content'] = $this->load->view('account/my_addresses', $v_data, true);
 		
 		$data['title'] = $this->site_model->display_page_title();
 		$this->load->view('templates/general_page', $data);
@@ -96,17 +113,21 @@ class Account extends site {
 	*/
 	public function wishlist()
 	{
-		//Required general page data
-		$v_data['all_children'] = $this->categories_model->all_child_categories();
-		$v_data['parent_categories'] = $this->categories_model->all_parent_categories();
-		$v_data['crumbs'] = $this->site_model->get_crumbs();
-		
-		//page data
-		$v_data['all_orders'] = $this->orders_model->get_users_wishlist($this->session->userdata('user_id'));
-		$data['content'] = $this->load->view('user/wishlist', $v_data, true);
+		$v_data['products_path'] = $this->products_path;
+		$v_data['products_location'] = $this->products_location;
+		$v_data['wishlist'] = $this->orders_model->get_user_wishlist($this->customer_id);
+		$data['content'] = $this->load->view('account/wishlist', $v_data, true);
 		
 		$data['title'] = $this->site_model->display_page_title();
 		$this->load->view('templates/general_page', $data);
+	}
+	
+	public function delete_wishlist_item($wishlist_id)
+	{
+		$this->db->where('wishlist_id', $wishlist_id);
+		$this->db->delete('wishlist');
+		echo 'true';
+		redirect('account/wishlist');
 	}
     
 	/*

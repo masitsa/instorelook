@@ -81,7 +81,7 @@
 						}
 						?>
                     	
-                    	<li><a href="#"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Wishlist</a></li>
+                    	<li><a href="<?php echo site_url().'account/wishlist'?>"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Wishlist</a></li>
                     </ul>
                 </div>
             </div>

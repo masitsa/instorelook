@@ -36,7 +36,7 @@
 					$description = $prods->product_description;
 					$mini_desc = implode(' ', array_slice(explode(' ', $description), 0, 10));
 					$price = number_format($product_price, 2, '.', ',');
-					$image = $this->products_model->image_display($products_path, $products_location, $image);
+					$image = $this->products_model->image_display($products_path, $products_location, $thumb);
 					$sale = '';
 					
 					if($sale_price > 0)

@@ -24,11 +24,26 @@ class Orders_model extends CI_Model
 	*	Retrieve all orders of a user
 	*
 	*/
-	public function get_user_orders($user_id)
+	public function get_user_orders($customer_id)
 	{
-		$this->db->where('user_id = '.$user_id);
-		$this->db->order_by('created', 'DESC');
-		$query = $this->db->get('orders');
+		$this->db->select('payment_method.payment_method_name, orders.*, order_status.order_status_name');
+		$this->db->where('orders.payment_method_id = payment_method.payment_method_id AND orders.order_status_id = order_status.order_status_id AND orders.customer_id = '.$customer_id);
+		$this->db->order_by('order_created', 'DESC');
+		$query = $this->db->get('orders, order_status, payment_method');
+		
+		return $query;
+	}
+	
+	/*
+	*	Retrieve all wishlist items of a user
+	*
+	*/
+	public function get_user_wishlist($customer_id)
+	{
+		$this->db->select('brand.brand_name, product.*, wishlist.date_added, wishlist.wishlist_id');
+		$this->db->where('product.brand_id = brand.brand_id AND product.product_id = wishlist.product_id AND wishlist.customer_id = '.$customer_id);
+		$this->db->order_by('wishlist.date_added', 'DESC');
+		$query = $this->db->get('product, wishlist, brand');
 		
 		return $query;
 	}
@@ -98,7 +113,7 @@ class Orders_model extends CI_Model
 		//select product code
 		$this->db->from('order_item');
 		$this->db->where('order_id = '.$order_id);
-		$this->db->select('SUM(price * quantity) AS total_cost');
+		$this->db->select('SUM(order_item_price * order_item_quantity) AS total_cost');
 		$query = $this->db->get();
 		
 		if($query->num_rows() > 0)

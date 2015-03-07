@@ -2,20 +2,20 @@
 	if($vendor_details->num_rows() > 0)
 	{
 		//initialize required variables
-		$v_data['vendor_logo_location'] = 'http://placehold.it/300x300&text=Upload+logo';
-		$v_data['vendor_store_name_error'] = '';
-		$v_data['vendor_store_phone_error'] = '';
-		$v_data['vendor_store_email_error'] = '';
-		$v_data['vendor_store_summary_error'] = '';
-		$v_data['vendor_logo_error'] = '';
-		$v_data['vendor_store_address_error'] = '';
-		$v_data['vendor_store_mobile_error'] = '';
-		$v_data['vendor_store_state_error'] = '';
-		$v_data['vendor_store_country_error'] = '';
-		$v_data['vendor_business_type_error'] = '';
-		$v_data['surburb_id_error'] = '';
-		$v_data['country_id_error'] = '';
-		$v_data['vendor_store_postcode_error'] = '';
+		$vendor_logo_location = 'http://placehold.it/300x300&text=Upload+logo';
+		$vendor_store_name_error = '';
+		$vendor_store_phone_error = '';
+		$vendor_store_email_error = '';
+		$vendor_store_summary_error = '';
+		$vendor_logo_error = '';
+		$vendor_store_address_error = '';
+		$vendor_store_mobile_error = '';
+		$vendor_store_state_error = '';
+		$vendor_store_country_error = '';
+		$vendor_business_type_error = '';
+		$surburb_id_error = '';
+		$country_id_error = '';
+		$vendor_store_postcode_error = '';
 		
 		$vendor = $vendor_details->row();
 		$validation_errors = validation_errors();

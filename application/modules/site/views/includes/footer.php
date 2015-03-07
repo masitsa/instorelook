@@ -117,8 +117,8 @@ if($surburbs->num_rows() > 0)
                 </div>
                 <div class="modal-footer">	
                     <div class="pull-right">				
-                        <a href="<?php echo site_url().'account';?>" class="btn btn-primary btn-small">
-                            Go to your account &nbsp; <span class="glyphicon glyphicon-arrow-right"></span>
+                        <a href="<?php echo site_url().'account/wishlist';?>" class="btn btn-primary btn-small">
+                            Go to your wishlist &nbsp; <span class="glyphicon glyphicon-arrow-right"></span>
                         </a>
                     </div>
                 </div>
@@ -153,6 +153,69 @@ if($surburbs->num_rows() > 0)
         <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/custom.js"></script> 
 
 		<script type="text/javascript">
+		
+			window.fbAsyncInit = function() {
+				FB.init({
+					 appId:'<?php echo $this->config->item('appID'); ?>',
+					 status     : true, 
+					 cookie     : true, 
+					 xfbml      : true 
+				});
+			};
+		
+			(function(d){
+				 var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+				 if (d.getElementById(id)) {return;}
+						 js = d.createElement('script'); js.id = id; js.async = true;
+						 js.src = "//connect.facebook.net/en_US/all.js";
+						 ref.parentNode.insertBefore(js, ref);
+				 }(document));
+
+		//Facebook sign up
+		$(document).on("click","a.fb-login-button",function()
+        {
+			FB.getLoginStatus(function(response) 
+			{
+				if (response.status === 'connected') 
+				{
+					parent.location ='<?php echo base_url(); ?>login/facebook_sign_up';
+				} 
+				 
+				else {
+					FB.login(function(response) {
+						// handle the response
+						if(response.authResponse) 
+						{
+							parent.location ='<?php echo base_url(); ?>login/facebook_sign_up';
+						}
+					}, {scope: 'email, publish_stream'});/*{scope: 'email,publish_stream'});*/
+				}
+		 	});
+		 	return false;
+        });
+
+		//Facebook sign up
+		$(document).on("click","a.fb-signin-button",function()
+        {
+			FB.getLoginStatus(function(response) 
+			{
+				if (response.status === 'connected') 
+				{
+					parent.location ='<?php echo base_url(); ?>login/facebook_sign_in';
+				} 
+				 
+				else {
+					FB.login(function(response) {
+						// handle the response
+						if(response.authResponse) 
+						{
+							parent.location ='<?php echo base_url(); ?>login/facebook_sign_in';
+						}
+					}, {scope: 'email, publish_stream'});/*{scope: 'email,publish_stream'});*/
+				}
+		 	});
+		 	return false;
+        });
         //Add to cart
         $(document).on("click","a.add_to_cart",function()
         {
@@ -303,6 +366,32 @@ if($surburbs->num_rows() > 0)
                 },
                 error: function(xhr, status, error) {
                     alert("XMLHttpRequest=" + xhr.responseText + "\ntextStatus=" + status + "\nerrorThrown=" + error);
+                }
+            });
+            
+            return false;
+        });
+        
+        //Delete from wishlist
+        $(document).on("click","a.delete_wishlist",function()
+        {
+            var wishlist_id = $(this).attr('href');
+			//alert('<?php echo site_url();?>site/account/delete_wishlist_item/'+wishlist_id);
+            
+            $.ajax({
+                type:'POST',
+                url: '<?php echo site_url();?>site/account/delete_wishlist_item/'+wishlist_id,
+                cache:false,
+                contentType: false,
+                processData: false,
+                success:function(data)
+				{
+                    window.location.href = '<?php echo site_url();?>account/wishlist';
+                    
+                },
+                error: function(xhr, status, error) {
+                    window.location.href = '<?php echo site_url();?>account/wishlist';
+                    //alert("XMLHttpRequest=" + xhr.responseText + "\ntextStatus=" + status + "\nerrorThrown=" + error);
                 }
             });
             

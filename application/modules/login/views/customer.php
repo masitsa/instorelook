@@ -52,6 +52,18 @@ else
                             	<div id="modal-error-message"></div>
                                 <div class="row">
                                     <div class="col-md-offset-1 col-md-10">
+                    
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-md-offset-4">
+                                                <a href="#" class="facebook fb-signin-button"><span>Sign in with Facebook</span></a>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-md-offset-4">
+                                                <p class="center-align">or</p>
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                             <label for="customer_email" class="col-sm-4 control-label">Email <span class="required">*</span></label>
                                             <div class="col-sm-8">
@@ -94,14 +106,15 @@ else
                                                 ?>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-sm-12 center-align">
-                                        <button type="submit" class="btn btn-red">Sign in</button>
-                                        <p>Don't have an account?</p>
-                                        <a href="<?php echo site_url().'customer/join';?>">Sign Up</a>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-md-offset-4">
+                                                <div class="center-align">
+                                                    <button type="submit" class="btn btn-red">Sign in</button>
+                                                    <p>Don't have an account?</p>
+                                                    <a href="<?php echo site_url().'customer/join';?>">Sign up</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             <?php echo form_close();?>
