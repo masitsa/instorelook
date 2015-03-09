@@ -13,7 +13,22 @@
       </ul>
     </div>
   </div> <!--/.row-->
-  
+ <?php
+	$error_message = $this->session->userdata('error_message');
+	if(!empty($error_message))
+	{
+		echo '<div class="alert alert-danger center-align"> Oh snap! '.$error_message.' </div>';
+		$this->session->unset_userdata('error_message');
+	}
+	
+	$success_message = $this->session->userdata('success_message');
+	if(!empty($success_message))
+	{
+		echo '<div class="alert alert-success center-align"> '.$success_message.' </div>';
+		$this->session->unset_userdata('success_message');
+		
+	}
+?>
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
       <h1 class="section-title-inner"><span><i class="fa fa-unlock-alt"></i> My account </span></h1>

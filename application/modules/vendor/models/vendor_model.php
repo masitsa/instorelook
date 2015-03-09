@@ -299,7 +299,6 @@ class Vendor_model extends CI_Model
 	*/
 	public function send_account_verification_email($receiver_email, $receiver_name, $cc) 
 	{
-		$this->load->library('Mandrill', 'yPN5McI91NQbs7spbOUpPA');
 		$this->load->model('site/email_model');
 		
 		$subject = "Thanks for registering your shop";

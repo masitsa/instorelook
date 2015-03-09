@@ -9,6 +9,7 @@ class Login extends MX_Controller {
 		$this->load->model('site/site_model');
 		$this->load->model('site/cart_model');
 		$this->load->model('vendor/vendor_model');
+		$this->load->library('Mandrill', $this->config->item('appID'));
 	}
     
 	/*
@@ -108,6 +109,9 @@ class Login extends MX_Controller {
 		{
 			if($this->login_model->register_customer())
 			{
+				//Send registration email
+				$response = $this->login_model->send_account_registration_email($this->input->post('customer_email'), $this->input->post('customer_first_name'));
+				
 				//sign in customer
 				if($this->login_model->validate_customer())
 				{
@@ -121,6 +125,7 @@ class Login extends MX_Controller {
 					
 					else
 					{
+						$this->session->set_userdata('success_message', 'You have successfully created an account.');
 						redirect('account');
 					}
 				}
@@ -407,10 +412,28 @@ class Login extends MX_Controller {
 	
 	public function deactivate_account()
 	{
-		$update = array('activated' => 0);
-		$this->db->where('customer_id', $this->session->userdata('customer_id'));
-		$this->db->update('customer', $update);
+		$customer_id = $this->session->userdata('customer_id');
 		
+		if($customer_id > 0)
+		{
+			$update = array('activated' => 0);
+			$this->db->where('customer_id', $this->session->userdata('customer_id'));
+			$this->db->update('customer', $update);
+			
+			//Send deactivation email
+			$this->db->where('customer_id', $this->session->userdata('customer_id'));
+			$query = $this->db->get('customer');
+			
+			if($query->num_rows() > 0)
+			{
+				$row = $query->row();
+				$customer_email = $row->customer_email;
+				$customer_first_name = $row->customer_first_name;
+				
+				$response = $this->login_model->send_account_deactivation_email($customer_email, $customer_first_name);
+			}
+		}
+		$this->session->set_userdata('success_message', 'Your account has been deactivated.<br /> Do you want to <a href="'.base_url().'customer/reactivate-account">reactivate your account?</a>');
 		$this->logout_user();
 	}
 }

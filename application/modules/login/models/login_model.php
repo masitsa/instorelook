@@ -287,4 +287,54 @@ class Login_model extends CI_Model
 			return FALSE;
 		}
 	}
+    
+	/*
+	*
+	*	Customer account sign up email
+	*
+	*/
+	public function send_account_registration_email($receiver_email, $receiver_name, $cc = NULL) 
+	{
+		$this->load->model('site/email_model');
+		
+		$subject = "Thanks for registering your account";
+		$message = '
+				<p>Thank you for registering at In Store Look.</p> <p>You can now browse & purchase products from various surburbs within the country. You can purchase products by clicking here</p>
+				';
+		$sender_email = "info@instorelook.com.au";
+		$shopping = "In Store Look does not provide the products but provides a platform for businesses to sell their products.";
+		$from = "In Store Look";
+		
+		$button = '<a class="mcnButton " title="Browse Products" href="'.site_url().'products" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Browse products</a>';
+		$response = $this->email_model->send_mandrill_mail($receiver_email, "Hi ".$receiver_name, $subject, $message, $sender_email, $shopping, $from, $button, $cc);
+		
+		//echo var_dump($response);
+		
+		return $response;
+	}
+    
+	/*
+	*
+	*	Customer account deactivation email
+	*
+	*/
+	public function send_account_deactivation_email($receiver_email, $receiver_name, $cc = NULL) 
+	{
+		$this->load->model('site/email_model');
+		
+		$subject = "Your account has been deactivated";
+		$message = '
+				<p>Your account at In Store Look has been deactivated. We are sad to see you go :-(</p> <p>You can always reactivate your account anytime by clicking here</p>
+				';
+		$sender_email = "info@instorelook.com.au";
+		$shopping = "If you did not perform this action please get in touch with us using our online contact form";
+		$from = "In Store Look";
+		
+		$button = '<a class="mcnButton " title="Reactivate account" href="'.site_url().'customer/reactivate-account" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Reactivate account</a>';
+		$response = $this->email_model->send_mandrill_mail($receiver_email, "Hi ".$receiver_name, $subject, $message, $sender_email, $shopping, $from, $button, $cc);
+		
+		//echo var_dump($response);
+		
+		return $response;
+	}
 }
