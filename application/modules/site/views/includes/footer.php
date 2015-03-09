@@ -61,24 +61,49 @@ if($surburbs->num_rows() > 0)
                 
                     <!-- Quick Links -->
                     <div class="col-md-3">
-                        <h3>Pages</h3>
-                        <ul>
-                            <li><a href="<?php echo site_url().'products';?>">Products</a></li>
-                            <li><a href="<?php echo site_url().'products/view-product/39';?>">Single Product</a></li>
-                            <li><a href="<?php echo site_url().'cart';?>">Cart</a></li>
-                            <li><a href="<?php echo site_url().'checkout';?>">Checkout</a></li>
-                        </ul>
+                        <h3>Newsletter</h3>
+                         <?php echo form_open("request-news-letter", array("class" => "form-horizontal"));?>
+                      
+                            <div class="col-sm-6 af-outer af-required">
+                                <div class="form-group af-inner">
+                                    <input type="text" name="first_name" id="first_name" size="30" value="" placeholder="First name *" class="form-control placeholder" />
+                                    <label class="error" for="first_name" id="firstname_error">Name.</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 af-outer af-required">
+                                <div class="form-group af-inner">
+                                    <input type="text" name="last_name" id="last_name" size="30" value="" placeholder="Last name *" class="form-control placeholder" />
+                                    <label class="error" for="last_name" id="lastname_error">Last Name.</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 af-outer af-required">
+                                <div class="form-group af-inner">
+                                    <input type="text" name="email_address" id="email_address" size="30" value="" placeholder="Email *" class="form-control placeholder" />
+                                    <label class="error" for="email_address" id="email_error">Email is required.</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 af-outer af-required">
+                                <div class="form-group af-inner text-center">
+                                    <input type="submit" name="submit" class="form-button btn btn-success col-sm-12"  id="submit_btn" value="Subscribe" />
+                                </div>
+                            </div>
+                        <?php echo form_close();?>
                     </div><!-- End Quick Links -->
                 
-                    <!-- Quick Links -->
-                    <div class="col-md-3">
-                        <h3>Quick Links</h3>
-                        <ul>
-                            <li><a href="<?php echo site_url().'about';?>">About</a></li>
-                            <li><a href="<?php echo site_url().'privacy';?>">Privacy</a></li>
-                            <li><a href="<?php echo site_url().'terms';?>">Terms & Conditions</a></li>
-                        </ul>
-                    </div><!-- End Quick Links -->
+                   
+                    <div class=" col-md-3">
+                        <div class="widget">
+                            <div class="col-sm-12 text-center"> 
+                                <ul class="social">
+                                    <li><a href="" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                                    <li><a href="" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                                </ul>
+                            </div>
+                            <a href="#top" class="form-button btn btn-success col-sm-12 cd-top"> <i class="fa fa-angle-up"></i>back to top</a>
+                        </div>
+                    </div>
                 </div>
                 <!-- End Contacts -->
                 
@@ -90,8 +115,8 @@ if($surburbs->num_rows() > 0)
             <div class="container">
                 <div class="row">
                     <!-- Copyright -->
-                    <div class="col-xs-6 col-sm-6 col-md-6 pull-left">
-                        &copy; <?php echo date('Y');?> instorelook.com.au. All Rights Reserved.
+                    <div class="col-xs-6 col-sm-6 col-md-6 pull-left" style="font-size: 14px;">
+                       <a href="<?php echo site_url().'about';?>">About</a> | <a href="<?php echo site_url().'privacy';?>">Privacy</a> | <a href="<?php echo site_url().'terms';?>">Terms & Conditions</a> | &copy; <?php echo date('Y');?> instorelook.com.au. All Rights Reserved. 
                     </div>
                     <!-- Payment -->
                     <div class="col-xs-6 col-sm-6 col-md-6">
@@ -127,8 +152,6 @@ if($surburbs->num_rows() > 0)
           </div>
         </div>
         
-        <!-- Bootstrap--> 
-        <script type="text/javascript" src="<?php echo base_url();?>assets/themes/bootstrap/js/bootstrap.min.js"></script> 
         <!-- Single page navigation --> 
         <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/jquery.nav.js"></script> 
         <!-- Stellar --> 

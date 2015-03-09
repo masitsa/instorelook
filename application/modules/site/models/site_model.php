@@ -235,6 +235,23 @@ class Site_model extends CI_Model
 		
 		return $query;
 	}
+	public function request_newsletter()
+	{
+		$data = array(
+			'created_on'=>date('Y-m-d'),
+			'email_address'=>$this->input->post('email_address'),
+			'first_name'=>$this->input->post('first_name'),
+			'last_name'=>$this->input->post('last_name')
+		);
+		
+		if($this->db->insert('newsletter_requests', $data))
+		{
+			return $this->db->insert_id();
+		}
+		else{
+			return FALSE;
+		}
+	}
 }
 
 ?>

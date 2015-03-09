@@ -475,5 +475,22 @@ class Site extends MX_Controller
 			echo json_encode($data); 	
 		}
 	}
+	public function request_newsletter()
+	{
+		//form validation rules
+		$this->form_validation->set_rules('email_address', 'Email', 'is_numeric|xss_clean');
+		
+		//if form conatins invalid data
+		if ($this->form_validation->run() == FALSE)
+		{
+			$this->site_model->request_newsletter();
+		}
+		
+		else
+		{
+			$this->session->set_userdata("error_message","Could not send newsletter request. Please try again");	
+		}
+		redirect('home');
+	}
 }
 ?>
