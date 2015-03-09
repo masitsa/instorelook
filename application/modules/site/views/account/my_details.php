@@ -102,6 +102,7 @@
 				</div>
 				
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
                 	<?php echo form_open('account/update-billing-details', array('class' => 'form-horizontal', 'role' => 'form'));?>
                         <div class="form-group">
                             <label for="customer_first_name" class="col-sm-4 control-label">First name <span class="required">*</span></label>
@@ -265,7 +266,7 @@
                                 </div>
                             </div>
                         </div>
-					</form>
+					 <?php echo form_close();?>
 				</div>
                 
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">

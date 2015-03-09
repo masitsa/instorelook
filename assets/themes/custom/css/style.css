@@ -206,7 +206,7 @@ padding:5px;height:83px; width:126px;}
 .footer {border-bottom: 1px solid #cccccc;border-top: 1px solid #dddddd; height: auto;padding-bottom: 30px;position: relative;width: 100%;}
 .footer ul {
   list-style: none;
-  margin-left: -39px;
+  /*margin-left: -39px;*/
 }
 
 .footer a{color:#fff;}
@@ -316,7 +316,7 @@ text-transform: uppercase;
 font-weight: normal;
 letter-spacing: 1px;
 }
-.shopping-cart h4, .summary-cart h4, .coupon h4, .checkout-progress h4, .login-client h4, .register-customer h4, .guest-checkout h4, .product-images h4, .product-content-header h4{
+.shopping-cart h4, .summary-cart h4, .coupon h4, .checkout-progress h4, .login-client h4, .register-customer h4, .guest-checkout h4, .product-images h4, .product-content-header h4, .accounts-dashboard h4{
 background: none repeat scroll 0 0 #55A4DA;
 border: 0px solid #E6E6E6;
 color: #fff;
@@ -326,7 +326,23 @@ margin: 0 0 0px 0;
 text-transform: uppercase;
 font-weight: normal;
 letter-spacing: 1px;
+/*line-height: 0px;*/
 
+
+}
+.accounts-dashboard h4{
+background: none repeat scroll 0 0 #55A4DA;
+border: 0px solid #E6E6E6;
+color: #fff;
+font-size: 0.9em;
+padding: 15px 15px;
+margin: 0 0 0px 0;
+text-transform: uppercase;
+font-weight: normal;
+letter-spacing: 1px;
+line-height: 0px;
+width: 102.6%;
+margin-left: -15px;
 
 }
 
@@ -2634,4 +2650,72 @@ tr.CartProduct td:nth-child(2) {
   background: url("../images/facebook02.gif") no-repeat scroll left center rgba(0, 0, 0, 0);
   padding: 3px 0 0 35px;
   color: #ffffff;
+}
+
+
+/*social links*/
+.footer .social .fa {
+    /* color: #09173c; */
+    color: #858688;
+    margin-right: 7px;
+    font-size: 31px;
+    margin-top: 47px;
+    margin-left: 2px;
+}
+.footer .fa-li {
+    width: auto;
+}
+
+
+
+ul.social {overflow: hidden;}
+ul.social li {float: left; margin-left: 8%;}
+.footer-line ul.social {float: right; margin-bottom: 0;}
+.footer-line ul.social li {margin-left: 15px;}
+
+@media (max-width: 991px) {
+    .footer-line ul.social {
+        float: left;
+    }
+    .footer-line ul.social li {
+        margin-right: 15px;
+        margin-left: 0;
+    }
+}
+
+
+.fa-ul-icons .fa {
+    position: relative;
+    display: block;
+    float: left;
+    top: 6px;
+    width: 20px;
+    margin-right: 10px;
+    color: #858688;
+}
+
+.footer .form-control {
+    color: #fff;
+    background-color: #2B303B;
+    border: 1px solid #fff;
+}
+
+.footer .form-control:focus {
+    border-color: #09173c;
+}
+
+.cd-top {
+margin-top: 128px;
+}
+/*-------------------------------------
+4.1 Social
+-------------------------------------*/
+
+
+/*end of social links*/
+
+label {
+color: red;
+font-weight: 100;
+font-size: 12px;
 }
