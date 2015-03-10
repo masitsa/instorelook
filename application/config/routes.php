@@ -187,6 +187,9 @@ $route['vendor/deactivate-category/(:num)'] = 'vendor/categories/deactivate_cate
 */
 $route['vendor/all-orders'] = 'vendor/orders/index';
 $route['vendor/add-order'] = 'vendor/orders/add_order';
+$route['vendor/search-orders'] = 'vendor/orders/search_orders';
+$route['vendor/close-orders-search'] = 'vendor/orders/close_orders_search';
+
 $route['vendor/edit-order/(:num)'] = 'vendor/orders/edit_order/$1';
 $route['vendor/delete-order/(:num)'] = 'vendor/orders/delete_order/$1';
 $route['vendor/deactivate-order/(:num)'] = 'vendor/orders/deactivate_order/$1';

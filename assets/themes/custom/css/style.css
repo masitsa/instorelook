@@ -365,7 +365,7 @@ margin-left: -15px;
 }
 
 .add-cart {display: inline-block; padding-right:0;}
-.cbp-vm-add.add_to_wishlist{background-color: #D0D0D0;}
+.cbp-vm-add.add_to_wishlist{background-color: #D0D0D0; margin-top: 5px;}
 .add-cart h4{float: right;  border-bottom: thin solid #55A4DA; border-right: thin solid #55A4DA; display:inline-flex; margin:0;}
 
 .add-cart h4 a.add_to_cart {

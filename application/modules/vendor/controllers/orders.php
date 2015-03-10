@@ -7,9 +7,11 @@ class Orders extends admin {
 	function __construct()
 	{
 		parent:: __construct();
-		$this->load->model('users_model');
+		$this->load->model('admin/users_model');
 		$this->load->model('orders_model');
 		$this->load->model('products_model');
+		$this->load->model('site/site_model');
+		$this->load->model('site/cart_model');
 	}
     
 	/*
@@ -19,11 +21,21 @@ class Orders extends admin {
 	*/
 	public function index() 
 	{
-		$where = 'orders.order_status = order_status.order_status_id AND users.user_id = orders.user_id';
-		$table = 'orders, order_status, users';
+		// $where = 'orders.order_status = order_status.order_status_id AND users.user_id = orders.user_id';
+		// $table = 'orders, order_status, users';
+
+		$where = 'orders.order_status_id = order_status.order_status_id AND customer.customer_id = orders.customer_id';
+		$table = 'orders, order_status, customer';
+		$orders_search = $this->session->userdata('orders_search');
+		
+		if(!empty($orders_search))
+		{
+			$where .= $orders_search;
+		}
+		$segment = 3;
 		//pagination
 		$this->load->library('pagination');
-		$config['base_url'] = base_url().'all-orders';
+		$config['base_url'] = base_url().'vendor/all-orders';
 		$config['total_rows'] = $this->users_model->count_items($table, $where);
 		$config['uri_segment'] = 2;
 		$config['per_page'] = 20;
@@ -54,24 +66,25 @@ class Orders extends admin {
 		$config['num_tag_close'] = '</li>';
 		$this->pagination->initialize($config);
 		
-		$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+		$page = ($this->uri->segment($segment)) ? $this->uri->segment($segment) : 0;
         $data["links"] = $this->pagination->create_links();
 		$query = $this->orders_model->get_all_orders($table, $where, $config["per_page"], $page);
 		
 		if ($query->num_rows() > 0)
 		{
 			$v_data['query'] = $query;
+			$v_data['order_status_query'] = $this->orders_model->get_order_status();
 			$v_data['page'] = $page;
 			$data['content'] = $this->load->view('orders/all_orders', $v_data, true);
 		}
 		
 		else
 		{
-			$data['content'] = '<a href="'.site_url().'add-order" class="btn btn-success pull-right">Add order</a>There are no orders';
+			$data['content'] = '';
 		}
 		$data['title'] = 'All orders';
 		
-		$this->load->view('templates/general_admin', $data);
+		$this->load->view('account_template', $data);
 	}
     
 	/*
@@ -210,7 +223,7 @@ class Orders extends admin {
 		//delete order
 		$this->db->delete('orders', array('order_id' => $order_id));
 		$this->db->delete('order_item', array('order_item_id' => $order_id));
-		redirect('all-orders');
+		redirect('vendor/all-orders');
 	}
     
 	/*
@@ -236,13 +249,13 @@ class Orders extends admin {
 	public function finish_order($order_id)
 	{
 		$data = array(
-					'order_status'=>2
+					'order_status_id'=>1
 				);
 				
 		$this->db->where('order_id = '.$order_id);
 		$this->db->update('orders', $data);
 		
-		redirect('all-orders');
+		redirect('vendor/all-orders');
 	}
     
 	/*
@@ -254,13 +267,13 @@ class Orders extends admin {
 	public function cancel_order($order_id)
 	{
 		$data = array(
-					'order_status'=>3
+					'order_status_id'=>2
 				);
 				
 		$this->db->where('order_id = '.$order_id);
 		$this->db->update('orders', $data);
 		
-		redirect('all-orders');
+		redirect('vendor/all-orders');
 	}
     
 	/*
@@ -272,13 +285,67 @@ class Orders extends admin {
 	public function deactivate_order($order_id)
 	{
 		$data = array(
-					'order_status'=>1
+					'order_status_id'=>3
 				);
 				
 		$this->db->where('order_id = '.$order_id);
 		$this->db->update('orders', $data);
 		
-		redirect('all-orders');
+		redirect('vendor/all-orders');
+	}
+	public function search_orders()
+	{
+
+		$customer_first_name = $this->input->post('customer_first_name');
+		$customer_surname = $this->input->post('customer_surname');
+		$order_number = $this->input->post('order_number');
+		$order_status_id = $this->input->post('order_status_id');
+
+
+		if(!empty($customer_first_name))
+		{
+			$customer_first_name = ' AND customer.customer_first_name LIKE \'%'.mysql_real_escape_string($customer_first_name).'%\' ';
+		}
+		else
+		{
+			$customer_first_name = '';	
+		}
+		if(!empty($customer_surname))
+		{
+			$customer_surname = ' AND customer.customer_surname LIKE \'%'.mysql_real_escape_string($customer_surname).'%\'';
+		}
+		else
+		{
+			$customer_surname = '';
+		}
+		if(!empty($order_number))
+		{
+			$order_number = ' AND orders.order_number LIKE \'%'.$order_number.'%\' ';
+		}
+		else
+		{
+			$order_number = '';
+		}
+		if(!empty($order_status_id))
+		{
+			$order_status_id = ' AND orders.order_status_id = '.$order_status_id.'';
+		}
+		else
+		{
+			$order_status_id = '';
+		}
+		
+		
+		$search = $customer_first_name.$customer_surname.$order_number.$order_status_id;
+		$this->session->set_userdata('orders_search', $search);
+		
+		$this->index();
+		
+	}
+	public function close_orders_search()
+	{
+		$this->session->unset_userdata('orders_search');
+		redirect('vendor/all-orders');
 	}
 }
 ?>

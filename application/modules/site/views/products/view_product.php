@@ -18,7 +18,20 @@
 	$brand_name = $product[0]->brand_name;
 	$category_name = $product[0]->category_name;
 	$mini_desc = implode(' ', array_slice(explode(' ', $product_description), 0, 10));
-	
+	$button = '';
+	$balance_status = '';
+	if($product_balance == 0)
+	{
+		$button = '';
+		$balance_status = 'Product out of stock';
+	}
+	else
+	{
+		$button = ' <a href="#register" product_id="'.$product_id.'" class="btn btn-primary add_to_cart" data-toggle="modal" data-target=".bs-example-modal-md">
+		                          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> &nbsp; Add to cart 
+		                          </a>';
+		$balance_status = $product_balance.' Available in stock';
+	}
 	if($sale_price > 0)
 	{
 		$selling_price = $product_selling_price - ($product_selling_price * ($sale_price/100));
@@ -278,13 +291,11 @@
 									}
 								}
 							  ?>
-                            
+                             <div><?php echo $balance_status;?></div>
 
                             <div class="sadd-to-cart">
-                               <a class="cbp-vm-icon cbp-vm-add add_to_wishlist" href="<?php echo $product_id;?>" product_id="<?php echo $product_id;?>" data-toggle="modal" data-target=".wishlist-modal"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Add to wishlist</a>
-                                <a href="#register" product_id="<?php echo $product_id;?>" class="btn btn-primary add_to_cart" data-toggle="modal" data-target=".bs-example-modal-md">
-		                          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> &nbsp; Add to cart 
-		                          </a>
+                               <a class="cbp-vm-icon cbp-vm-add add_to_wishlist " href="<?php echo $product_id;?>" product_id="<?php echo $product_id;?>" data-toggle="modal" data-target=".wishlist-modal"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Add to wishlist</a>
+                               <?php echo $button;?>
 		                          <!-- Large modal -->
 
 								<div class="modal fade bs-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

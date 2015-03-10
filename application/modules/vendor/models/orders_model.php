@@ -12,9 +12,9 @@ class Orders_model extends CI_Model
 	{
 		//retrieve all orders
 		$this->db->from($table);
-		$this->db->select('orders.*, users.first_name, users.other_names, order_status.order_status_name');
+		$this->db->select('orders.*, customer.customer_first_name AS first_name, customer.customer_surname AS other_names, order_status.order_status_name');
 		$this->db->where($where);
-		$this->db->order_by('created, order_number');
+		$this->db->order_by('orders.order_created, orders.order_number');
 		$query = $this->db->get('', $per_page, $page);
 		
 		return $query;
@@ -196,6 +196,23 @@ class Orders_model extends CI_Model
 		$this->db->from('payment_method');
 		$this->db->select('*');
 		$this->db->order_by('payment_method_name');
+		$query = $this->db->get();
+		
+		return $query;
+	}
+
+	/*
+	*	Retrieve all orders
+	*	@param string $table
+	* 	@param string $where
+	*
+	*/
+	public function get_order_status()
+	{
+		//retrieve all orders
+		$this->db->from('order_status');
+		$this->db->select('*');
+		$this->db->order_by('order_status_name');
 		$query = $this->db->get();
 		
 		return $query;
