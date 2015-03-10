@@ -1,5 +1,45 @@
+<?php 
+$v_data['order_status_query'] = $order_status_query;
+echo $this->load->view('vendor/search/search_orders', '' , TRUE); ?>
 <?php
-		$result = '<a href="'.site_url().'add-order" class="btn btn-success pull-right">Add order</a>';
+
+		$error = $this->session->userdata('error_message');
+		$success = $this->session->userdata('success_message');
+		$search_result ='';
+		$search_result2  ='';
+		if(!empty($error))
+		{
+			$search_result2 = '<div class="alert alert-danger">'.$error.'</div>';
+			$this->session->unset_userdata('error_message');
+		}
+		
+		if(!empty($success))
+		{
+			$search_result2 ='<div class="alert alert-success">'.$success.'</div>';
+			$this->session->unset_userdata('success_message');
+		}
+				
+		$search = $this->session->userdata('orders_search');
+		
+		if(!empty($search))
+		{
+			$search_result = '<a href="'.site_url().'vendor/close-orders-search" class="btn btn-danger">Close Search</a>';
+		}
+
+
+		$result = '<div class="padd">';	
+		$result .= ''.$search_result2.'';
+		$result .= '
+					<div class="row" style="margin-bottom:8px;">
+						<div class="pull-left">
+						'.$search_result.'
+						</div>
+	            		<div class="pull-right">
+							
+						
+						</div>
+					</div>
+				';
 		
 		//if users exist display them
 		if ($query->num_rows() > 0)
@@ -8,15 +48,15 @@
 			
 			$result .= 
 			'
-				<table class="table table-hover table-bordered ">
+				<table class="example table-autosort:0 table-stripeclass:alternate table table-hover table-bordered " id="TABLE_2">
 				  <thead>
 					<tr>
-					  <th>Date Created</th>
-					  <th>Order Number</th>
-					  <th>Customer</th>
+					  <th class="table-sortable:default table-sortable" title="Click to sort">Date Created</th>
+					  <th class="table-sortable:default table-sortable" title="Click to sort">Order Number</th>
+					  <th class="table-sortable:default table-sortable" title="Click to sort">Customer</th>
 					  <th>Total Items</th>
 					  <th>Order Total</th>
-					  <th>Status</th>
+					  <th class="table-sortable:default table-sortable" title="Click to sort">Status</th>
 					  <th colspan="3">Actions</th>
 					</tr>
 				  </thead>
@@ -37,19 +77,20 @@
 			
 			foreach ($query->result() as $row)
 			{
-				$order_id = $row->order_id;
+				 $order_id = $row->order_id;
 				$order_number = $row->order_number;
-				$order_status = $row->order_status;
+				$order_status = $row->order_status_id;
 				$order_instructions = $row->order_instructions;
 				$order_status_name = $row->order_status_name;
-				$created_by = $row->created_by;
-				$created = $row->created;
-				$modified_by = $row->modified_by;
-				$last_modified = $row->modified;
+				$created_by = $row->order_created_by;
+				$created = $row->order_created;
+				$modified_by = $row->order_modified_by;
+				$last_modified = $row->order_last_modified;
 				$user = $row->first_name.' '.$row->other_names;
 				
 				$order_details = $this->orders_model->get_order_items($order_id);
-				
+				$total_price = 0;
+				$total_items = 0;
 				//creators & editors
 				if($admins != NULL)
 				{
@@ -90,8 +131,8 @@
 					foreach($order_items as $ord)
 					{
 						$product = $ord->product_name;
-						$quantity = $ord->quantity;
-						$price = $ord->price;
+						$quantity = $ord->order_item_quantity;
+						$price = $ord->order_item_price;
 						
 						$total_price += ($quantity*$price);
 						$total_items += $quantity;
@@ -136,7 +177,10 @@
 				{
 					$status = '<span class="label label-danger">'.$order_status_name.'</span>';
 				}
-				
+				else
+				{
+					$status = '<span class="label label-warning">'.$order_status_name.'</span>';
+				}
 				$count++;
 				$result .= 
 				'
@@ -165,18 +209,17 @@
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-											<a href="'.site_url().'edit-order/'.$order_id.'" class="btn btn-sm btn-primary">Edit</a>
-											<a href="'.site_url().'finish-order/'.$order_id.'" class="btn btn-sm btn-success" onclick="return confirm(\'Do you really want to complete this order '.$order_number.'?\');">Complete</a>
-											<a href="'.site_url().'cancel-order/'.$order_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to cancel this order '.$order_number.'?\');">Cancel</a>
-											<a href="'.site_url().'deactivate-order/'.$order_id.'" class="btn btn-sm btn-default" onclick="return confirm(\'Do you really want to deactivate this order '.$order_number.'?\');">Deactivate</a>
-											<a href="'.site_url().'delete-order/'.$order_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete this order '.$order_number.'?\');">Delete</a>
+												
+											<a href="'.site_url().'vendor/finish-order/'.$order_id.'" class="btn btn-sm btn-success" onclick="return confirm(\'Do you really want to complete this order '.$order_number.'?\');">Complete</a>
+											<a href="'.site_url().'vendor/cancel-order/'.$order_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to cancel this order '.$order_number.'?\');">Cancel</a>
+											<a href="'.site_url().'vendor/deactivate-order/'.$order_id.'" class="btn btn-sm btn-default" onclick="return confirm(\'Do you really want to deactivate this order '.$order_number.'?\');">Deactivate</a>
+											<a href="'.site_url().'vendor/delete-order/'.$order_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete this order '.$order_number.'?\');">Delete</a>
 										</div>
 									</div>
 								</div>
 							</div>
 						</td>
-						<td><a href="'.site_url().'edit-order/'.$order_id.'" class="btn btn-sm btn-primary">Edit</a></td>
-						<td><a href="'.site_url().'delete-order/'.$order_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete this order '.$order_number.'?\');">Delete</a></td>
+						<td><a href="'.site_url().'vendor/deactivate-order/'.$order_id.'" class="btn btn-sm btn-default" onclick="return confirm(\'Do you really want to deactivate this order '.$order_number.'?\');">Deactivate</a></td>
 					</tr> 
 				';
 			}
@@ -185,6 +228,7 @@
 			'
 						  </tbody>
 						</table>
+					</div>
 			';
 		}
 		
@@ -192,6 +236,6 @@
 		{
 			$result .= "There are no orders";
 		}
-		
+		$result .= '</div>';
 		echo $result;
 ?>
