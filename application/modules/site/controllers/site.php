@@ -492,5 +492,56 @@ class Site extends MX_Controller
 		}
 		redirect('home');
 	}
+	public function customer_requests()
+	{
+		$v_data['vendor_email_error'] = '';
+		$v_data['vendor_password_error'] = '';
+		
+		$this->form_validation->set_error_delimiters('', '');
+		$this->form_validation->set_rules('company_name', 'company_name', 'trim|required|xss_clean');
+		
+		
+		//if form conatins invalid data
+		if ($this->form_validation->run())
+		{
+			if($this->site_model->make_suggestion())
+			{
+				//echo 'Your account is now verified. YAY!';
+				$this->session->set_userdata('success_message', 'Your request has been received. Thank you');
+				redirect('customer-request');
+
+			}
+			
+			else
+			{
+				$this->session->set_userdata('error_message', 'Unable to sign into your account. Please try again');
+			}
+		}
+		$validation_errors = validation_errors();
+			
+		//repopulate form data if validation errors are present
+		if(!empty($validation_errors))
+		{
+			//create errors
+			$v_data['company_name_error'] = form_error('company_name');
+			$v_data['company_description_error'] = form_error('company_desciption');
+			
+			//repopulate fields
+			$v_data['company_name'] = set_value('company_name');
+			$v_data['company_description'] = set_value('company_description');
+		}
+		
+		//populate form data on initial load of page
+		else
+		{
+			$v_data['company_name'] = '';
+			$v_data['company_description'] = '';
+		}
+		
+		$data['content'] = $this->load->view('customer/customer_requests', $v_data, true);
+		
+		$data['title'] = 'Sign In';
+		$this->load->view('site/templates/general_page', $data);
+	}
 }
 ?>

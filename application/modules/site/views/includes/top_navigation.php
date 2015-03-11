@@ -168,6 +168,7 @@
                                 <li><a href="#">Beauty</a></li>
                                 <li><a href="#">Automotive</a></li>
                                 <li><a href="<?php echo site_url().'products';?>">Products</a></li>
+                                <li><a href="<?php echo site_url().'vendors';?>">Vendors</a></li>
                             </ul>
                             <?php echo $this->load->view('site/cart/mini_cart', '', TRUE);?>
                         </div><!-- /.navbar-collapse -->

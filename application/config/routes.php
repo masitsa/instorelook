@@ -353,3 +353,15 @@ $route['forgot-password'] = 'site/checkout/forgot_password';
 /* Location: ./application/config/routes.php */
 
 $route['request-news-letter'] = 'site/request_newsletter';
+
+
+//site  vendors 
+$route['vendors'] = 'site/vendor/index';
+$route['vendors/all-vendors'] = 'site/vendor/index';
+$route['vendors/(:any)/(:num)'] = 'site/vendor/vendor_products/$1/$2/__/0/0/created/1';
+$route['vendor-details/(:any)/(:num)'] = 'site/vendor/vendor_details/$1/$2';
+
+$route['customer-request'] = 'site/customer_requests';
+
+
+

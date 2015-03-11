@@ -82,6 +82,7 @@
 						?>
                     	
                     	<li><a href="<?php echo site_url().'account/wishlist'?>"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Wishlist</a></li>
+                        <li><a href="<?php echo site_url().'customer-request'?>"><span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span> Requests</a></li>
                     </ul>
                 </div>
             </div>
@@ -211,6 +212,7 @@
                                 <li><a href="#">Beauty</a></li>
                                 <li><a href="#">Automotive</a></li>
                                 <li><a href="<?php echo site_url().'products';?>">Products</a></li>
+                                <li><a href="<?php echo site_url().'vendors/all-vendors';?>">Vendors</a></li>
                             </ul>
                             <?php echo $this->load->view('site/cart/mini_cart', '', TRUE);?>
                         </div><!-- /.navbar-collapse -->

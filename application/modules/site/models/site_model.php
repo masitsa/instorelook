@@ -252,6 +252,22 @@ class Site_model extends CI_Model
 			return FALSE;
 		}
 	}
+	public function make_suggestion()
+	{
+		$data = array(
+			'company_name'=>$this->input->post('company_name'),
+			'company_description'=>$this->input->post('company_description')
+		);
+		
+		if($this->db->insert('customer_requests', $data))
+		{
+			return $this->db->insert_id();
+		}
+		else{
+			return FALSE;
+		}
+		
+	}
 }
 
 ?>

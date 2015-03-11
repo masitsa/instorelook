@@ -98,7 +98,7 @@ class Checkout extends site
 		//if form has been submitted
 		if ($this->form_validation->run() == FALSE)
 		{
-			$this->session->set_userdata('front_error_message', validation_errors());
+			$this->session->set_userdata('front_success_message', 'You have successfully created an account. You can login and proceed checking out');
 			
 			$this->checkout_user();
 		}
