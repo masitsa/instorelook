@@ -9,7 +9,9 @@ class Login extends MX_Controller {
 		$this->load->model('site/site_model');
 		$this->load->model('site/cart_model');
 		$this->load->model('vendor/vendor_model');
-		$this->load->library('Mandrill', $this->config->item('appID'));
+		$this->load->model('site/email_model');
+		$this->load->library('encrypt');
+		$this->load->library('Mandrill', $this->config->item('mandrill_key'));
 	}
     
 	/*
@@ -260,7 +262,6 @@ class Login extends MX_Controller {
 				//sign in from form in sign in page
 				else
 				{
-					$this->session->set_userdata('error_message', 'Could not create a login session. Please login again.');
 					$this->sign_in();
 				}
 			}
@@ -322,6 +323,10 @@ class Login extends MX_Controller {
 				{
 					if($this->login_model->register_facebook_customer($user_profile))
 					{
+						//Send registration email
+						$response = $this->login_model->send_account_registration_email($user_profile['email'], $user_profile['first_name']);
+						
+						//sign in customer
 						if($this->login_model->validate_facebook_customer($user_profile))
 						{
 							redirect('account');
@@ -386,8 +391,6 @@ class Login extends MX_Controller {
 					}
 					else
 					{
-						$this->session->set_userdata('error_message', 'Unable to sign in.');
-					
 						redirect('sign-in');
 					}
 				}
@@ -435,6 +438,76 @@ class Login extends MX_Controller {
 		}
 		$this->session->set_userdata('success_message', 'Your account has been deactivated.<br /> Do you want to <a href="'.base_url().'customer/reactivate-account">reactivate your account?</a>');
 		$this->logout_user();
+	}
+    
+	/*
+	*
+	*	Customer Signup
+	*
+	*/
+	public function reactivate_account() 
+	{
+		$v_data['customer_email_error'] = '';
+		$this->form_validation->set_error_delimiters('', '');
+		$this->form_validation->set_rules('customer_email', 'Email', 'required|xss_clean|exists[customer.customer_email]');
+		$this->form_validation->set_message('exists', 'That email does not exist. Are you trying to sign up?');
+		
+		//if form conatins invalid data
+		if ($this->form_validation->run())
+		{
+			//sign in customer
+			if($this->login_model->send_account_reactivation_email($this->input->post('customer_email')))
+			{
+				$this->session->set_userdata('success_message', 'Please check your email to reactivate your account');
+			}
+			
+			else
+			{
+				$this->session->set_userdata('error_message', 'Unable to send account reactivation email. Please try again');
+			}
+		}
+		
+		$validation_errors = validation_errors();
+			
+		//repopulate form data if validation errors are present
+		if(!empty($validation_errors))
+		{
+			//create errors
+			$v_data['customer_email_error'] = form_error('customer_email');
+			
+			//repopulate fields
+			$v_data['customer_email'] = set_value('customer_email');
+		}
+		
+		//populate form data on initial load of page
+		else
+		{
+			$v_data['customer_email'] = '';
+		}
+		
+		$data['content'] = $this->load->view('reactivate_account', $v_data, true);
+		
+		$data['title'] = 'Reactivate account';
+		$this->load->view('site/templates/general_page', $data);
+	}
+    
+	/*
+	*
+	*	Customer account activation
+	*
+	*/
+	public function activate_customer_account($encrypted_email) 
+	{
+		if($this->login_model->reactivate_account($encrypted_email))
+		{
+			$this->session->set_userdata('success_message', 'Your account has been successfully activated. Please sign in to continue');
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', 'Unable to activate your account. Please contact an administrator');
+		}
+		redirect('sign-in');
 	}
 }
 ?>

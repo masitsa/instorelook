@@ -119,32 +119,44 @@ class Login_model extends CI_Model
 	{
 		//select the user by email from the database
 		$this->db->select('*');
-		$this->db->where(array('customer_email' => $this->input->post('customer_email'), 'activated' => 1, 'customer_password' => md5($this->input->post('customer_password'))));
+		$this->db->where(array('customer_email' => $this->input->post('customer_email'), 'customer_password' => md5($this->input->post('customer_password'))));
 		$query = $this->db->get('customer');
 		
 		//if users exists
 		if ($query->num_rows() > 0)
 		{
 			$result = $query->result();
-			//create user's login session
-			$newdata = array(
-                   'login_status'     => TRUE,
-                   'customer_first_name'     => $result[0]->customer_first_name,
-                   'email'     => $result[0]->customer_email,
-                   'customer_id'     => $result[0]->customer_id,
-                   'user_type_id'  => 3
-               );
-			   
-			$this->session->set_userdata($newdata);
 			
-			//update user's last login date time
-			$this->update_customer_login($result[0]->customer_id);
-			return TRUE;
+			//check if account is deactivated
+			if($result[0]->activated == 0)
+			{
+				$this->session->set_userdata('error_message', 'Your account is deactivated. <br /> Do you want to <a href="'.base_url().'customer/reactivate-account">reactivate my account?</a>');
+				return FALSE;
+			}
+			
+			else
+			{
+				//create user's login session
+				$newdata = array(
+					   'login_status'     => TRUE,
+					   'customer_first_name'     => $result[0]->customer_first_name,
+					   'email'     => $result[0]->customer_email,
+					   'customer_id'     => $result[0]->customer_id,
+					   'user_type_id'  => 3
+				   );
+				   
+				$this->session->set_userdata($newdata);
+				
+				//update user's last login date time
+				$this->update_customer_login($result[0]->customer_id);
+				return TRUE;
+			}
 		}
 		
 		//if user doesn't exist
 		else
 		{
+			$this->session->set_userdata('error_message', 'Unable to sign in. Please ensure your details are correct then try again.');
 			return FALSE;
 		}
 	}
@@ -194,32 +206,42 @@ class Login_model extends CI_Model
 	{
 		//select the user by email from the database
 		$this->db->select('*');
-		$this->db->where(array('customer_email' => $user_profile['email'], 'activated' => 1, 'customer_facebook' => 1));
+		$this->db->where(array('customer_email' => $user_profile['email'], 'customer_facebook' => 1));
 		$query = $this->db->get('customer');
 		
 		//if users exists
 		if ($query->num_rows() > 0)
 		{
-			$result = $query->result();
-			//create user's login session
-			$newdata = array(
-                   'login_status'     => TRUE,
-                   'customer_first_name'     => $result[0]->customer_first_name,
-                   'email'     => $result[0]->customer_email,
-                   'customer_id'     => $result[0]->customer_id,
-                   'user_type_id'  => 3
-               );
-			   
-			$this->session->set_userdata($newdata);
+			$result = $query->result();//check if account is deactivated
+			if($result[0]->activated == 0)
+			{
+				$this->session->set_userdata('error_message', 'Your account is deactivated. <br /> Do you want to <a href="'.base_url().'customer/reactivate-account">reactivate my account?</a>');
+				return FALSE;
+			}
 			
-			//update user's last login date time
-			$this->update_customer_login($result[0]->customer_id);
-			return TRUE;
+			else
+			{
+				//create user's login session
+				$newdata = array(
+					   'login_status'     => TRUE,
+					   'customer_first_name'     => $result[0]->customer_first_name,
+					   'email'     => $result[0]->customer_email,
+					   'customer_id'     => $result[0]->customer_id,
+					   'user_type_id'  => 3
+				   );
+				   
+				$this->session->set_userdata($newdata);
+				
+				//update user's last login date time
+				$this->update_customer_login($result[0]->customer_id);
+				return TRUE;
+			}
 		}
 		
 		//if user doesn't exist
 		else
 		{
+			$this->session->set_userdata('error_message', 'Unable to sign in. Please ensure your details are correct then try again.');
 			return FALSE;
 		}
 	}
@@ -294,9 +316,7 @@ class Login_model extends CI_Model
 	*
 	*/
 	public function send_account_registration_email($receiver_email, $receiver_name, $cc = NULL) 
-	{
-		$this->load->model('site/email_model');
-		
+	{	
 		$subject = "Thanks for registering your account";
 		$message = '
 				<p>Thank you for registering at In Store Look.</p> <p>You can now browse & purchase products from various surburbs within the country. You can purchase products by clicking here</p>
@@ -320,7 +340,6 @@ class Login_model extends CI_Model
 	*/
 	public function send_account_deactivation_email($receiver_email, $receiver_name, $cc = NULL) 
 	{
-		$this->load->model('site/email_model');
 		
 		$subject = "Your account has been deactivated";
 		$message = '
@@ -329,12 +348,61 @@ class Login_model extends CI_Model
 		$sender_email = "info@instorelook.com.au";
 		$shopping = "If you did not perform this action please get in touch with us using our online contact form";
 		$from = "In Store Look";
+		$encrypted_email = $this->vendor_model->encrypt_vendor_email($receiver_email);
 		
-		$button = '<a class="mcnButton " title="Reactivate account" href="'.site_url().'customer/reactivate-account" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Reactivate account</a>';
+		$button = '<a class="mcnButton " title="Reactivate account" href="'.site_url().'customer/reactivate-account/'.$encrypted_email.'" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Reactivate account</a>';
 		$response = $this->email_model->send_mandrill_mail($receiver_email, "Hi ".$receiver_name, $subject, $message, $sender_email, $shopping, $from, $button, $cc);
 		
 		//echo var_dump($response);
 		
 		return $response;
+	}
+    
+	/*
+	*
+	*	Customer account reactivation email
+	*
+	*/
+	public function send_account_reactivation_email($receiver_email, $cc = NULL) 
+	{
+		$subject = "Reactivate your account";
+		$message = '
+				<p>Your account at In Store Look is deactivated. We would like to see you back at In Store Look.</p> <p>Kindly reactivate your account by clicking here</p>
+				';
+		$sender_email = "info@instorelook.com.au";
+		$shopping = "If you did not perform this action please get in touch with us using our online contact form";
+		$from = "In Store Look";
+		$encrypted_email = $this->vendor_model->encrypt_vendor_email($receiver_email);
+		
+		$button = '<a class="mcnButton " title="Reactivate account" href="'.site_url().'customer/reactivate-account/'.$encrypted_email.'" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Reactivate account</a>';
+		
+		$response = $this->email_model->send_mandrill_mail($receiver_email, "Hi ", $subject, $message, $sender_email, $shopping, $from, $button, $cc);
+		
+		//echo var_dump($response);
+		
+		return $response;
+	}
+	
+	public function reactivate_account($encrypted_email)
+	{
+		//decrypt email
+		$email = $this->vendor_model->encrypt->decode($encrypted_email);
+		
+		//activate account
+		$data = array
+		(
+			'activated' => 1
+		);
+		
+		$this->db->where('customer_email', $email);
+		if($this->db->update('customer', $data))
+		{
+			return TRUE;
+		}
+		
+		else
+		{
+			return FALSE;
+		}
 	}
 }

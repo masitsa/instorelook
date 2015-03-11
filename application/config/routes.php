@@ -309,6 +309,8 @@ $route['cart/update-cart'] = 'site/cart/update_cart';
 *	Customer Routes
 */
 $route['customer/deactivate-account'] = 'login/deactivate_account';
+$route['customer/reactivate-account'] = 'login/reactivate_account';
+$route['customer/reactivate-account/(:any)'] = 'login/activate_customer_account/$1';
 $route['customer/join'] = 'login/register_customer';
 $route['customer/sign-in'] = 'login/sign_in_customer';
 $route['customer/sign-in/(:num)'] = 'login/sign_in_customer/$1';

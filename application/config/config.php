@@ -14,8 +14,8 @@
 | path to your installation.
 |
 */
-//$config['base_url']	= 'http://localhost/instorelook/';
-$config['base_url']	= 'http://development.instorelook.com.au/';
+$config['base_url']	= 'http://localhost/instorelook/';
+//$config['base_url']	= 'http://development.instorelook.com.au/';
 
 /*
 |--------------------------------------------------------------------------

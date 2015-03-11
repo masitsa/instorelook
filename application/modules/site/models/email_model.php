@@ -51,7 +51,7 @@ class Email_model extends CI_Model
 			$cc = "amasitsa@live.com";
 		}
 		if(!isset($button)){
-			$button = '<a class="mcnButton " title="Confirm Account" href="http://www.intorelook.com.au" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Shop Now</a>';
+			$button = '<a class="mcnButton " title="Confirm Account" href="'.site_url().'" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Shop Now</a>';
 		}
 		
 		$template_name = 'basic';

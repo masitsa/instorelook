@@ -8,7 +8,7 @@
       <ul class="breadcrumb">
         <li><a href="<?php echo site_url();?>">Home</a> </li>
         <li><a href="<?php echo site_url().'customer/account';?>">My Account</a> </li>
-        <li class="active"> Wishlist </li>
+        <li class="active"> Orders </li>
       </ul>
     </div>
   </div> <!--/.row-->
