@@ -280,9 +280,6 @@ $route['static-banner/purchase-cancel/(:num)/(:num)'] = 'vendor/static_banners/p
 /*
 *	Products Routes
 */
-$route['products/new-products'] = 'site/products/__/0/0/created/1';
-$route['products/new-category'] = 'site/products/__/0/0/created/0/1';
-$route['products/new-brand'] = 'site/products/__/0/0/created/0/0/1';
 $route['products/category/(:num)'] = 'site/products/__/$1';
 $route['products/brand/(:num)'] = 'site/products/__/0/$1';
 $route['products/category'] = 'site/products/__/0';
@@ -292,10 +289,14 @@ $route['products/all-products'] = 'site/products/__/0';
 $route['products'] = 'site/products/__/0';
 $route['products/search'] = 'site/search';
 $route['products/search/(:any)'] = 'site/products/$1';
-$route['products/price-range/(:any)'] = 'site/products/__/0/0/created/0/0/0/$1';
-$route['products/filter-brands/(:any)'] = 'site/products/__/0/0/created/0/0/0/__/$1';
+$route['products/price-range/(:any)'] = 'site/products/__/0/created/0/0/0/$1';
+$route['products/filter-brands/(:any)/(:any)/(:any)'] = 'site/products/__/0/created/__/$1/$2/$3';
 $route['products/filter-brands'] = 'site/filter_brands';
-$route['products/sort-by/(:any)'] = 'site/products/__/0/0/$1';
+$route['products/filter-businesses/(:any)/(:any)/(:any)'] = 'site/products/__/0/created/__/$1/$2/$3';
+$route['products/filter-businesses'] = 'site/filter_businesses';
+$route['products/filter-locations'] = 'site/filter_locations';
+$route['products/filter-locations/(:any)/(:any)/(:any)'] = 'site/products/__/0/created/__/$1/$2/$3';
+$route['products/sort-by/(:any)'] = 'site/products/__/0/$1';
 $route['products/view-product/(:num)'] = 'site/view_product/$1';
 
 /*

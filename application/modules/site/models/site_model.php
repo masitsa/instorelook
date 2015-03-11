@@ -252,6 +252,42 @@ class Site_model extends CI_Model
 			return FALSE;
 		}
 	}
+	
+	public function create_query_filter($parameter_array, $table_field)
+	{
+		$parameters = explode("_", $parameter_array);
+		$total = count($parameters);
+		$where = ' AND (';
+		
+		for($r = 0; $r < $total; $r++)
+		{
+			$parameter_name = str_replace("-", " ", $parameters[$r]);
+			
+			if($r == 0)
+			{
+				$where .= $table_field.' = \''.$parameter_name.'\'';
+			}
+			
+			else
+			{
+				$where .= ' OR '.$table_field.' = \''.$parameter_name.'\'';
+			}
+		}
+		
+		$where .= ')';
+		
+		$return['where'] = $where;
+		$return['parameters'] = $parameters;
+		
+		return $return;
+	}
+	
+	public function create_web_name($field_name)
+	{
+		$web_name = str_replace(" ", "-", $field_name);
+		
+		return $web_name;
+	}
 }
 
 ?>

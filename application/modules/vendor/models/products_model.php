@@ -39,7 +39,7 @@ class Products_model extends CI_Model
 	public function get_all_products($table, $where, $per_page, $page, $limit = NULL, $order_by = 'created', $order_method = 'DESC')
 	{
 		$this->db->from($table);
-		$this->db->select('product.sale_price, product.featured, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_thumb_name, product.product_image_name, category.category_name, brand.brand_name');
+		$this->db->select('product.sale_price, product.featured, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_thumb_name, product.product_image_name, category.category_name, brand.brand_name, product.sale_price_type');
 		$this->db->where($where);
 		$this->db->order_by($order_by, $order_method);
 		
@@ -614,7 +614,7 @@ class Products_model extends CI_Model
 	*/
 	public function get_latest_products()
 	{
-		$this->db->select('product.*, category.category_name, brand.brand_name')->from('product, category, brand')->where("product.product_status = 1 AND product.category_id = category.category_id AND product.brand_id = brand.brand_id")->order_by("created", 'DESC');
+		$this->db->select('product.*, category.category_name, brand.brand_name')->from('product, category, brand')->where("product.product_status = 1 AND product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.product_balance > 0")->order_by("created", 'DESC');
 		$query = $this->db->get('',8);
 		
 		return $query;
@@ -638,7 +638,7 @@ class Products_model extends CI_Model
 	*/
 	public function get_featured_products()
 	{
-		$this->db->select('product.*, category.category_name, brand.brand_name')->from('product, category, brand')->where("product.product_status = 1 AND product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.featured = 1")->order_by("created", 'DESC');
+		$this->db->select('product.*, category.category_name, brand.brand_name')->from('product, category, brand')->where("product.product_status = 1 AND product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.featured = 1 AND product.product_balance > 0")->order_by("created", 'DESC');
 		$query = $this->db->get('',8);
 		
 		return $query;
@@ -1535,6 +1535,20 @@ class Products_model extends CI_Model
 		{
 			return $default_image;
 		}
+	}
+	
+	public function get_product_discount_price($product_price, $sale_price, $sale_price_type)
+	{
+		if($sale_price_type == 2)
+		{
+			$product_price = ((100 - $sale_price)/100) * $product_price;
+		}
+		else
+		{
+			$product_price = $product_price - $sale_price;
+		}
+		
+		return $product_price;
 	}
 }
 ?>
