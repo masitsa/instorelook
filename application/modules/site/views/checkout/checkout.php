@@ -56,6 +56,13 @@
         
                     <div class="box-content">
                         <div class="row">
+                                <a href="#" class="facebook fb-login-button-tab"><span>Sign in with Facebook</span></a>
+                        </div>
+                        <div class="row center-align" >
+                            OR
+                        </div>
+                        <div class="row">
+                          
                             <div class="col-sm-6">
                                 <div class="control-group">
                                     <label class="control-label" for="login_email">Email : </label>

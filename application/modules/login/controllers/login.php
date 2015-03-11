@@ -285,7 +285,7 @@ class Login extends MX_Controller {
 		}
 	}
 	
-	function facebook_sign_up()
+	function facebook_sign_up($parameter = NULL)
 	{
 		$base_url=$this->config->item('base_url'); //Read the baseurl from the config.php file
 		/**
@@ -314,8 +314,15 @@ class Login extends MX_Controller {
 				if($this->login_model->check_email($user_profile['email']))
 				{
 					$this->session->set_userdata('customer_signup_error_message', 'This email is already registered.<br /> Do you want to <a href="'.base_url().'sign-in">sign in?</a>');
+					if($parameter != NULL)
+					{
+						redirect('checkout');
+					}
+					else
+					{
+						redirect('customer/join');
+					}
 					
-					redirect('customer/join');
 				}
 			
 				//user doesn't exist so sign them up
@@ -329,21 +336,43 @@ class Login extends MX_Controller {
 						//sign in customer
 						if($this->login_model->validate_facebook_customer($user_profile))
 						{
-							redirect('account');
+							if($parameter != NULL)
+							{
+								redirect('checkout');
+							}
+							else
+							{
+								redirect('account');
+							}
+							
 						}
 						else
 						{
 							$this->session->set_userdata('error_message', '<a href="'.base_url().'sign-in">Please sign in?</a>');
-						
-							redirect('sign-in');
+							if($parameter != NULL)
+							{
+								redirect('checkout');
+							}
+							else
+							{
+								redirect('sign-in');
+							}
+							
 						}
 					}
 					
 					else
 					{
 						$this->session->set_userdata('customer_signup_error_message', 'Unable to sign up. Please try again');
+						if($parameter != NULL)
+						{
+							redirect('checkout');
+						}
+						else
+						{
+							redirect('customer/join');
+						}
 						
-						redirect('customer/join');
 					}
 				}	
 			}
