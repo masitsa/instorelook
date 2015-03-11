@@ -211,7 +211,96 @@ class Cart_model extends CI_Model
 		
 		return TRUE;
 	}
-    
+    public function save_order_to_account()
+	{
+		//get order number
+		// $order_number = $this->orders_model->create_order_number();
+		// $today = date('Y-m-d');
+		// $pDate = strtotime('$today + 1 week');
+		// $exprire_on  = date('Y-m-d',$pDate);
+		//create order
+
+		// $data = array(
+		// 			'customer_id'=>$this->session->userdata('customer_id'),
+		// 			'created'=>date('Y-m-d'),
+		// 			'expire_on'=>$expire_on,
+		// 			'order_id'=>$order_id
+		// 		);
+				
+		// if($this->db->insert('saved_orders', $data))
+		// {
+		// 	$saved_orders_id = $this->db->insert_id();
+		// 	$data = array( 
+		// 		'saved_orders_id' => $saved_orders_id;
+		// 	);
+			
+		// 	$this->db->where('order_id', $order_id);
+		// 	$this->db->update('orders', $data);
+		// 	return $saved_orders_id;
+		// }
+		// else
+		// {
+		// 	return FALSE;
+		// }
+		//get order number
+		$order_number = $this->orders_model->create_order_number();
+		
+		//create order
+		$data = array(
+					'customer_id'=>$this->session->userdata('customer_id'),
+					'order_created'=>date('Y-m-d H:i:s'),
+					'saved_status'=>1,
+					'order_number'=>$order_number,
+					'order_created_by'=>$this->session->userdata('customer_id')
+				);
+				
+		if($this->db->insert('orders', $data))
+		{
+			$order_id = $this->db->insert_id();
+			$package_name = 'Order '.$order_number.': ';
+			$total_price = 0;
+			
+			//save order items
+			foreach ($this->cart->contents() as $items): 
+	
+				$cart_product_id = $items['id'];
+				$quantity = $items['qty'];
+				$price = $items['price'];
+				
+				$data = array(
+						'product_id'=>$cart_product_id,
+						'order_id'=>$order_id,
+						'order_item_quantity'=>$quantity,
+						'order_item_price'=>$price
+					);
+					
+				if($this->db->insert('order_item', $data))
+				{
+					//get product name
+					$this->db->where('product_id = '.$cart_product_id);
+					$this->db->select('product_name');
+					$query = $this->db->get('product');
+					
+					if($query->num_rows() > 0)
+					{
+						$row = $query->row();
+						$package_name .= $row->product_name.', ';
+						$total_price += ($quantity * $price);
+					}
+				}
+			
+			endforeach; 
+			$response = TRUE;
+		}
+		else
+		{
+			$response = FALSE;
+		}
+			
+			//create return data
+			
+		return $response;
+	}
 	/*
 	*
 	*	Save the cart items to the db

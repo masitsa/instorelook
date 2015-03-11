@@ -217,6 +217,29 @@ if($surburbs->num_rows() > 0)
 		 	return false;
         });
 
+        //Facebook sign up on the checkout page
+        $(document).on("click","a.fb-login-button-tab",function()
+        {
+            FB.getLoginStatus(function(response) 
+            {
+                if (response.status === 'connected') 
+                {
+                    parent.location ='<?php echo base_url(); ?>login/facebook_sign_up/1';
+                } 
+                 
+                else {
+                    FB.login(function(response) {
+                        // handle the response
+                        if(response.authResponse) 
+                        {
+                            parent.location ='<?php echo base_url(); ?>login/facebook_sign_up/1';
+                        }
+                    }, {scope: 'email, publish_stream'});/*{scope: 'email,publish_stream'});*/
+                }
+            });
+            return false;
+        });
+
 		//Facebook sign up
 		$(document).on("click","a.fb-signin-button",function()
         {
@@ -266,6 +289,8 @@ if($surburbs->num_rows() > 0)
                         
                         $("#menu_cart").html(data.cart_items);
                         $("#mini_menu_cart").html(data.cart_items);
+
+
                     }
                     else
                     {
@@ -280,6 +305,84 @@ if($surburbs->num_rows() > 0)
             return false;
         });
         //Add to cart
+        //Add to cart and redirect
+        $(document).on("click","a.add_to_cart_redirect",function()
+        {
+            var product_id = $(this).attr('product_id');
+            
+            $.ajax({
+                type:'POST',
+                url: '<?php echo site_url();?>site/cart/add_item/'+product_id,
+                cache:false,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success:function(data){
+                    
+                    if(data.result == "success")
+                    {
+                        var total = 'Cart ($'+data.cart_total+')';
+                        var sub_total = 'Subtotal: $'+data.cart_total;
+                        
+                        $("#menu_cart_total").html(total);
+                        $("#menu_cart_sub_total").html(sub_total);
+                        
+                        $("#mini_menu_cart_total").html(total);
+                        $("#mini_menu_cart_sub_total").html(sub_total);
+                        
+                        $("#menu_cart").html(data.cart_items);
+                        $("#mini_menu_cart").html(data.cart_items);
+                        parent.location ='<?php echo base_url(); ?>checkout';
+                    }
+                    else
+                    {
+                        alert('Could not add items to cart');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert("XMLHttpRequest=" + xhr.responseText + "\ntextStatus=" + status + "\nerrorThrown=" + error);
+                }
+            });
+            
+            return false;
+        });
+        //Add to cart and redirect
+
+
+        //Add to cart and redirect
+        $(document).on("click","a.save_order_redirect",function()
+        {
+            var order_id = $(this).attr('order_id');
+            
+            $.ajax({
+                type:'POST',
+                url: '<?php echo site_url();?>site/cart/save_order/'+order_id,
+                cache:false,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success:function(data){
+                    
+                    if(data.result == "success")
+                    {
+                        
+                        alert('Order saved successfully. You have 5 days for it to expire');
+                    }
+                    else
+                    {
+                        alert('Could not add items to cart');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert("XMLHttpRequest=" + xhr.responseText + "\ntextStatus=" + status + "\nerrorThrown=" + error);
+                }
+            });
+            
+            return false;
+        });
+        //Add to cart and redirect
+
+
         $(document).on("click","a.add_to_wishlist",function()
         {
             var product_id = $(this).attr('product_id');

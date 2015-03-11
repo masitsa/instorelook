@@ -7,6 +7,7 @@ class Cart extends site {
 	function __construct()
 	{
 		$this->load->model('login/login_model');
+		$this->load->model('vendor/orders_model');
 		parent:: __construct();
 	}
 	
@@ -27,6 +28,23 @@ class Cart extends site {
 		}
 		
 		echo json_encode($data);
+	}
+	public function save_order()
+	{
+		if($this->cart_model->save_order_to_account())
+		{
+			$this->session->set_userdata('success_message', 'Your order has been saved successfully. You have only two weeks to pay for this order');
+			
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', 'Sorry you order has not been saved');
+
+		}
+		 
+		redirect('account');
+
 	}
 	
 	public function add_to_wishlist($product_id)

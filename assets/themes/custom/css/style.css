@@ -2720,3 +2720,29 @@ color: red;
 font-weight: 100;
 font-size: 12px;
 }*/
+
+/*button styles*/
+.btn-warning {
+color: #ffffff;
+background-color: #f0ad4e;
+border-color: #eea236;
+}
+
+.btn-primary {
+  color: #ffffff;
+  background-color: #55A4DA;
+  border-color: #357ebd;
+}
+
+.btn-success {
+  color: #ffffff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+.btn-info {
+  color: #ffffff;
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+/*end of button style*/

@@ -363,6 +363,7 @@ $route['vendors/(:any)/(:num)'] = 'site/vendor/vendor_products/$1/$2/__/0/0/crea
 $route['vendor-details/(:any)/(:num)'] = 'site/vendor/vendor_details/$1/$2';
 
 $route['customer-request'] = 'site/customer_requests';
+$route['save-order'] = 'site/cart/save_order';
 
 
 
