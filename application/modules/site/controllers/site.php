@@ -58,6 +58,7 @@ class Site extends MX_Controller
 		$v_data['filter_locations'] = '';
 		$v_data['filter_brands'] = '';
 		$v_data['filter_businesses'] = '';
+		$v_data['category_w_name'] = '__';
 		
 		$v_data['locations_array'] = '';
 		$v_data['brands_array'] = '';
@@ -79,6 +80,7 @@ class Site extends MX_Controller
 		$total_brands = sizeof($_POST['brand_name']);
 		$post_locations = $this->input->post('post_locations');
 		$post_businesses = $this->input->post('post_businesses');
+		$category_w_name = $this->input->post('category_w_name');
 		
 		//check if any checkboxes have been ticked
 		if($total_brands > 0)
@@ -100,7 +102,7 @@ class Site extends MX_Controller
 					$brands .= '_'.$brand_web_name;
 				}
 			}
-			$this->products($search = '__', $category_id = 0, $order_by = 'created', $price_range = '__', $post_businesses,  $brands, $post_locations);
+			$this->products($search = '__', $category_w_name, $order_by = 'created', $price_range = '__', $post_businesses,  $brands, $post_locations);
 			//redirect('products/filter-brands/'.$post_businesses.'/'.$brands.'/'.$post_locations);
 		}
 		
@@ -120,6 +122,7 @@ class Site extends MX_Controller
 		$total_states = sizeof($_POST['state_abbr']);
 		$post_brands = $this->input->post('post_brands');
 		$post_businesses = $this->input->post('post_businesses');
+		$category_w_name = $this->input->post('category_w_name');
 		
 		//check if any checkboxes have been ticked
 		if($total_states > 0)
@@ -141,7 +144,7 @@ class Site extends MX_Controller
 					$states .= '_'.$state_abbr;
 				}
 			}
-			$this->products($search = '__', $category_id = 0, $order_by = 'created', $price_range = '__', $post_businesses,  $post_brands, $states);
+			$this->products($search = '__', $category_w_name, $order_by = 'created', $price_range = '__', $post_businesses,  $post_brands, $states);
 			//redirect('products/filter-locations/'.$post_businesses.'/'.$post_brands.'/'.$states);
 		}
 		
@@ -161,6 +164,7 @@ class Site extends MX_Controller
 		$total_businesses = sizeof($_POST['vendor_store_name']);
 		$post_brands = $this->input->post('post_brands');
 		$post_locations = $this->input->post('post_locations');
+		$category_w_name = $this->input->post('category_w_name');
 		
 		//check if any checkboxes have been ticked
 		if($total_businesses > 0)
@@ -182,7 +186,7 @@ class Site extends MX_Controller
 					$businesses .= '_'.$vendor_store_name;
 				}
 			}
-			$this->products($search = '__', $category_id = 0, $order_by = 'created', $price_range = '__', $businesses,  $post_brands, $post_locations);
+			$this->products($search = '__', $category_w_name, $order_by = 'created', $price_range = '__', $businesses,  $post_brands, $post_locations);
 			//redirect('products/filter-businesses/'.$businesses.'/'.$post_brands.'/'.$post_locations);
 		}
 		
@@ -197,18 +201,19 @@ class Site extends MX_Controller
 	*	Products Page
 	*
 	*/
-	public function products($search = '__', $category_id = 0, $order_by = 'created', $price_range = '__', $filter_businesses = '__',  $filter_brands = '__', $filter_locations = '__') 
+	public function products($search = '__', $category = '__', $order_by = 'created', $price_range = '__', $filter_businesses = '__',  $filter_brands = '__', $filter_locations = '__') 
 	{
 		$v_data['products_path'] = $this->products_path;
 		$v_data['products_location'] = $this->products_location;
 		$v_data['crumbs'] = $this->site_model->get_crumbs();
 		$v_data['brands'] = $this->brands_model->all_active_brands();
-		$v_data['product_sub_categories'] = $this->categories_model->get_sub_categories($category_id);
+		//$v_data['product_sub_categories'] = $this->categories_model->get_sub_categories($category_id);
 		$v_data['all_children'] = $this->categories_model->all_child_categories();
 		$v_data['parent_categories'] = $this->categories_model->all_parent_categories();
 		$v_data['filter_locations'] = $filter_locations;
 		$v_data['filter_brands'] = $filter_brands;
 		$v_data['filter_businesses'] = $filter_businesses;
+		$v_data['category_w_name'] = $category;
 		
 		$v_data['locations_array'] = '';
 		$v_data['brands_array'] = '';
@@ -234,7 +239,14 @@ class Site extends MX_Controller
 			break;
 		}
 		
-		//case of filter_age_groups
+		//case of filter categories
+		if($category != '__')
+		{
+			$return = $this->site_model->create_category_query_filter($category, 'category.category_name');
+			$where .= $return['where'];
+		}
+		
+		//case of filtering locations
 		if($filter_locations != '__')
 		{
 			$table .= ', vendor, surburb, state';
@@ -255,8 +267,11 @@ class Site extends MX_Controller
 		//case of filter businesses
 		if($filter_businesses != '__')
 		{
-			$table .= ', vendor';
-			$where .= '  AND product.created_by = vendor.vendor_id ';
+			if(strpos($table, 'vendor') == FALSE)
+			{
+				$table .= ', vendor';
+				$where .= '  AND product.created_by = vendor.vendor_id ';
+			}
 			$return = $this->site_model->create_query_filter($filter_businesses, 'vendor.vendor_store_name');
 			$where .= $return['where'];
 			$v_data['businesses_array'] = $return['parameters'];
@@ -280,12 +295,6 @@ class Site extends MX_Controller
 		if($search != '__')
 		{
 			$where .= " AND (product.product_name LIKE '%".$search."%' OR category.category_name LIKE '%".$search."%' OR brand.brand_name LIKE '%".$search."%')";
-		}
-		
-		//case of category
-		if($category_id > 0)
-		{
-			$where .= ' AND (category.category_id = '.$category_id.' OR category.category_parent = '.$category_id.')';
 		}
 		
 		//pagination
@@ -554,6 +563,57 @@ class Site extends MX_Controller
 			$this->session->set_userdata("error_message","Could not send newsletter request. Please try again");	
 		}
 		redirect('home');
+	}
+	public function customer_requests()
+	{
+		$v_data['vendor_email_error'] = '';
+		$v_data['vendor_password_error'] = '';
+		
+		$this->form_validation->set_error_delimiters('', '');
+		$this->form_validation->set_rules('company_name', 'company_name', 'trim|required|xss_clean');
+		
+		
+		//if form conatins invalid data
+		if ($this->form_validation->run())
+		{
+			if($this->site_model->make_suggestion())
+			{
+				//echo 'Your account is now verified. YAY!';
+				$this->session->set_userdata('success_message', 'Your request has been received. Thank you');
+				redirect('customer-request');
+
+			}
+			
+			else
+			{
+				$this->session->set_userdata('error_message', 'Unable to sign into your account. Please try again');
+			}
+		}
+		$validation_errors = validation_errors();
+			
+		//repopulate form data if validation errors are present
+		if(!empty($validation_errors))
+		{
+			//create errors
+			$v_data['company_name_error'] = form_error('company_name');
+			$v_data['company_description_error'] = form_error('company_desciption');
+			
+			//repopulate fields
+			$v_data['company_name'] = set_value('company_name');
+			$v_data['company_description'] = set_value('company_description');
+		}
+		
+		//populate form data on initial load of page
+		else
+		{
+			$v_data['company_name'] = '';
+			$v_data['company_description'] = '';
+		}
+		
+		$data['content'] = $this->load->view('customer/customer_requests', $v_data, true);
+		
+		$data['title'] = 'Sign In';
+		$this->load->view('site/templates/general_page', $data);
 	}
 }
 ?>

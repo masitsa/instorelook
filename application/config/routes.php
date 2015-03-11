@@ -280,13 +280,13 @@ $route['static-banner/purchase-cancel/(:num)/(:num)'] = 'vendor/static_banners/p
 /*
 *	Products Routes
 */
-$route['products/category/(:num)'] = 'site/products/__/$1';
+$route['products/category/(:any)'] = 'site/products/__/$1';
 $route['products/brand/(:num)'] = 'site/products/__/0/$1';
 $route['products/category'] = 'site/products/__/0';
 $route['products/brand'] = 'site/products/__/0';
 $route['products/brand/(:num)'] = 'site/products/__/0/$1';
 $route['products/all-products'] = 'site/products/__/0';
-$route['products'] = 'site/products/__/0';
+$route['products'] = 'site/products';
 $route['products/search'] = 'site/search';
 $route['products/search/(:any)'] = 'site/products/$1';
 $route['products/price-range/(:any)'] = 'site/products/__/0/created/0/0/0/$1';
@@ -354,3 +354,15 @@ $route['forgot-password'] = 'site/checkout/forgot_password';
 /* Location: ./application/config/routes.php */
 
 $route['request-news-letter'] = 'site/request_newsletter';
+
+
+//site  vendors 
+$route['vendors'] = 'site/vendor/index';
+$route['vendors/all-vendors'] = 'site/vendor/index';
+$route['vendors/(:any)/(:num)'] = 'site/vendor/vendor_products/$1/$2/__/0/0/created/1';
+$route['vendor-details/(:any)/(:num)'] = 'site/vendor/vendor_details/$1/$2';
+
+$route['customer-request'] = 'site/customer_requests';
+
+
+

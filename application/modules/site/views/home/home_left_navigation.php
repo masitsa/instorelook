@@ -28,6 +28,7 @@ if($top_sellers->num_rows() == 0)
 								echo form_open('products/filter-locations');
 								echo form_hidden('post_brands', $filter_brands);
 								echo form_hidden('post_businesses', $filter_businesses);
+								echo form_hidden('category_w_name', $category_w_name);
 								
 								if($states->num_rows() > 0)
 								{
@@ -103,6 +104,7 @@ if($top_sellers->num_rows() == 0)
 								echo form_open('products/filter-businesses');
 								echo form_hidden('post_brands', $filter_brands);
 								echo form_hidden('post_locations', $filter_locations);
+								echo form_hidden('category_w_name', $category_w_name);
 								if($top_sellers->num_rows() > 0)
 								{
 									$top_sellers_result = $top_sellers->result();
@@ -176,6 +178,7 @@ if($top_sellers->num_rows() == 0)
 								echo form_open('products/filter-brands');
 								echo form_hidden('post_businesses', $filter_businesses);
 								echo form_hidden('post_locations', $filter_locations);
+								echo form_hidden('category_w_name', $category_w_name);
 								if($brands->num_rows() > 0)
 								{
 									$brands_result = $brands->result();

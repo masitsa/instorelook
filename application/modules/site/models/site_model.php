@@ -23,19 +23,7 @@ class Site_model extends CI_Model
 			
 			if($page[1] == 'category')
 			{
-				$category_id = $page[2];
-				$category_details = $this->categories_model->get_category($category_id);
-				
-				if($category_details->num_rows() > 0)
-				{
-					$category = $category_details->row();
-					$category_name = $category->category_name;
-				}
-				
-				else
-				{
-					$category_name = 'No Category';
-				}
+				$category_name = $page[2];
 				
 				$page_url .= ' | '.ucwords(strtolower($category_name));
 			}
@@ -104,23 +92,12 @@ class Site_model extends CI_Model
 			
 			if($page[1] == 'category')
 			{
-				$category_id = $page[2];
-				$category_details = $this->categories_model->get_category($category_id);
+				$category_name = $page[2];
+				$category_web_name = $this->site_model->create_web_name($category_name);
 				
-				if($category_details->num_rows() > 0)
-				{
-					$category = $category_details->row();
-					$category_name = $category->category_name;
-				}
-				
-				else
-				{
-					$category_name = 'No Category';
-				}
-				
-				$crumb[1]['link'] = 'products/all-products/';
+				$crumb[1]['link'] = 'products';
 				$crumb[2]['name'] = ucwords(strtolower($category_name));
-				$crumb[2]['link'] = 'products/category/'.$category_id;
+				$crumb[2]['link'] = 'products/category/'.$category_web_name;
 			}
 			
 			else if($page[1] == 'brand')
@@ -139,7 +116,7 @@ class Site_model extends CI_Model
 					$brand_name = 'No Brand';
 				}
 				
-				$crumb[1]['link'] = 'products/all-products/';
+				$crumb[1]['link'] = 'products';
 				$crumb[2]['name'] = ucwords(strtolower($brand_name));
 				$crumb[2]['link'] = 'products/brand/'.$brand_id;
 			}
@@ -160,7 +137,7 @@ class Site_model extends CI_Model
 					$product_name = 'No Product';
 				}
 				
-				$crumb[1]['link'] = 'products/all-products/';
+				$crumb[1]['link'] = 'products';
 				$crumb[2]['name'] = ucwords(strtolower($product_name));
 				$crumb[2]['link'] = 'products/view-product/'.$product_id;
 			}
@@ -282,11 +259,65 @@ class Site_model extends CI_Model
 		return $return;
 	}
 	
+	public function create_category_query_filter($parameter_array, $table_field)
+	{
+		$parameters = explode("_", $parameter_array);
+		$total = count($parameters);
+		$where = ' AND (';
+		
+		//filter for category
+		for($r = 0; $r < $total; $r++)
+		{
+			$parameter_name = str_replace("-", " ", $parameters[$r]);
+			
+			if($r == 0)
+			{
+				$where .= $table_field.' = \''.$parameter_name.'\'';
+			}
+			
+			else
+			{
+				$where .= ' OR '.$table_field.' = \''.$parameter_name.'\'';
+			}
+		}
+		
+		//filter for parent
+		for($r = 0; $r < $total; $r++)
+		{
+			$parameter_name = str_replace("-", " ", $parameters[$r]);
+			
+			$where .= ' OR category.category_parent = (SELECT category.category_id FROM category WHERE category_name = \''.$parameter_name.'\')';
+		}
+		
+		$where .= ')';
+		
+		$return['where'] = $where;
+		$return['parameters'] = $parameters;
+		
+		return $return;
+	}
+	
 	public function create_web_name($field_name)
 	{
 		$web_name = str_replace(" ", "-", $field_name);
 		
 		return $web_name;
+	}
+	
+	public function make_suggestion()
+	{
+		$data = array(
+			'company_name'=>$this->input->post('company_name'),
+			'company_description'=>$this->input->post('company_description')
+		);
+		
+		if($this->db->insert('customer_requests', $data))
+		{
+			return $this->db->insert_id();
+		}
+		else{
+			return FALSE;
+		}
 	}
 }
 

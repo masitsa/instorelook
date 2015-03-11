@@ -10,6 +10,10 @@
 		
 		foreach($parent_categories->result() as $res)
 		{
+			$category_name = $res->category_name;
+			$category_id = $res->category_id;
+			$category_web_name = $this->site_model->create_web_name($category_name);
+			
 			if(($count % $per_column) == 0)
 			{
 				if($count == 0)
@@ -29,17 +33,22 @@
 			}
 			$count++;
 			
-			$categories .= '<li class="dropdown-header">'.$res->category_name.'</li>
-			<li><a href="category/'.$res->category_id.'">All '.$res->category_name.'</a></li>
+			$categories .= '<li class="dropdown-header">'.$category_name.'</li>
+			<li><a href="'.site_url().'products/category/'.$category_web_name.'">All '.$category_name.'</a></li>
 			';
 			
 			if($all_categories->num_rows() > 0)
 			{
 				foreach($all_categories->result() as $cat_res)
 				{
-					if($res->category_id == $cat_res->category_parent)
+					$category_parent = $cat_res->category_parent;
+					$child_id = $cat_res->category_id;
+					$child_name = $cat_res->category_name;
+					$child_web_name = $this->site_model->create_web_name($child_name);
+					
+					if($category_id == $category_parent)
 					{
-						$categories .= '<li><a href="category/'.$cat_res->category_id.'">'.$cat_res->category_name.'</a></li>';
+						$categories .= '<li><a href="'.site_url().'products/category/'.$child_web_name.'">'.$child_name.'</a></li>';
 					}
 				}
 			}
@@ -82,6 +91,7 @@
 						?>
                     	
                     	<li><a href="<?php echo site_url().'account/wishlist'?>"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Wishlist</a></li>
+                        <li><a href="<?php echo site_url().'customer-request'?>"><span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span> Requests</a></li>
                     </ul>
                 </div>
             </div>
@@ -211,6 +221,7 @@
                                 <li><a href="#">Beauty</a></li>
                                 <li><a href="#">Automotive</a></li>
                                 <li><a href="<?php echo site_url().'products';?>">Products</a></li>
+                                <li><a href="<?php echo site_url().'vendors/all-vendors';?>">Vendors</a></li>
                             </ul>
                             <?php echo $this->load->view('site/cart/mini_cart', '', TRUE);?>
                         </div><!-- /.navbar-collapse -->
