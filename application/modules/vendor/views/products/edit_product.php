@@ -45,7 +45,7 @@
 				
                 echo '<div class="alert alert-danger"> Oh snap! '.$validation_errors.' </div>';
             }
-			echo $image;
+			
 			//product image
 			if(!empty($image))
 			{

@@ -156,6 +156,22 @@ class Categories_model extends CI_Model
 	}
 	
 	/*
+	*	get a single category's details
+	*	@param int $category_id
+	*
+	*/
+	public function get_category_by_name($category_name)
+	{
+		//retrieve all users
+		$this->db->from('category');
+		$this->db->select('*');
+		$this->db->where('category_name = \''.$category_name.'\'');
+		$query = $this->db->get();
+		
+		return $query;
+	}
+	
+	/*
 	*	Delete an existing category
 	*	@param int $category_id
 	*

@@ -55,6 +55,15 @@ class Site extends MX_Controller
 		$v_data['static_banners'] = $this->static_banners_model->get_static_banner_images('DESC');
 		$v_data['slideshow_location'] = $this->slideshow_location;
 		$v_data['static_banner_location'] = $this->static_banner_location;
+		$v_data['filter_locations'] = '';
+		$v_data['filter_brands'] = '';
+		$v_data['filter_businesses'] = '';
+		$v_data['category_w_name'] = '__';
+		
+		$v_data['locations_array'] = '';
+		$v_data['brands_array'] = '';
+		$v_data['businesses_array'] = '';
+		
 		$data['content'] = $this->load->view('home/home', $v_data, true);
 		
 		$data['title'] = $this->site_model->display_page_title();
@@ -68,34 +77,122 @@ class Site extends MX_Controller
 	*/
 	public function filter_brands()
 	{
-		$total_brands = sizeof($_POST['brand']);
+		$total_brands = sizeof($_POST['brand_name']);
+		$post_locations = $this->input->post('post_locations');
+		$post_businesses = $this->input->post('post_businesses');
+		$category_w_name = $this->input->post('category_w_name');
 		
 		//check if any checkboxes have been ticked
 		if($total_brands > 0)
 		{
 			$brands = '';
+			$brand = $_POST['brand_name'];
 			
-			for($r = 0; $r < $total_brands; $r++){
-				
-				$brand = $_POST['brand'];
-				$brand_id = $brand[$r]; 
+			for($r = 0; $r < $total_brands; $r++)
+			{
+				$brand_web_name = $brand[$r]; 
 				
 				if($r == 0)
 				{
-					$brands .= $brand_id;
+					$brands .= $brand_web_name;
 				}
 				
 				else
 				{
-					$brands .= '-'.$brand_id;
+					$brands .= '_'.$brand_web_name;
 				}
 			}
-			redirect('products/filter-brands/'.$brands);
+			$this->products($search = '__', $category_w_name, $order_by = 'created', $price_range = '__', $post_businesses,  $brands, $post_locations);
+			//redirect('products/filter-brands/'.$post_businesses.'/'.$brands.'/'.$post_locations);
 		}
 		
 		else
 		{
-			redirect('products/all-products');
+			redirect('products');
+		}
+	}
+    
+	/*
+	*
+	*	Filter products by brand
+	*
+	*/
+	public function filter_locations()
+	{
+		$total_states = sizeof($_POST['state_abbr']);
+		$post_brands = $this->input->post('post_brands');
+		$post_businesses = $this->input->post('post_businesses');
+		$category_w_name = $this->input->post('category_w_name');
+		
+		//check if any checkboxes have been ticked
+		if($total_states > 0)
+		{
+			$states = '';
+			$state = $_POST['state_abbr'];
+			
+			for($r = 0; $r < $total_states; $r++)
+			{	
+				$state_abbr = $state[$r]; 
+				
+				if($r == 0)
+				{
+					$states .= $state_abbr;
+				}
+				
+				else
+				{
+					$states .= '_'.$state_abbr;
+				}
+			}
+			$this->products($search = '__', $category_w_name, $order_by = 'created', $price_range = '__', $post_businesses,  $post_brands, $states);
+			//redirect('products/filter-locations/'.$post_businesses.'/'.$post_brands.'/'.$states);
+		}
+		
+		else
+		{
+			redirect('products');
+		}
+	}
+    
+	/*
+	*
+	*	Filter products by brand
+	*
+	*/
+	public function filter_businesses()
+	{
+		$total_businesses = sizeof($_POST['vendor_store_name']);
+		$post_brands = $this->input->post('post_brands');
+		$post_locations = $this->input->post('post_locations');
+		$category_w_name = $this->input->post('category_w_name');
+		
+		//check if any checkboxes have been ticked
+		if($total_businesses > 0)
+		{
+			$businesses = '';
+			$business = $_POST['vendor_store_name'];
+			
+			for($r = 0; $r < $total_businesses; $r++)
+			{	
+				$vendor_store_name = $business[$r]; 
+				
+				if($r == 0)
+				{
+					$businesses .= $vendor_store_name;
+				}
+				
+				else
+				{
+					$businesses .= '_'.$vendor_store_name;
+				}
+			}
+			$this->products($search = '__', $category_w_name, $order_by = 'created', $price_range = '__', $businesses,  $post_brands, $post_locations);
+			//redirect('products/filter-businesses/'.$businesses.'/'.$post_brands.'/'.$post_locations);
+		}
+		
+		else
+		{
+			redirect('products');
 		}
 	}
     
@@ -104,17 +201,25 @@ class Site extends MX_Controller
 	*	Products Page
 	*
 	*/
-	public function products($search = '__', $category_id = 0, $brand_id = 0, $order_by = 'created', $new_products = 0, $new_categories = 0, $new_brands = 0, $price_range = '__', $filter_brands = '__') 
+	public function products($search = '__', $category = '__', $order_by = 'created', $price_range = '__', $filter_businesses = '__',  $filter_brands = '__', $filter_locations = '__') 
 	{
 		$v_data['products_path'] = $this->products_path;
 		$v_data['products_location'] = $this->products_location;
 		$v_data['crumbs'] = $this->site_model->get_crumbs();
 		$v_data['brands'] = $this->brands_model->all_active_brands();
-		$v_data['product_sub_categories'] = $this->categories_model->get_sub_categories($category_id);
+		//$v_data['product_sub_categories'] = $this->categories_model->get_sub_categories($category_id);
 		$v_data['all_children'] = $this->categories_model->all_child_categories();
 		$v_data['parent_categories'] = $this->categories_model->all_parent_categories();
+		$v_data['filter_locations'] = $filter_locations;
+		$v_data['filter_brands'] = $filter_brands;
+		$v_data['filter_businesses'] = $filter_businesses;
+		$v_data['category_w_name'] = $category;
 		
-		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product_status = 1 AND category_status = 1 AND brand_status = 1';
+		$v_data['locations_array'] = '';
+		$v_data['brands_array'] = '';
+		$v_data['businesses_array'] = '';
+		
+		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product_status = 1 AND category_status = 1 AND brand_status = 1 AND product.product_balance > 0';
 		$table = 'product, category, brand';
 		$limit = NULL;
 		
@@ -134,29 +239,42 @@ class Site extends MX_Controller
 			break;
 		}
 		
+		//case of filter categories
+		if($category != '__')
+		{
+			$return = $this->site_model->create_category_query_filter($category, 'category.category_name');
+			$where .= $return['where'];
+		}
+		
+		//case of filtering locations
+		if($filter_locations != '__')
+		{
+			$table .= ', vendor, surburb, state';
+			$where .= ' AND product.created_by = vendor.vendor_id AND vendor.surburb_id = surburb.surburb_id AND surburb.state = state.state_id ';
+			$return = $this->site_model->create_query_filter($filter_locations, 'state.state_abbr');
+			$where .= $return['where'];
+			$v_data['locations_array'] = $return['parameters'];
+		}
+		
 		//case of filter_brands
 		if($filter_brands != '__')
 		{
-			$brands = explode("-", $filter_brands);
-			$total = count($brands);
-			
-			if($total > 0)
+			$return = $this->site_model->create_query_filter($filter_brands, 'brand.brand_name');
+			$where .= $return['where'];
+			$v_data['brands_array'] = $return['parameters'];
+		}
+		
+		//case of filter businesses
+		if($filter_businesses != '__')
+		{
+			if(strpos($table, 'vendor') == FALSE)
 			{
-				$where .= ' AND (';
-				for($r = 0; $r < $total; $r++)
-				{
-					if($r ==0)
-					{
-						$where .= 'product.brand_id = '.$brands[$r];
-					}
-					
-					else
-					{
-						$where .= ' OR product.brand_id = '.$brands[$r];
-					}
-				}
-				$where .= ')';
+				$table .= ', vendor';
+				$where .= '  AND product.created_by = vendor.vendor_id ';
 			}
+			$return = $this->site_model->create_query_filter($filter_businesses, 'vendor.vendor_store_name');
+			$where .= $return['where'];
+			$v_data['businesses_array'] = $return['parameters'];
 		}
 		
 		//case of price_range
@@ -177,52 +295,6 @@ class Site extends MX_Controller
 		if($search != '__')
 		{
 			$where .= " AND (product.product_name LIKE '%".$search."%' OR category.category_name LIKE '%".$search."%' OR brand.brand_name LIKE '%".$search."%')";
-		}
-		
-		//case of category
-		if($category_id > 0)
-		{
-			$where .= ' AND (category.category_id = '.$category_id.' OR category.category_parent = '.$category_id.')';
-		}
-		
-		//case of brand
-		if($brand_id > 0)
-		{
-			$where .= ' AND brand.brand_id = '.$brand_id;
-		}
-		
-		//case of latest products
-		if($new_products == 1)
-		{
-			$limit = 30;
-		}
-		
-		//case of latest category
-		if($new_categories == 1)
-		{
-			$query = $this->categories_model->latest_category();
-			
-			if($query->num_rows() > 0)
-			{
-				$category = $query->row();
-				$latest_category_id = $category->category_id;
-				
-				$where .= ' AND category.category_id = '.$latest_category_id;
-			}
-		}
-		
-		//case of latest brand
-		if($new_brands == 1)
-		{
-			$query = $this->brands_model->latest_brand();
-			
-			if($query->num_rows() > 0)
-			{
-				$brand = $query->row();
-				$latest_brand_id = $brand->brand_id;
-				
-				$where .= ' AND brand.brand_id = '.$latest_brand_id;
-			}
 		}
 		
 		//pagination

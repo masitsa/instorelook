@@ -25,6 +25,11 @@ if($top_sellers->num_rows() == 0)
                                     </div>
                                 </li>
 							<?php
+								echo form_open('products/filter-locations');
+								echo form_hidden('post_brands', $filter_brands);
+								echo form_hidden('post_businesses', $filter_businesses);
+								echo form_hidden('category_w_name', $category_w_name);
+								
 								if($states->num_rows() > 0)
 								{
 									$states_result = $states->result();
@@ -33,22 +38,59 @@ if($top_sellers->num_rows() == 0)
 									{
 										$state_name = $sel->state_name;
 										$state_id = $sel->state_id;
+										$state_abbr = $sel->state_abbr;
 										
-										echo 
-										'
-                                            <li>
-												<input type="checkbox" name="state[]" value="'.$state_id.'" id="state'.$state_id.'"/>
-                                                <label for="brand'.$state_id.'"><span></span> '.$state_name.'</label>
-                                            </li>
-							
-										';
+										if(is_array($locations_array))
+										{
+											$total_locations = count($locations_array);
+											$checked = '';
+											
+											for($r = 0; $r < $total_locations; $r++)
+											{
+												if($locations_array[$r] == $state_abbr)
+												{
+													$checked = 'checked = "checked"';
+													break;
+												}
+											}
+										
+											echo 
+											'
+												<li>
+													<input type="checkbox" name="state_abbr[]" value="'.$state_abbr.'" id="state_abbr'.$state_id.'" '.$checked.'/>
+													<label for="state_abbr'.$state_id.'"><span></span> '.$state_name.'</label>
+												</li>
+								
+											';
+										}
+										
+										else
+										{
+										
+											echo 
+											'
+												<li>
+													<input type="checkbox" name="state_abbr[]" value="'.$state_abbr.'" id="state_abbr'.$state_id.'"/>
+													<label for="state_abbr'.$state_id.'"><span></span> '.$state_name.'</label>
+												</li>
+								
+											';
+										}
 									}
+									
+									echo 
+									'
+										<div class="center-align">
+											<button type="submit" class="btn btn-primary">Filter</button>
+										</div>
+									';
 								}
 								
 								else
 								{
 									echo '<p>There are no locations :-(</p>';
 								}
+								echo form_close();
 							?>
 							</ul>
 						</div>
@@ -59,6 +101,10 @@ if($top_sellers->num_rows() == 0)
 						<div class="widget-body">
 							<ul class="list-unstyled">
 							<?php
+								echo form_open('products/filter-businesses');
+								echo form_hidden('post_brands', $filter_brands);
+								echo form_hidden('post_locations', $filter_locations);
+								echo form_hidden('category_w_name', $category_w_name);
 								if($top_sellers->num_rows() > 0)
 								{
 									$top_sellers_result = $top_sellers->result();
@@ -67,59 +113,59 @@ if($top_sellers->num_rows() == 0)
 									{
 										$vendor_store_name = $sel->vendor_store_name;
 										$vendor_id = $sel->vendor_id;
+										$web_name = $this->site_model->create_web_name($vendor_store_name);
+										//var_dump($filter_businesses);
+										if(is_array($businesses_array))
+										{
+											$total_businesses = count($businesses_array);
+											$checked = '';
+											
+											for($r = 0; $r < $total_businesses; $r++)
+											{
+												if($businesses_array[$r] == $web_name)
+												{
+													$checked = 'checked = "checked"';
+													break;
+												}
+											}
 										
-										echo 
-										'
-                                            <li>
-												<input type="checkbox" name="vendor[]" value="'.$vendor_id.'" id="vendor'.$vendor_id.'"/>
-                                                <label for="vendor'.$vendor_id.'"><span></span> '.$vendor_store_name.'</label>
-                                            </li>
-							
-										';
+											echo 
+											'
+												<li>
+													<input type="checkbox" name="vendor_store_name[]" value="'.$web_name.'" id="vendor_store_name'.$vendor_id.'" '.$checked.'/>
+													<label for="vendor_store_name'.$vendor_id.'"><span></span> '.$vendor_store_name.'</label>
+												</li>
+								
+											';
+										}
+										
+										else
+										{
+											echo 
+											'
+												<li>
+													<input type="checkbox" name="vendor_store_name[]" value="'.$web_name.'" id="vendor_store_name'.$vendor_id.'"/>
+													<label for="vendor_store_name'.$vendor_id.'"><span></span> '.$vendor_store_name.'</label>
+												</li>
+								
+											';
+										}
 									}
+									
+									echo 
+									'
+										<div class="center-align">
+											<button type="submit" class="btn btn-primary">Filter</button>
+										</div>
+									';
 								}
 								
 								else
 								{
 									echo '<p>There are no top sellers :-(</p>';
 								}
+								echo form_close();
 							?>
-								<!--<li>
-									<input type="checkbox" value="beige" id="colors-beige" name="colors">
-									<label for="colors-beige"><span></span> Beige <span>(35)</span></label>
-								</li>
-								<li>
-									<input type="checkbox" value="blue" id="colors-blue" name="colors">
-									<label for="colors-blue"><span></span> Blue <span>(256)</span></label>
-								</li>
-								<li>
-									<input type="checkbox" value="cream" id="colors-cream" name="colors">
-									<label for="colors-cream"><span></span> Cream <span>(15)</span></label>
-								</li>
-								<li>
-									<input type="checkbox" value="green" id="colors-green" name="colors">
-									<label for="colors-green"><span></span> Green <span>(85)</span></label>
-								</li>
-								<li>
-									<input type="checkbox" value="multi" id="colors-multi" name="colors">
-									<label for="colors-multi"><span></span> Multi <span>(99)</span></label>
-								</li>
-								<li>
-									<input type="checkbox" value="orange" id="colors-orange" name="colors">
-									<label for="colors-orange"><span></span> Orange <span>(358)</span></label>
-								</li>
-								<li>
-									<input type="checkbox" value="purple" id="colors-purple" name="colors">
-									<label for="colors-purple"><span></span> Purple <span>(74)</span></label>
-								</li>
-								<li>
-									<input type="checkbox" value="silver" id="colors-silver" name="colors">
-									<label for="colors-silver"><span></span> Silver <span>(33)</span></label>
-								</li>
-								<li>
-									<input type="checkbox" value="white" id="colors-white" name="colors">
-									<label for="colors-white"><span></span> White <span>(789)</span></label>
-								</li>-->
 							</ul>
 						</div>
 					</div> <!-- colors widget -->
@@ -129,6 +175,10 @@ if($top_sellers->num_rows() == 0)
 						<div class="widget-body">
 							<ul class="list-unstyled">
 							<?php
+								echo form_open('products/filter-brands');
+								echo form_hidden('post_businesses', $filter_businesses);
+								echo form_hidden('post_locations', $filter_locations);
+								echo form_hidden('category_w_name', $category_w_name);
 								if($brands->num_rows() > 0)
 								{
 									$brands_result = $brands->result();
@@ -137,22 +187,58 @@ if($top_sellers->num_rows() == 0)
 									{
 										$brand_name = $brand->brand_name;
 										$brand_id = $brand->brand_id;
+										$web_name = $this->site_model->create_web_name($brand_name);
 										
-										echo 
-										'
-                                            <li>
-												<input type="checkbox" name="brand[]" value="'.$brand_id.'" id="brand'.$brand_id.'"/>
-                                                <label for="brand'.$brand_id.'"><span></span> '.$brand_name.'</label>
-                                            </li>
-							
-										';
+										if(is_array($brands_array))
+										{
+											$total_brands = count($brands_array);
+											$checked = '';
+											
+											for($r = 0; $r < $total_brands; $r++)
+											{
+												if($brands_array[$r] == $web_name)
+												{
+													$checked = 'checked = "checked"';
+													break;
+												}
+											}
+										
+											echo 
+											'
+												<li>
+													<input type="checkbox" name="brand_name[]" value="'.$web_name.'" id="brand_name'.$brand_id.'" '.$checked.'/>
+													<label for="brand_name'.$brand_id.'"><span></span> '.$brand_name.'</label>
+												</li>
+								
+											';
+										}
+										
+										else
+										{
+											echo 
+											'
+												<li>
+													<input type="checkbox" name="brand_name[]" value="'.$web_name.'" id="brand_name'.$brand_id.'"/>
+													<label for="brand_name'.$brand_id.'"><span></span> '.$brand_name.'</label>
+												</li>
+								
+											';
+										}
 									}
+									
+									echo 
+									'
+										<div class="center-align">
+											<button type="submit" class="btn btn-primary">Filter</button>
+										</div>
+									';
 								}
 								
 								else
 								{
 									echo '<p>There are no brands</p>';
 								}
+								echo form_close();
 							?>
 							</ul>
 						</div>

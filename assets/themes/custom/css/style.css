@@ -1,4 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Dosis);
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 body {font-family: 'Dosis', sans-serif; font-size:1.5em; background-color: #f0f0f0;}
 
 /* Misc */
@@ -7,8 +8,8 @@ body {font-family: 'Dosis', sans-serif; font-size:1.5em; background-color: #f0f0
 .pull-left{float:left;}
 .center-align{margin:0 auto; text-align:center;}
 .divider-line {margin: auto; z-index: 1; width: 165px; height: 2px; background-color:#ccc; margin-top:10px; margin-bottom:10px;}
-a{color:#55A4DA;}
-a:hover, a:visited, a:active, a:focus{text-decoration:none;color: rgba(41,171,226,.75);}
+a, a:visited{color:#55A4DA;}
+a:hover, a:active, a:focus{text-decoration:none;color: rgba(41,171,226,.75);}
 .clear-both{clear:both;}
 .content{padding-top:20px;}
 
@@ -46,10 +47,10 @@ a:hover, a:visited, a:active, a:focus{text-decoration:none;color: rgba(41,171,22
 
 /* Buttons */
 .btn{border:none; border-radius:0px;}
-.btn-default.disabled, .btn-default[disabled], fieldset[disabled] .btn-default, .btn-default.disabled:hover, .btn-default[disabled]:hover, fieldset[disabled] .btn-default:hover, .btn-default.disabled:focus, .btn-default[disabled]:focus, fieldset[disabled] .btn-default:focus, .btn-default.disabled:active, .btn-default[disabled]:active, fieldset[disabled] .btn-default:active, .btn-default.disabled.active, .btn-default.active[disabled], fieldset[disabled] .btn-default.active{background-color:#f3f3f3;}
-.btn:hover, .btn:active, .btn:visited{background: rgba(41,171,226,.75); color:#fff;}
-.btn-red{background-color:#55A4DA; color:#fff;}
-.btn-grey{background-color:#F9F8F8; color:#000;}
+.btn-default.disabled, .btn-default[disabled], fieldset[disabled] .btn-default, .btn-default.disabled:hover, .btn-default[disabled]:hover, fieldset[disabled] .btn-default:hover, .btn-default.disabled:focus, .btn-default[disabled]:focus, fieldset[disabled] .btn-default:focus, .btn-default.disabled:active, .btn-default[disabled]:active, fieldset[disabled] .btn-default:active, .btn-default.disabled.active, .btn-default.active[disabled], fieldset[disabled] .btn-default.active, .btn:visited{background-color:#f3f3f3;}
+.btn:hover, .btn:active{background: rgba(41,171,226,.75); color:#fff;}
+.btn-red, .btn-red:visited{background-color:#55A4DA; color:#fff;}
+.btn-grey, .btn-grey:visited{background-color:#F9F8F8; color:#000;}
 
 /* Navbar */
 .navigation{background-color:#55A4DA;}
@@ -392,13 +393,14 @@ margin-left: -15px;
 .promotion {
     line-height: 18px;
     border-radius: 4px;
-    bottom: 150px;
+    bottom: 60%;
     height: 24px;
     left: 0;
     position: absolute;
     width: auto;
     z-index: 10;
 }
+
 .promotion:after {clear:both}
 .discount {
     background: none repeat scroll 0 0 rgba(255, 0, 48, 0.9) !important;
@@ -2269,10 +2271,8 @@ width:5.4em;
 font-family:'star'
 }
 
-
-
 input[type="checkbox"] {
-display:none
+display:none;
 }
 
 input[type="checkbox"]+label {
@@ -2294,7 +2294,7 @@ bottom:3px
 }
 
 input[type="checkbox"]:checked+label {
-color:#000
+color:#000000;
 }
 
 input[type="checkbox"]:checked+label span:first-child:before {
@@ -2714,6 +2714,7 @@ margin-top: 128px;
 
 /*end of social links*/
 
+
 /*label {
 color: red;
 font-weight: 100;
@@ -2746,7 +2747,9 @@ border-color: #eea236;
 }
 /*end of button style*/
 
+
 .owl-carousel li
 {
   list-style: none;
 }
+
