@@ -14,6 +14,35 @@ class Products_model extends CI_Model
 		return $query;
 	}
 	/*
+	*	Retrieve all product reviews
+	*	@param string $table
+	* 	@param string $where
+	*
+	*/
+	public function get_all_product_review($table, $where, $per_page, $page)
+	{
+		//retrieve all orders
+		$this->db->from($table);
+		$this->db->select('*');
+		$this->db->where($where);
+		$this->db->order_by('product_review.product_review_id','desc');
+		$query = $this->db->get('', $per_page, $page);
+		
+		return $query;
+	}
+	/*
+	*	Retrieve all products ratings
+	*
+	*/
+	public function product_ratings($product_id)
+	{
+		$this->db->from('product_review');
+		$this->db->where('product_review_status = 1 AND product_id = '.$product_id);
+		$query = $this->db->get();
+		
+		return $query;
+	}
+	/*
 	*	Retrieve all products for export
 	*	@param string $table
 	* 	@param string $where
@@ -204,6 +233,43 @@ class Products_model extends CI_Model
 		$this->db->from('product, category, brand');
 		$this->db->select('product.minimum_order_quantity, product.maximum_purchase_quantity, product.sale_price, product.featured, product.product_thumb_name, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_image_name, category.category_name, brand.brand_name, product.sale_price_type');
 		$this->db->where('product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product_id = '.$product_id);
+		$query = $this->db->get();
+		
+		return $query;
+	}
+	public function recently_viewed_products()
+	{
+		//retrieve all users
+		$this->db->from('product, category, brand');
+		$this->db->select('product.minimum_order_quantity, product.maximum_purchase_quantity, product.sale_price, product.featured, product.product_thumb_name, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_image_name, category.category_name, brand.brand_name, product.sale_price_type');
+		$this->db->where('product.category_id = category.category_id AND product.brand_id = brand.brand_id ');
+		$this->db->order_by('product.last_viewed_date','desc');
+		$query = $this->db->get();
+		 
+		return $query;
+	}
+	/*
+	*	get a related product
+	*	@param int $product_id
+	*
+	*/
+	public function related_products($product_id)
+	{
+		$this->db->from('product');
+		$this->db->select('product.category_id');
+		$this->db->where('product_id = '.$product_id);
+		$query = $this->db->get();
+
+		$queryy = $query->result();
+		foreach ($queryy as $row) {
+			# code...
+			$category_id = $row->category_id;
+		}
+
+		//retrieve all users
+		$this->db->from('product, category, brand');
+		$this->db->select('product.minimum_order_quantity, product.maximum_purchase_quantity, product.sale_price, product.featured, product.product_thumb_name, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_image_name, category.category_name, brand.brand_name, product.sale_price_type');
+		$this->db->where('product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.category_id = '.$category_id);
 		$query = $this->db->get();
 		
 		return $query;
@@ -712,7 +778,8 @@ class Products_model extends CI_Model
 		
 		//save clicks
 		$data = array(
-				'clicks'=>$clicks
+				'clicks'=>$clicks,
+				'last_viewed_date'=>date('Y-m-d')
 			);
 			
 		$this->db->where('product_id', $product_id);

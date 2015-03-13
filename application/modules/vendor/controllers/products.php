@@ -1330,5 +1330,102 @@ class Products extends account
 		$this->session->unset_userdata('product_bundle_search');
 		redirect('vendor/all-product-bundle');
 	}
+	public function product_review()
+	{
+		$where = 'product.product_id = product_review.product_id';
+		$table = 'product_review, product';
+		$product_review_search = $this->session->userdata('product_review_search');
+		
+		if(!empty($product_review_search))
+		{
+			$where .= $product_review_search;
+		}
+		$segment = 3;
+		//pagination
+		$this->load->library('pagination');
+		$config['base_url'] = base_url().'vendor/all-product-reviews';
+		$config['total_rows'] = $this->users_model->count_items($table, $where);
+		$config['uri_segment'] = 2;
+		$config['per_page'] = 20;
+		$config['num_links'] = 5;
+		
+		
+		$config['full_tag_open'] = '<ul class="pagination pull-right">';
+		$config['full_tag_close'] = '</ul>';
+		
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		
+		$config['next_tag_open'] = '<li>';
+		$config['next_link'] = 'Next';
+		$config['next_tag_close'] = '</span>';
+		
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_link'] = 'Prev';
+		$config['prev_tag_close'] = '</li>';
+		
+		$config['cur_tag_open'] = '<li class="active">';
+		$config['cur_tag_close'] = '</li>';
+		
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$this->pagination->initialize($config);
+		
+		$page = ($this->uri->segment($segment)) ? $this->uri->segment($segment) : 0;
+        $data["links"] = $this->pagination->create_links();
+		$query = $this->products_model->get_all_product_review($table, $where, $config["per_page"], $page);
+		
+		if ($query->num_rows() > 0)
+		{
+			$v_data['query'] = $query;
+			$v_data['page'] = $page;
+			$data['content'] = $this->load->view('products/product_review.php', $v_data, true);
+		}
+		
+		else
+		{
+			$data['content'] = '';
+		}
+		$data['title'] = 'All orders';
+		
+		$this->load->view('account_template', $data);
+	}
+	/*
+	*
+	*	Activate product review
+	*	@param int $order_id
+	*
+	*/
+	public function activate_review($product_review_id)
+	{
+		$data = array(
+					'product_review_status'=>1
+				);
+				
+		$this->db->where('product_review_id = '.$product_review_id);
+		$this->db->update('product_review', $data);
+		
+		redirect('vendor/all-product-reviews');
+	}
+	/*
+	*
+	*	Activate product review
+	*	@param int $order_id
+	*
+	*/
+	public function deactivate_review($product_review_id)
+	{
+		$data = array(
+					'product_review_status'=>2
+				);
+				
+		$this->db->where('product_review_id = '.$product_review_id);
+		$this->db->update('product_review', $data);
+		
+		redirect('vendor/all-product-reviews');
+	}
 }
 ?>

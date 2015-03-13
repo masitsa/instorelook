@@ -60,7 +60,7 @@
 						<a class="cbp-vm-image" href="'.site_url().'vendors/'.$vendor_name.'-products/'.$vendor_id.'"><img src="'.$image.'"></a>
 						<h3 class="cbp-vm-title">'.$name.'</h3>
 						<h6 class="cbp-vm-title">'.$surburb_name.'</h6>
-						<a class="btn btn-success" href="'.site_url().'vendor-details/'.$vendor_name.'-profile/'.$vendor_id.'">View info <i class="glyphicon glyphicon-chevron-right"></i></a>
+						<a class="btn btn-success" href="'.site_url().'vendor-details/'.$vendor_name.'-profile/'.$vendor_id.'">Info <i class="glyphicon glyphicon-chevron-right"></i></a>
 
 						<a class="btn btn-info" href="'.site_url().'vendors/'.$vendor_name.'-products/'.$vendor_id.'"> Products <i class="glyphicon glyphicon-chevron-right"></i></a>
 					</li>

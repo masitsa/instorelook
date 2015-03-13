@@ -179,6 +179,7 @@ $route['vendor/close-categories-search'] = 'vendor/categories/close_categories_s
 $route['vendor/edit-category/(:num)'] = 'vendor/categories/edit_category/$1';
 $route['vendor/update-categories'] = 'vendor/account/update_categories';
 $route['vendor/delete-category/(:num)'] = 'vendor/categories/delete_category/$1';
+
 $route['vendor/activate-category/(:num)'] = 'vendor/categories/activate_category/$1';
 $route['vendor/deactivate-category/(:num)'] = 'vendor/categories/deactivate_category/$1';
 
@@ -189,7 +190,7 @@ $route['vendor/all-orders'] = 'vendor/orders/index';
 $route['vendor/add-order'] = 'vendor/orders/add_order';
 $route['vendor/search-orders'] = 'vendor/orders/search_orders';
 $route['vendor/close-orders-search'] = 'vendor/orders/close_orders_search';
-
+$route['vendor/reverse-order/(:num)'] = 'vendor/orders/reverse_order/$1';
 $route['vendor/edit-order/(:num)'] = 'vendor/orders/edit_order/$1';
 $route['vendor/delete-order/(:num)'] = 'vendor/orders/delete_order/$1';
 $route['vendor/deactivate-order/(:num)'] = 'vendor/orders/deactivate_order/$1';
@@ -277,6 +278,13 @@ $route['vendor/delete-static-banner/(:num)/(:num)'] = 'vendor/static_banners/del
 $route['static-banner/purchase-success/(:num)/(:num)'] = 'vendor/static_banners/purchase_success/$1/$2';
 $route['static-banner/purchase-cancel/(:num)/(:num)'] = 'vendor/static_banners/purchase_cancel/$1/$2';
 
+
+
+
+$route['vendor/all-product-reviews'] = 'vendor/products/product_review';
+$route['vendor/activate-review/(:num)'] = 'vendor/products/activate_review/$1';
+$route['vendor/deactivate-review/(:num)'] = 'vendor/products/deactivate_review/$1';
+
 /*
 *	Products Routes
 */
@@ -297,6 +305,7 @@ $route['products/filter-brands/(:any)'] = 'site/products/__/0/0/created/0/0/0/__
 $route['products/filter-brands'] = 'site/filter_brands';
 $route['products/sort-by/(:any)'] = 'site/products/__/0/0/$1';
 $route['products/view-product/(:num)'] = 'site/view_product/$1';
+$route['products/review-product/(:num)'] = 'site/rate_product/$1';
 
 /*
 *	Cart Routes
