@@ -225,6 +225,25 @@ class Orders extends admin {
 		$this->db->delete('order_item', array('order_item_id' => $order_id));
 		redirect('vendor/all-orders');
 	}
+
+	/*
+	*
+	*	Delete an existing order
+	*	@param int $order_id
+	*
+	*/
+	public function reverse_order($order_id)
+	{
+		//delete order
+		$data = array(
+					'order_status_id'=>5
+				);
+				
+		$this->db->where('order_id = '.$order_id);
+		$this->db->update('orders', $data);
+		
+		redirect('vendor/all-orders');
+	}
     
 	/*
 	*

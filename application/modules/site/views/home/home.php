@@ -20,6 +20,7 @@
             
             <!-- Featured -->
             <?php echo $this->load->view('home/featured', '', TRUE); ?>
+             <?php echo $this->load->view('home/recently_view', '', TRUE); ?>
         </div>
 	</div>
 </div>

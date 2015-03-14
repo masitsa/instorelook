@@ -639,5 +639,32 @@ class Site extends MX_Controller
 		$data['title'] = 'Sign In';
 		$this->load->view('site/templates/general_page', $data);
 	}
+	public function rate_product($product_id)
+	{
+		//form validation rules
+		$this->form_validation->set_rules('rate', 'Rating', 'required|xss_clean');
+		$this->form_validation->set_rules('review_author_name', 'Customer', 'required|xss_clean');
+		
+		//if form has been submitted
+		if ($this->form_validation->run())
+		{
+			//update order
+			if($this->site_model->add_product_review($product_id))
+			{
+				$data['result'] = 'success';
+			}
+			else
+			{
+				$data['result'] = 'failure';
+			}
+		}
+		else
+		{
+			$data['result'] = 'failure';
+		}
+		
+		echo json_encode($data);
+
+	}
 }
 ?>

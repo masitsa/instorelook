@@ -38,7 +38,7 @@ if($surburbs->num_rows() > 0)
                             <li><a href="">In Store Look</li>
                             <li><a href="mailto:info@instorelook.com.au"><span class="glyphicon glyphicon-envelope"></span> info@instorelook.com.au</a></li>
                             <li><a href="tel:0405486426"><span class="glyphicon glyphicon-phone"></span> 0405 486 426</a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-map-marker"></span> 16 Winchcombe Place<br/>Castle Hill, NSW<br/>2154<br/></a></li>
+                            <!-- <li><a href="#"><span class="glyphicon glyphicon-map-marker"></span> 16 Winchcombe Place<br/>Castle Hill, NSW<br/>2154<br/></a></li> -->
                             <li><a href="#">ABN: 25 997 516 795</a></li>
                         </ul>
                         <div>
@@ -174,6 +174,11 @@ if($surburbs->num_rows() > 0)
  
         <!-- Custom --> 
         <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/custom.js"></script> 
+
+
+ 
+<!-- Include js plugin -->
+<script src="<?php echo base_url();?>assets/themes/custom/js/owl.carousel.js"></script>
 
 		<script type="text/javascript">
 		
@@ -350,36 +355,40 @@ if($surburbs->num_rows() > 0)
 
 
         //Add to cart and redirect
-        $(document).on("click","a.save_order_redirect",function()
-        {
-            var order_id = $(this).attr('order_id');
+       $(document).on("submit","form#product_review_form",function(e)
+         {
+          e.preventDefault();
+          
+          var formData = new FormData(this);
+          
+           var product_id = $(this).attr('product_id');
+          $.ajax({
+           type:'POST',
+           url: $(this).attr('action'),
+           data:formData,
+           cache:false,
+           contentType: false,
+           processData: false,
+           dataType: 'json',
+           success:function(data){
             
-            $.ajax({
-                type:'POST',
-                url: '<?php echo site_url();?>site/cart/save_order/'+order_id,
-                cache:false,
-                contentType: false,
-                processData: false,
-                dataType: 'json',
-                success:function(data){
-                    
-                    if(data.result == "success")
-                    {
-                        
-                        alert('Order saved successfully. You have 5 days for it to expire');
-                    }
-                    else
-                    {
-                        alert('Could not add items to cart');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    alert("XMLHttpRequest=" + xhr.responseText + "\ntextStatus=" + status + "\nerrorThrown=" + error);
-                }
-            });
-            
-            return false;
-        });
+            if(data.result == "success")
+            {
+                alert('Thank you for the review, you comments shall be posted once review.');
+                 parent.location ='<?php echo base_url(); ?>products/view-product/'+product_id;   
+            }
+            else
+            {
+                alert('Sorry, something went wrong make sure your have rated and entered your name.');
+            }
+           },
+           error: function(xhr, status, error) {
+            alert("XMLHttpRequest=" + xhr.responseText + "\ntextStatus=" + status + "\nerrorThrown=" + error);
+           
+           }
+          });
+          return false;
+         });
         //Add to cart and redirect
 
 

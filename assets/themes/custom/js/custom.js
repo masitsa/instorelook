@@ -15,7 +15,7 @@ $(document).ready(function() {
 	new WOW().init();
 	
 	//Owl Carousel
-	/*var owl = $("#owl-carousel");
+	var owl = $("#owl-carousel");
  
 	owl.owlCarousel({
 		items : 10, //10 items above 1824px browser width
@@ -50,7 +50,7 @@ $(document).ready(function() {
 	})
 	$(".prev2").click(function(){
 		owl2.trigger('owl.prev');
-	})*/
+	})
 });
 
 $("input.alert-danger").change(function() {

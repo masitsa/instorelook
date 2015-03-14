@@ -319,6 +319,26 @@ class Site_model extends CI_Model
 			return FALSE;
 		}
 	}
+	public function add_product_review($product_id)
+	{
+		$data = array(
+			'product_review_content'=>$this->input->post('review_text'),
+			'product_review_rating'=>$this->input->post('rate'),
+			'product_review_reviewer_email'=>$this->input->post('review_author_email'),
+			'product_review_reviewer_name'=>$this->input->post('review_author_name'),
+			'product_review_reviewer_phone'=>$this->input->post('review_author_phone'),
+			'product_id'=>$product_id,
+			'product_review_created'=>date('Y-m-d')
+		);
+		
+		if($this->db->insert('product_review', $data))
+		{
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
 }
 
 ?>
