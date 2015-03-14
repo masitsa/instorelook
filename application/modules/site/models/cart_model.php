@@ -40,7 +40,7 @@ class Cart_model extends CI_Model
 				//calculate selling price
 				$selling_price = $product->product_selling_price;
 				$sale_price = $product->sale_price;
-				$sale_price_type = $prods->sale_price_type;
+				$sale_price_type = $product->sale_price_type;
 				if($sale_price > 0)
 				{
 					$selling_price = $this->products_model->get_product_discount_price($selling_price, $sale_price, $sale_price_type);	

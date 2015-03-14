@@ -77,33 +77,41 @@ class Site extends MX_Controller
 	*/
 	public function filter_brands()
 	{
-		$total_brands = sizeof($_POST['brand_name']);
-		$post_locations = $this->input->post('post_locations');
-		$post_businesses = $this->input->post('post_businesses');
-		$category_w_name = $this->input->post('category_w_name');
-		
-		//check if any checkboxes have been ticked
-		if($total_brands > 0)
+		if(isset($_POST['brand_name']))
 		{
-			$brands = '';
-			$brand = $_POST['brand_name'];
+			$total_brands = sizeof($_POST['brand_name']);
+			$post_locations = $this->input->post('post_locations');
+			$post_businesses = $this->input->post('post_businesses');
+			$category_w_name = $this->input->post('category_w_name');
 			
-			for($r = 0; $r < $total_brands; $r++)
+			//check if any checkboxes have been ticked
+			if($total_brands > 0)
 			{
-				$brand_web_name = $brand[$r]; 
+				$brands = '';
+				$brand = $_POST['brand_name'];
 				
-				if($r == 0)
+				for($r = 0; $r < $total_brands; $r++)
 				{
-					$brands .= $brand_web_name;
+					$brand_web_name = $brand[$r]; 
+					
+					if($r == 0)
+					{
+						$brands .= $brand_web_name;
+					}
+					
+					else
+					{
+						$brands .= '_'.$brand_web_name;
+					}
 				}
-				
-				else
-				{
-					$brands .= '_'.$brand_web_name;
-				}
+				$this->products($search = '__', $category_w_name, $order_by = 'created', $price_range = '__', $post_businesses,  $brands, $post_locations);
+				//redirect('products/filter-brands/'.$post_businesses.'/'.$brands.'/'.$post_locations);
 			}
-			$this->products($search = '__', $category_w_name, $order_by = 'created', $price_range = '__', $post_businesses,  $brands, $post_locations);
-			//redirect('products/filter-brands/'.$post_businesses.'/'.$brands.'/'.$post_locations);
+			
+			else
+			{
+				redirect('products');
+			}
 		}
 		
 		else
@@ -119,33 +127,41 @@ class Site extends MX_Controller
 	*/
 	public function filter_locations()
 	{
-		$total_states = sizeof($_POST['state_abbr']);
-		$post_brands = $this->input->post('post_brands');
-		$post_businesses = $this->input->post('post_businesses');
-		$category_w_name = $this->input->post('category_w_name');
-		
-		//check if any checkboxes have been ticked
-		if($total_states > 0)
+		if(isset($_POST['state_abbr']))
 		{
-			$states = '';
-			$state = $_POST['state_abbr'];
+			$total_states = sizeof($_POST['state_abbr']);
+			$post_brands = $this->input->post('post_brands');
+			$post_businesses = $this->input->post('post_businesses');
+			$category_w_name = $this->input->post('category_w_name');
 			
-			for($r = 0; $r < $total_states; $r++)
-			{	
-				$state_abbr = $state[$r]; 
+			//check if any checkboxes have been ticked
+			if($total_states > 0)
+			{
+				$states = '';
+				$state = $_POST['state_abbr'];
 				
-				if($r == 0)
-				{
-					$states .= $state_abbr;
+				for($r = 0; $r < $total_states; $r++)
+				{	
+					$state_abbr = $state[$r]; 
+					
+					if($r == 0)
+					{
+						$states .= $state_abbr;
+					}
+					
+					else
+					{
+						$states .= '_'.$state_abbr;
+					}
 				}
-				
-				else
-				{
-					$states .= '_'.$state_abbr;
-				}
+				$this->products($search = '__', $category_w_name, $order_by = 'created', $price_range = '__', $post_businesses,  $post_brands, $states);
+				//redirect('products/filter-locations/'.$post_businesses.'/'.$post_brands.'/'.$states);
 			}
-			$this->products($search = '__', $category_w_name, $order_by = 'created', $price_range = '__', $post_businesses,  $post_brands, $states);
-			//redirect('products/filter-locations/'.$post_businesses.'/'.$post_brands.'/'.$states);
+			
+			else
+			{
+				redirect('products');
+			}
 		}
 		
 		else
@@ -161,33 +177,41 @@ class Site extends MX_Controller
 	*/
 	public function filter_businesses()
 	{
-		$total_businesses = sizeof($_POST['vendor_store_name']);
-		$post_brands = $this->input->post('post_brands');
-		$post_locations = $this->input->post('post_locations');
-		$category_w_name = $this->input->post('category_w_name');
-		
-		//check if any checkboxes have been ticked
-		if($total_businesses > 0)
+		if(isset($_POST['vendor_store_name']))
 		{
-			$businesses = '';
-			$business = $_POST['vendor_store_name'];
+			$total_businesses = sizeof($_POST['vendor_store_name']);
+			$post_brands = $this->input->post('post_brands');
+			$post_locations = $this->input->post('post_locations');
+			$category_w_name = $this->input->post('category_w_name');
 			
-			for($r = 0; $r < $total_businesses; $r++)
-			{	
-				$vendor_store_name = $business[$r]; 
+			//check if any checkboxes have been ticked
+			if($total_businesses > 0)
+			{
+				$businesses = '';
+				$business = $_POST['vendor_store_name'];
 				
-				if($r == 0)
-				{
-					$businesses .= $vendor_store_name;
+				for($r = 0; $r < $total_businesses; $r++)
+				{	
+					$vendor_store_name = $business[$r]; 
+					
+					if($r == 0)
+					{
+						$businesses .= $vendor_store_name;
+					}
+					
+					else
+					{
+						$businesses .= '_'.$vendor_store_name;
+					}
 				}
-				
-				else
-				{
-					$businesses .= '_'.$vendor_store_name;
-				}
+				$this->products($search = '__', $category_w_name, $order_by = 'created', $price_range = '__', $businesses,  $post_brands, $post_locations);
+				//redirect('products/filter-businesses/'.$businesses.'/'.$post_brands.'/'.$post_locations);
 			}
-			$this->products($search = '__', $category_w_name, $order_by = 'created', $price_range = '__', $businesses,  $post_brands, $post_locations);
-			//redirect('products/filter-businesses/'.$businesses.'/'.$post_brands.'/'.$post_locations);
+			
+			else
+			{
+				redirect('products');
+			}
 		}
 		
 		else
