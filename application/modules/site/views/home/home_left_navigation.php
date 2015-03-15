@@ -385,7 +385,7 @@ if($top_sellers->num_rows() == 0)
 						</div>
 					</div>--> <!-- twitter feeds widget -->
 
-					<div class="widget">
+					<!-- <div class="widget">
 						<h3 class="widget-title">Tags</h3>
 						<div class="widget-body">
 							<div class="beta-tags">
@@ -400,7 +400,9 @@ if($top_sellers->num_rows() == 0)
 								<a href="blog_fullwidth_2col.html">Categories</a>
 							</div>
 						</div>
-					</div> <!-- tags cloud widget -->
+					</div>  -->
+
+					<!-- tags cloud widget -->
 				</div>
 <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>           
 <script type="text/javascript">

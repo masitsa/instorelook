@@ -95,12 +95,12 @@
 </div>
 
 <!-- Coupon -->
-<div class="beta-promobox">
+<!-- <div class="beta-promobox">
     <a class="beta-btn pull-right mt5" href="#">Get Coupon</a>
     <h2 >
         <span class="white">FREE</span>
         Standard Delivery on orders OVER $150!
     </h2>
     <div class="clear"></div>
-</div>
+</div> -->
 <!-- End Coupon -->
