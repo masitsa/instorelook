@@ -108,10 +108,10 @@
                 	<img class="img-responsive" src="<?php echo base_url().'assets/images/logo.png';?>"/>
                 </div>
                 <div class="pull-right">
-                	<form id="searchform" action="/" method="get" role="search">
-                        <input id="s" type="text" placeholder="Search entire store here..." name="s" value="">
+                    <?php echo form_open('products/search', array('role' => 'search', 'id' => 'searchform'));?>
+                        <input id="s" type="text" placeholder="Search entire store here..." name="search_item" value="">
                         <button id="searchsubmit" class="glyphicon glyphicon-search" type="submit"></button>
-                    </form>
+                    <?php echo form_close(); ?>
                 </div>
             </div>
         </div>

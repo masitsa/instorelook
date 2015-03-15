@@ -242,7 +242,7 @@ class Products_model extends CI_Model
 		//retrieve all users
 		$this->db->from('product, category, brand');
 		$this->db->select('product.minimum_order_quantity, product.maximum_purchase_quantity, product.sale_price, product.featured, product.product_thumb_name, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_image_name, category.category_name, brand.brand_name, product.sale_price_type');
-		$this->db->where('product.category_id = category.category_id AND product.brand_id = brand.brand_id ');
+		$this->db->where('product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.product_status = 1');
 		$this->db->order_by('product.last_viewed_date','desc');
 		$query = $this->db->get();
 		 

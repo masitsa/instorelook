@@ -173,6 +173,7 @@ $route['vendor/change-subscription'] = 'vendor/vendor_signup3/2';
 *	Categories Routes
 */
 $route['vendor/all-categories'] = 'vendor/categories/index';
+$route['vendor/all-categories/(:num)'] = 'vendor/categories/index/$1';
 $route['vendor/add-category'] = 'vendor/categories/add_category';
 $route['vendor/search-categories'] = 'vendor/categories/search_categories';
 $route['vendor/close-categories-search'] = 'vendor/categories/close_categories_search';
@@ -187,6 +188,7 @@ $route['vendor/deactivate-category/(:num)'] = 'vendor/categories/deactivate_cate
 *	Orders Routes
 */
 $route['vendor/all-orders'] = 'vendor/orders/index';
+$route['vendor/all-orders/(:num)'] = 'vendor/orders/index/$1';
 $route['vendor/add-order'] = 'vendor/orders/add_order';
 $route['vendor/search-orders'] = 'vendor/orders/search_orders';
 $route['vendor/close-orders-search'] = 'vendor/orders/close_orders_search';
@@ -205,6 +207,7 @@ $route['vendor/orders/delete-order-item/(:num)/(:num)'] = 'vendor/orders/delete_
 *	Features Routes
 */
 $route['vendor/all-features'] = 'vendor/features/index';
+$route['vendor/all-features/(:num)'] = 'vendor/features/index/$1';
 $route['vendor/add-feature'] = 'vendor/features/add_feature';
 $route['vendor/search-features'] = 'vendor/features/search_features';
 $route['vendor/close-features-search'] = 'vendor/features/close_features_search';
@@ -217,6 +220,7 @@ $route['vendor/deactivate-feature/(:num)'] = 'vendor/features/deactivate_feature
 *	Products Routes
 */
 $route['vendor/all-products'] = 'vendor/products/index';
+$route['vendor/all-products/(:num)'] = 'vendor/products/index/$1';
 $route['vendor/search-products'] = 'vendor/products/search_products';
 $route['vendor/close-product-search'] = 'vendor/products/close_product_search';
 $route['vendor/add-product'] = 'vendor/products/add_product';
@@ -235,6 +239,7 @@ $route['vendor/deactivate-product/(:num)'] = 'vendor/products/deactivate_product
 *	Product bundles Routes
 */
 $route['vendor/all-product-bundle'] = 'vendor/products/all_product_bundles';
+$route['vendor/all-product-bundle/(:num)'] = 'vendor/products/all_product_bundles/$1';
 $route['vendor/search-products-to-bundle/(:num)'] = 'vendor/products/search_product_to_bundles/$1';
 $route['vendor/close-product-to-bundle-search/(:num)'] = 'vendor/products/close_product_to_bundle_search/$1';
 $route['vendor/search-product-bundle'] = 'vendor/products/search_product_bundles';
@@ -249,6 +254,7 @@ $route['vendor/deactivate-product-from-bundle/(:num)/(:num)'] = 'vendor/products
 *	Brands Routes
 */
 $route['vendor/all-brands'] = 'vendor/brands/index';
+$route['vendor/all-brands/(:num)'] = 'vendor/brands/index/$1';
 $route['vendor/add-brand'] = 'vendor/brands/add_brand';
 $route['vendor/edit-brand/(:num)'] = 'vendor/brands/edit_brand/$1';
 $route['vendor/search-brands'] = 'vendor/brands/search_brands';
@@ -283,6 +289,7 @@ $route['static-banner/purchase-cancel/(:num)/(:num)'] = 'vendor/static_banners/p
 
 
 $route['vendor/all-product-reviews'] = 'vendor/products/product_review';
+$route['vendor/all-product-reviews/(:num)'] = 'vendor/products/product_review/$1';
 $route['vendor/activate-review/(:num)'] = 'vendor/products/activate_review/$1';
 $route['vendor/deactivate-review/(:num)'] = 'vendor/products/deactivate_review/$1';
 
@@ -301,6 +308,8 @@ $route['products/search/(:any)'] = 'site/products/$1';
 $route['products/price-range/(:any)'] = 'site/products/__/0/created/0/0/0/$1';
 $route['products/filter-brands/(:any)/(:any)/(:any)'] = 'site/products/__/0/created/__/$1/$2/$3';
 $route['products/filter-brands'] = 'site/filter_brands';
+$route['products/filter-price'] = 'site/filter_price';
+$route['products/filter-postcode'] = 'site/search';
 $route['products/filter-businesses/(:any)/(:any)/(:any)'] = 'site/products/__/0/created/__/$1/$2/$3';
 $route['products/filter-businesses'] = 'site/filter_businesses';
 $route['products/filter-locations'] = 'site/filter_locations';

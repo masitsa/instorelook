@@ -19,7 +19,7 @@ $(document).ready(function() {
  
 	owl.owlCarousel({
 		items : 10, //10 items above 1824px browser width
-		itemsDesktop : [1823,5], //5 items between 1823px and 1024px
+		itemsDesktop : [1823,4], //5 items between 1823px and 1024px
 		itemsDesktopSmall : [1023,3], // betweem 1023px and 601px
 		itemsTablet: [600,2], //2 items between 600 and 0
 		itemsMobile : false // itemsMobile disabled - inherit from itemsTablet option
@@ -38,7 +38,7 @@ $(document).ready(function() {
  
 	owl2.owlCarousel({
 		items : 10, //10 items above 1824px browser width
-		itemsDesktop : [1823,5], //5 items between 1823px and 1024px
+		itemsDesktop : [1823,4], //5 items between 1823px and 1024px
 		itemsDesktopSmall : [1023,3], // betweem 1023px and 601px
 		itemsTablet: [600,2], //2 items between 600 and 0
 		itemsMobile : false // itemsMobile disabled - inherit from itemsTablet option

@@ -58,6 +58,7 @@ class Site extends MX_Controller
 		$v_data['filter_locations'] = '';
 		$v_data['filter_brands'] = '';
 		$v_data['filter_businesses'] = '';
+		$v_data['filter_price_range'] = '';
 		$v_data['category_w_name'] = '__';
 		
 		$v_data['locations_array'] = '';
@@ -222,6 +223,30 @@ class Site extends MX_Controller
     
 	/*
 	*
+	*	Filter products by price
+	*
+	*/
+	public function filter_price()
+	{
+		if(isset($_POST['low_price']) && isset($_POST['high_price']))
+		{
+			$price_range = $_POST['low_price'].'-'.$_POST['high_price'];
+			$post_locations = $this->input->post('post_locations');
+			$post_businesses = $this->input->post('post_businesses');
+			$category_w_name = $this->input->post('category_w_name');
+			$post_brands = $this->input->post('post_brands');
+			
+			$this->products($search = '__', $category_w_name, $order_by = 'created', $price_range, $post_businesses,  $post_brands, $post_locations);
+		}
+		
+		else
+		{
+			redirect('products');
+		}
+	}
+    
+	/*
+	*
 	*	Products Page
 	*
 	*/
@@ -237,10 +262,9 @@ class Site extends MX_Controller
 		$v_data['filter_locations'] = $filter_locations;
 		$v_data['filter_brands'] = $filter_brands;
 		$v_data['filter_businesses'] = $filter_businesses;
+		$v_data['filter_price_range'] = $price_range;
 		$v_data['category_w_name'] = $category;
-
-
-
+		
 		$v_data['latest'] = $this->products_model->get_latest_products();
 		$v_data['featured'] = $this->products_model->get_featured_products();
 		$v_data['brands'] = $this->brands_model->all_active_brands();
@@ -250,8 +274,6 @@ class Site extends MX_Controller
 		$v_data['static_banners'] = $this->static_banners_model->get_static_banner_images('DESC');
 		$v_data['slideshow_location'] = $this->slideshow_location;
 		$v_data['static_banner_location'] = $this->static_banner_location;
-
-		
 		
 		$v_data['locations_array'] = '';
 		$v_data['brands_array'] = '';
@@ -332,7 +354,17 @@ class Site extends MX_Controller
 		//case of search
 		if($search != '__')
 		{
-			$where .= " AND (product.product_name LIKE '%".$search."%' OR category.category_name LIKE '%".$search."%' OR brand.brand_name LIKE '%".$search."%')";
+			//if postcode search
+			if($search > 0)
+			{
+				$table .= ', product_location, surburb';
+				$where .= "  AND product.product_id = product_location.product_id AND product_location.surburb_id = surburb.surburb_id AND surburb.post_code = '".$search."'";
+			}
+			
+			else
+			{
+				$where .= " AND (product.product_name LIKE '%".$search."%' OR category.category_name LIKE '%".$search."%' OR brand.brand_name LIKE '%".$search."%')";
+			}
 		}
 		
 		//pagination
@@ -342,7 +374,6 @@ class Site extends MX_Controller
 		$config['uri_segment'] = 5;
 		$config['per_page'] = 21;
 		$config['num_links'] = 5;
-		
 		
 		$config['full_tag_open'] = '<ul class="pagination no-margin-top">';
 		$config['full_tag_close'] = '</ul>';
@@ -393,6 +424,12 @@ class Site extends MX_Controller
 			$v_data["total"] = $config['total_rows'];
 			$v_data["last"] = $config['total_rows'];
 		}
+		
+		if($v_data["last"] == 0)
+		{
+			$v_data["first"] = 0;
+		}
+		
 		$v_data['products'] = $this->products_model->get_all_products($table, $where, $config["per_page"], $page, $limit, $order_by, $order_method);
 		
 		$data['content'] = $this->load->view('products/products', $v_data, true);
@@ -417,7 +454,7 @@ class Site extends MX_Controller
 		
 		else
 		{
-			redirect('products/all-products');
+			redirect('products');
 		}
 	}
     

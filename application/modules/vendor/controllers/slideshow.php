@@ -289,10 +289,10 @@ class Slideshow extends account
 		$image_name = $slide_row->slideshow_image_name;
 		
 		//delete any other uploaded image
-		$this->file_model->delete_file($slideshow_path."\\".$image_name);
+		$this->file_model->delete_file($slideshow_path."\\".$image_name, $slideshow_path);
 		
 		//delete any other uploaded thumbnail
-		$this->file_model->delete_file($slideshow_path."\\thumbnail_".$image_name);
+		$this->file_model->delete_file($slideshow_path."\\thumbnail_".$image_name, $slideshow_path);
 		
 		if($this->slideshow_model->delete_slideshow($slideshow_id))
 		{

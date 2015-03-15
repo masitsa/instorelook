@@ -330,10 +330,10 @@ class Static_banners extends account
 		$image_name = $static_banner_row->static_banner_image_name;
 		
 		//delete any other uploaded image
-		$this->file_model->delete_file($static_banner_path."\\".$image_name);
+		$this->file_model->delete_file($static_banner_path."\\".$image_name, $static_banner_path);
 		
 		//delete any other uploaded thumbnail
-		$this->file_model->delete_file($static_banner_path."\\thumbnail_".$image_name);
+		$this->file_model->delete_file($static_banner_path."\\thumbnail_".$image_name, $static_banner_path);
 		
 		if($this->static_banners_model->delete_static_banner($static_banner_id))
 		{

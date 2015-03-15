@@ -14,21 +14,25 @@ if($top_sellers->num_rows() == 0)
 						<h3 class="widget-title">Location</h3>
 						<div class="widget-body">
 							<ul class="list-unstyled">
+                            <?php echo form_open('products/filter-postcode', array('class' => 'form-horizontal', 'role' => 'form'));?>
                                 <li>
                                     <div class="input-group">
                                         <div id="the-basics">
-                                            <input class="typeahead" type="text" placeholder="Search Surburb">
+                                            <input class="typeahead" type="text" placeholder="Search post code" name="search_item">
                                         </div>
                                         <span class="input-group-btn">
-                                        	<button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                        	<button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                         </span>
                                     </div>
                                 </li>
 							<?php
+                            echo form_close();
+							
 								echo form_open('products/filter-locations');
 								echo form_hidden('post_brands', $filter_brands);
 								echo form_hidden('post_businesses', $filter_businesses);
 								echo form_hidden('category_w_name', $category_w_name);
+								echo form_hidden('post_price_range', $filter_price_range);
 								
 								if($states->num_rows() > 0)
 								{
@@ -105,6 +109,8 @@ if($top_sellers->num_rows() == 0)
 								echo form_hidden('post_brands', $filter_brands);
 								echo form_hidden('post_locations', $filter_locations);
 								echo form_hidden('category_w_name', $category_w_name);
+								echo form_hidden('post_price_range', $filter_price_range);
+								
 								if($top_sellers->num_rows() > 0)
 								{
 									$top_sellers_result = $top_sellers->result();
@@ -179,6 +185,8 @@ if($top_sellers->num_rows() == 0)
 								echo form_hidden('post_businesses', $filter_businesses);
 								echo form_hidden('post_locations', $filter_locations);
 								echo form_hidden('category_w_name', $category_w_name);
+								echo form_hidden('post_price_range', $filter_price_range);
+								
 								if($brands->num_rows() > 0)
 								{
 									$brands_result = $brands->result();
@@ -251,21 +259,26 @@ if($top_sellers->num_rows() == 0)
 								
                                 <div class="price-box">
 
-                                    <form class="form-horizontal form-pricing" role="form">
-                            
+                            		<?php 
+									echo form_open('products/filter-price', array('class' => 'form-horizontal form-pricing', 'role' => 'form'));
+									echo form_hidden('post_brands', $filter_brands);
+									echo form_hidden('post_businesses', $filter_businesses);
+									echo form_hidden('post_locations', $filter_locations);
+									echo form_hidden('category_w_name', $category_w_name);
+									?>
                                       <div class="price-slider">
                                         <p>Between</p>
                                         <div class="col-sm-12 slide-price">
                                           <div id="slider"></div>
                                         </div>
-                                         <input type="hidden" id="amount" class="form-control">
+                                         <input type="hidden" id="amount" name="low_price" class="form-control">
                                       </div>
                                       <div class="price-slider">
                                         <p>and</p>
                                         <div class="col-sm-12 slide-price">
                                           <div id="slider2"></div>
                                         </div>
-                                        <input type="hidden" id="duration" class="form-control">
+                                        <input type="hidden" id="duration" name="high_price" class="form-control">
                                       </div>
                                       <div class="center-align">
 											<button type="submit" class="control-form col-md-12 col-sm-12 col-lg-12 btn btn-primary">Filter Price</button>
@@ -293,7 +306,7 @@ if($top_sellers->num_rows() == 0)
                                         </div>
                                       </div>-->
                             
-                                    </form>
+                                    <?php echo form_close(); ?>
                             
                                   </div>
                                 
