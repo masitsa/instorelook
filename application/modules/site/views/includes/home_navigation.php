@@ -209,7 +209,7 @@
                                                       </div><!-- End Carousel Inner -->
                                                     </div><!-- /.carousel -->
                                                     <li class="divider"></li>
-                                                    <li><a href="#">View all products <span class="glyphicon glyphicon-chevron-right pull-right"></span></a></li>
+                                                    <li><a href="<?php echo base_url();?>products">View all products <span class="glyphicon glyphicon-chevron-right pull-right"></span></a></li>
                                                 </ul>
                                             </li>
                                             <?php echo $categories;?>

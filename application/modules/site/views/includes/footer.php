@@ -42,7 +42,7 @@ if($surburbs->num_rows() > 0)
                     <li><a href="#">ABN: 25 997 516 795</a></li>
                 </ul>
                 </div>
-                <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                <div class="col-lg-3  col-md-3 col-sm-4 col-xs-6">
                   <h3> Shop </h3>
                   <ul>
                     <li> <a href="<?php echo base_url();?>home"> Home </a> </li>
@@ -50,7 +50,7 @@ if($surburbs->num_rows() > 0)
                     <li> <a href="<?php echo base_url();?>vendors/all-vendors"> Vendors </a> </li>
                   </ul>
                 </div>
-                <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                <div class="col-lg-3  col-md-3 col-sm-4 col-xs-6">
                   <h3> Information </h3>
                   <ul>
                     <li> <a href="<?php echo base_url();?>cart"> Cart </a> </li>
@@ -58,14 +58,14 @@ if($surburbs->num_rows() > 0)
                     <li> <a href="<?php echo base_url();?>terms"> Terms &amp; Conditions </a> </li>
                   </ul>
                 </div>
-                <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                <div class="col-lg-3  col-md-3 col-sm-4 col-xs-6">
                   <h3> My Account </h3>
                   <ul>
                     <li> <a href="<?php echo base_url();?>sign-in"> Account Login </a> </li>
                     <li> <a href="<?php echo base_url();?>join"> My Account </a> </li>
                   </ul>
                 </div>
-                <div class="col-lg-3  col-md-3 col-sm-6 col-xs-12 ">
+                <!-- <div class="col-lg-3  col-md-3 col-sm-6 col-xs-12 ">
                   <h3> Stay in touch </h3>
                   <ul>
                     <li>
@@ -90,7 +90,7 @@ if($surburbs->num_rows() > 0)
                     <li> <a href="http://pinterest.com" target="_blank"> <i class="fa fa-pinterest"> &nbsp; </i> </a> </li>
                     <li> <a href="http://youtube.com" target="_blank"> <i class="fa fa-youtube"> &nbsp; </i> </a> </li>
                   </ul>
-                </div>
+                </div> -->
               </div>
               <!--/.row--> 
             </div>
@@ -274,9 +274,11 @@ if($surburbs->num_rows() > 0)
                         
                         $("#menu_cart_total").html(total);
                         $("#menu_cart_sub_total").html(sub_total);
+
                         
                         $("#mini_menu_cart_total").html(total);
                         $("#mini_menu_cart_sub_total").html(sub_total);
+                        
                         
                         $("#menu_cart").html(data.cart_items);
                         $("#mini_menu_cart").html(data.cart_items);

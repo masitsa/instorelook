@@ -257,22 +257,29 @@ class Site extends MX_Controller
 		$v_data['brands_array'] = '';
 		$v_data['businesses_array'] = '';
 		
-		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product_status = 1 AND category_status = 1 AND brand_status = 1 AND product.product_balance > 0';
+		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.product_status = 1 AND category_status = 1 AND brand_status = 1 AND product.product_balance > 0';
 		$table = 'product, category, brand';
 		$limit = NULL;
-		
+		$order_method  = '';
 		//ordering products
 		switch ($order_by)
 		{
 			case 'created':
+				$order_by = 'created';
 				$order_method = 'DESC';
 			break;
 			
 			case 'price':
+				$order_by = 'product_selling_price';
+				$order_method = 'ASC';
+			break;
+			case 'product_rating':
+				$order_by = 'product_rating';
 				$order_method = 'ASC';
 			break;
 			
 			case 'price_desc':
+				$order_by = 'product_selling_price';
 				$order_method = 'DESC';
 			break;
 		}
@@ -281,7 +288,7 @@ class Site extends MX_Controller
 		if($category != '__')
 		{
 			$return = $this->site_model->create_category_query_filter($category, 'category.category_name');
-			$where .= $return['where'];
+			// $where .= $return['where'];
 		}
 		
 		//case of filtering locations

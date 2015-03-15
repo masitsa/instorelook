@@ -2,6 +2,7 @@
 	$product = $product_details->result();
 	//the product details
 	$sale_price = $product[0]->sale_price;
+	$sale_price_type = $product[0]->sale_price_type;
 	$featured = $product[0]->featured;
 	$category_id = $product[0]->category_id;
 	$brand_id = $product[0]->brand_id;
@@ -11,6 +12,7 @@
 	$product_buying_price = $product[0]->product_buying_price;
 	$product_status = $product[0]->product_status;
 	$product_selling_price = $product[0]->product_selling_price;
+	$product_price = number_format($product[0]->product_selling_price, 2);
 	$image = $product[0]->product_image_name;
 	$thumb = $product[0]->product_thumb_name;
 	$product_description = $product[0]->product_description;
@@ -34,14 +36,34 @@
 	}
 	if($sale_price > 0)
 	{
-		$selling_price = $product_selling_price - ($product_selling_price * ($sale_price/100));
-		$price = '<span class="price-sales" style="text-decoration: line-through;"> $ '. number_format($selling_price, 0, '.', ',').'</span> <span class="price-standard">$ '. number_format($product_selling_price, 0, '.', ',').'</span> ';
+		if($sale_price_type == 2)
+		{
+			$sale = '<div class="promotion"> <span class="discount">'.$sale_price.'% OFF</span> </div><div class="clear-both"></div>';
+		}
+		
+		else
+		{
+			$sale = '<div class="promotion"> <span class="discount">$'.number_format($sale_price, 2).' OFF</span> </div><div class="clear-both"></div>';
+		}
+		
+		$product_sale_price = number_format($this->products_model->get_product_discount_price($product_price, $sale_price, $sale_price_type), 2);	
+		
+		$price = 
+		'
+		<div class="cbp-vm-price">
+			<span class="flash-del">$'.$product_price.'</span>
+			<span class="flash-sale">$'.$product_sale_price.'</span>
+		</div>
+		';
 	}
-	
 	else
 	{
-		$price = '<span class="price-sales">$ '. number_format($product_selling_price, 0, '.', ',').'</span>';
+		$price = 
+		'
+		<div class="cbp-vm-price">$'.$product_price.'</div>
+		';
 	}
+					
 
 
 ?>
@@ -72,18 +94,24 @@
 		                   	<div id="main">
 								<div id="gallery">
 									<div id="slides">
+
 										<?php
+										
+										$gallery_location = base_url().'assets/images/products/gallery/';
+										$gallery_path = realpath(APPPATH . '../assets/images/products/gallery');
+
 										if($product_images->num_rows() > 0)
 										{
-											$galleries = $product_images->result();
+											$galleries2 = $product_images->result();
 											
-											foreach($galleries as $gal)
+											foreach($galleries2 as $gal2)
 											{
-												$thumb = $gal->product_image_thumb;
-												$image = $gal->product_image_name;
-												$image = $this->products_model->image_display($products_path, $products_location, $image);
+												 $thumb2 = $gal2->product_image_thumb;
+												 $image2 = $gal2->product_image_name;
+
+												$image3 = $this->products_model->image_display($gallery_path, $gallery_location, $image2);
 												?>
-												<div class="slide"><img src="<?php echo $image;?>" /></div>
+												<div class="slide"><img src="<?php echo $image3;?>" /></div>
 											<?php
 													}
 												}

@@ -14,9 +14,9 @@
         	<div class="col-md-4">
 				<select class="form-control" name="orderby" id="sort_products">
                     <option selected="created" >Default Sorting (Newness)</option>
-                    <option value="popularity">Sort by popularity</option> 
-                    <option value="rating">Sort by average rating</option>
-                    <option value="product_date">Sort by newness</option>
+                    <option value="clicks">Sort by popularity</option> 
+                    <option value="product_rating">Sort by average rating</option>
+                    <option value="created">Sort by newness</option>
                     <option value="price">Sort by Price: low to high</option>
                     <option value="price_desc">Sort by Price: high to low</option>
 				</select>

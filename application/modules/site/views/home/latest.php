@@ -6,7 +6,7 @@ $static_banner2 = '';//$static_banner_location.$cat[1]->static_banner_image_name
 ?>
 
 <!-- Promotion banners -->
-<div class="row promotion-banners">
+<!-- <div class="row promotion-banners">
 	<div class="col-md-6" style="padding-right:10px;">
     	<img class="img-responsive" src="<?php echo base_url().'assets/images/banner2.jpg';?>"/>
         <h2>
@@ -21,7 +21,7 @@ $static_banner2 = '';//$static_banner_location.$cat[1]->static_banner_image_name
         	<a href="#" class="promotion-btn">Shop Now</a>
         </h2>
     </div>
-</div>
+</div> -->
 <!-- End Promotion banners -->
 
 <div class="beta-products-list product-items">
@@ -144,7 +144,7 @@ $static_banner2 = '';//$static_banner_location.$cat[1]->static_banner_image_name
 	?>
 
 <!-- Promotion banners -->
-<div class="row promotion-banners">
+<!-- <div class="row promotion-banners">
 	<div class="col-md-6" style="padding-right:10px;">
     	<img class="img-responsive" src="<?php echo base_url().'assets/images/banner2.jpg';?>"/>
         <h2>
@@ -159,7 +159,7 @@ $static_banner2 = '';//$static_banner_location.$cat[1]->static_banner_image_name
         	<a href="#" class="promotion-btn">Shop Now</a>
         </h2>
     </div>
-</div>
+</div> -->
 <!-- End Promotion banners -->
 
 <!-- Coupon -->
