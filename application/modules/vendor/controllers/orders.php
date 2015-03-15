@@ -24,7 +24,7 @@ class Orders extends admin {
 		// $where = 'orders.order_status = order_status.order_status_id AND users.user_id = orders.user_id';
 		// $table = 'orders, order_status, users';
 
-		$where = 'orders.order_status_id = order_status.order_status_id AND customer.customer_id = orders.customer_id';
+		$where = 'orders.order_status_id = order_status.order_status_id AND customer.customer_id = orders.customer_id AND orders.vendor_id = '.$this->session->userdata('vendor_id');
 		$table = 'orders, order_status, customer';
 		$orders_search = $this->session->userdata('orders_search');
 		
@@ -305,6 +305,23 @@ class Orders extends admin {
 	{
 		$data = array(
 					'order_status_id'=>3
+				);
+				
+		$this->db->where('order_id = '.$order_id);
+		$this->db->update('orders', $data);
+		
+		redirect('vendor/all-orders');
+	}
+	/*
+	*
+	*	Deactivate an order
+	*	@param int $order_id
+	*
+	*/
+	public function activate_order($order_id)
+	{
+		$data = array(
+					'order_status_id'=>0
 				);
 				
 		$this->db->where('order_id = '.$order_id);

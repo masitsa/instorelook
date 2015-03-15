@@ -1,6 +1,6 @@
 
 <div class="row top-navigation">
-    <div class="breadcrumbDiv col-lg-12">
+    <div class="breadcrumbDiv col-md-12 col-sm-12 col-lg-12">
 		<div class="row">
         	<div class="col-md-4">
             	<p>Showing <?php echo $first;?> – <?php echo $last;?> of <?php echo $total;?> results</p>

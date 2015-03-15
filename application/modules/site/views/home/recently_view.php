@@ -1,7 +1,7 @@
 <div class="row">
             <div class="span12">
             	<div class="divider-line"></div>
-            		<h5 class="center-align">Recently Viewed  Products</h5 class="center-align">
+            		<h5 class="center-align">Recently Viewed  Products</h5>
             	<div class="divider-line"></div>
                 <div class="owl-carousel" id="owl-carousel">
                 		<?php

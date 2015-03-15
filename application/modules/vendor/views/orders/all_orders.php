@@ -161,33 +161,49 @@ echo $this->load->view('vendor/search/search_orders', '' , TRUE); ?>
 				{
 					$items = 'This order has no items';
 				}
+				$button = '';
 				
 				//create deactivated status display
 				if($order_status == 1)
 				{
 					$status = '<span class="label label-primary">'.$order_status_name.'</span>';
+					$button = '<span class="label label-success">Completed</span>';
+					$button2 = '<span class="label label-success">Completed</span>';
 				}
 				//create activated status display
 				else if($order_status == 2)
 				{
 					$status = '<span class="label label-success">'.$order_status_name.'</span>';
+					$button = '<span class="label label-success">Canceled</span>';
+					$button2 = '<span class="label label-success">Canceled</span>';
 				}
 				//create activated status display
 				else if($order_status == 3)
 				{
 					$status = '<span class="label label-danger">'.$order_status_name.'</span>';
+					$button = '<a href="'.site_url().'vendor/activate-order/'.$order_id.'" class="btn btn-sm btn-success" onclick="return confirm(\'Do you really want to activate this order '.$order_number.'?\');">Activate</a>';
+					$button2 = '<span class="label label-success">Disabled</span>';
+
 				}
 				else if($order_status == 4)
 				{
 					$status = '<span class="label label-danger">'.$order_status_name.'</span>';
+					$button = '<span class="label label-danger">Reversed</span>';
+					$button2 = '<span class="label label-success">Reversed</span>';
 				}
 				else if($order_status == 5)
 				{
 					$status = '<span class="label label-danger">'.$order_status_name.'</span>';
+					$button = '<a href="'.site_url().'vendor/deactivate-order/'.$order_id.'" class="btn btn-sm btn-default" onclick="return confirm(\'Do you really want to deactivate this order '.$order_number.'?\');">Deactivate</a>';
+					$button2 = '<span class="label label-success">Reversed</span>';
+
 				}
 				else
 				{
 					$status = '<span class="label label-warning">'.$order_status_name.'</span>';
+					$button = '<a href="'.site_url().'vendor/deactivate-order/'.$order_id.'" class="btn btn-sm btn-default" onclick="return confirm(\'Do you really want to deactivate this order '.$order_number.'?\');">Deactivate</a>';
+					$button2 = '<a href="'.site_url().'vendor/reverse-order/'.$order_id.'" class="btn btn-sm btn-warning" onclick="return confirm(\'Do you really want to reverse this order '.$order_number.'?\');">Reverse Order</a>';
+
 				}
 				$count++;
 				$result .= 
@@ -220,7 +236,7 @@ echo $this->load->view('vendor/search/search_orders', '' , TRUE); ?>
 												
 											<a href="'.site_url().'vendor/finish-order/'.$order_id.'" class="btn btn-sm btn-success" onclick="return confirm(\'Do you really want to complete this order '.$order_number.'?\');">Complete</a>
 											<a href="'.site_url().'vendor/cancel-order/'.$order_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to cancel this order '.$order_number.'?\');">Cancel</a>
-											<a href="'.site_url().'vendor/deactivate-order/'.$order_id.'" class="btn btn-sm btn-default" onclick="return confirm(\'Do you really want to deactivate this order '.$order_number.'?\');">Deactivate</a>
+											'.$button.'
 											<a href="'.site_url().'vendor/delete-order/'.$order_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete this order '.$order_number.'?\');">Delete</a>
 											<a href="'.site_url().'vendor/reverse-order/'.$order_id.'" class="btn btn-sm btn-warning" onclick="return confirm(\'Do you really want to reverse this order '.$order_number.'?\');">Reverse Order</a>
 
@@ -229,8 +245,8 @@ echo $this->load->view('vendor/search/search_orders', '' , TRUE); ?>
 								</div>
 							</div>
 						</td>
-						<td><a href="'.site_url().'vendor/deactivate-order/'.$order_id.'" class="btn btn-sm btn-default" onclick="return confirm(\'Do you really want to deactivate this order '.$order_number.'?\');">Deactivate</a></td>
-						<td><a href="'.site_url().'vendor/reverse-order/'.$order_id.'" class="btn btn-sm btn-warning" onclick="return confirm(\'Do you really want to reverse this order '.$order_number.'?\');">Reverse Order</a></td>
+						<td>'.$button.'</td>
+						<td>'.$button2.'</td>
 					</tr> 
 				';
 			}

@@ -99,6 +99,7 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">All Categories <span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
                                     
                                     <ul class="dropdown-menu mega-dropdown-menu row">
+
                                         <li class="col-sm-3">
                                             <ul>
                                                 <li class="dropdown-header">New in Stores</li>                            
@@ -172,6 +173,7 @@
                                     </ul>
                                     
                                 </li>
+                                 <li><a href="<?php echo site_url().'home';?>">Home</a></li>
                                 
                                 <li><a href="#">Fashion</a></li>
                                 <li><a href="#">Beauty</a></li>

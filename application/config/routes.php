@@ -193,6 +193,7 @@ $route['vendor/close-orders-search'] = 'vendor/orders/close_orders_search';
 $route['vendor/reverse-order/(:num)'] = 'vendor/orders/reverse_order/$1';
 $route['vendor/edit-order/(:num)'] = 'vendor/orders/edit_order/$1';
 $route['vendor/delete-order/(:num)'] = 'vendor/orders/delete_order/$1';
+$route['vendor/activate-order/(:num)'] = 'vendor/orders/activate_order/$1';
 $route['vendor/deactivate-order/(:num)'] = 'vendor/orders/deactivate_order/$1';
 $route['vendor/finish-order/(:num)'] = 'vendor/orders/finish_order/$1';
 $route['vendor/cancel-order/(:num)'] = 'vendor/orders/cancel_order/$1';

@@ -110,12 +110,17 @@
 			
       	
     </div> <!--/.categoryProduct || product content end-->
+
+
       
       <div class="w100 categoryFooter">
         <div class="pagination pull-left no-margin-top">
           <?php if(isset($links)){echo $links;}?>
         </div>
       </div> <!--/.categoryFooter-->
+
+	    
+	     <?php echo $this->load->view('home/recently_view', '', TRUE); ?>
    
     </div><!--/right column end-->
   </div><!-- /.row  --> 

@@ -81,7 +81,7 @@ if($top_sellers->num_rows() == 0)
 									echo 
 									'
 										<div class="center-align">
-											<button type="submit" class="btn btn-primary">Filter</button>
+											<button type="submit" class="control-form col-md-12 btn btn-primary">Filter Surburb</button>
 										</div>
 									';
 								}
@@ -155,7 +155,7 @@ if($top_sellers->num_rows() == 0)
 									echo 
 									'
 										<div class="center-align">
-											<button type="submit" class="btn btn-primary">Filter</button>
+											<button type="submit" class="control-form col-md-12 btn btn-primary">Filter Top Sellers</button>
 										</div>
 									';
 								}
@@ -229,7 +229,7 @@ if($top_sellers->num_rows() == 0)
 									echo 
 									'
 										<div class="center-align">
-											<button type="submit" class="btn btn-primary">Filter</button>
+											<button type="submit" class="control-form col-md-12 btn btn-primary">Filter Brand</button>
 										</div>
 									';
 								}
@@ -267,9 +267,9 @@ if($top_sellers->num_rows() == 0)
                                         </div>
                                         <input type="hidden" id="duration" class="form-control">
                                       </div>
-                                      
-                                      <button type="button" class="btn btn-primary" style="width:80%;">Filter</button>
-                            
+                                      <div class="center-align">
+											<button type="submit" class="control-form col-md-12 col-sm-12 col-lg-12 btn btn-primary">Filter Price</button>
+									  </div>
                                       <!--<div class="price-form">
                             			<div class="row">
                                         	<div class="col-md-6">
@@ -306,7 +306,7 @@ if($top_sellers->num_rows() == 0)
 						<h3 class="widget-title">Best Sellers</h3>
 						<div class="widget-body">
 							<div class="beta-sales beta-lists">
-                            
+                            	<ul class="best-sellers">
                             	<?php
 								if($popular->num_rows() > 0)
 								{
@@ -325,18 +325,18 @@ if($top_sellers->num_rows() == 0)
 										$mini_desc = implode(' ', array_slice(explode(' ', $description), 0, 10));
 										$price = number_format($product_price, 2, '.', ',');
 										$sale = '';
+										$image = $this->products_model->image_display($products_path, $products_location, $thumb);
 										$count++;
 										
 										echo 
 										'
-										<div class="media beta-sales-item">
-                                            <a href="'.site_url().'products/view-product/'.$product_id.'" class="pull-left"><img alt="" src="'.base_url().'assets/images/products/images/'.$thumb.'"></a>
-                                            <div class="media-body">
-                                                '.$brand_name.'
-                                                <span class="beta-sales-price">$'.$price.'</span>
-                                            </div>
-                                        </div>
-										';
+										<li>
+											<a class="cbp-vm-image" href="'.site_url().'products/view-product/'.$product_id.'"><img src="'.$image.'"></a>
+											<h3 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_id.'">'.$brand_name.'</a></h3>
+											<h6 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_id.'">'.$product_name.'</a></h6>
+											<div class="cbp-vm-price">$'.$price.'</div>
+										</li>
+																			';
 									}
 								}
 								
@@ -345,6 +345,7 @@ if($top_sellers->num_rows() == 0)
 									echo '<p>No products have been added yet :-(</p>';
 								}
 							?>
+							</ul>
 							</div>
 						</div>
 					</div> <!-- best sellers widget -->

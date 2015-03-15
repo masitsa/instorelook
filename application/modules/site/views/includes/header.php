@@ -72,9 +72,10 @@
 
         <link href="<?php echo base_url();?>assets/themes/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <!-- Custom -->
-        <!-- <link href="<?php echo base_url();?>assets/themes/custom/css/animate.css" rel="stylesheet"> -->
+        <link href="<?php echo base_url();?>assets/themes/custom/css/animate.css" rel="stylesheet">
         <!-- Custom -->
         <link href="<?php echo base_url();?>assets/themes/custom/css/owl.carousel.css" rel="stylesheet">
                 <link rel="stylesheet" href="<?php echo base_url();?>assets/themes/custom/css/style.css">
+                
                 
        

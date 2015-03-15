@@ -57,37 +57,22 @@
   <div class="product-info">
    <!-- left column -->
 
-   	<div class="row">
-    <div class="col-lg-6 col-md-6 col-sm-6">
+    <!--/ left column end -->
+    
+    
+    <!-- right column -->
+    <div class="col-lg-12 col-md-12 col-sm-12">
 
-    	<div class="product-images">
-    			<h4>Product Image</h4>
-                <div class="box">
-                   	<div id="main">
-						<div id="gallery">
-							<div id="slides">
-								<?php
-								if($product_images->num_rows() > 0)
-								{
-									$galleries = $product_images->result();
-									
-									foreach($galleries as $gal)
-									{
-										$thumb = $gal->product_image_thumb;
-										$image = $gal->product_image_name;
-										$image = $this->products_model->image_display($products_path, $products_location, $image);
-										?>
-										<div class="slide"><img src="<?php echo $image;?>" /></div>
-									<?php
-											}
-										}
-									?>
-							</div>
-							<div id="menu">
-								<ul>
-									<li class="fbar">&nbsp;</li>
-									
-									 <?php
+    	<div class="product-content">
+    		
+    		<div class="col-lg-6 col-md-6 col-sm-6">
+
+		    	<div class="product-images">
+		                <div class="box">
+		                   	<div id="main">
+								<div id="gallery">
+									<div id="slides">
+										<?php
 										if($product_images->num_rows() > 0)
 										{
 											$galleries = $product_images->result();
@@ -96,212 +81,73 @@
 											{
 												$thumb = $gal->product_image_thumb;
 												$image = $gal->product_image_name;
+												$image = $this->products_model->image_display($products_path, $products_location, $image);
 												?>
-												<li class="menuItem"><a href="<?php echo base_url()."assets/images/products/gallery/".$image;?>"><img src="<?php echo base_url()."assets/images/products/gallery/".$image;?>" class="img-responsive" alt="img"/></a></li>
-								                
-												<?php
-											}
-										}
-									?>
-								</ul>
-							</div>
-						</div>
-					</div>
-
-                    <div class="social">
-                        <div id="sharrre">
-                            <!--<div class="facebook sharrre"><button class="btn btn-mini btn-facebook"><i  class="fa fa-facebook"></i></button></div>
-                            <div class="twitter sharrre"><button class="btn btn-mini btn-twitter"><i  class="fa fa-twitter"></i></button></div>
-                            <div class="googleplus sharrre"><button class="btn btn-mini btn-twitter"><i  class="fa fa-google-plus"></i> </button></div>                                                   
-                            <div class="pinterest sharrre"><button class="btn btn-mini btn-pinterest"><i  class="fa fa-pinterest"></i></button></div>-->
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </div>
-    <!--/ left column end -->
-    
-    
-    <!-- right column -->
-    <div class="col-lg-6 col-md-6 col-sm-6">
-
-    	<div class="product-content">
-    		<div class="product-content-header">
-    		<h4>Product details</h4>
-    		</div>
-            <div class="box">
-
-                <!-- Tab panels' navigation -->
-                <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#product" data-toggle="tab">
-                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                            <span class="hidden-phone">Product</span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="#description" data-toggle="tab">
-                       
-                        	 <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                           
-                            <span class="hidden-phone">Business</span>
-                        </a>
-                    </li>
-
-                    <li class="">
-                        <a href="#shipping" data-toggle="tab">
-                      
-                        <span class="glyphicon glyphicon-plane" aria-hidden="true"></span>
-                            
-                            <span class="hidden-phone">Shipping</span>
-                        </a>
-                    </li>
-
-                    <li class="">
-                        <a href="#returns" data-toggle="tab">
-                            <span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>
-                            <span class="hidden-phone">Returns</span>
-                        </a>
-                    </li>
-
-                    <li class="">
-                        <a href="#ratings" data-toggle="tab">
-                            <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                            <span class="hidden-phone">Ratings</span>
-                        </a>
-                    </li>
-                </ul>
-                <!-- End Tab panels' navigation -->
-                
-
-                <!-- Tab panels container -->
-                
-                <div class="tab-content">
-                    
-                    <!-- Product tab -->
-                    <div class="tab-pane active" id="product">
-                        <form enctype="multipart/form-data" action="#" onsubmit="return false;" method="post">
-                            
-                            <div class="details">
-                            	<h3><?php echo $brand_name;?></h3>
-								<h6><?php echo $product_name;?></h6>
-                                <div class="prices"><span class="price"><?php echo $price;?></span></div>
-
-                                <div class="meta">
-                                    <div class="sku">
-                                    
-                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                                        <span rel="tooltip" title="" data-original-title="SKU is 0092">Product Code : <?php echo $product_code;?></span>
-                                    </div>
-
-                                    <div class="categories">
-                                       <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>  <span><a href="" title="<?php echo $brand_name;?>"><?php echo $brand_name;?></a></span>, <a href="" title="<?php echo $category_name;?>"><?php echo $category_name;?></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="short-description">
-                                <p><?php echo $product_description;?></p>
-                            </div>
-                             <?php
-						      	//product features
-								if(($all_features->num_rows() > 0) && ($product_features->num_rows() > 0))
-								{
-									$feature = $all_features->result();
-									$product_feature = $product_features->result();
-								
-									$count = 0;
-									foreach($feature as $feat)
-									{	
-										//feature details
-										$feature_id = $feat->feature_id;
-										$feature_name = $feat->feature_name;
-										$count = 0;
-										
-										//product feature details
-										$feature_values = '';
-										
-										foreach($product_feature as $f)
-										{
-											$feat_id = $f->feature_id;
+												<div class="slide"><img src="<?php echo $image;?>" /></div>
+											<?php
+													}
+												}
+											?>
+									</div>
+									<div id="menu">
+										<ul>
+											<li class="fbar">&nbsp;</li>
 											
-											if($feat_id == $feature_id)
-											{
-												$product_feature_id = $f->product_feature_id;
-												$name = $f->feature_value;
-												$price = $f->price;
-												$quantity = $f->quantity;
-												$image = $f->thumb;
-												//$image = '<img src="'. base_url().'assets/images/features/'.$f->thumb.'" alt="'.$name.'"/>';
-												
-												if(!empty($image))
+											 <?php
+												if($product_images->num_rows() > 0)
 												{
-
-						                                        
-													//open section
-													if($count == 0)
-													{
-														$feature_values .= '
-														<div class="options">
-						                                	<div class="row">
-						                                    	<div class="col-sm-6">
-						                                    	<div class="control-group">
-
-						                                            <label for="product_options" class="control-label">'.$feature_name.'</label>
-						                                            <div class="controls">
-						                                               <ul class="swatches Color">';
-																		}
-																		//add values
-																		$feature_values .= '<li> <a ><img src="'. base_url().'assets/images/features/'.$image.'" alt="'.$name.'"/></a> </li>';
-																		//close section
-																		if($count == (count($product_feature) - 1))
-																		{
-																			$feature_values .= '
-																		</ul>
-						                                            </div>
-						                                        </div>
-						                                    </div>
-						                                </div>
-						                            </div>';
-													}
-												}
-												
-												else
-												{
-													//open section
-													if($count == 0)
-													{
-														$feature_values .= '
-														<div class="productFilter">
-															<div class="filterBox">
-																<select>';
-													}
-													//add values
-													$feature_values .= '<option value="'.$product_feature_id.'">'.$name.'"</option>';
-													//close section
-													if($count == (count($product_feature) - 1))
-													{
-														$feature_values .= '
-															</select>
-						        						</div>';
-													}
+													$galleries = $product_images->result();
 													
+													foreach($galleries as $gal)
+													{
+														$thumb = $gal->product_image_thumb;
+														$image = $gal->product_image_name;
+														?>
+														<li class="menuItem"><a href="<?php echo base_url()."assets/images/products/gallery/".$image;?>"><img src="<?php echo base_url()."assets/images/products/gallery/".$image;?>" class="img-responsive" alt="img"/></a></li>
+										                
+														<?php
+													}
 												}
-												
-												$count++;
-											}
-										}
-									}
-								}
-							  ?>
-                             <div><?php echo $balance_status;?></div>
+											?>
+										</ul>
+									</div>
+								</div>
+							</div>
 
-                            <div class="sadd-to-cart">
-                               <a class="btn btn-warning add_to_wishlist " href="<?php echo $product_id;?>" product_id="<?php echo $product_id;?>" data-toggle="modal" data-target=".wishlist-modal"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Add to wishlist</a>
-                               <?php echo $button;?>
-                            	<a class="btn btn-success add_to_cart_redirect " href="<?php echo $product_id;?>" product_id="<?php echo $product_id;?>"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span>  Buy Now</a>
-		                          <!-- Large modal -->
-
+		                     <div class="product-share clearfix">
+						        <p> SHARE </p>
+						        <div class="socialIcon"> 
+						        	<a href="#"> <i class="fa fa-facebook"></i></a> 
+						            <a href="#"> <i class="fa fa-twitter"></i></a> 
+						            <a href="#"> <i class="fa fa-google-plus"></i></a> 
+						            <a href="#"> <i class="fa fa-pinterest"></i></a> </div>
+						      </div>
+						      <!--/.product-share--> 
+		                </div>
+		            </div>
+		    </div>
+    		<div class="col-lg-6 col-md-6 col-sm-6">
+    			<!-- code for the item -->
+				      <h1 class="product-title"> <?php echo $product_name;?></h1>
+				      <h3 class="product-code">Product Code : <?php echo $product_code;?></h3>
+				      <div class="product-price"> 
+				      	<?php echo $price;?>    
+				      </div>
+				      
+				      <div class="details-description">
+				        <p><?php echo $product_description;?></p>
+				      </div>
+				      
+				            
+				      <div class="cart-actions">
+				        <div class="addto">
+				        	<!-- <a href="91" class="add_to_cart"><button class="button btn-cart cart first" title="Add to Cart" type="button">Add to Cart</button></a> -->
+				          <!--<a class="link-wishlist wishlist add_to_wishlist" href="91">Add to Wishlist</a> </div> -->
+				          <a class="btn btn-warning add_to_wishlist " href="<?php echo $product_id;?>" product_id="<?php echo $product_id;?>" data-toggle="modal" data-target=".wishlist-modal"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Add to wishlist</a>
+	                       <?php echo $button;?>
+	                       <a class="btn btn-success add_to_cart_redirect " href="<?php echo $product_id;?>" product_id="<?php echo $product_id;?>"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span>  Buy Now</a>
+			                
+		                    <div class="sadd-to-cart">
 								<div class="modal fade bs-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 								  <div class="modal-dialog modal-md">
 								    <div class="modal-content">
@@ -324,215 +170,270 @@
 								  </div>
 								</div>
 
-                            </div>
-                        </form>						
-                    </div>
-                    <!-- End id="product" -->
-                    
-                    <!-- Description tab -->
-                    <div class="tab-pane" id="description">
-                        <?php echo $product_description;?>						
-                    </div>
-                    <!-- End id="description" -->
+	                        </div>    
+				          
+				        <div style="clear:both"></div>
+				        
+				        <h3 class="incaps"><i class="fa fa fa-check-circle-o color-in success"></i> In stock</h3>        <h3 class="incaps"> <i class="glyphicon glyphicon-lock"></i> Secure online ordering</h3>
+				      </div>
+				      <!--/.cart-actions-->
+				      
+				      <div class="clear"></div>
+				      
+				    </div><!--/ right column end -->
+				    
+    			<!-- end of that code -->
+	            <div class="box">
 
-                    <!-- Shipping tab -->
-                    <div class="tab-pane" id="shipping">
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
-                        <p><img class="img-polaroid" src="http://www.tfingi.com/repo/royal-mail.png" alt=""><img class="img-polaroid" src="http://www.tfingi.com/repo/ups-logo.png" alt=""></p>
-                        <p>Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-                        <h6><em class="icon-gift"></em> Giftwrap?</h6>
-                        <p>Let us take care of giftwrapping your presents by selecting <strong>Giftwrap</strong> in the order process. Eligible items can be giftwrapped for as little as £0.99, and larger items may be presented in gift bags.</p>						
-                    </div>
-                    <!-- End id="shipping" -->
+	                <!-- Tab panels' navigation -->
+	                <ul class="nav nav-tabs">
+	                    
+	                    <li class="active">
+	                        <a href="#description" data-toggle="tab">
+	                       
+	                        	 <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+	                           
+	                            <span class="hidden-phone">Business</span>
+	                        </a>
+	                    </li>
 
-                    <!-- Returns tab -->
-                    <div class="tab-pane" id="returns">
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-                        <p class="lead">For any unwanted goods La Boutique offers a <strong>21-day return policy</strong>.</p>
-                        <p>If you receive items from us that differ from what you have ordered, then you must notify us as soon as possible using our <a href="#">online contact form</a>.</p>
-                        <p>If you find that your items are faulty or damaged on arrival, then you are entitled to a repair, replacement or a refund. Please note that for some goods it may be disproportionately costly to repair, and so where this is the case, then we will give you a replacement or a refund.</p>
-                        <p>Please visit our <a href="#">Warranty section</a> for more details.</p>						
-                    </div>
-                    <!-- End id="returns" -->
+	                    <li class="">
+	                        <a href="#shipping" data-toggle="tab">
+	                      
+	                        <span class="glyphicon glyphicon-plane" aria-hidden="true"></span>
+	                            
+	                            <span class="hidden-phone">Shipping</span>
+	                        </a>
+	                    </li>
 
-                    
-                    <!-- Ratings tab -->
-                    <div class="tab-pane " id="ratings">
-                        <div class="ratings-items">
-                        <?php
-                          $product_rating = $this->products_model->product_ratings($product_id);
-                          if($product_rating->num_rows() > 0){
-	            			$ratings = $product_rating->result();
-						
-							$count = 0;
-								foreach($ratings as $rating)
-								{	
-									//feature details
-									$content = $rating->product_review_content;
-									$rating_value = $rating->product_review_rating;
-									$author_email = $rating->product_review_reviewer_email;
-									$author_name = $rating->product_review_reviewer_name;
-									$author_phone = $rating->product_review_reviewer_phone;
-									$review_created = $rating->product_review_created;
-		                        	?>
-		                            <article class="rating-item">
-		                                <div class="row">
-		                                    <div class="span9">
-		                                        <p><?php echo $content;?></p>
-		                                    </div>
+	                    <li class="">
+	                        <a href="#returns" data-toggle="tab">
+	                            <span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>
+	                            <span class="hidden-phone">Returns</span>
+	                        </a>
+	                    </li>
 
-		                                    <div class="span3">
-		                                        <h6><?php echo $author_name;?></h6>
-		                                        <small><?php echo date('jS M Y H:i a',strtotime($review_created));?></small>
-		                                        <div class="rating rating-5">
-		                                        	Rating
-		                                        	<?php 
-		                                        	if($rating_value > 0)
-		                                        	{
-		                                        		for($x=0;$x <$rating_value; $x++)
-		                                        		{
-		                                        			?>
-		                                        			 <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-		                                        			<?php
-		                                        		}
-		                                        	}
-		                                        	else
-		                                        	{
+	                    <li class="">
+	                        <a href="#ratings" data-toggle="tab">
+	                            <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+	                            <span class="hidden-phone">Ratings</span>
+	                        </a>
+	                    </li>
+	                </ul>
+	                <!-- End Tab panels' navigation -->
+	                
 
-		                                        	}
-		                                        	?>
-		                                           
-		                                        </div>
-		                                    </div>
-		                                </div>
-		                            </article>
-		                        <?php
-	                    		}
-	                    	}
+	                <!-- Tab panels container -->
+	                
+	                <div class="tab-content">
+	                    
+	                  
+	                    <!-- End id="product" -->
+	                    
+	                    <!-- Description tab -->
+	                    <div class="tab-pane active" id="description">
+	                        <?php echo $product_description;?>						
+	                    </div>
+	                    <!-- End id="description" -->
 
-	                        ?>
+	                    <!-- Shipping tab -->
+	                    <div class="tab-pane" id="shipping">
+	                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
+	                        <p><img class="img-polaroid" src="http://www.tfingi.com/repo/royal-mail.png" alt=""><img class="img-polaroid" src="http://www.tfingi.com/repo/ups-logo.png" alt=""></p>
+	                        <p>Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+	                        <h6><em class="icon-gift"></em> Giftwrap?</h6>
+	                        <p>Let us take care of giftwrapping your presents by selecting <strong>Giftwrap</strong> in the order process. Eligible items can be giftwrapped for as little as £0.99, and larger items may be presented in gift bags.</p>						
+	                    </div>
+	                    <!-- End id="shipping" -->
+
+	                    <!-- Returns tab -->
+	                    <div class="tab-pane" id="returns">
+	                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+	                        <p class="lead">For any unwanted goods La Boutique offers a <strong>21-day return policy</strong>.</p>
+	                        <p>If you receive items from us that differ from what you have ordered, then you must notify us as soon as possible using our <a href="#">online contact form</a>.</p>
+	                        <p>If you find that your items are faulty or damaged on arrival, then you are entitled to a repair, replacement or a refund. Please note that for some goods it may be disproportionately costly to repair, and so where this is the case, then we will give you a replacement or a refund.</p>
+	                        <p>Please visit our <a href="#">Warranty section</a> for more details.</p>						
+	                    </div>
+	                    <!-- End id="returns" -->
+
+	                    
+	                    <!-- Ratings tab -->
+	                    <div class="tab-pane " id="ratings">
+	                        <div class="ratings-items">
+	                        <?php
+	                          $product_rating = $this->products_model->product_ratings($product_id);
+	                          if($product_rating->num_rows() > 0){
+		            			$ratings = $product_rating->result();
+							
+								$count = 0;
+									foreach($ratings as $rating)
+									{	
+										//feature details
+										$content = $rating->product_review_content;
+										$rating_value = $rating->product_review_rating;
+										$author_email = $rating->product_review_reviewer_email;
+										$author_name = $rating->product_review_reviewer_name;
+										$author_phone = $rating->product_review_reviewer_phone;
+										$review_created = $rating->product_review_created;
+			                        	?>
+			                            <article class="rating-item">
+			                                <div class="row">
+			                                    <div class="span9">
+			                                        <p><?php echo $content;?></p>
+			                                    </div>
+
+			                                    <div class="span3">
+			                                        <h6><?php echo $author_name;?></h6>
+			                                        <small><?php echo date('jS M Y H:i a',strtotime($review_created));?></small>
+			                                        <div class="rating rating-5">
+			                                        	Rating
+			                                        	<?php 
+			                                        	if($rating_value > 0)
+			                                        	{
+			                                        		for($x=0;$x <$rating_value; $x++)
+			                                        		{
+			                                        			?>
+			                                        			 <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+			                                        			<?php
+			                                        		}
+			                                        	}
+			                                        	else
+			                                        	{
+
+			                                        	}
+			                                        	?>
+			                                           
+			                                        </div>
+			                                    </div>
+			                                </div>
+			                            </article>
+			                        <?php
+		                    		}
+		                    	}
+
+		                        ?>
 
 
-                            <hr>
-                        </div>
+	                            <hr>
+	                        </div>
 
-                        <div class="well">
-                            <div class="row">
-                                <div class="span8">
-                                    <h6><i class="icon-comment-alt"></i> &nbsp; Share your opinion!</h6>
-                                    <p>Let other people know your thoughts on this product!</p>
+	                        <div class="well">
+	                            <div class="row">
+	                                <div class="span8">
+	                                    <h6><i class="icon-comment-alt"></i> &nbsp; Share your opinion!</h6>
+	                                    <p>Let other people know your thoughts on this product!</p>
 
-                                </div>
-                                <div class="span4">
-                                
-                                    <button class="btn btn-seconary btn-block" data-toggle="modal" data-target=".bs-example2-modal-lg">Rate this product</button>
-                                </div>
-                            </div>
-                        </div>
-                         <div class="modal fade bs-example2-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-lg">
+	                                </div>
+	                                <div class="span4">
+	                                
+	                                    <button class="btn btn-seconary btn-block" data-toggle="modal" data-target=".bs-example2-modal-lg">Rate this product</button>
+	                                </div>
+	                            </div>
+	                        </div>
+	                         <div class="modal fade bs-example2-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	                  <div class="modal-dialog modal-lg">
 
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <div class="hgroup title">
-                 <h3>You're one step closer to owning this product!</h3>
-	                <h5>"<?php echo $product_name;?>" has been added to your favorite products</h5>
-            </div>
-        </div>
+	        <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	            <div class="hgroup title">
+	                 <h3>You're one step closer to owning this product!</h3>
+		                <h5>"<?php echo $product_name;?>" has been added to your favorite products</h5>
+	            </div>
+	        </div>
 
-		 <form enctype="multipart/form-data" product_id="<?php echo $product_id;?>" action="<?php echo base_url();?>products/review-product/<?php echo $product_id;?>"  id = "product_review_form" method="post">
-      		
+			 <form enctype="multipart/form-data" product_id="<?php echo $product_id;?>" action="<?php echo base_url();?>products/review-product/<?php echo $product_id;?>"  id = "product_review_form" method="post">
+	      		
 
-            <div class="modal-body">
-                <div class="row">
+	            <div class="modal-body">
+	                <div class="row">
 
-                    <div class="col-sm-6">
-                        <div class="control-group">
-                            <label class="control-label">Rating</label>
-                            <div class="controls">
-                                <select class="form-control" name="rate">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+	                    <div class="col-sm-6">
+	                        <div class="control-group">
+	                            <label class="control-label">Rating</label>
+	                            <div class="controls">
+	                                <select class="form-control" name="rate">
+	                                    <option value="1">1</option>
+	                                    <option value="2">2</option>
+	                                    <option value="3">3</option>
+	                                    <option value="4">4</option>
+	                                    <option value="5">5</option>
+	                                </select>
+	                            </div>
+	                        </div>
+	                    </div>
 
-                    <div class="col-sm-6">
-                        <div class="control-group">
-                            <label for="review_title" class="control-label">Phone Number</label>
-                            <div class="controls">
-                                <input class="form-control col-sm-12" id="review_author_phone" name="review_author_phone" type="text">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+	                    <div class="col-sm-6">
+	                        <div class="control-group">
+	                            <label for="review_title" class="control-label">Phone Number</label>
+	                            <div class="controls">
+	                                <input class="form-control col-sm-12" id="review_author_phone" name="review_author_phone" type="text">
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
 
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="control-group">
-                            <label for="review_author_name" class="control-label">Your name</label>
-                            <div class="controls">
-                                <input class="form-control col-sm-12" id="review_author_name" name="review_author_name" type="text" value="">
-                            </div>
-                        </div>
-                    </div>
+	                <div class="row">
+	                    <div class="col-sm-6">
+	                        <div class="control-group">
+	                            <label for="review_author_name" class="control-label">Your name</label>
+	                            <div class="controls">
+	                                <input class="form-control col-sm-12" id="review_author_name" name="review_author_name" type="text" value="">
+	                            </div>
+	                        </div>
+	                    </div>
 
-                    <div class="col-sm-6">
-                        <div class="control-group">
-                            <label for="review_author_email" class="control-label">Your email</label>
-                            <div class="controls">
-                                <input  class="form-control col-sm-12" id="review_author_email" name="review_author_email" type="text" value="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+	                    <div class="col-sm-6">
+	                        <div class="control-group">
+	                            <label for="review_author_email" class="control-label">Your email</label>
+	                            <div class="controls">
+	                                <input  class="form-control col-sm-12" id="review_author_email" name="review_author_email" type="text" value="">
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
 
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="control-group">
-                            <label for="review_text" class="control-label">Review</label>
-                            <div class="controls">
-                                <textarea class="form-control col-sm-12" id="review_text" name="review_text"></textarea>
-                            </div>
-                        </div>
+	                <div class="row">
+	                    <div class="col-sm-12">
+	                        <div class="control-group">
+	                            <label for="review_text" class="control-label">Review</label>
+	                            <div class="controls">
+	                                <textarea class="form-control col-sm-12" id="review_text" name="review_text"></textarea>
+	                            </div>
+	                        </div>
 
-                    </div>
-                </div>
+	                    </div>
+	                </div>
 
-            </div>
+	            </div>
 
-            <div class="modal-footer">
-                <div class="pull-right">
-                    <button class="btn btn-primary" type="submit" onclick="">Submit product review</button>
-                </div>
-            </div>                         
-		<?php echo form_close();?>
-                  </div>
-              </div>
-                        
+	            <div class="modal-footer">
+	                <div class="pull-right">
+	                    <button class="btn btn-primary" type="submit" onclick="">Submit product review</button>
+	                </div>
+	            </div>                         
+			<?php echo form_close();?>
+	                  </div>
+	              </div>
+	                        
 
-                        
+	                        
 
-                    </div>
-                    <!-- End id="ratings" -->
-                    
-                    
-                </div>                                            
-                <!-- End tab panels container -->
-                
-            </div>
+	                    </div>
+	                    <!-- End id="ratings" -->
+	                    
+	                    
+	                </div>                                            
+	                <!-- End tab panels container -->
+	                
+	            </div>
+	        </div>
             
         </div>
       
   	</div>
   	<!--end of right column-->
-  		</div>
-  		<div class="row">
-            <div class="span12">
+  		
+            <div class="col-lg-12 col-md-12 col-sm-12">
             	<div class="divider-line"></div>
             		<h5 class="center-align">Related Products</h5 class="center-align">
             	<div class="divider-line"></div>
@@ -607,8 +508,6 @@
                 </div>
 
             </div>
-          </div>
- 	
   </div>
   
 </div> <!-- /main-container -->

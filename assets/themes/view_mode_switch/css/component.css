@@ -7,7 +7,7 @@
 /* options/select wrapper with switch anchors */
 .cbp-vm-options {
 	text-align: right;
-	border-bottom: 3px solid #47a3da;
+	border-bottom: 0px solid #47a3da;
 }
 
 .cbp-vm-options a {
@@ -169,7 +169,7 @@
 }
 
 .cbp-vm-view-list .cbp-vm-image {
-	width: 10%;
+	  width: 19%;
 }
 
 .cbp-vm-view-list .cbp-vm-title {

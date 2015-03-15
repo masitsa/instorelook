@@ -308,64 +308,104 @@ class Cart_model extends CI_Model
 	*/
 	public function save_order()
 	{
-		//get order number
-		$order_number = $this->orders_model->create_order_number();
-		
-		//create order
-		$data = array(
-					'customer_id'=>$this->session->userdata('customer_id'),
-					'order_created'=>date('Y-m-d H:i:s'),
-					//'order_instructions'=>$this->session->userdata('delivery_instructions'),
-					//'payment_method'=>$this->session->userdata('payment_option'),
-					'order_number'=>$order_number,
-					'order_created_by'=>$this->session->userdata('customer_id')
-				);
-				
-		if($this->db->insert('orders', $data))
-		{
-			$order_id = $this->db->insert_id();
-			$package_name = 'Order '.$order_number.': ';
-			$total_price = 0;
-			
-			//save order items
-			foreach ($this->cart->contents() as $items): 
+		$total_price = 0;
+		$package_name = '';
+		foreach ($this->cart->contents() as $items): 
 	
-				$cart_product_id = $items['id'];
-				$quantity = $items['qty'];
-				$price = $items['price'];
+			$cart_product_id = $items['id'];
+			$quantity = $items['qty'];
+			$price = $items['price'];
+
+			// get vendor id for every product
+			$this->db->where('product_id = '.$cart_product_id);
+			$this->db->order_by('product_id');
+			$query = $this->db->get('product');
+
+			if($query->num_rows() > 0)
+			{
+				$query_results = $query->result();
 				
+				foreach($query_results as $vend)
+				{
+					$vendor_id = $vend->created_by;
+				}
+			}
+
+			// check whether 
+			$this->db->where('vendor_id = '.$vendor_id);
+			$this->db->order_by('vendor_id');
+			$vendor_query = $this->db->get('orders');
+
+			if($vendor_query->num_rows() > 0)
+			{
+				$vendor_query_results = $vendor_query->result();
+				
+				foreach($vendor_query_results as $row)
+				{
+					// use this order number for the consecutive order items
+					$order_number = $row->order_number;
+					$order_id = $row->order_id;
+				}
+				
+
+			}
+			else
+			{
+				// this is a new order so please enter the order
+				//get order number
+				$order_number = $this->orders_model->create_order_number();
+				
+				//create order
 				$data = array(
+							'customer_id'=>$this->session->userdata('customer_id'),
+							'order_created'=>date('Y-m-d H:i:s'),
+							//'order_instructions'=>$this->session->userdata('delivery_instructions'),
+							//'payment_method'=>$this->session->userdata('payment_option'),
+							'order_number'=>$order_number,
+							'vendor_id'=>$vendor_id,
+							'order_created_by'=>$this->session->userdata('customer_id')
+						);
+				if($this->db->insert('orders', $data))
+				{
+					$order_id = $this->db->insert_id();
+					
+				}
+			}
+
+			$package_name .= 'Order '.$order_number.': ';
+			
+
+			$data = array(
 						'product_id'=>$cart_product_id,
 						'order_id'=>$order_id,
 						'order_item_quantity'=>$quantity,
 						'order_item_price'=>$price
 					);
 					
-				if($this->db->insert('order_item', $data))
+			if($this->db->insert('order_item', $data))
+			{
+				//get product name
+				$this->db->where('product_id = '.$cart_product_id);
+				$this->db->select('product_name');
+				$query = $this->db->get('product');
+				
+				if($query->num_rows() > 0)
 				{
-					//get product name
-					$this->db->where('product_id = '.$cart_product_id);
-					$this->db->select('product_name');
-					$query = $this->db->get('product');
-					
-					if($query->num_rows() > 0)
-					{
-						$row = $query->row();
-						$package_name .= $row->product_name.', ';
-						$total_price += ($quantity * $price);
-					}
+					$row = $query->row();
+					$package_name .= $row->product_name.', ';
+					$total_price += ($quantity * $price);
 				}
-			
-			endforeach; 
-			
+			}
+
+		endforeach;
 			//create return data
 			$return['package_name'] = $package_name;
 			$return['price'] = $total_price;
 			
 			return $return;
-		}
-		
-		return TRUE;
+
+		// return TRUE;
+
 	}
 	public function get_navigation($page_name)
 	{

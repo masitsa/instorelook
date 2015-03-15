@@ -28,108 +28,94 @@ if($surburbs->num_rows() > 0)
 }
 ?>
 <!-- Footer  --> 
-       	<div class="footer dark-grey-background">
+       	<footer>
+          <div class="footer">
             <div class="container">
-                <div class="contacts row">
-                    <!-- Contacts -->
-                    <div class="col-md-3">
-                        <h3>Contacts</h3>
-                        <ul>
-                            <li><a href="">In Store Look</li>
-                            <li><a href="mailto:info@instorelook.com.au"><span class="glyphicon glyphicon-envelope"></span> info@instorelook.com.au</a></li>
-                            <li><a href="tel:0405486426"><span class="glyphicon glyphicon-phone"></span> 0405 486 426</a></li>
-                            <!-- <li><a href="#"><span class="glyphicon glyphicon-map-marker"></span> 16 Winchcombe Place<br/>Castle Hill, NSW<br/>2154<br/></a></li> -->
-                            <li><a href="#">ABN: 25 997 516 795</a></li>
-                        </ul>
-                        <div>
-                            
-                        </div>
-                        <div>
-                            
-                        </div>
-                    </div><!-- End Contacts -->
-                
-                    <!-- Quick Links -->
-                    <div class="col-md-3">
-                        <h3>Vendors</h3>
-                        <ul>
-                            <li><a href="<?php echo site_url().'vendor/sign-up/user-details';?>">Vendor Sign Up</a></li>
-                            <li><a href="<?php echo site_url().'vendor/sign-in';?>">Vendor Sign In</a></li>
-                            <li><a href="<?php echo site_url().'vendor/account';?>">My Account</a></li>
-                        </ul>
-                    </div><!-- End Quick Links -->
-                
-                    <!-- Quick Links -->
-                    <div class="col-md-3">
-                        <h3>Newsletter</h3>
-                         <?php echo form_open("request-news-letter", array("class" => "form-horizontal"));?>
-                      
-                            <div class="col-sm-6 af-outer af-required">
-                                <div class="form-group af-inner">
-                                    <input type="text" name="first_name" id="first_name" size="30" value="" placeholder="First name *" class="form-control placeholder" />
-                                    <label class="error" for="first_name" id="firstname_error">Name.</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 af-outer af-required">
-                                <div class="form-group af-inner">
-                                    <input type="text" name="last_name" id="last_name" size="30" value="" placeholder="Last name *" class="form-control placeholder" />
-                                    <label class="error" for="last_name" id="lastname_error">Last Name.</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 af-outer af-required">
-                                <div class="form-group af-inner">
-                                    <input type="text" name="email_address" id="email_address" size="30" value="" placeholder="Email *" class="form-control placeholder" />
-                                    <label class="error" for="email_address" id="email_error">Email is required.</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 af-outer af-required">
-                                <div class="form-group af-inner text-center">
-                                    <input type="submit" name="submit" class="form-button btn btn-success col-sm-12"  id="submit_btn" value="Subscribe" />
-                                </div>
-                            </div>
-                        <?php echo form_close();?>
-                    </div><!-- End Quick Links -->
-                
-                   
-                    <div class=" col-md-3">
-                        <div class="widget">
-                            <div class="col-sm-12 text-center"> 
-                                <ul class="social">
-                                    <li><a href="" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a href="" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                                    <li><a href="" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                                    <li><a href="" target="_blank"><i class="fa fa-google-plus"></i></a></li>
-                                </ul>
-                            </div>
-                            <a href="#top" class="form-button btn btn-success col-sm-12 cd-top"> <i class="fa fa-angle-up"></i>back to top</a>
-                        </div>
-                    </div>
+              <div class="row">
+                <div class="col-lg-3  col-md-3 col-sm-4 col-xs-6">
+                  <h3> Support </h3>
+                  <ul>
+                    <li><a href="">In Store Look</li>
+                    <li><a href="mailto:info@instorelook.com.au"><span class="glyphicon glyphicon-envelope"></span> info@instorelook.com.au</a></li>
+                    <li><a href="tel:0405486426"><span class="glyphicon glyphicon-phone"></span> 0405 486 426</a></li>
+                    <!-- <li><a href="#"><span class="glyphicon glyphicon-map-marker"></span> 16 Winchcombe Place<br/>Castle Hill, NSW<br/>2154<br/></a></li> -->
+                    <li><a href="#">ABN: 25 997 516 795</a></li>
+                </ul>
                 </div>
-                <!-- End Contacts -->
-                
-            </div><!-- End Container -->
-        </div>
+                <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                  <h3> Shop </h3>
+                  <ul>
+                    <li> <a href="<?php echo base_url();?>home"> Home </a> </li>
+                    <li> <a href="<?php echo base_url();?>products"> Products </a> </li>
+                    <li> <a href="<?php echo base_url();?>vendors/all-vendors"> Vendors </a> </li>
+                  </ul>
+                </div>
+                <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                  <h3> Information </h3>
+                  <ul>
+                    <li> <a href="<?php echo base_url();?>cart"> Cart </a> </li>
+                    <li> <a href="<?php echo base_url();?>about"> About us </a> </li>
+                    <li> <a href="<?php echo base_url();?>terms"> Terms &amp; Conditions </a> </li>
+                  </ul>
+                </div>
+                <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                  <h3> My Account </h3>
+                  <ul>
+                    <li> <a href="<?php echo base_url();?>sign-in"> Account Login </a> </li>
+                    <li> <a href="<?php echo base_url();?>join"> My Account </a> </li>
+                  </ul>
+                </div>
+                <div class="col-lg-3  col-md-3 col-sm-6 col-xs-12 ">
+                  <h3> Stay in touch </h3>
+                  <ul>
+                    <li>
+                      <div class="input-append newsLatterBox text-center">
+                        <div class="col-sm-12 af-outer af-required">
+                            <div class="form-group af-inner">
+                            <input type="text" class="form-control" > 
+                            </div>
+                            <div class="form-group af-inner">
+                              <button class="btn btn-success" type="button"> Subscribe <i class="fa fa-long-arrow-right"> </i> </button>
+
+                            </div>
+                        </div>
+                       
+                      </div>
+                    </li>
+                  </ul>
+                  <ul class="social">
+                    <li> <a href="http://facebook.com" target="_blank"> <i class=" fa fa-facebook"> &nbsp; </i> </a> </li>
+                    <li> <a href="http://twitter.com" target="_blank"> <i class="fa fa-twitter"> &nbsp; </i> </a> </li>
+                    <li> <a href="https://plus.google.com" target="_blank"> <i class="fa fa-google-plus"> &nbsp; </i> </a> </li>
+                    <li> <a href="http://pinterest.com" target="_blank"> <i class="fa fa-pinterest"> &nbsp; </i> </a> </li>
+                    <li> <a href="http://youtube.com" target="_blank"> <i class="fa fa-youtube"> &nbsp; </i> </a> </li>
+                  </ul>
+                </div>
+              </div>
+              <!--/.row--> 
+            </div>
+            <!--/.container--> 
+          </div>
+          <!--/.footer-->
+          
+          <div class="footer-bottom">
+            <div class="container">
+              <p class="pull-left"> <a href="<?php echo site_url().'about';?>">About</a> | <a href="<?php echo site_url().'privacy';?>">Privacy</a> | <a href="<?php echo site_url().'terms';?>">Terms & Conditions</a> | &copy; <?php echo date('Y');?> instorelook.com.au. All Rights Reserved. </p>
+              <div class="pull-right ">
+                <div class="pull-right">
+                    <i class="fa fa-cc-visa fa-2x"></i>
+                    <i class="fa fa-cc-mastercard fa-2x"></i>
+                    <i class="fa fa-cc-paypal fa-2x"></i>
+                    <i class="fa fa-cc-discover fa-2x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--/.footer-bottom--> 
+        </footer>
         <!-- End Footer -->
         
-        <div class='footer-bottom light-grey-background blue-text'>
-            <div class="container">
-                <div class="row">
-                    <!-- Copyright -->
-                    <div class="col-xs-6 col-sm-6 col-md-6 pull-left" style="font-size: 14px;">
-                       <a href="<?php echo site_url().'about';?>">About</a> | <a href="<?php echo site_url().'privacy';?>">Privacy</a> | <a href="<?php echo site_url().'terms';?>">Terms & Conditions</a> | &copy; <?php echo date('Y');?> instorelook.com.au. All Rights Reserved. 
-                    </div>
-                    <!-- Payment -->
-                    <div class="col-xs-6 col-sm-6 col-md-6">
-                    	<div class="pull-right">
-                            <i class="fa fa-cc-visa fa-2x"></i>
-                            <i class="fa fa-cc-mastercard fa-2x"></i>
-                            <i class="fa fa-cc-paypal fa-2x"></i>
-                            <i class="fa fa-cc-discover fa-2x"></i>
-                    	</div>
-                    </div>
-            	</div>
-            </div>
-        </div>
+        
         
         <div class="modal fade wishlist-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-md">

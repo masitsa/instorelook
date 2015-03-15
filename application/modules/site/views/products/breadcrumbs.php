@@ -2,7 +2,7 @@
   <!-- Main component call to action -->
   
   <div class="row" style="margin:0;">
-  <div class="col-md-12" style="padding:0;">
+  <div class="col-lg-12 col-md-12 col-sm-12">
     <div class="breadcrumbDiv ">
       <ul class="breadcrumb">
       	<?php

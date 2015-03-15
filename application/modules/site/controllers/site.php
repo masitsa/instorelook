@@ -238,6 +238,20 @@ class Site extends MX_Controller
 		$v_data['filter_brands'] = $filter_brands;
 		$v_data['filter_businesses'] = $filter_businesses;
 		$v_data['category_w_name'] = $category;
+
+
+
+		$v_data['latest'] = $this->products_model->get_latest_products();
+		$v_data['featured'] = $this->products_model->get_featured_products();
+		$v_data['brands'] = $this->brands_model->all_active_brands();
+		$v_data['all_children'] = $this->categories_model->all_child_categories();
+		$v_data['parent_categories'] = $this->categories_model->all_parent_categories();
+		$v_data['banners'] = $this->slideshow_model->get_slideshow_images();
+		$v_data['static_banners'] = $this->static_banners_model->get_static_banner_images('DESC');
+		$v_data['slideshow_location'] = $this->slideshow_location;
+		$v_data['static_banner_location'] = $this->static_banner_location;
+
+		
 		
 		$v_data['locations_array'] = '';
 		$v_data['brands_array'] = '';

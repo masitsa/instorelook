@@ -20,7 +20,7 @@
 						else
 						{
 							?>
-                            <!--<li><a href="<?php echo site_url().'sign-in'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Sign in</a></li>-->
+                            <li><a href="<?php echo site_url().'sign-in'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Sign in</a></li>
                             <li><a href="<?php echo site_url().'join'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Join</a></li>
                             <?php
 						}
