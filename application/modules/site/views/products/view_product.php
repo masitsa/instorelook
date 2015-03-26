@@ -365,7 +365,7 @@
 	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 	            <div class="hgroup title">
 	                 <h3>You're one step closer to owning this product!</h3>
-		                <h5>"<?php echo $product_name;?>" has been added to your favorite products</h5>
+		                <h5>"" has been added to your favorite products</h5>
 	            </div>
 	        </div>
 
