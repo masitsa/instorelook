@@ -114,9 +114,9 @@
    
    
    <div class="pull-right">
-    <a href="<?php echo site_url().'checkout/confirm-order';?>" class="btn btn-primary btn-small " > 
+    <!--<a href="<?php echo site_url().'checkout/confirm-order';?>" class="btn btn-primary btn-small " > 
         Confirm Order &nbsp; <i class="fa fa-check"></i>
-     </a>
+     </a>-->
   </div>
 </div>
 </div>

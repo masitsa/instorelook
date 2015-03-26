@@ -158,9 +158,10 @@ class Static_banners extends account
 				$this->session->unset_userdata('static_banner_file_name');
 				$this->session->unset_userdata('static_banner_thumb_name');
 				$this->session->unset_userdata('static_banner_error_message');
-				$this->session->set_userdata('success_message', 'Banner has been added. <a href="'.site_url()."vendor/purchase-banner/".$static_banner_id.'/0">Make payment</a>');
-				
-				redirect('vendor/all-static-banners');
+				//$this->session->set_userdata('success_message', 'Banner has been added. <a href="'.site_url()."vendor/purchase-banner/".$static_banner_id.'/0">Make payment</a>');
+				$this->session->set_userdata('success_message', 'Banner has been added.');
+				$this->purchase_success($static_banner_id, 0);
+				//redirect('vendor/all-static-banners');
 			}
 		}
 		

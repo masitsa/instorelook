@@ -51,6 +51,7 @@ a:hover, a:active, a:focus{text-decoration:none;color: rgba(41,171,226,.75);}
 .btn:hover, .btn:active{background: rgba(41,171,226,.75); color:#fff;}
 .btn-red, .btn-red:visited{background-color:#55A4DA; color:#fff;}
 .btn-grey, .btn-grey:visited{background-color:#F9F8F8; color:#000;}
+.btn{font-size:1.1em;}
 
 /* Navbar */
 .navigation{background-color:#55A4DA;}
@@ -64,7 +65,7 @@ nav .container-fluid{padding-left:0px;}
 .navbar-nav > li {}
 .navbar-nav > li::before {content: ''; position: absolute; height: 50%; left: 0; top: 25%;}
 .navbar-nav > li:first-child {border-left:none;}
-.navbar-default .navbar-toggle{background-color:#f3f3f3; color:#404040; border:none;}
+.navbar-default .navbar-toggle{background-color:#f3f3f3; color:#404040; border:none;margin:0;}
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{background-color:#f3f3f3; color:#404040; border:none;}
 .navbar-default .navbar-toggle .icon-bar{background-color: #fff;}
 .navbar-default .navbar-toggle:hover .icon-bar, .navbar-default .navbar-toggle:focus .icon-bar{background-color: #f3f3f3;}
@@ -77,7 +78,29 @@ h2{font-size:1.5em;}
 /* Title */
 .title{ background:/*#404040;*/#000;}
 .title h1{color:#55A4DA; text-align:center;}
-.title .container img{height: 90px;}
+.title .container img{height:80px;}
+@media (max-width: 600px) {
+	.title .container img{height:60px;}
+}
+@media (max-width: 450px) {
+	.title .container img{height:40px;}
+}
+@media (max-width: 340px) {
+	.title .container img{height:30px;}
+}
+.show-mobile{display: none;}
+.hide-mobile{display: block;}
+@media (max-width: 965px) {
+	.show-mobile{display: block;}
+	.hide-mobile{display: none;}
+}
+.show-mobile2{display: none;}
+.hide-mobile2{display: block;}
+@media (max-width: 767px) {
+	.show-mobile2{display: block;}
+	.hide-mobile2{display: none;}
+}
+
 .clear{clear: both;}
 
 /* Steps */
@@ -489,24 +512,18 @@ and (min-width : 1824px) {
 	body {font-size:1.2em;}
 }
 
-
-
-
-
-
-/*Custom CSS over writting */
-.navbar-nav {
-float: left;
-}
-.navbar-nav {
-margin: 0;
-}
+.container-fluid{padding-right:0;}
+.navbar-nav {float: left;margin: 0;}
+.navbar-default .collapse in{margin: 0;}
+.collapse in .navbar-nav, .navbar-default .collapse in{width: 100%;}
+.navbar-default .navbar-toggle, .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:visited{background-color:transparent; color: #FFFFFF; font-size: 2em;}
 .navbar-collapse{padding:0;}
-.form-horizontal .control-label {
-padding-top: 0px;
-}
-/*end of the custom css*/
+.form-horizontal .control-label {padding-top: 0px;}
+.mobile-cart{margin-top:-4.8em; float:left; width: 100%;}
 
+@media (max-width: 407px){
+	.mobile-cart{margin-top:-5.5em; float:left; width: 100%;}
+}
 
 
 /*Single products css view single product*/
@@ -1827,7 +1844,7 @@ ul.top-menu{padding-left:0;}
     display: inline-block;
 	padding-top: 23px;
     position: relative;
-    width: 218px;
+    width: 100%;
 }
 #searchform #s {
     padding-right: 25px;
@@ -1837,6 +1854,14 @@ ul.top-menu{padding-left:0;}
     height: 37px;
     padding: 0 12px;
     width: 100%;
+}
+
+@media (max-width: 965px){
+	#searchform{width: 60%}
+}
+
+@media (max-width: 500px){
+	#searchform{width: 40%}
 }
 #searchsubmit {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -2096,7 +2121,7 @@ margin-bottom:50px; background-color:#F8F8F8;
 }
 
 .aside ul li {
-padding:9px 20px;
+padding: 1px 20px;
 border-bottom:1px dotted #e1e1e1
 }
 
@@ -2908,10 +2933,11 @@ end of footer
 }
 .nav-tabs li a {
   font-family: 'Dosis', sans-serif;
-  font-size: 14px;
+  font-size: 0.8em;
   font-weight: 600;
   letter-spacing: 2px;
   margin: 0 0 0 0;
+  padding: 0.8em;
   text-transform: uppercase;
 }
 .color-details {
@@ -3066,5 +3092,8 @@ button.first {
 .best-sellers li{
   list-style: none;
 }
+
+.navbar-nav .open .dropdown-menu{background-color:#fff;}
+.collapse in .navbar-nav{float:none;}
 
 /*end of best sellers*/

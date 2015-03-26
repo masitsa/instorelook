@@ -7,4 +7,10 @@
 <file name="customer_sign_up.php" server="ftp.instorelook.com.au//public_html/development/" local="130700103577180141" remote="130700314200000000" Dst="0" />
 <file name="customer.php" server="ftp.instorelook.com.au//public_html/development/" local="130700165286699724" remote="130700344800000000" Dst="0" />
 <file name="reactivate_account.php" server="ftp.instorelook.com.au//public_html/development/" local="130705270554877598" remote="130705450200000000" Dst="0" />
+<file name="admin_login.php" server="ftp.instorelook.com.au//public_html/test/" local="130616529747018201" remote="130717750200000000" Dst="0" />
+<file name="customer.php" server="ftp.instorelook.com.au//public_html/test/" local="130700165286699724" remote="130717750200000000" Dst="0" />
+<file name="customer_sign_up.php" server="ftp.instorelook.com.au//public_html/test/" local="130700103577180141" remote="130717750200000000" Dst="0" />
+<file name="reactivate_account.php" server="ftp.instorelook.com.au//public_html/test/" local="130705270554877598" remote="130717750200000000" Dst="0" />
+<file name="sign_in.php" server="ftp.instorelook.com.au//public_html/test/" local="130699400548359493" remote="130717750200000000" Dst="0" />
+<file name="sign_up.php" server="ftp.instorelook.com.au//public_html/test/" local="130693258070736827" remote="130717750200000000" Dst="0" />
 </dwsync>

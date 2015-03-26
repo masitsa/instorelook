@@ -10,4 +10,12 @@
 <file name="comments.php" server="ftp.instorelook.com.au//public_html/development/" local="130603748338594443" remote="130605501000000000" Dst="0" />
 <file name="edit_blog_category.php" server="ftp.instorelook.com.au//public_html/development/" local="130603748338604443" remote="130605501000000000" Dst="0" />
 <file name="edit_post.php" server="ftp.instorelook.com.au//public_html/development/" local="130603748338624444" remote="130605501000000000" Dst="0" />
+<file name="add_category.php" server="ftp.instorelook.com.au//public_html/test/" local="130603748338454435" remote="130717747200000000" Dst="0" />
+<file name="add_comment.php" server="ftp.instorelook.com.au//public_html/test/" local="130603748338484436" remote="130717747200000000" Dst="0" />
+<file name="add_post.php" server="ftp.instorelook.com.au//public_html/test/" local="130603748338514438" remote="130717747200000000" Dst="0" />
+<file name="all_categories.php" server="ftp.instorelook.com.au//public_html/test/" local="130603748338564441" remote="130717747200000000" Dst="0" />
+<file name="all_posts.php" server="ftp.instorelook.com.au//public_html/test/" local="130603748338584442" remote="130717747200000000" Dst="0" />
+<file name="comments.php" server="ftp.instorelook.com.au//public_html/test/" local="130603748338594443" remote="130717747200000000" Dst="0" />
+<file name="edit_blog_category.php" server="ftp.instorelook.com.au//public_html/test/" local="130603748338604443" remote="130717747200000000" Dst="0" />
+<file name="edit_post.php" server="ftp.instorelook.com.au//public_html/test/" local="130603748338624444" remote="130717747800000000" Dst="0" />
 </dwsync>

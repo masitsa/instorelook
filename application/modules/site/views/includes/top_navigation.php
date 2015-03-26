@@ -66,7 +66,7 @@
         <div class="title">
         	<div class="container">
         		<!-- <h1>in store look</h1> -->
-                <img class="img-responsive" src="<?php echo base_url().'assets/images/logo.png';?>"/>
+                	<a href="<?php echo site_url();?>"><img class="img-responsive" src="<?php echo base_url().'assets/images/logo.png';?>"/></a>
             </div>
         </div>
         <!-- End Title -->

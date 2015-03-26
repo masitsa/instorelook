@@ -6,4 +6,7 @@
 <file name="add_user.php" server="ftp.instorelook.com.au//public_html/development/" local="130603748338964464" remote="130605501000000000" Dst="0" />
 <file name="all_users.php" server="ftp.instorelook.com.au//public_html/development/" local="130571742149893247" remote="130605501000000000" Dst="0" />
 <file name="edit_user.php" server="ftp.instorelook.com.au//public_html/development/" local="130571742660092428" remote="130605501600000000" Dst="0" />
+<file name="add_user.php" server="ftp.instorelook.com.au//public_html/test/" local="130603748338964464" remote="130717748400000000" Dst="0" />
+<file name="all_users.php" server="ftp.instorelook.com.au//public_html/test/" local="130571742149893247" remote="130717748400000000" Dst="0" />
+<file name="edit_user.php" server="ftp.instorelook.com.au//public_html/test/" local="130571742660092428" remote="130717748400000000" Dst="0" />
 </dwsync>

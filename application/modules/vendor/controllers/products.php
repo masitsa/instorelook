@@ -1394,7 +1394,7 @@ class Products extends account
 		{
 			$data['content'] = '';
 		}
-		$data['title'] = 'All orders';
+		$data['title'] = 'All reviews';
 		
 		$this->load->view('account_template', $data);
 	}

@@ -339,6 +339,38 @@ class Site_model extends CI_Model
 			return FALSE;
 		}
 	}
+    
+	/*
+	*
+	*	Vendor Account Verification Email
+	*
+	*/
+	public function contact_admin() 
+	{
+		$this->load->model('site/email_model');
+		$date = date('jS M Y H:i a',strtotime(date('Y-m-d H:i:s')));
+		$subject = $this->input->post('sender_name')." needs some help";
+		$message = '
+				<p>A help message was sent on '.$date.' saying:</p> 
+				<p>'.$this->input->post('message').'</p>
+				<p>Their contact details are:</p>
+				<p>
+					Name: '.$this->input->post('sender_name').'<br/>
+					Email: '.$this->input->post('sender_email').'<br/>
+					Phone: '.$this->input->post('sender_phone').'
+				</p>
+				';
+		$sender_email = $this->input->post('sender_email');
+		$shopping = "";
+		$from = $this->input->post('sender_name');
+		
+		$button = '';
+		$response = $this->email_model->send_mandrill_mail('info@instorelook.com.au', "Hi Bryn", $subject, $message, $sender_email, $shopping, $from, $button, $cc = NULL);
+		
+		//echo var_dump($response);
+		
+		return $response;
+	}
 }
 
 ?>

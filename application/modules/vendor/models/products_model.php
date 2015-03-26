@@ -811,13 +811,11 @@ class Products_model extends CI_Model
 		$count=1;
 		$row_count=0;
 		
-		
 		/*
 			-----------------------------------------------------------------------------------------
 			Document Header
 			-----------------------------------------------------------------------------------------
 		*/
-		
 		$report[$row_count][0] = '#';
 		$report[$row_count][1] = 'Code';
 		$report[$row_count][2] = 'Category';

@@ -346,7 +346,7 @@
                                             </div>
                                         </div>
                                         <div class="center-align">
-                                        	<a href="http://www.fixpicture.org/" target="_blank">Free online image converter</a>
+                                        	<a href="http://www.picresize.com/" target="_blank">Free online image converter</a>
                                         </div>
                                     </div>
                                 </div>

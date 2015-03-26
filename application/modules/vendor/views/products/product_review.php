@@ -88,7 +88,7 @@
 
 				$button = '';				
 				//create deactivated status display
-				if($product_review_status == 2)
+				if(empty($product_review_status))
 				{
 					$status = '<span class="label label-primary">Pending</span>';
 					$button = '<a href="'.site_url().'vendor/activate-review/'.$product_review_id.'" class="btn btn-sm btn-success" onclick="return confirm(\'Do you really want to activate this review '.$product_name.'?\');">Activate Review</a>';
@@ -96,7 +96,7 @@
 				//create activated status display
 				else if($product_review_status == 1)
 				{
-					$status = '<span class="label label-danger">Deactivated</span>';
+					$status = '<span class="label label-success">Active</span>';
 					$button = '<a href="'.site_url().'vendor/deactivate-review/'.$product_review_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to deactivate this review '.$product_name.'?\');">Deactivate Review</a>';
 
 				}

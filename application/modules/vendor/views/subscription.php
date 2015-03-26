@@ -40,10 +40,7 @@
 					?>
                     <!-- End subscription error -->
                     <div class="subscribe">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam egestas blandit dignissim. Aenean maximus ornare sem, et commodo risus tempor sed. Maecenas id purus diam. Pellentesque pellentesque massa leo, eu consectetur nulla consequat id. Quisque ut eros vitae dui consequat sodales. Aenean metus velit, fringilla sit amet nisl quis, pharetra tincidunt purus. Nam egestas volutpat lectus. Morbi libero diam, pulvinar id ipsum a, feugiat gravida metus. Mauris non est sed mi laoreet aliquam eget quis dui. Aliquam auctor massa eu rhoncus tempor. In euismod, nisl ut aliquet commodo, nibh orci eleifend quam, et interdum neque eros a purus. Proin rhoncus congue lorem, vel mollis tellus mattis at.</p>
                         
-                        <p>Integer egestas nulla nec arcu ornare dignissim. Ut eget odio eu risus dapibus fermentum nec quis quam. Cras nisi quam, tincidunt non sodales pharetra, rhoncus ut eros. Nulla mollis aliquet urna. Vestibulum metus nulla, pretium id placerat ac, mattis at metus. Aenean lacus enim, tincidunt a euismod nec, viverra id ex. Ut vehicula est non fermentum sollicitudin. Donec id sagittis justo. Quisque non nisi sodales, tempus lorem sed, gravida purus. Suspendisse quis nulla sagittis, placerat orci id, ornare nulla. Fusce consequat placerat pharetra. Curabitur ornare magna sed nulla pharetra, at volutpat nulla lacinia. Curabitur placerat eros tortor, id ultrices justo fringilla elementum. Etiam et ultrices leo.</p>
-                    </div>
                     <div class="row center-align">
                     	<?php
                         	$validation_errors = $this->session->userdata('vendor_signup3_error_message');
@@ -75,7 +72,8 @@
 											{
 												foreach($categories->result() as $cat)
 												{
-													$selected = '';
+													//$selected = '';
+													$selected = 'selected';
 													if($vendor_categories->num_rows() > 0)
 													{
 														foreach($vendor_categories->result() as $cat2)
@@ -92,7 +90,7 @@
 													}
 													else
 													{
-														echo '<option value="'.$cat->category_id.'">'.$cat->category_name.'</option>';
+														echo '<option value="'.$cat->category_id.'" '.$selected.'>'.$cat->category_name.'</option>';
 													}
 												}
 											}

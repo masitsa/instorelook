@@ -16,4 +16,14 @@
 <file name="categories.php" server="ftp.instorelook.com.au//public_html/development/" local="130644016456315550" remote="130644196200000000" Dst="0" />
 <file name="promotion_charges.php" server="ftp.instorelook.com.au//public_html/development/" local="130674198966583995" remote="130674379800000000" Dst="0" />
 <file name="banners.php" server="ftp.instorelook.com.au//public_html/development/" local="130679419188073767" remote="130679599800000000" Dst="0" />
+<file name="banners.php" server="ftp.instorelook.com.au//public_html/test/" local="130679419188073767" remote="130717746600000000" Dst="0" />
+<file name="blog.php" server="ftp.instorelook.com.au//public_html/test/" local="130607104878222084" remote="130717746600000000" Dst="0" />
+<file name="categories.php" server="ftp.instorelook.com.au//public_html/test/" local="130644016456315550" remote="130717746600000000" Dst="0" />
+<file name="charts.php" server="ftp.instorelook.com.au//public_html/test/" local="130538222930981243" remote="130717746600000000" Dst="0" />
+<file name="control.php" server="ftp.instorelook.com.au//public_html/test/" local="130495605127336840" remote="130717746600000000" Dst="0" />
+<file name="orders.php" server="ftp.instorelook.com.au//public_html/test/" local="130520878878999866" remote="130717746600000000" Dst="0" />
+<file name="promotion_charges.php" server="ftp.instorelook.com.au//public_html/test/" local="130674198966583995" remote="130717746600000000" Dst="0" />
+<file name="settings.php" server="ftp.instorelook.com.au//public_html/test/" local="130496490181600315" remote="130717746600000000" Dst="0" />
+<file name="users.php" server="ftp.instorelook.com.au//public_html/test/" local="130571742489742685" remote="130717746600000000" Dst="0" />
+<file name="admin.php" server="ftp.instorelook.com.au//public_html/test/" local="130603748337864401" remote="130717747200000000" Dst="0" />
 </dwsync>

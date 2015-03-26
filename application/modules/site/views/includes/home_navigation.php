@@ -18,12 +18,12 @@
 			{
 				if($count == 0)
 				{
-					$categories .= '<li class="col-sm-3"><ul>';
+					$categories .= '<li class="col-sm-3 col-xs-6"><ul>';
 				}
 				
 				else
 				{
-					$categories .= '</ul></li><li class="col-sm-3"><ul>';
+					$categories .= '</ul></li><li class="col-sm-3 col-xs-6"><ul>';
 				}
 			}
 			
@@ -66,10 +66,19 @@
 ?>
         <div class="header-top">
             <div class="container">
-                <div class="pull-left auto-width-left">
+            	<!-- Screens > 965px -->
+                <div class="pull-left auto-width-left hide-mobile">
                 	<ul class="top-menu menu-beta l-inline">
                     	<li><a href="tel:0405486426"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> 0405 486 426</a></li>
                         <li><a href="mailto:info@instorelook.com.au"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> info@instorelook.com.au</a></li>
+                    </ul>
+                </div>
+                
+            	<!-- Screens <= 965px -->
+                <div class="pull-left auto-width-left show-mobile">
+                	<ul class="top-menu menu-beta l-inline">
+                    	<li><a href="tel:0405486426"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span></a></li>
+                        <li><a href="mailto:info@instorelook.com.au"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></li>
                     </ul>
                 </div>
                 
@@ -87,13 +96,13 @@
 						{
 							?>
                             <li><a href="<?php echo site_url().'sign-in'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Sign in</a></li>
-                            <li><a href="<?php echo site_url().'join'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Join</a></li>
+                            <li class="hide-mobile"><a href="<?php echo site_url().'join'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Join</a></li>
                             <?php
 						}
 						?>
                     	
-                    	<li><a href="<?php echo site_url().'account/wishlist'?>"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Wishlist</a></li>
-                        <li><a href="<?php echo site_url().'customer-request'?>"><span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span> Requests</a></li>
+                    	<li class="hide-mobile"><a href="<?php echo site_url().'account/wishlist'?>"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Wishlist</a></li>
+                        <li class="hide-mobile"><a href="<?php echo site_url().'customer-request'?>"><span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span> Requests</a></li>
                     </ul>
                 </div>
             </div>
@@ -102,16 +111,18 @@
         <!-- Title -->
         <div class="title">
         	<div class="container">
-            <div class="clear"></div>
-        		<!-- <h1>in store look</h1> -->
-                <div class="pull-left">
-                	<img class="img-responsive" src="<?php echo base_url().'assets/images/logo.png';?>"/>
-                </div>
-                <div class="pull-right">
-                    <?php echo form_open('products/search', array('role' => 'search', 'id' => 'searchform'));?>
-                        <input id="s" type="text" placeholder="Search entire store here..." name="search_item" value="">
-                        <button id="searchsubmit" class="glyphicon glyphicon-search" type="submit"></button>
-                    <?php echo form_close(); ?>
+            	<div class="clear"></div>
+                
+                <div class="row">
+                	<div class="col-md-8 col-sm-8">
+                	<a href="<?php echo site_url();?>"><img class="img-responsive" src="<?php echo base_url().'assets/images/logo.png';?>"/></a>
+                	</div>
+                	<div class="col-md-4 col-sm-4 hide-mobile2" style="padding-right:0;">
+						<?php echo form_open('products/search', array('role' => 'search', 'id' => 'searchform'));?>
+                            <input id="s" type="text" placeholder="Search entire store here..." name="search_item" value="">
+                            <button id="searchsubmit" class="glyphicon glyphicon-search" type="submit"></button>
+                        <?php echo form_close(); ?>
+                	</div>
                 </div>
             </div>
         </div>
@@ -122,21 +133,26 @@
         <!-- Navigation -->
         <div class="navigation">
         	<div class="container">
-                <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="">
                     <nav class="navbar navbar-default blue-background" role="navigation">
                         <div class="container-fluid">
                             <!-- Brand and toggle get grouped for better mobile display -->
                             <div class="navbar-header">
                                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                                 <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <a class="navbar-brand" href="#">Categories</a>
+                                <span class="glyphicon glyphicon-align-justify"></span>
                                 </button>
                             </div>
                             
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-cart"> <i class="glyphicon glyphicon-shopping-cart"> </i> <span class="cartRespons colorWhite" id="menu_cart_total"> Cart ($<?php echo $this->load->view('site/cart/cart_total', '', TRUE);?>) </span> </button>
+                            <!-- Screens <= 965px -->
+                            <div class="show-mobile2 mobile-cart">
+                            	<button type="button" class="btn btn-primary" data-toggle="collapse" data-target=".navbar-cart"> <i class="glyphicon glyphicon-shopping-cart"> </i> <span class="cartRespons colorWhite" id="menu_cart_total">($<?php echo $this->load->view('site/cart/cart_total', '', TRUE);?>) </span> </button>
+                            
+                                <?php echo form_open('products/search', array('role' => 'search', 'id' => 'searchform'));?>
+                                    <input id="s" type="text" placeholder="Search" name="search_item" value="">
+                                    <button id="searchsubmit" class="glyphicon glyphicon-search" type="submit"></button>
+                                <?php echo form_close(); ?>
+                            </div>
                     
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse js-navbar-collapse" id="bs-example-navbar-collapse-1">
