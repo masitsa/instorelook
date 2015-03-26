@@ -112,9 +112,9 @@
     </div>
 
     <div class="pull-right">                            
-        <a href="<?php echo site_url().'checkout/confirm-order';?>" class="btn btn-primary btn-small">
+        <!--<a href="<?php echo site_url().'checkout/confirm-order';?>" class="btn btn-primary btn-small">
             Confirm Order &nbsp; <i class="icon-chevron-right"></i>
-        </a>
+        </a>-->
     </div>
 </div>					
 </div>

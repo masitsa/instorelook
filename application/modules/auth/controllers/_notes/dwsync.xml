@@ -5,4 +5,7 @@
 <file name="admin_auth.php" server="ftp.instorelook.com.au//public_html/development/" local="130602724826372470" remote="130626924000000000" Dst="0" />
 <file name="auth.php" server="ftp.instorelook.com.au//public_html/development/" local="130625718098217799" remote="130626924000000000" Dst="0" />
 <file name="vendor_auth.php" server="ftp.instorelook.com.au//public_html/development/" local="130638898554280540" remote="130639078800000000" Dst="0" />
+<file name="admin_auth.php" server="ftp.instorelook.com.au//public_html/test/" local="130602724826372470" remote="130717748400000000" Dst="0" />
+<file name="auth.php" server="ftp.instorelook.com.au//public_html/test/" local="130625718098217799" remote="130717748400000000" Dst="0" />
+<file name="vendor_auth.php" server="ftp.instorelook.com.au//public_html/test/" local="130692429620101574" remote="130717748400000000" Dst="0" />
 </dwsync>

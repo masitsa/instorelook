@@ -54,7 +54,6 @@ echo $this->load->view('vendor/search/search_categories', $v_data, TRUE); ?>
 					  <thead>
 						<tr>
 						  <th class="table-sortable:default table-sortable" title="Click to sort">#</th>
-						  <th>Image</th>
 						  <th class="table-sortable:default table-sortable" title="Click to sort">Category Name</th>
 						  <th class="table-sortable:default table-sortable" title="Click to sort">Date Created</th>
 						  <th class="table-sortable:default table-sortable" title="Click to sort">Last Modified</th>
@@ -184,7 +183,6 @@ echo $this->load->view('vendor/search/search_categories', $v_data, TRUE); ?>
 					'
 						<tr>
 							<td>'.$count.'</td>
-							<td><img src="'.base_url()."assets/images/categories/thumbnail_".$image.'"></td>
 							<td>'.$category_name.'</td>
 							<td>'.date('jS M Y H:i a',strtotime($row->created)).'</td>
 							<td>'.date('jS M Y H:i a',strtotime($row->last_modified)).'</td>

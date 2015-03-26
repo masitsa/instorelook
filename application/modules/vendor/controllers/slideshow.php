@@ -145,9 +145,10 @@ class Slideshow extends account
 				$this->session->unset_userdata('slideshow_file_name');
 				$this->session->unset_userdata('slideshow_thumb_name');
 				$this->session->unset_userdata('slideshow_error_message');
-				$this->session->set_userdata('success_message', 'Banner has been added. <a href="'.site_url()."vendor/purchase-banner/".$slideshow_id.'/0">Make payment</a>');
-				
-				redirect('vendor/all-banners');
+				//$this->session->set_userdata('success_message', 'Banner has been added. <a href="'.site_url()."vendor/purchase-banner/".$slideshow_id.'/0">Make payment</a>');
+				$this->session->set_userdata('success_message', 'Banner has been added.');
+				$this->purchase_success($slideshow_id, 0);
+				//redirect('vendor/all-banners');
 			}
 		}
 		
@@ -289,10 +290,10 @@ class Slideshow extends account
 		$image_name = $slide_row->slideshow_image_name;
 		
 		//delete any other uploaded image
-		$this->file_model->delete_file($slideshow_path."\\".$image_name);
+		$this->file_model->delete_file($slideshow_path."\\".$image_name, $slideshow_path);
 		
 		//delete any other uploaded thumbnail
-		$this->file_model->delete_file($slideshow_path."\\thumbnail_".$image_name);
+		$this->file_model->delete_file($slideshow_path."\\thumbnail_".$image_name, $slideshow_path);
 		
 		if($this->slideshow_model->delete_slideshow($slideshow_id))
 		{

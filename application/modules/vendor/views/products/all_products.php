@@ -175,7 +175,7 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 						<td>
 							
 							<!-- Button to trigger modal -->
-							<a href="#user'.$product_id.'" class="btn btn-primary" data-toggle="modal">View</a>
+							<a href="#user'.$product_id.'" class="btn btn-primary" data-toggle="modal"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
 							
 							<!-- Modal -->
 							<div id="user'.$product_id.'" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -257,20 +257,22 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-											<a href="'.site_url().'vendor/edit-product/'.$product_id.'" class="btn btn-sm btn-success">Edit</a>
+											<a href="'.site_url().'vendor/edit-product/'.$product_id.'" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+											<a href="'.site_url().'products/view-product/'.$product_id.'" target="_blank" class="btn btn-sm btn-ifo"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
 											<a href="'.site_url().'vendor/duplicate-product/'.$product_id.'" class="btn btn-sm btn-warning">Duplicate</a>
 											'.$button.'
-											<a href="'.site_url().'vendor/delete-product/'.$product_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$product_name.'?\');">Delete</a>
+											<a href="'.site_url().'vendor/delete-product/'.$product_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$product_name.'?\');"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 										</div>
 									</div>
 								</div>
 							</div>
 						
 						</td>
-						<td><a href="'.site_url().'vendor/edit-product/'.$product_id.'" class="btn btn-sm btn-success">Edit</a></td>
+						<td><a href="'.site_url().'vendor/edit-product/'.$product_id.'" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
 						<td><a href="'.site_url().'vendor/duplicate-product/'.$product_id.'" class="btn btn-sm btn-warning">Duplicate</a></td>
+						<td><a href="'.site_url().'products/view-product/'.$product_id.'" target="_blank" class="btn btn-sm btn-ifo"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></td>
 						<td>'.$button.'</td>
-						<td><a href="'.site_url().'vendor/delete-product/'.$product_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$product_name.'?\');">Delete</a></td>
+						<td><a href="'.site_url().'vendor/delete-product/'.$product_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$product_name.'?\');"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
 					</tr> 
 				';
 			}

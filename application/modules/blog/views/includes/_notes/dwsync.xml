@@ -5,4 +5,8 @@
 <file name="header.php" server="ftp.instorelook.com.au//public_html/development/" local="130603456506906448" remote="130605501600000000" Dst="0" />
 <file name="navigation.php" server="ftp.instorelook.com.au//public_html/development/" local="130603472982828816" remote="130605501600000000" Dst="0" />
 <file name="sidebar.php" server="ftp.instorelook.com.au//public_html/development/" local="130607104080196440" remote="130607287200000000" Dst="0" />
+<file name="footer.php" server="ftp.instorelook.com.au//public_html/test/" local="130603456506886446" remote="130717749600000000" Dst="0" />
+<file name="header.php" server="ftp.instorelook.com.au//public_html/test/" local="130603456506906448" remote="130717749600000000" Dst="0" />
+<file name="navigation.php" server="ftp.instorelook.com.au//public_html/test/" local="130603472982828816" remote="130717749600000000" Dst="0" />
+<file name="sidebar.php" server="ftp.instorelook.com.au//public_html/test/" local="130607104080196440" remote="130717749600000000" Dst="0" />
 </dwsync>

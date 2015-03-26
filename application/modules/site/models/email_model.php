@@ -47,9 +47,7 @@ class Email_model extends CI_Model
 		if(!isset($from)){
 			$from = "In Store Look";
 		}
-		if($cc == NULL){
-			$cc = "amasitsa@live.com";
-		}
+		
 		if(!isset($button)){
 			$button = '<a class="mcnButton " title="Confirm Account" href="'.site_url().'" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Shop Now</a>';
 		}

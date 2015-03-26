@@ -55,7 +55,7 @@ echo $this->load->view('vendor/search/search_orders', '' , TRUE); ?>
 					  <th class="table-sortable:default table-sortable" title="Click to sort">Order Number</th>
 					  <th class="table-sortable:default table-sortable" title="Click to sort">Customer</th>
 					  <th>Total Items</th>
-					  <th>Order Total</th>
+					  <th>Order Total ($)</th>
 					  <th class="table-sortable:default table-sortable" title="Click to sort">Status</th>
 					  <th colspan="3">Actions</th>
 					</tr>
@@ -121,8 +121,8 @@ echo $this->load->view('vendor/search/search_orders', '' , TRUE); ?>
 					<tr>
 						<th>Item</th>
 						<th>Quantity</th>
-						<th>Price</th>
-						<th>Total</th>
+						<th>Price ($)</th>
+						<th>Total ($)</th>
 					</tr>';
 					$order_items = $order_details->result();
 					$total_price = 0;
@@ -141,8 +141,8 @@ echo $this->load->view('vendor/search/search_orders', '' , TRUE); ?>
 						<tr>
 							<td>'.$product.'</td>
 							<td>'.$quantity.'</td>
-							<td>'.number_format($price, 0, '.', ',').'</td>
-							<td>'.number_format(($quantity*$price), 0, '.', ',').'</td>
+							<td>'.number_format($price, 2, '.', ',').'</td>
+							<td>'.number_format(($quantity*$price), 2, '.', ',').'</td>
 						</tr>
 						';
 					}
@@ -152,7 +152,7 @@ echo $this->load->view('vendor/search/search_orders', '' , TRUE); ?>
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>'.number_format($total_price, 0, '.', ',').'</td>
+						<td>'.number_format($total_price, 2, '.', ',').'</td>
 					</tr></table>
 					';
 				}
@@ -213,7 +213,7 @@ echo $this->load->view('vendor/search/search_orders', '' , TRUE); ?>
 						<td>'.$order_number.'</td>
 						<td>'.$user.'</td>
 						<td>'.$total_items.'</td>
-						<td>'.number_format($total_price, 0, '.', ',').'</td>
+						<td>'.number_format($total_price, 2, '.', ',').'</td>
 						<td>'.$status.'</td>
 						<td>
 							<!-- Button to trigger modal -->

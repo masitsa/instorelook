@@ -167,7 +167,9 @@ if($surburbs->num_rows() > 0)
 <script src="<?php echo base_url();?>assets/themes/custom/js/owl.carousel.js"></script>
 
 		<script type="text/javascript">
-		
+		$('.carousel').carousel({
+		  interval: 10000
+		})
 			window.fbAsyncInit = function() {
 				FB.init({
 					 appId:'<?php echo $this->config->item('appID'); ?>',

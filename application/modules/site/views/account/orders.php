@@ -33,11 +33,13 @@
 	              <tr>
 	                <th data-class="expand" data-sort-initial="true"> <span title="table sorted by this column on load">Order ID</span> </th>
 	                <th data-hide="phone,tablet" data-sort-ignore="false">Date</th>
-	                <th data-hide="phone,tablet" data-sort-ignore="true">No. of items</th>
-	                <th data-hide="phone,tablet" data-sort-ignore="true">Details</th>
+	                <th data-hide="phone,tablet" data-sort-ignore="false">No. of items</th>
+	                <th data-hide="phone,tablet" data-sort-ignore="false">Total Cost ($)</th>
+	                <!--<th data-hide="phone,tablet" data-sort-ignore="true">Details</th>-->
 	                <th data-hide="phone,tablet"><strong>Payment Method</strong></th>
-	                <th data-hide="default"> Price </th>
-	                <th data-hide="default" data-type="numeric"> Date </th>
+	                <th data-hide="default"> Instructions </th>
+	                <th data-hide="default" data-type="numeric"> Items ordered </th>
+	                <th data-hide="default" data-type="numeric"> Business details </th>
 	                <th data-hide="phone" data-type="numeric"> Status </th>
 	              </tr>
 	            </thead>
@@ -58,6 +60,7 @@
 						$total_items = 0;
 						
 						//order items
+						
 						if($order_items->num_rows() > 0)
 						{
 							$order = $order_items->result();
@@ -69,8 +72,7 @@
 								$price = $item->order_item_price;
 								
 								$items .= $quantity.' unit(s) of '.$product_name.' @ '.number_format($price, 2).'<br/>';
-								
-								$total_items++;
+								$total_items += $quantity;
 							}
 						}
 						
@@ -105,12 +107,72 @@
 				?>
 	              <tr>
 	                <td><?php echo $order_number;?></td>
-	                <td data-value="78025368997"><?php echo $created;?></td>
+	                <td data-value="<?php echo strtotime($ord->order_created);?>"><?php echo $created;?></td>
 	                <td><?php echo $total_items;?> <small><?php echo $display;?></small></td>
-	                <td><?php echo $items;?></td>
+	                <td><?php echo $total_cost;?></td>
+	                <!--<td><?php echo $items;?></td>-->
 	                <td><?php echo $method;?></td>
-	                <td>$<?php echo $total_cost;?></td>
-	                <td><?php echo $created;?></td>
+	                <td><?php echo $instructions;?></td>
+	                <td>
+					
+                    	<?php
+						if($order_items->num_rows() > 0)
+						{
+							$items = '
+							<table class="table table-striped table-condensed">
+							<tr>
+								<th>Item</th>
+								<th></th>
+								<th>Quantity</th>
+								<th>Price ($)</th>
+								<th>Total ($)</th>
+							</tr>';
+							$order_items = $order_items->result();
+							$total_price = 0;
+							$total_items = 0;
+							
+							foreach($order_items as $ord)
+							{
+								$product = $ord->product_name;
+								$quantity = $ord->order_item_quantity;
+								$price = $ord->order_item_price;
+								$product_id = $ord->product_id;
+								
+								$total_price += ($quantity*$price);
+								$total_items += $quantity;
+								
+								$items .= '
+								<tr>
+									<td>'.$product.'</td>
+									<td><a class="btn btn-primary btn-sm add_to_cart" href="'.$product_id.'" product_id="'.$product_id.'"><span class="add2cart"><i class="glyphicon glyphicon-shopping-cart"> </i> Add to cart </span></a></td>
+									<td>'.$quantity.'</td>
+									<td>'.number_format($price, 2, '.', ',').'</td>
+									<td>'.number_format(($quantity*$price), 2, '.', ',').'</td>
+								</tr>
+								';
+							}
+								
+							$items .= '
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td colspan="5">'.number_format($total_price, 2, '.', ',').'</td>
+								</tr>
+							</table>
+							';
+						}
+						
+						else
+						{
+							$items = 'This order has no items';
+						}
+						echo $items;
+						?>
+                    
+                    </td>
+	                <td>Business details with hyperlink to either email business or call them (use mailto: & tel:)</td>
 	                <td data-value="3"><?php echo $order_status;?></td>
 	              </tr>
 	             <?php

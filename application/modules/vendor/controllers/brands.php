@@ -183,10 +183,10 @@ class Brands extends account
 				$brands_path = $this->brands_path;
 				
 				//delete original image
-				$this->file_model->delete_file($brands_path."\\".$this->input->post('current_image'));
+				$this->file_model->delete_file($brands_path."\\".$this->input->post('current_image'), $brands_path);
 				
 				//delete original thumbnail
-				$this->file_model->delete_file($brands_path."\\thumbnail_".$this->input->post('current_image'));
+				$this->file_model->delete_file($brands_path."\\thumbnail_".$this->input->post('current_image'), $brands_path);
 				/*
 				/*
 					-----------------------------------------------------------------------------------------
@@ -280,9 +280,9 @@ class Brands extends account
 			
 			$this->load->model('file_model');
 			//delete image
-			$this->file_model->delete_file($this->brands_path."/images/".$image);
+			$this->file_model->delete_file($this->brands_path."/images/".$image, $this->brands_path);
 			//delete thumbnail
-			$this->file_model->delete_file($this->brands_path."/thumbs/".$image);
+			$this->file_model->delete_file($this->brands_path."/thumbs/".$image, $this->brands_path);
 		}
 		$this->brands_model->delete_brand($brand_id);
 		$this->session->set_userdata('success_message', 'brand has been deleted');

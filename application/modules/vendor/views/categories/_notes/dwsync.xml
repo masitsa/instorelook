@@ -6,4 +6,7 @@
 <file name="add_category.php" server="ftp.instorelook.com.au//public_html/development/" local="130626728836906507" remote="130626917400000000" Dst="0" />
 <file name="all_categories.php" server="ftp.instorelook.com.au//public_html/development/" local="130686744820695373" remote="130687375200000000" Dst="0" />
 <file name="edit_category.php" server="ftp.instorelook.com.au//public_html/development/" local="130626728890396625" remote="130626917400000000" Dst="0" />
+<file name="all_categories.php" server="ftp.instorelook.com.au//public_html/test/" local="130709336521143835" remote="130717753800000000" Dst="0" />
+<file name="add_category.php" server="ftp.instorelook.com.au//public_html/test/" local="130626728836906507" remote="130717753800000000" Dst="0" />
+<file name="edit_category.php" server="ftp.instorelook.com.au//public_html/test/" local="130626728890396625" remote="130717753800000000" Dst="0" />
 </dwsync>

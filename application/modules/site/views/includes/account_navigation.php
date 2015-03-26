@@ -38,7 +38,7 @@
             <div class="clear"></div>
         		<!-- <h1>in store look</h1> -->
                 <div class="pull-left">
-                	<img class="img-responsive" src="<?php echo base_url().'assets/images/logo.png';?>"/>
+                	<a href="<?php echo site_url();?>"><img class="img-responsive" src="<?php echo base_url().'assets/images/logo.png';?>"/></a>
                 </div>
                 <div class="pull-right">
                 	<form id="searchform" action="/" method="get" role="search">
@@ -71,7 +71,7 @@
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
-                                <!--<li class="active"><a href="#">Home</a></li>-->
+                                <li class=""><a href="<?php echo site_url();?>">Home</a></li>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Products <span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">

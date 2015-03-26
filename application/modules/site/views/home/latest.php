@@ -29,12 +29,12 @@ $static_banner2 = '';//$static_banner_location.$cat[1]->static_banner_image_name
     <div class="row beta-products-details">
         <div class="col-md-6">
             <div class="pull-left">
-                438 products found |
+                <!--438 products found |-->
                 <a href="<?php echo site_url().'products';?>">View all</a>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="pull-right">
+            <!--<div class="pull-right">
                 <span class="sort-by">Sort by </span>
                 <div class="beta-select beta-select-primary">
                     <span class="beta-select-title"></span>
@@ -46,7 +46,7 @@ $static_banner2 = '';//$static_banner_location.$cat[1]->static_banner_image_name
                         <option value="best">Best</option>
                     </select><i class="fa fa-chevron-down"></i>
                 </div>
-            </div>
+            </div>-->
         </div>
         <div class="clear"></div>
 	</div>
@@ -142,7 +142,7 @@ $static_banner2 = '';//$static_banner_location.$cat[1]->static_banner_image_name
 			echo '<p>No products have been added yet :-(</p>';
 		}
 	?>
-
+</div>
 <!-- Promotion banners -->
 <!-- <div class="row promotion-banners">
 	<div class="col-md-6" style="padding-right:10px;">
@@ -161,16 +161,3 @@ $static_banner2 = '';//$static_banner_location.$cat[1]->static_banner_image_name
     </div>
 </div> -->
 <!-- End Promotion banners -->
-
-<!-- Coupon -->
-<div class="beta-promobox">
-	<img class="img-responsive" src="<?php echo $static_banner1;?>"/>
-	
-    <!--<a class="beta-btn pull-right mt5" href="#">Get Coupon</a>
-    <h2 >
-        <span class="white">FREE</span>
-        Standard Delivery on orders OVER $150!
-    </h2>
-    <div class="clear"></div>-->
-</div>
-<!-- End Coupon -->

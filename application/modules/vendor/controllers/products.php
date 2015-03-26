@@ -57,7 +57,6 @@ class Products extends account
 		$config['per_page'] = 20;
 		$config['num_links'] = 5;
 		
-		
 		$config['full_tag_open'] = '<ul class="pagination pull-right">';
 		$config['full_tag_close'] = '</ul>';
 		
@@ -75,8 +74,8 @@ class Products extends account
 		$config['prev_link'] = 'Prev';
 		$config['prev_tag_close'] = '</li>';
 		
-		$config['cur_tag_open'] = '<li class="active">';
-		$config['cur_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li class="active"><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
 		
 		$config['num_tag_open'] = '<li>';
 		$config['num_tag_close'] = '</li>';
@@ -271,12 +270,18 @@ class Products extends account
 				$this->load->library('image_lib');
 				
 				$products_path = $this->products_path;
+				//var_dump($products_path."\\".$this->input->post('current_image'));die();
 				
-				//delete original image
-				$this->file_model->delete_file($products_path."\images\\".$this->input->post('current_image'));
+				$image = $this->input->post('current_image');
 				
-				//delete original thumbnail
-				$this->file_model->delete_file($products_path."\images\\".$this->input->post('current_thumb'));
+				if(!empty($image))
+				{
+					//delete original image
+					$this->file_model->delete_file($products_path."\\".$this->input->post('current_image'), $products_path);
+					
+					//delete original thumbnail
+					$this->file_model->delete_file($products_path."\\".$this->input->post('current_thumb'), $products_path);
+				}
 				/*
 					-----------------------------------------------------------------------------------------
 					Upload image
@@ -422,10 +427,10 @@ class Products extends account
 				$products_path = $this->products_path;
 				
 				//delete original image
-				$this->file_model->delete_file($products_path."\images\\".$this->input->post('current_image'));
+				$this->file_model->delete_file($products_path."\images\\".$this->input->post('current_image'), $products_path);
 				
 				//delete original thumbnail
-				$this->file_model->delete_file($products_path."\images\\".$this->input->post('current_thumb'));
+				$this->file_model->delete_file($products_path."\images\\".$this->input->post('current_thumb'), $products_path);
 				/*
 					-----------------------------------------------------------------------------------------
 					Upload image
@@ -567,9 +572,9 @@ class Products extends account
 			$image = $result[0]->product_image_name;
 			
 			//delete image
-			$this->file_model->delete_file($this->products_path."\\".$image);
+			$this->file_model->delete_file($this->products_path."\\".$image, $this->products_path);
 			//delete thumbnail
-			$this->file_model->delete_file($this->products_path."\\thumbnail_".$image);
+			$this->file_model->delete_file($this->products_path."\\thumbnail_".$image, $this->products_path);
 		}
 		
 		//delete gallery images
@@ -584,9 +589,9 @@ class Products extends account
 				$thumb = $res->product_image_thumb;
 				
 				//delete image
-				$this->file_model->delete_file($this->gallery_path."\\".$image);
+				$this->file_model->delete_file($this->gallery_path."\\".$image, $this->gallery_path);
 				//delete thumbnail
-				$this->file_model->delete_file($this->gallery_path."\\".$thumb);
+				$this->file_model->delete_file($this->gallery_path."\\".$thumb, $this->gallery_path);
 			}
 			
 			$this->products_model->delete_gallery_images($product_id);
@@ -604,9 +609,9 @@ class Products extends account
 				$thumb = $res->thumb;
 				
 				//delete image
-				$this->file_model->delete_file($this->features_path."\\".$image);
+				$this->file_model->delete_file($this->features_path."\\".$image, $this->features_path);
 				//delete thumbnail
-				$this->file_model->delete_file($this->features_path."\\".$thumb);
+				$this->file_model->delete_file($this->features_path."\\".$thumb, $this->features_path);
 			}
 			
 			$this->products_model->delete_features($product_id);
@@ -745,8 +750,8 @@ class Products extends account
 		//delete images
 		if($_SESSION['image'.$category_feature_id][$row] != 'None')
 		{
-			$this->file_model->delete_file($this->features_path."\\".$_SESSION['image'.$category_feature_id][$row]);
-			$this->file_model->delete_file($this->features_path."\\".$_SESSION['thumb'.$category_feature_id][$row]);
+			$this->file_model->delete_file($this->features_path."\\".$_SESSION['image'.$category_feature_id][$row], $this->features_path);
+			$this->file_model->delete_file($this->features_path."\\".$_SESSION['thumb'.$category_feature_id][$row], $this->features_path);
 		}
 		$_SESSION['image'.$category_feature_id][$row] = NULL;
 		$_SESSION['thumb'.$category_feature_id][$row] = NULL;
@@ -788,8 +793,8 @@ class Products extends account
 		//delete images
 		if($image != 'None')
 		{
-			$this->file_model->delete_file($this->features_path."\\".$image);
-			$this->file_model->delete_file($this->features_path."\\".$thumb);
+			$this->file_model->delete_file($this->features_path."\\".$image, $this->features_path);
+			$this->file_model->delete_file($this->features_path."\\".$thumb, $this->features_path);
 		}
 		
 		if($this->products_model->delete_product_feature($product_feature_id))
@@ -1389,7 +1394,7 @@ class Products extends account
 		{
 			$data['content'] = '';
 		}
-		$data['title'] = 'All orders';
+		$data['title'] = 'All reviews';
 		
 		$this->load->view('account_template', $data);
 	}

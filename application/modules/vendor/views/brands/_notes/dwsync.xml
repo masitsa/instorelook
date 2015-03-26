@@ -6,4 +6,7 @@
 <file name="add_brand.php" server="ftp.instorelook.com.au//public_html/development/" local="130626728673754760" remote="130626917400000000" Dst="0" />
 <file name="all_brands.php" server="ftp.instorelook.com.au//public_html/development/" local="130686744820645370" remote="130687375200000000" Dst="0" />
 <file name="edit_brand.php" server="ftp.instorelook.com.au//public_html/development/" local="130626728768865824" remote="130626917400000000" Dst="0" />
+<file name="add_brand.php" server="ftp.instorelook.com.au//public_html/test/" local="130626728673754760" remote="130717753800000000" Dst="0" />
+<file name="all_brands.php" server="ftp.instorelook.com.au//public_html/test/" local="130686744820645370" remote="130717753800000000" Dst="0" />
+<file name="edit_brand.php" server="ftp.instorelook.com.au//public_html/test/" local="130626728768865824" remote="130717753800000000" Dst="0" />
 </dwsync>

@@ -26,6 +26,8 @@
 			$minimum_order_quantity = $product[0]->minimum_order_quantity;
 			$maximum_purchase_quantity = $product[0]->maximum_purchase_quantity;
             $sale_price_type = $product[0]->sale_price_type;
+            $product_image_name = $product[0]->product_image_name;
+            $product_thumb_name = $product[0]->product_thumb_name;
             
             $validation_errors = validation_errors();
             
@@ -60,8 +62,8 @@
             ?>
             
             <?php echo form_open_multipart($this->uri->uri_string(), array("class" => "form-horizontal", "role" => "form"));?>
-            <input type="hidden" name="current_image" value="<?php echo $image;?>"/>
-            <input type="hidden" name="current_thumb" value="<?php echo $thumb;?>"/>
+            <input type="hidden" name="current_image" value="<?php echo $product_image_name;?>"/>
+            <input type="hidden" name="current_thumb" value="<?php echo $product_thumb_name;?>"/>
                     <!-- Adding Errors -->
                     <?php
                     if(isset($error)){

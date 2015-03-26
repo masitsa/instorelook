@@ -158,9 +158,10 @@ class Static_banners extends account
 				$this->session->unset_userdata('static_banner_file_name');
 				$this->session->unset_userdata('static_banner_thumb_name');
 				$this->session->unset_userdata('static_banner_error_message');
-				$this->session->set_userdata('success_message', 'Banner has been added. <a href="'.site_url()."vendor/purchase-banner/".$static_banner_id.'/0">Make payment</a>');
-				
-				redirect('vendor/all-static-banners');
+				//$this->session->set_userdata('success_message', 'Banner has been added. <a href="'.site_url()."vendor/purchase-banner/".$static_banner_id.'/0">Make payment</a>');
+				$this->session->set_userdata('success_message', 'Banner has been added.');
+				$this->purchase_success($static_banner_id, 0);
+				//redirect('vendor/all-static-banners');
 			}
 		}
 		
@@ -330,10 +331,10 @@ class Static_banners extends account
 		$image_name = $static_banner_row->static_banner_image_name;
 		
 		//delete any other uploaded image
-		$this->file_model->delete_file($static_banner_path."\\".$image_name);
+		$this->file_model->delete_file($static_banner_path."\\".$image_name, $static_banner_path);
 		
 		//delete any other uploaded thumbnail
-		$this->file_model->delete_file($static_banner_path."\\thumbnail_".$image_name);
+		$this->file_model->delete_file($static_banner_path."\\thumbnail_".$image_name, $static_banner_path);
 		
 		if($this->static_banners_model->delete_static_banner($static_banner_id))
 		{

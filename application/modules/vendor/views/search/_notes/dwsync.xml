@@ -5,4 +5,10 @@
 <file name="search_brands.php" server="ftp.instorelook.com.au//public_html/development/" local="130686744821245404" remote="130687375800000000" Dst="0" />
 <file name="search_features.php" server="ftp.instorelook.com.au//public_html/development/" local="130686744821505419" remote="130687375800000000" Dst="0" />
 <file name="search_product_bundle.php" server="ftp.instorelook.com.au//public_html/development/" local="130686744821545422" remote="130687376400000000" Dst="0" />
+<file name="search_brands.php" server="ftp.instorelook.com.au//public_html/test/" local="130686744821245404" remote="130717755000000000" Dst="0" />
+<file name="search_categories.php" server="ftp.instorelook.com.au//public_html/test/" local="130686744821465417" remote="130717755000000000" Dst="0" />
+<file name="search_features.php" server="ftp.instorelook.com.au//public_html/test/" local="130686744821505419" remote="130717755000000000" Dst="0" />
+<file name="search_orders.php" server="ftp.instorelook.com.au//public_html/test/" local="130704454534555990" remote="130717755000000000" Dst="0" />
+<file name="search_products.php" server="ftp.instorelook.com.au//public_html/test/" local="130652005326051839" remote="130717755000000000" Dst="0" />
+<file name="search_product_bundle.php" server="ftp.instorelook.com.au//public_html/test/" local="130686744821545422" remote="130717755000000000" Dst="0" />
 </dwsync>

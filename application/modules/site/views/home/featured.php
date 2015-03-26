@@ -1,5 +1,8 @@
 <div class="beta-products-list product-items">
-    <h4>Featured Products</h4>
+    
+    <div class="row beta-products-details">
+        <h4>Featured Products</h4>
+    </div>
     
     <?php
     	if($featured->num_rows() > 0)

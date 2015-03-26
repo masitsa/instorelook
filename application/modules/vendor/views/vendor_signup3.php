@@ -44,13 +44,13 @@
 					}
 					?>
                     
-                    <p class="center-align">Please choose your preferred subscription type.</p>
+                    <p class="center-align">Subscribe to the unlimited plan FREE.</p>
 
                     <div class="container">
                         <div class="row subscribe-header">
                             <div class="col-xs-12 col-sm-offset-4 col-sm-8">
                                 <div class="row">
-                                    <div class="col-xs-4 my_planHeader my_plan2">
+                                    <div class="col-xs-6 my_planHeader my_plan2">
                                         <div class="my_planTitle">Free</div>
                                         <div class="my_planPrice">$0.00</div>
                                         <div class="my_planDuration"> </div>
@@ -58,29 +58,14 @@
                                         if($current_plan != 1)
 										{
 										?>
-                                        <a type="button" class="btn btn-default" href="<?php echo site_url().'vendor/subscribe/free';?>">Subscribe</a>
+                                        <!--<a type="button" class="btn btn-default" href="<?php echo site_url().'vendor/subscribe/free';?>">Subscribe</a>
                                         <p></p>
-                                        <a type="button" href="<?php echo site_url().'vendor/subscribe/free';?>" class="more-details">More details</a>
+                                        <a type="button" href="<?php echo site_url().'vendor/subscribe/free';?>" class="more-details">More details</a>-->
                                         <?php
                                         }
 										?>
                                     </div>
-                                    <div class="col-xs-4 my_planHeader my_plan1">
-                                        <div class="my_planTitle">Basic</div>
-                                        <div class="my_planPrice">$30.00</div>
-                                        <div class="my_planDuration">per month</div>
-                                        <?php
-                                        if($current_plan != 2)
-										{
-										?>
-                                        <a type="button" class="btn btn-default" href="<?php echo site_url().'vendor/subscribe/basic';?>">Subscribe</a>
-                                        <p></p>
-                                        <a type="button" href="<?php echo site_url().'vendor/subscribe/basic';?>" class="more-details">More details</a>
-                                        <?php
-                                        }
-										?>
-                                    </div>
-                                    <div class="col-xs-4 my_planHeader my_plan2">
+                                    <div class="col-xs-6 my_planHeader my_plan1">
                                         <div class="my_planTitle">Unlimited</div>
                                         <div class="my_planPrice">$40.00*</div>
                                         <div class="my_planDuration">per month</div>
@@ -100,17 +85,14 @@
                         </div>
                         <div class="row my_featureRow">
                             <div class="col-xs-12 col-sm-4 my_feature">
-                                Company Profile
+                                Company profile
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <div class="row">
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <i class="fa fa-check my_check"></i>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan1">
-                                        <i class="fa fa-check my_check"></i>
-                                    </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan1">
                                         <i class="fa fa-check my_check"></i>
                                     </div>
                                 </div>
@@ -118,17 +100,14 @@
                         </div>
                         <div class="row my_featureRow">
                             <div class="col-xs-12 col-sm-4 my_feature">
-                               	Image Upload
+                               	Upload company logo
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <div class="row">
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <i class="fa fa-check my_check"></i>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan1">
-                                        <i class="fa fa-check my_check"></i>
-                                    </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan1">
                                         <i class="fa fa-check my_check"></i>
                                     </div>
                                 </div>
@@ -136,17 +115,14 @@
                         </div>   
                         <div class="row my_featureRow">
                             <div class="col-xs-12 col-sm-4 my_feature">
-                                Gift Wrap Option
+                                Gift wrap option
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <div class="row">
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <i class="fa fa-times my_times"></i>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan1">
-                                        <i class="fa fa-check my_check"></i>
-                                    </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan1">
                                         <i class="fa fa-check my_check"></i>
                                     </div>
                                 </div>
@@ -154,17 +130,14 @@
                         </div>  
                         <div class="row my_featureRow">
                             <div class="col-xs-12 col-sm-4 my_feature">
-                                Daily Deals
+                                Product discount advertisment
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <div class="row">
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <i class="fa fa-times my_times"></i>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan1">
-                                        <i class="fa fa-check my_check"></i>
-                                    </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan1">
                                         <i class="fa fa-check my_check"></i>
                                     </div>
                                 </div>
@@ -176,13 +149,10 @@
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <div class="row">
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <i class="fa fa-times my_times"></i>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan1">
-                                        <i class="fa fa-check my_check"></i>
-                                    </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan1">
                                         <i class="fa fa-check my_check"></i>
                                     </div>
                                 </div>
@@ -194,13 +164,13 @@
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <div class="row">
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <i class="fa fa-times my_times"></i>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan1">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <i class="fa fa-check my_check"></i>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <i class="fa fa-check my_check"></i>
                                     </div>
                                 </div>
@@ -208,17 +178,14 @@
                         </div>-->
                         <div class="row my_featureRow">
                             <div class="col-xs-12 col-sm-4 my_feature">
-                                Marketing Campaigns
+                                Marketing campaigns
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <div class="row">
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <i class="fa fa-times my_times"></i>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan1">
-                                        <i class="fa fa-check my_check"></i>
-                                    </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan1">
                                         <i class="fa fa-check my_check"></i>
                                     </div>
                                 </div>
@@ -226,17 +193,14 @@
                         </div>  
                         <div class="row my_featureRow">
                             <div class="col-xs-12 col-sm-4 my_feature">
-                                Featured Merchant Status
+                                Featured merchant status
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <div class="row">
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <i class="fa fa-times my_times"></i>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan1">
-                                        <i class="fa fa-times my_times"></i>
-                                    </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan1">
                                         <i class="fa fa-check my_check"></i>
                                     </div>
                                 </div>
@@ -248,13 +212,13 @@
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <div class="row">
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <i class="fa fa-times my_times"></i>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan1">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <i class="fa fa-times my_times"></i>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <i class="fa fa-check my_check"></i>
                                     </div>
                                 </div>
@@ -262,17 +226,14 @@
                         </div>-->
                         <div class="row my_featureRow">
                             <div class="col-xs-12 col-sm-4 my_feature">
-                                Listing Categories
+                                Listing categories
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <div class="row">
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <span class="feature-text">5</span>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan1">
-                                        <span class="feature-text">Unlimited</span>
-                                    </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan1">
                                         <span class="feature-text">Unlimited</span>
                                     </div>
                                 </div>
@@ -280,54 +241,48 @@
                         </div>  
                         <div class="row my_featureRow">
                             <div class="col-xs-12 col-sm-4 my_feature">
-                                Listed Products
+                                Listed products
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <div class="row">
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <span class="feature-text">20</span>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan1">
-                                        <span class="feature-text">100</span>
-                                    </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan1">
                                        	<span class="feature-text">Unlimited</span>
                                     </div>
                                 </div>
                             </div>
                         </div>  
-                        <div class="row my_featureRow">
+                        <!--<div class="row my_featureRow">
                             <div class="col-xs-12 col-sm-4 my_feature">
                                 Product Tags
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <div class="row">
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <span class="feature-text">2</span>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan1">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <span class="feature-text">5</span>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan1">
                                         <span class="feature-text">Unlimited</span>
                                     </div>
                                 </div>
                             </div>
-                        </div>  
+                        </div> -->
                         <div class="row my_featureRow">
                             <div class="col-xs-12 col-sm-4 my_feature">
-                                Product Locations
+                                Product locations
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <div class="row">
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <span class="feature-text">1</span>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan1">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan1">
                                         <span class="feature-text">5</span>
-                                    </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
-                                        <span class="feature-text">Unlimited</span>
                                     </div>
                                 </div>
                             </div>
@@ -338,13 +293,13 @@
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <div class="row">
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <span class="feature-text">0</span>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan1">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <span class="feature-text">2</span>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 my_planFeature my_plan2">
+                                    <div class="col-xs-6 col-sm-6 my_planFeature my_plan2">
                                         <span class="feature-text">10</span>
                                     </div>
                                 </div>
