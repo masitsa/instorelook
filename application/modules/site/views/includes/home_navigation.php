@@ -95,8 +95,7 @@
 						else
 						{
 							?>
-                            <li><a href="<?php echo site_url().'sign-in'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Sign in</a></li>
-                            <li class="hide-mobile"><a href="<?php echo site_url().'join'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Join</a></li>
+                            <li><a href="<?php echo site_url().'join'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Sign in/Join</a></li>
                             <?php
 						}
 						?>
@@ -276,7 +275,7 @@
                                         
                                     </li>
                                     <li><a href="<?php echo site_url().'products';?>">Products</a></li>
-                                    <li><a href="<?php echo site_url().'vendors/all-vendors';?>">Vendors</a></li>
+                                    <li><a href="<?php echo site_url().'businesses';?>">Businesses</a></li>
                                 </ul>
                                 <?php echo $this->load->view('site/cart/mini_cart', '', TRUE);?>
                             </div><!-- /.navbar-collapse -->

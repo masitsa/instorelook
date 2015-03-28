@@ -1,19 +1,21 @@
-
-$(document).ready(function() {
-	//smooth scroll
-	/*smoothScroll.init();
-	
-	//single page navigation
-	$('#nav').onePageNav();
-	
-    //initialise Stellar.js
-    $(window).stellar({
-		horizontalScrolling: false
-	});*/ 
-	
-	//WOW js
-	new WOW().init();
-	
+$(document).ready(function() 
+{
+	$('#owl-recent').owlCarousel({
+		loop:true,
+		margin:10,
+		nav:true,
+		responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:3
+			},
+			1000:{
+				items:5
+			}
+		}
+	})
 	//Owl Carousel
 	var owl = $("#owl-carousel");
  

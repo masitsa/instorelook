@@ -19,6 +19,7 @@
 					$sale_price_type = $prods->sale_price_type;
 					$thumb = $prods->product_image_name;
 					$product_id = $prods->product_id;
+					$product_code = $prods->product_code;
 					$product_name = $prods->product_name;
 					$brand_name = $prods->brand_name;
 					$product_price = number_format($prods->product_selling_price, 2);
@@ -72,14 +73,14 @@
 					'
 					<li>
 						'.$sale.'
-						<a class="cbp-vm-image" href="'.site_url().'products/view-product/'.$product_id.'"><img src="'.$image.'"></a>
-						<h3 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_id.'">'.$brand_name.'</a></h3>
-						<h6 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_id.'">'.$product_name.'</a></h6>
+						<a class="cbp-vm-image" href="'.site_url().'products/view-product/'.$product_code.'"><img src="'.$image.'"></a>
+						<h3 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_code.'">'.$brand_name.'</a></h3>
+						<h6 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_code.'">'.$product_name.'</a></h6>
 						'.$price.'
 						<div >'.$balance_status.'</div>
 						<a class="cbp-vm-icon cbp-vm-add add_to_wishlist" href="'.$product_id.'" product_id="'.$product_id.'" data-toggle="modal" data-target=".wishlist-modal"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a>
 						<a class="cbp-vm-icon cbp-vm-add add_to_cart" href="'.$product_id.'" product_id="'.$product_id.'"><i class="glyphicon glyphicon-shopping-cart"> </i></a>
-						<a class="beta-btn primary" href="'.site_url().'products/view-product/'.$product_id.'">Details <i class="glyphicon glyphicon-chevron-right"></i></a>
+						<a class="beta-btn primary" href="'.site_url().'products/view-product/'.$product_code.'">Details <i class="glyphicon glyphicon-chevron-right"></i></a>
 					</li>
 					';
 				}

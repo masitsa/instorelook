@@ -77,9 +77,9 @@ echo $this->load->view('vendor/search/search_orders', '' , TRUE); ?>
 			
 			foreach ($query->result() as $row)
 			{
-				 $order_id = $row->order_id;
+				$order_id = $row->order_id;
 				$order_number = $row->order_number;
-				 $order_status = $row->status;
+				$order_status = $row->status;
 				$order_instructions = $row->order_instructions;
 				$order_status_name = $row->order_status_name;
 				$created_by = $row->order_created_by;
@@ -168,21 +168,21 @@ echo $this->load->view('vendor/search/search_orders', '' , TRUE); ?>
 				{
 					$status = '<span class="label label-primary">'.$order_status_name.'</span>';
 					$button = '<span class="label label-success">Completed</span>';
-					$button2 = '<span class="label label-success">Completed</span>';
+					$button2 = '<a href="'.site_url().'vendor/reverse-order/'.$order_id.'" class="btn btn-sm btn-warning" onclick="return confirm(\'Do you really want to reverse this order '.$order_number.'?\');">Reverse Order</a>';
 				}
 				//create activated status display
 				else if($order_status == 2)
 				{
 					$status = '<span class="label label-success">'.$order_status_name.'</span>';
 					$button = '<span class="label label-success">Canceled</span>';
-					$button2 = '<span class="label label-success">Canceled</span>';
+					$button2 = '<a href="'.site_url().'vendor/reverse-order/'.$order_id.'" class="btn btn-sm btn-warning" onclick="return confirm(\'Do you really want to reverse this order '.$order_number.'?\');">Reverse Order</a>';
 				}
 				//create activated status display
 				else if($order_status == 3)
 				{
 					$status = '<span class="label label-danger">'.$order_status_name.'</span>';
 					$button = '<a href="'.site_url().'vendor/activate-order/'.$order_id.'" class="btn btn-sm btn-success" onclick="return confirm(\'Do you really want to activate this order '.$order_number.'?\');">Activate</a>';
-					$button2 = '<span class="label label-success">Disabled</span>';
+					$button2 = '<a href="'.site_url().'vendor/reverse-order/'.$order_id.'" class="btn btn-sm btn-warning" onclick="return confirm(\'Do you really want to reverse this order '.$order_number.'?\');">Reverse Order</a>';
 
 				}
 				else if($order_status == 4)

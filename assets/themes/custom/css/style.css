@@ -1,5 +1,4 @@
 @import url(http://fonts.googleapis.com/css?family=Dosis);
-@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 body {font-family: 'Dosis', sans-serif; font-size:1.5em; background-color: #fff;}
 
 /* Misc */
@@ -345,7 +344,7 @@ background: none repeat scroll 0 0 #55A4DA;
 border: 0px solid #E6E6E6;
 color: #fff;
 font-size: 0.9em;
-padding: 15px 15px;
+padding: 0 0 0 15px;
 margin: 0 0 0px 0;
 text-transform: uppercase;
 font-weight: normal;
@@ -691,7 +690,7 @@ box-shadow: 0 1px 2px rgba(71, 73, 72, 0.25);
 .panel {
   margin-bottom: 20px;
   background-color: #ffffff;
-  padding: 20px;
+  padding: 0;
   -webkit-border-radius: 2px;
   -webkit-background-clip: padding-box;
   -moz-border-radius: 2px;
@@ -2657,8 +2656,11 @@ tr.CartProduct td:nth-child(2) {
 }
 .panel-default > .panel-heading {
   border-top: 4px solid #55A4DA;
+  padding: 0 0 0 1em;;
 }
 .userInfo .panel{padding: 0;}
+.collapseWill span{margin-right: 1em;}
+.collapseWill{width: 100%; height: 100%;}
 
 /* Facebook */
 .facebook {
@@ -2990,12 +2992,11 @@ end of footer
 .color-out {
   color: red;
 }
+.share-icons{margin-top: 20px; padding-bottom: 14px; padding-right:0;}
 .product-share {
-  border-top: 1px solid #DDDDDD;
+  border-bottom: 1px solid #DDDDDD;
   clear: both;
   display: inline-block;
-  margin-top: 20px;
-  padding-top: 14px;
   width: 100%;
 }
 .socialIcon a {
@@ -3096,3 +3097,9 @@ button.first {
 .navbar-nav .open .dropdown-menu{background-color:#fff;}
 .collapse in .navbar-nav{float:none;}
 /*end of best sellers*/
+
+.owl-theme .owl-controls{position: relative;text-align: center;top: -282px;-webkit-tap-highlight-color:transparent}
+.owl-theme .owl-controls .owl-nav [class*=owl-]{color:#fff;font-size:14px;margin:5px;padding:4px 7px;background:#d6d6d6;display:inline-block;cursor:pointer;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px}.owl-theme .owl-controls .owl-nav [class*=owl-]:hover{background:#869791;color:#fff;text-decoration:none}.owl-theme .owl-controls .owl-nav .disabled{opacity:.5;cursor:default}.owl-theme .owl-dots .owl-dot{display:inline-block;zoom:1;*display:inline}.owl-theme .owl-dots .owl-dot span{width:10px;height:10px;margin:5px 7px;background:#d6d6d6;display:block;-webkit-backface-visibility:visible;-webkit-transition:opacity 200ms ease;-moz-transition:opacity 200ms ease;-ms-transition:opacity 200ms ease;-o-transition:opacity 200ms ease;transition:opacity 200ms ease;-webkit-border-radius:30px;-moz-border-radius:30px;border-radius:30px}.owl-theme .owl-dots .owl-dot.active span,.owl-theme .owl-dots .owl-dot:hover span{background:#869791}
+.owl-carousel {max-height: 380px;}
+.vendor-products .owl-theme .owl-controls, .products-recent .owl-theme .owl-controls{top: 0;}
+.details-description p{text-align: justify;}

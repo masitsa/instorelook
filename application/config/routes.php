@@ -315,7 +315,7 @@ $route['products/filter-businesses'] = 'site/filter_businesses';
 $route['products/filter-locations'] = 'site/filter_locations';
 $route['products/filter-locations/(:any)/(:any)/(:any)'] = 'site/products/__/0/created/__/$1/$2/$3';
 $route['products/sort-by/(:any)'] = 'site/products/__/0/$1';
-$route['products/view-product/(:num)'] = 'site/view_product/$1';
+$route['products/view-product/(:any)'] = 'site/view_product/$1';
 $route['products/review-product/(:num)'] = 'site/rate_product/$1';
 
 /*
@@ -376,10 +376,13 @@ $route['request-news-letter'] = 'site/request_newsletter';
 
 
 //site  vendors 
-$route['vendors'] = 'site/vendor/index';
-$route['vendors/all-vendors'] = 'site/vendor/index';
-$route['vendors/(:any)/(:num)'] = 'site/vendor/vendor_products/$1/$2/__/0/0/created/1';
-$route['vendor-details/(:any)/(:num)'] = 'site/vendor/vendor_details/$1/$2';
+$route['businesses'] = 'site/vendor/index';
+$route['businesses/sort/(:any)'] = 'site/vendor/index/__/$1';
+$route['businesses/products/(:any)'] = 'site/vendor_products/$1';
+$route['businesses/(:any)'] = 'site/vendor/vendor_details/$1';
+$route['businesses/filter-categories'] = 'site/vendor/filter_categories';
+$route['businesses/filter-business-name'] = 'site/vendor/search_business_name';
+$route['businesses/filter-postcode'] = 'site/vendor/search_post_code';
 
 $route['customer-request'] = 'site/customer_requests';
 $route['save-order'] = 'site/cart/save_order';

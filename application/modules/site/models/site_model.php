@@ -49,7 +49,8 @@ class Site_model extends CI_Model
 			
 			else if($page[1] == 'view-product')
 			{
-				$product_id = $page[2];
+				$product_code = $page[2];
+				$product_id = $this->get_product_id($product_code);
 				$product_details = $this->products_model->get_product($product_id);
 				
 				if($product_details->num_rows() > 0)
@@ -123,7 +124,8 @@ class Site_model extends CI_Model
 			
 			else if($page[1] == 'view-product')
 			{
-				$product_id = $page[2];
+				$product_code = $page[2];
+				$product_id = $this->get_product_id($product_code);
 				$product_details = $this->products_model->get_product($product_id);
 				
 				if($product_details->num_rows() > 0)
@@ -139,7 +141,7 @@ class Site_model extends CI_Model
 				
 				$crumb[1]['link'] = 'products';
 				$crumb[2]['name'] = ucwords(strtolower($product_name));
-				$crumb[2]['link'] = 'products/view-product/'.$product_id;
+				$crumb[2]['link'] = 'products/view-product/'.$product_code;
 			}
 			
 			else
@@ -370,6 +372,17 @@ class Site_model extends CI_Model
 		//echo var_dump($response);
 		
 		return $response;
+	}
+	
+	public function get_product_id($product_code)
+	{
+		$this->db->where('product_code', $product_code);
+		$query = $this->db->get('product');
+		
+		$row = $query->row();
+		$product_id = $row->product_id;
+		
+		return $product_id;
 	}
 }
 

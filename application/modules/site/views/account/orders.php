@@ -137,6 +137,10 @@
 								$quantity = $ord->order_item_quantity;
 								$price = $ord->order_item_price;
 								$product_id = $ord->product_id;
+								$vendor_id = $ord->vendor_id;
+								$vendor_store_name = $ord->vendor_store_name;
+								$web_name = $this->site_model->create_web_name($vendor_store_name);
+								$vendor_link = site_url().'businesses/'.$web_name.'&'.$vendor_id;
 								
 								$total_price += ($quantity*$price);
 								$total_items += $quantity;
@@ -148,6 +152,9 @@
 									<td>'.$quantity.'</td>
 									<td>'.number_format($price, 2, '.', ',').'</td>
 									<td>'.number_format(($quantity*$price), 2, '.', ',').'</td>
+								</tr>
+								<tr>
+									<td colspan="5">This product was sold to you by <a href="'.$vendor_link.'" target="_blank">'.$vendor_store_name.'</a></td>
 								</tr>
 								';
 							}

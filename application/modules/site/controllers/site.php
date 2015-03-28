@@ -10,6 +10,7 @@ class Site extends MX_Controller
 	function __construct()
 	{
 		parent:: __construct();
+		$this->load->model('vendor_model');
 		$this->load->model('vendor/products_model');
 		$this->load->model('vendor/categories_model');
 		$this->load->model('vendor/features_model');
@@ -247,10 +248,24 @@ class Site extends MX_Controller
     
 	/*
 	*
+	*	List a vendor's products
+	*
+	*/
+	public function vendor_products($vendor_name) 
+	{
+		$vendor = explode('&', $vendor_name);
+		$name = $vendor[0];
+		$vendor_id = $vendor[1];
+		
+		$this->products($search = '__', $category = '__', $order_by = 'created', $price_range = '__', $filter_businesses = '__',  $filter_brands = '__', $filter_locations = '__', $vendor_id);
+	}
+    
+	/*
+	*
 	*	Products Page
 	*
 	*/
-	public function products($search = '__', $category = '__', $order_by = 'created', $price_range = '__', $filter_businesses = '__',  $filter_brands = '__', $filter_locations = '__') 
+	public function products($search = '__', $category = '__', $order_by = 'created', $price_range = '__', $filter_businesses = '__',  $filter_brands = '__', $filter_locations = '__', $created_by = 0) 
 	{
 		$v_data['products_path'] = $this->products_path;
 		$v_data['products_location'] = $this->products_location;
@@ -374,6 +389,11 @@ class Site extends MX_Controller
 			}
 		}
 		
+		if($created_by > 0)
+		{
+			$where .= " AND product.created_by = ".$created_by;
+		}
+		
 		//pagination
 		$this->load->library('pagination');
 		$config['base_url'] = base_url().'site/products';
@@ -437,9 +457,18 @@ class Site extends MX_Controller
 			$v_data["first"] = 0;
 		}
 		
-		$v_data['products'] = $this->products_model->get_all_products($table, $where, $config["per_page"], $page, $limit, $order_by, $order_method);
+		$query = $this->products_model->get_all_products($table, $where, $config["per_page"], $page, $limit, $order_by, $order_method);
+		if ($query->num_rows() > 0)
+		{
+			$v_data['products'] = $query;
+			$data['content'] = $this->load->view('products/products', $v_data, true);
+		}
 		
-		$data['content'] = $this->load->view('products/products', $v_data, true);
+		else
+		{
+			$v_data['came'] = 'products';
+			$data['content'] = $this->load->view('unable', $v_data, true);
+		}
 		
 		$data['title'] = $this->site_model->display_page_title();
 		$this->load->view('templates/general_page', $data);
@@ -470,8 +499,9 @@ class Site extends MX_Controller
 	*	Products Page
 	*
 	*/
-	public function view_product($product_id)
+	public function view_product($product_code)
 	{
+		$product_id = $this->site_model->get_product_id($product_code);//echo $product_id; die();
 		$v_data['products_path'] = $this->products_path;
 		$v_data['products_location'] = $this->products_location;
 		$this->products_model->update_clicks($product_id);
@@ -781,6 +811,15 @@ class Site extends MX_Controller
 		}
 		
 		$data['content'] = $this->load->view('contact_us', $v_data, true);
+		
+		$data['title'] = $this->site_model->display_page_title();
+		$this->load->view('templates/general_page', $data);
+	}
+	
+	public function owl()
+	{
+		
+		$data['content'] = $this->load->view('owl', '', true);
 		
 		$data['title'] = $this->site_model->display_page_title();
 		$this->load->view('templates/general_page', $data);
