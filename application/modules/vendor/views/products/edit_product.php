@@ -44,7 +44,11 @@
 				$product_balance = set_value('product_balance');
 				$brand_name = set_value('brand_name');
 				$category_name = set_value('category_name');
-				
+                $other_post_code_1 = set_value('other_post_code_1');
+                $other_post_code_2 = set_value('other_post_code_2');
+                $other_post_code_3 = set_value('other_post_code_3');
+                $other_post_code_4 = set_value('other_post_code_4');
+                
                 echo '<div class="alert alert-danger"> Oh snap! '.$validation_errors.' </div>';
             }
 			
@@ -83,14 +87,14 @@
                     <!-- product Name -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Product Name <span class="required">*</span></label>
-                        <div class="col-lg-7">
+                        <div class="col-lg-8">
                             <input type="text" class="form-control" name="product_name" placeholder="Product Name" value="<?php echo $product_name;?>">
                         </div>
                     </div>
                     <!-- Product Category -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Product Category <span class="required">*</span></label>
-                        <div class="col-lg-7">
+                        <div class="col-lg-8">
                             <select name="category_id" id="category_id" class="form-control">
                                 <?php
                                 echo '<option value="0">No Category</option>';
@@ -117,7 +121,7 @@
                     <!-- Product brand -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Product Brand</label>
-                        <div class="col-lg-7">
+                        <div class="col-lg-8">
                             <select name="brand_id" class="form-control">
                                 <?php
                                 echo '<option value="0">No Brand</option>';
@@ -144,56 +148,50 @@
                     </div> 
                     <!-- Product locations -->
                     <div class="form-group multiselect_items">
-                        <label for="categories" class="col-sm-4 control-label">Product Locations</label>
-                        <div class="col-sm-7">
-                            <select type="text" class="form-control multiselect multiselect-icon" multiple="multiple" role="multiselect" name="product_locations[]">
-                                <?php
-                                if($surburbs_query->num_rows() > 0)
-								{
-									foreach($surburbs_query->result() as $cat)
-									{
-										$selected = '';
-										if($product_locations->num_rows() > 0)
-										{
-											foreach($product_locations->result() as $cat2)
-											{
-												$location = $cat2->surburb_id;
-												
-												if($location == $cat->surburb_id)
-												{
-													$selected = 'selected';
-													break;
-												}
-											}
-											echo '<option value="'.$cat->surburb_id.'" '.$selected.'>'.$cat->surburb_name.', '.$cat->post_code.'</option>';
-										}
-										else
-										{
-											echo '<option value="'.$cat->surburb_id.'">'.$cat->surburb_name.', '.$cat->post_code.'</option>';
-										}
-									}
-								}
-                                ?>
-                            </select> 
+                        <label for="categories" class="col-sm-4 control-label">Primary Post code</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="primary_post_code" placeholder="E.g. 231"  value="<?php echo set_value('primary_post_code');?>">
+                        </div>
+                    </div>
+                     <div class="form-group multiselect_items">
+                        <label for="categories" class="col-sm-4 control-label">Other Post code</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control col-lg-4" name="product_locations[]" size="4" placeholder="E.g. 231" >
+
+                        </div>
+                         <div class="col-sm-4">
+                            <input type="text" class="form-control col-lg-4" name="product_locations[]" size="4" placeholder="E.g. 231" >
+
+                        </div>
+                    </div>
+                    <div class="form-group multiselect_items">
+                        <label for="categories" class="col-sm-4 control-label">Other Post code</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control col-lg-4" name="product_locations[]" size="4" placeholder="E.g. 231" >
+
+                        </div>
+                         <div class="col-sm-4">
+                            <input type="text" class="form-control col-lg-4" name="product_locations[]" size="4" placeholder="E.g. 231" >
+
                         </div>
                     </div>
                     <!-- Product Buying Price -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Product Buying Price</label>
-                        <div class="col-lg-7">
+                        <div class="col-lg-8">
                             <input type="text" class="form-control" name="product_buying_price" placeholder="Product Buying Price" value="<?php echo $product_buying_price;?>">
                         </div>
                     </div>
                     <!-- Product Selling Price -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Product Selling Price <span class="required">*</span></label>
-                        <div class="col-lg-7">
+                        <div class="col-lg-8">
                             <input type="text" class="form-control" name="product_selling_price" placeholder="Product Selling Price" value="<?php echo $product_selling_price;?>">
                         </div>
                     </div>
                     <div class="form-group">
                          <label class="col-lg-4 control-label">Sale price type</label>
-                          <div class="col-lg-7">
+                          <div class="col-lg-8">
                             <?php
                              if($all_discount_types->num_rows() > 0)
                                 {
@@ -226,34 +224,34 @@
 
                     <div id="percentage_div" class="form-group" style="display:none;">
                         <label class="col-lg-4 control-label">Sale % Off</label>
-                        <div class="col-lg-7">
+                        <div class="col-lg-8">
                             <input type="text" class="form-control" name="product_sale_price" placeholder="Product Sale Price" value="<?php echo $sale_price;?>">
                         </div>
                     </div>
                     <div id="amount_div" class="form-group" style="display:none;">
                         <label class="col-lg-4 control-label">Amount $ off</label>
-                        <div class="col-lg-7">
+                        <div class="col-lg-8">
                             <input type="text" class="form-control" name="product_sale_price" placeholder="Product Sale Price" value="<?php echo $sale_price;?>">
                         </div>
                     </div>
                     <!-- Product Balance -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Product Balance <span class="required">*</span></label>
-                        <div class="col-lg-7">
+                        <div class="col-lg-8">
                             <input type="number" class="form-control" name="product_balance" placeholder="Product Balance" value="<?php echo $product_balance;?>">
                         </div>
                     </div>
                     <!-- Minimum order qty -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Minimum Order Quantity</label>
-                        <div class="col-lg-7">
+                        <div class="col-lg-8">
                             <input type="number" class="form-control" name="minimum_order_quantity" placeholder="Minimum Order Quantity" value="<?php echo $minimum_order_quantity;?>">
                         </div>
                     </div>
                     <!-- Maximum purchase qty -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Maximum Purchase Quantity</label>
-                        <div class="col-lg-7">
+                        <div class="col-lg-8">
                             <input type="number" class="form-control" name="maximum_purchase_quantity" placeholder="Maximum Purchase Quantity" value="<?php echo $maximum_purchase_quantity;?>">
                         </div>
                     </div>
@@ -263,7 +261,7 @@
                     <!-- Image -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Product Image</label>
-                        <div class="col-lg-7">
+                        <div class="col-lg-8">
                             
                             <div class="row">
                             
@@ -285,7 +283,7 @@
                     <!-- Gallery Images -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Gallery Images</label>
-                        <div class="col-lg-7">
+                        <div class="col-lg-8">
                             <?php echo form_upload(array( 'name'=>'gallery[]', 'multiple'=>true, 'class'=>'btn'));?>
                             <?php
                             	if($gallery_images->num_rows() > 0)
@@ -309,7 +307,7 @@
                     <!-- Activate checkbox -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Activate product?</label>
-                        <div class="col-lg-7">
+                        <div class="col-lg-8">
                             <div class="radio">
                                 <label>
                                     <?php
@@ -333,7 +331,7 @@
                     <!-- Featured checkbox -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Featured product?</label>
-                        <div class="col-lg-7">
+                        <div class="col-lg-8">
                             <div class="radio">
                                 <label>
                                     <?php
@@ -358,7 +356,7 @@
                     <!-- Features -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Features</label>
-                        <div class="col-lg-7">
+                        <div class="col-lg-8">
                             <button class="submit btn btn-success" type="button" data-toggle="modal" data-target="#features_modal">
                                 Edit Features
                             </button>
