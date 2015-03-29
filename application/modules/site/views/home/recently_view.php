@@ -1,10 +1,12 @@
+
+<div class="clear-both"></div>
 <div class="beta-products-list product-items">
     
     <div class="row beta-products-details">
-        <h4>Recently Viewed Products</h4>
+        <h4>Recently viewed products</h4>
     </div>
-    
-    <div class="owl-carousel" id="owl-carousel">
+
+    <div class="owl-carousel" id="owl-recent">
             <?php
             $related_products_array = $this->products_model->recently_viewed_products();
             
@@ -18,6 +20,7 @@
                         $sale_price_type = $prods->sale_price_type;
                         $thumb = $prods->product_image_name;
                         $product_id = $prods->product_id;
+                        $product_code = $prods->product_code;
                         $product_name = $prods->product_name;
                         $brand_name = $prods->brand_name;
                         $product_price = $prods->product_selling_price;
@@ -72,28 +75,23 @@
                         
                         echo
                         '
-                        <li>
+                        <div class="item">
                             '.$sale.'
-                            <a class="cbp-vm-image" href="'.site_url().'products/view-product/'.$product_id.'"><img src="'.$image.'"></a>
-                            <h3 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_id.'">'.$brand_name.'</a></h3>
-                            <h6 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_id.'">'.$product_name.'</a></h6>
+                            <a class="cbp-vm-image" href="'.site_url().'products/view-product/'.$product_code.'"><img src="'.$image.'"></a>
+                            <h3 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_code.'">'.$brand_name.'</a></h3>
+                            <h6 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_code.'">'.$product_name.'</a></h6>
                             '.$price.'
                             <div >'.$balance_status.'</div>
                             <a class="cbp-vm-icon cbp-vm-add add_to_wishlist" href="'.$product_id.'" product_id="'.$product_id.'" data-toggle="modal" data-target=".wishlist-modal"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a>
                             '.$button.'
-                            <a class="beta-btn primary" href="'.site_url().'products/view-product/'.$product_id.'">Details <i class="glyphicon glyphicon-chevron-right"></i></a>
-                        </li>
+                            <a class="beta-btn primary" href="'.site_url().'products/view-product/'.$product_code.'">Details <i class="glyphicon glyphicon-chevron-right"></i></a>
+                        </div>
                         ';
                     }
             ?>
         
 
 
-    </div>
-    
-    <div class="center-align navigation-links">
-        <a class="prev2">PREV</a>
-        <a class="next2">NEXT</a>
     </div>
 	<?php
     

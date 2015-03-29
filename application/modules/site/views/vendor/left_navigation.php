@@ -1,133 +1,160 @@
-<?php
-$popular = $this->products_model->get_popular_products();
-$top_sellers = $this->products_model->get_top_sellers();
-$states = $this->site_model->get_states();
 
-//if there are no sellers
-if($top_sellers->num_rows() == 0)
-{
-	$top_sellers = $this->products_model->get_top_sellers2();
-}
-?>
-                <div class="aside">
-                    <div class="widget">
-						<h3 class="widget-title">Location</h3>
-						<div class="widget-body">
-							<ul class="list-unstyled">
-                                <li>
-                                    <div class="input-group">
-                                        <div id="the-basics">
-                                            <input class="typeahead" type="text" placeholder="Search Surburb">
-                                        </div>
-                                        <span class="input-group-btn">
-                                        	<button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                                        </span>
-                                    </div>
-                                </li>
-							<?php
-								if($states->num_rows() > 0)
-								{
-									$states_result = $states->result();
-									
-									foreach($states_result as $sel)
-									{
-										$state_name = $sel->state_name;
-										$state_id = $sel->state_id;
-										
-										echo 
-										'
-                                            <li>
-												<input type="checkbox" name="state[]" value="'.$state_id.'" id="state'.$state_id.'"/>
-                                                <label for="brand'.$state_id.'"><span></span> '.$state_name.'</label>
-                                            </li>
-							
-										';
-									}
-								}
-								
-								else
-								{
-									echo '<p>There are no locations :-(</p>';
-								}
-							?>
-							</ul>
-						</div>
-					</div> <!-- states widget -->
+<div class="panel-group" id="accordionNo">
+	
+    <!-- Postcode --> 
+    <div class="panel panel-default">
+		<div class="panel-heading">
+            <a data-toggle="collapse"  href="#collapse-location" class="collapseWill"> 
+                <h4 class="panel-title"> 
+                    <span class="pull-left"> <i class="fa fa-caret-right"></i></span> Location 
+                </h4>
+            </a>
+		</div>
+        
+        <div id="collapse-location" class="panel-collapse collapse in">
+            <div class="panel-body">
+				<!-- Panel content -->
+				<ul class="list-unstyled">
+				<?php 
+				echo form_open('vendor/filter-postcode', array('class' => 'form-horizontal', 'role' => 'form'));
+				echo form_hidden('filter_categories', $filter_categories);
+				echo form_hidden('filter_search', $filter_search);
+				?>
+                    <li>
+                        <input class="form-control" type="text" placeholder="Search post code" name="search_item">
+                        <div class="center-align" style="margin-top:10px;">
+                            <button type="submit" class="control-form col-md-12 col-sm-12 col-lg-12 btn btn-primary">Filter post code</button>
+                        </div>
+                    </li>
+                <?php
+                echo form_close();
+                ?>
+                </ul>
+				<!-- End panel content -->
+			</div>
+		</div>
+	</div> <!-- End postcode --> 
+	
+    <!-- Search --> 
+    <div class="panel panel-default">
+		<div class="panel-heading">
+            <a data-toggle="collapse"  href="#collapse-location" class="collapseWill"> 
+                <h4 class="panel-title"> 
+                    <span class="pull-left"> <i class="fa fa-caret-right"></i></span> Business name 
+                </h4>
+            </a>
+		</div>
+        
+        <div id="collapse-location" class="panel-collapse collapse in">
+            <div class="panel-body">
+				<!-- Panel content -->
+				<ul class="list-unstyled">
+				<?php 
+				echo form_open('vendor/filter-business-name', array('class' => 'form-horizontal', 'role' => 'form'));
+				echo form_hidden('filter_categories', $filter_categories);
+				echo form_hidden('filter_postcode', $filter_postcode);
+				?>
+                    <li>
+                        <input class="form-control" type="text" placeholder="Search business name" name="search_item">
+                        <div class="center-align" style="margin-top:10px;">
+                            <button type="submit" class="control-form col-md-12 col-sm-12 col-lg-12 btn btn-primary">Filter business name</button>
+                        </div>
+                    </li>
+                <?php
+                echo form_close();
+                ?>
+                </ul>
+				<!-- End panel content -->
+			</div>
+		</div>
+	</div> <!-- End search --> 
+	
+    <!-- sellers --> 
+    <div class="panel panel-default">
+		<div class="panel-heading">
+            <a data-toggle="collapse"  href="#collapse-latest-sellers" class="collapseWill"> 
+                <h4 class="panel-title"> 
+                    <span class="pull-left"> <i class="fa fa-caret-right"></i></span> Categories
+                </h4>
+            </a> 
+		</div>
+        
+        <div id="collapse-latest-sellers" class="panel-collapse collapse in">
+            <div class="panel-body">
+				<!-- Panel content -->
+				<ul class="list-unstyled">
+				<?php
+                    echo form_open('vendor/filter-categories');
+					echo form_hidden('filter_postcode', $filter_postcode);
+					echo form_hidden('filter_search', $filter_search);
                     
-					
+                    if($parent_categories->num_rows() > 0)
+                    {
+                        $parent_categories_result = $parent_categories->result();
+                        
+                        foreach($parent_categories_result as $sel)
+                        {
+                            $category_name = $sel->category_name;
+                            $category_id = $sel->category_id;
+                            $web_name = $this->site_model->create_web_name($category_name);
+							
+                            if(is_array($categories_array))
+                            {
+                                $total_categories = count($categories_array);
+                                $checked = '';
+                                
+                                for($r = 0; $r < $total_categories; $r++)
+                                {
+                                    if($categories_array[$r] == $web_name)
+                                    {
+                                        $checked = 'checked = "checked"';
+                                        break;
+                                    }
+                                }
+                            
+                                echo 
+                                '
+                                    <li>
+                                        <input type="checkbox" name="category_name[]" value="'.$web_name.'" id="category_name'.$category_id.'" '.$checked.'/>
+                                        <label for="category_name'.$category_id.'"><span></span> '.$category_name.'</label>
+                                    </li>
+                    
+                                ';
+                            }
+                            
+                            else
+                            {
+                                echo 
+                                '
+                                    <li>
+                                        <input type="checkbox" name="category_name[]" value="'.$web_name.'" id="category_name'.$category_id.'"/>
+                                        <label for="category_name'.$category_id.'"><span></span> '.$category_name.'</label>
+                                    </li>
+                    
+                                ';
+                            }
+                        }
+                        
+                        echo 
+                        '
+                            <div class="center-align">
+                                <button type="submit" class="control-form col-md-12 col-sm-12 col-lg-12 btn btn-primary">Filter categories</button>
+                            </div>
+                        ';
+                    }
+                    
+                    else
+                    {
+                        echo '<p>There are no top sellers :-(</p>';
+                    }
+                    echo form_close();
+                ?>
+                </ul>
+				<!-- End panel content -->
+			</div>
+		</div>
+	</div> <!-- End sellers --> 
+    
+</div><!-- End panel group -->
 
-
-					<!-- <div class="widget">
-						<h3 class="widget-title">Tags</h3>
-						<div class="widget-body">
-							<div class="beta-tags">
-								<a href="blog_fullwidth_2col.html">Amazing</a>
-								<a href="blog_fullwidth_2col.html">Shop</a>
-								<a href="blog_fullwidth_2col.html">Themes</a>
-								<a href="blog_fullwidth_2col.html">Clean</a>
-								<a href="blog_fullwidth_2col.html">Responsiveness</a>
-								<a href="blog_fullwidth_2col.html">Multipurpose</a>
-								<a href="blog_fullwidth_2col.html">Creative</a>
-								<a href="blog_fullwidth_2col.html">Brands</a>
-								<a href="blog_fullwidth_2col.html">Categories</a>
-							</div>
-						</div>
-					</div> <!-- tags cloud widget -->
-				</div> -->
-<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>           
-<script type="text/javascript">
-	$(document).ready(function() {
-          $("#slider").slider({
-              animate: true,
-              value:1,
-              min: 0,
-              max: 1000,
-              step: 10,
-              slide: function(event, ui) {
-                  update(1,ui.value); //changed
-              }
-          });
-
-          $("#slider2").slider({
-              animate: true,
-              value:0,
-              min: 0,
-              max: 500,
-              step: 1,
-              slide: function(event, ui) {
-                  update(2,ui.value); //changed
-              }
-          });
-
-          //Added, set initial value.
-          $("#amount").val(0);
-          $("#duration").val(0);
-          $("#amount-label").text(0);
-          $("#duration-label").text(0);
-          
-          update();
-      });
-
-      //changed. now with parameter
-      function update(slider,val) {
-        //changed. Now, directly take value from ui.value. if not set (initial, will use current value.)
-        var $amount = slider == 1?val:$("#amount").val();
-        var $duration = slider == 2?val:$("#duration").val();
-
-        /* commented
-        $amount = $( "#slider" ).slider( "value" );
-        $duration = $( "#slider2" ).slider( "value" );
-         */
-
-         $total = "$" + ($amount * $duration);
-         $( "#amount" ).val($amount);
-         $( "#amount-label" ).text($amount);
-         $( "#duration" ).val($duration);
-         $( "#duration-label" ).text($duration);
-         $( "#total" ).val($total);
-         $( "#total-label" ).text($total);
-
-         $('#slider a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$amount+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
-         $('#slider2 a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$duration+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
-      }
-</script>
+            

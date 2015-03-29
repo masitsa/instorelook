@@ -67,9 +67,9 @@ class Orders_model extends CI_Model
 	*/
 	public function get_order_items($order_id)
 	{
-		$this->db->select('product.product_name, product.product_thumb_name, order_item.*');
-		$this->db->where('product.product_id = order_item.product_id AND order_item.order_id = '.$order_id);
-		$query = $this->db->get('order_item, product');
+		$this->db->select('product.product_name, product.product_thumb_name, order_item.*, vendor.vendor_store_name, vendor.vendor_id');
+		$this->db->where('product.created_by = vendor.vendor_id AND product.product_id = order_item.product_id AND order_item.order_id = '.$order_id);
+		$query = $this->db->get('order_item, product, vendor');
 		
 		return $query;
 	}

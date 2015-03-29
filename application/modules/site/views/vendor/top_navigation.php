@@ -12,13 +12,10 @@
                 </div>
             </div>
         	<div class="col-md-4">
-				<select class="form-control" name="orderby" id="sort_products">
-                    <option selected="created" >Default Sorting (Newness)</option>
-                    <option value="popularity">Sort by popularity</option> 
-                    <option value="rating">Sort by average rating</option>
-                    <option value="product_date">Sort by newness</option>
-                    <option value="price">Sort by Price: low to high</option>
-                    <option value="price_desc">Sort by Price: high to low</option>
+				<select class="form-control" name="orderby" id="sort_vendor">
+                    <option selected="vendor.vendor_created" >Default Sorting (Newness)</option>
+                    <option value="surburb.post_code">Post code</option> 
+                    <option value="vendor.vendor_store_name">Business name</option>
 				</select>
             </div>
         </div>
