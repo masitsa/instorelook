@@ -141,6 +141,7 @@ class Products extends account
 		$this->form_validation->set_rules('category_id', 'Product Category', 'required|xss_clean');
 		$this->form_validation->set_rules('minimum_order_quantity', 'Minimum Order Quantity', 'numeric|xss_clean');
 		$this->form_validation->set_rules('maximum_purchase_quantity', 'Maximum Purchase Quantity', 'numeric|xss_clean');
+		$this->form_validation->set_rules('primary_post_code', 'Primary post code', 'numeric|xss_clean');
 		
 		//if form has been submitted
 		if ($this->form_validation->run())

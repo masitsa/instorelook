@@ -130,7 +130,7 @@ class Products_model extends CI_Model
 				'product_selling_price'=>$this->input->post('product_selling_price'),
 				'product_status'=>$this->input->post('product_status'),
 				'product_description'=>$this->input->post('product_description'),
-				'product_code'=>$code,
+				'product_code'=>$this->input->post('primary_code'),
 				'product_balance'=>$this->input->post('product_balance'),
 				'brand_id'=>$this->input->post('brand_id'),
 				'category_id'=>$this->input->post('category_id'),
@@ -166,7 +166,7 @@ class Products_model extends CI_Model
 		
 		//save locations
 		$product_locations = $this->input->post('product_locations');
-		
+		// var_dump($product_locations) or die();
 		$total_locations = count($product_locations);
 		$data['product_id'] = $product_id;
 		
