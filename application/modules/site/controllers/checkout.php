@@ -408,9 +408,11 @@ class Checkout extends site
 			if($return['price'] > 0)
 			{
 				//do paypal payment
+				$return_url = site_url().'checkout/order-complete';
+				$cancel_url = site_url().'products';
 				$this->load->library('paypal');
 				$this->session->set_userdata('completion_success_message', 'Your order has been completed successfully');
-				$this->paypal->doExpressCheckout($return['price'], $return['package_name'] ,'', 'AUD');
+				$this->paypal->doExpressCheckout($return['price'], $return['package_name'] ,'', 'AUD', $return_url, $cancel_url);
 			}
 			
 			else

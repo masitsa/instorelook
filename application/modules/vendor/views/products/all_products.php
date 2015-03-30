@@ -62,7 +62,7 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 					  <th class="table-sortable:default table-sortable" title="Click to sort">Date Created</th>
 					  <th class="table-sortable:default table-sortable" title="Click to sort">Last Modified</th>
 					  <th>Status</th>
-					  <th colspan="5">Actions</th>
+					  <th colspan="6">Actions</th>
 					</tr>
 				  </thead>
 				  <tbody>
@@ -258,7 +258,7 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
 											<a href="'.site_url().'vendor/edit-product/'.$product_id.'" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-											<a href="'.site_url().'products/view-product/'.$product_id.'" target="_blank" class="btn btn-sm btn-ifo"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+											<a href="'.site_url().'products/view-product/'.$product_code.'" target="_blank" class="btn btn-sm btn-ifo"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
 											<a href="'.site_url().'vendor/duplicate-product/'.$product_id.'" class="btn btn-sm btn-warning">Duplicate</a>
 											'.$button.'
 											<a href="'.site_url().'vendor/delete-product/'.$product_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$product_name.'?\');"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
@@ -269,8 +269,8 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 						
 						</td>
 						<td><a href="'.site_url().'vendor/edit-product/'.$product_id.'" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
+						<td><a href="'.site_url().'products/view-product/'.$product_code.'" target="_blank" class="btn btn-sm btn-ifo"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></td>
 						<td><a href="'.site_url().'vendor/duplicate-product/'.$product_id.'" class="btn btn-sm btn-warning">Duplicate</a></td>
-						<td><a href="'.site_url().'products/view-product/'.$product_id.'" target="_blank" class="btn btn-sm btn-ifo"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></td>
 						<td>'.$button.'</td>
 						<td><a href="'.site_url().'vendor/delete-product/'.$product_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$product_name.'?\');"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
 					</tr> 

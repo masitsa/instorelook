@@ -25,7 +25,7 @@ class Products extends account
 		$this->products_path = realpath(APPPATH . '../assets/images/products/images');
 		$this->products_location = base_url().'assets/images/products/images/';
 		$this->gallery_path = realpath(APPPATH . '../assets/images/products/gallery');
-		$this->features_path = realpath(APPPATH . '../assets/images/features');
+		$this->features_path = realpath(APPPATH . '../assets/images/products/features');
 		$this->csv_path = realpath(APPPATH . '../assets/csv');
 
 		$this->product_bundle_path = realpath(APPPATH . '../assets/images/product_bundle/images');
@@ -786,6 +786,7 @@ class Products extends account
 		$features = $this->products_model->get_product_feature($product_feature_id);
 		$feat = $features->row();
 		
+		$product_id = $feat->product_id;
 		$feat_id = $feat->feature_id;
 		$image = $feat->image;
 		$thumb = $feat->thumb;

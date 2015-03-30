@@ -513,9 +513,10 @@ class Site extends MX_Controller
 		//get page data
 		$v_data['all_features'] = $this->features_model->all_features();
 		$v_data['similar_products'] = $this->products_model->get_similar_products($product_id);
+		$v_data['product_features'] = $this->products_model->get_product_features($product_id);
+		$v_data['feature_names'] = $this->products_model->get_feature_names($product_id);
 		$v_data['product_details'] = $this->products_model->get_product($product_id);
 		$v_data['product_images'] = $this->products_model->get_gallery_images($product_id);
-		$v_data['product_features'] = $this->products_model->get_features($product_id);
 		$data['content'] = $this->load->view('products/view_product', $v_data, true);
 		
 		$data['title'] = $this->site_model->display_page_title();

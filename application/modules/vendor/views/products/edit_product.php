@@ -143,7 +143,7 @@
                         </div>
                     </div> 
                     <!-- Product locations -->
-                    <div class="form-group multiselect_items">
+                    <!--<div class="form-group multiselect_items">
                         <label for="categories" class="col-sm-4 control-label">Product Locations</label>
                         <div class="col-sm-7">
                             <select type="text" class="form-control multiselect multiselect-icon" multiple="multiple" role="multiselect" name="product_locations[]">
@@ -176,7 +176,7 @@
                                 ?>
                             </select> 
                         </div>
-                    </div>
+                    </div>-->
                     <!-- Product Buying Price -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Product Buying Price</label>
@@ -397,6 +397,7 @@
                             <div class="row">
                                 <!-- Features -->
                                 <div class="col-md-12" id="features">
+                                	<div class="alert alert-warning">Remember to click the <button type="button" class="btn btn-primary btn-sm">Edit product</button> button to update your features</div>
                                     <?php $this->load->view('products/edit_features');?>
                                 </div>
                                 <!-- End features -->
@@ -449,7 +450,7 @@
 		
 		var features = $.ajax(
 		{
-			url: '<?php echo site_url();?>admin/products/get_category_features/'+value,
+			url: '<?php echo site_url();?>vendor/products/get_category_features/'+value,
 			processData: false,
 			contentType: false,
 			cache: true
@@ -508,12 +509,12 @@
 		
 		var row = $.ajax(
 		{
-			url: '<?php echo site_url();?>admin/products/delete_product_feature/'+product_feature_id,
+			url: '<?php echo site_url();?>vendor/products/delete_product_feature/'+product_feature_id,
 			processData: false,
 			contentType: false,
 			cache: true
 		});
-		row.done(function(data) {alert(data);
+		row.done(function(data) {
 			$("div#features").html(data);
 		});
 		return false;

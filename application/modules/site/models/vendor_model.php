@@ -93,6 +93,14 @@ class Vendor_model extends CI_Model
 		
 		return $query;		
 	}
-
 	
+	public function get_all_surburbs()
+	{
+		$this->db->select('surburb_id, surburb_name, state_name, post_code');
+		$this->db->where('surburb.state = state.state_id');
+		$this->db->order_by('surburb_name');
+		$query = $this->db->get('surburb, state');
+		
+		return $query;
+	}
 }

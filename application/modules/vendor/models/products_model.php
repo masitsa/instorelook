@@ -467,7 +467,7 @@ class Products_model extends CI_Model
 						$name = mysql_real_escape_string($_SESSION['name'.$category_feature_id][$r]);
 						$quantity = $_SESSION['quantity'.$category_feature_id][$r];
 						$price = $_SESSION['price'.$category_feature_id][$r];
-						$image = '<img src="'. base_url().'assets/images/features/'.$_SESSION['thumb'.$category_feature_id][$r].'" alt="'.$name.'"/>';
+						$image = '<img src="'. base_url().'assets/images/products/features/'.$_SESSION['thumb'.$category_feature_id][$r].'" alt="'.$name.'"/>';
 						
 						$features .= '
 							<tr>
@@ -1614,6 +1614,24 @@ class Products_model extends CI_Model
 		}
 		
 		return $product_price;
+	}
+	
+	public function get_product_features($product_id)
+	{
+		$this->db->select('product_feature.*, feature.feature_name');
+		$this->db->where('product_feature.product_id = '.$product_id.' AND product_feature.feature_id = feature.feature_id');
+		$this->db->order_by('feature.feature_name ASC, product_feature.image');
+		$query = $this->db->get('product_feature, feature');
+		return $query;
+	}
+	
+	public function get_feature_names($product_id)
+	{
+		$this->db->select('feature.feature_id, feature.feature_name');
+		$this->db->where('product_feature.product_id = '.$product_id.' AND product_feature.feature_id = feature.feature_id');
+		$this->db->group_by("feature.feature_name");
+		$query = $this->db->get('product_feature, feature');
+		return $query;
 	}
 }
 ?>

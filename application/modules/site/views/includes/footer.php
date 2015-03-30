@@ -281,6 +281,49 @@ if($surburbs->num_rows() > 0)
             
             return false;
         });
+        //Add to cart single product page
+        $(document).on("click","a.add_to_cart_single",function()
+        {
+            var product_id = $(this).attr('product_id');
+			var selected_features = $("input[name='selected_features\\[\\]']").map(function(){return $(this).val()+'-';}).get();
+            
+			$.ajax({
+                type:'POST',
+                url: '<?php echo site_url();?>site/cart/add_item/'+product_id+'/'+selected_features,
+                cache:false,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success:function(data){
+                    
+                    if(data.result == "success")
+                    {
+                        var total = 'Cart ($'+data.cart_total+')';
+                        var sub_total = 'Subtotal: $'+data.cart_total;
+                        
+                        $("#menu_cart_total").html(total);
+                        $("#menu_cart_sub_total").html(sub_total);
+
+                        
+                        $("#mini_menu_cart_total").html(total);
+                        $("#mini_menu_cart_sub_total").html(sub_total);
+                        
+                        
+                        $("#menu_cart").html(data.cart_items);
+                        $("#mini_menu_cart").html(data.cart_items);
+                    }
+                    else
+                    {
+                        alert('Could not add items to cart');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert("XMLHttpRequest=" + xhr.responseText + "\ntextStatus=" + status + "\nerrorThrown=" + error);
+                }
+            });
+            
+            return false;
+        });
         //Add to cart
         //Add to cart and redirect
         $(document).on("click","a.add_to_cart_redirect",function()
@@ -504,5 +547,45 @@ if($surburbs->num_rows() > 0)
             
             return false;
         });
+
+		//Preview feature image
+		$(document).on("click","a.preview-feature",function()
+        {
+			//hide the primary images
+			var image_location = $(this).attr('data-image-preview');
+            var product_feature_id = $(this).attr('href');
+            var feature_id = $(this).attr('feature-id');
+			
+			$('ul.features-prev'+feature_id+' li').removeClass( "selected" );
+			$('#feat-prev'+product_feature_id).addClass( "selected" );
+			$('#selected_features'+feature_id).val( product_feature_id );
+			
+			$('#primary-images').css( "display", "none" );
+			$('#feature-image').attr("src", image_location);
+			$('#preview-feature-image').attr("href", image_location);
+			$('#preview-features').css( "display", "block" );
+			
+		 	return false;
+        });
+
+		//Preview feature image
+		$(document).on("click","a.clear-feature-preview",function()
+        {
+            var product_feature_id = $(this).attr('href');
+            var feature_id = $(this).attr('feature-id');
+			
+			$('ul.features-prev'+product_feature_id+' li').removeClass( "selected" );
+			$('#selected_features'+feature_id).val('');
+			//hide the primary images
+			
+			$('#primary-images').css( "display", "block" );
+			$('#preview-features').css( "display", "none" );
+		 	return false;
+        });
 		
+		//get selected feature from dropdown
+		function select_feature(product_feature_id, feature_id)
+		{
+			$('#selected_features'+feature_id).val( product_feature_id );
+		}
 </script>

@@ -7,7 +7,7 @@
 	$vendor_last_name = $vend[0]->vendor_last_name;
 	$surburb_id = $vend[0]->surburb_id;
 	$surburb_name = $vend[0]->surburb_name;
-	$post_code = $row->post_code;
+	$post_code = $vend[0]->post_code;
 
 	$vendor_email = $vend[0]->vendor_email;
 	$vendor_phone = $vend[0]->vendor_phone;

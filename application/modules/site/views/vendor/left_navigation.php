@@ -16,7 +16,7 @@
 				<!-- Panel content -->
 				<ul class="list-unstyled">
 				<?php 
-				echo form_open('vendor/filter-postcode', array('class' => 'form-horizontal', 'role' => 'form'));
+				echo form_open('businesses/filter-postcode', array('class' => 'form-horizontal', 'role' => 'form'));
 				echo form_hidden('filter_categories', $filter_categories);
 				echo form_hidden('filter_search', $filter_search);
 				?>
@@ -50,7 +50,7 @@
 				<!-- Panel content -->
 				<ul class="list-unstyled">
 				<?php 
-				echo form_open('vendor/filter-business-name', array('class' => 'form-horizontal', 'role' => 'form'));
+				echo form_open('businesses/filter-business-name', array('class' => 'form-horizontal', 'role' => 'form'));
 				echo form_hidden('filter_categories', $filter_categories);
 				echo form_hidden('filter_postcode', $filter_postcode);
 				?>
@@ -84,7 +84,7 @@
 				<!-- Panel content -->
 				<ul class="list-unstyled">
 				<?php
-                    echo form_open('vendor/filter-categories');
+                    echo form_open('businesses/filter-categories');
 					echo form_hidden('filter_postcode', $filter_postcode);
 					echo form_hidden('filter_search', $filter_search);
                     

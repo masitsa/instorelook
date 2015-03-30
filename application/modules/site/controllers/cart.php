@@ -11,9 +11,9 @@ class Cart extends site {
 		parent:: __construct();
 	}
 	
-	public function add_item($product_id)
+	public function add_item($product_id, $product_features = NULL)
 	{
-		if($this->cart_model->add_item($product_id))
+		if($this->cart_model->add_item($product_id, $product_features))
 		{
 			$cart_items = $this->cart_model->get_cart();
 			
