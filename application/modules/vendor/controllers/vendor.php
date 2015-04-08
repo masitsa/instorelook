@@ -19,7 +19,7 @@ class Vendor extends MX_Controller
 		//path to image directory
 		$this->vendor_path = realpath(APPPATH . '../assets/images/vendors');
 		$this->vendor_location = base_url().'assets/images/vendors/';
-		$this->load->library('Mandrill', $this->config->item('appID'));
+		$this->load->library('Mandrill', $this->config->item('mandrill_key'));
 	}
 	
 	public function index()

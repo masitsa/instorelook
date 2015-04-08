@@ -3,9 +3,6 @@
           <a href="<?php echo site_url().'vendor/all-products';?>" class="btn btn-sm btn-info">Back to products</a>
             <!-- Adding Errors -->
             <?php
-            if(isset($error)){
-                echo '<div class="alert alert-danger"> Oh snap! Change a few things up and try submitting again. </div>';
-            }
 			
 			//the product details
 			$sale_price = $product[0]->sale_price;
@@ -28,11 +25,38 @@
             $sale_price_type = $product[0]->sale_price_type;
             $product_image_name = $product[0]->product_image_name;
             $product_thumb_name = $product[0]->product_thumb_name;
+			
+			//product locations
+			$total = $product_locations->num_rows();
+			$count = 5;
+			$r = 0;
+			if($total > 0)
+			{
+				$result = $product_locations->result();
+				while($r < $total)
+				{
+					$location[$r] = $result[$r]->post_code;
+					$r++;
+				}
+			}
+			
+			while($r < $count)
+			{
+				$location[$r] = '';
+				$r++;
+			}
             
             $validation_errors = validation_errors();
             
             if(!empty($validation_errors))
 			{
+				$locations = $this->input->post('product_locations');//var_dump($locations);
+				$r = 0;
+				while($r < 5)
+				{
+					$location[$r] = $locations[$r];
+					$r++;
+				}
 				$sale_price = set_value('sale_price');
 				$featured = set_value('featured');
 				$product_name = set_value('product_name');
@@ -48,8 +72,6 @@
                 $other_post_code_2 = set_value('other_post_code_2');
                 $other_post_code_3 = set_value('other_post_code_3');
                 $other_post_code_4 = set_value('other_post_code_4');
-                
-                echo '<div class="alert alert-danger"> Oh snap! '.$validation_errors.' </div>';
             }
 			
 			//product image
@@ -68,19 +90,13 @@
             <?php echo form_open_multipart($this->uri->uri_string(), array("class" => "form-horizontal", "role" => "form"));?>
             <input type="hidden" name="current_image" value="<?php echo $product_image_name;?>"/>
             <input type="hidden" name="current_thumb" value="<?php echo $product_thumb_name;?>"/>
-                    <!-- Adding Errors -->
-                    <?php
-                    if(isset($error)){
-                        echo '<div class="alert alert-danger center-align"> Oh snap! Change a few things up and try submitting again. </div>';
-                    }
-                    
-                    $validation_errors = validation_errors();
-                    
-                    if(!empty($validation_errors))
-                    {
-                        echo '<div class="alert alert-danger center-align"> Oh snap! '.$validation_errors.' </div>';
-                    }
-                    ?>
+            <!-- Adding Errors -->
+            <?php
+            if(!empty($validation_errors))
+            {
+                echo '<div class="alert alert-danger center-align"> Oh snap! '.$validation_errors.' </div>';
+            }
+            ?>
          	<div class="row">
             	<div class="col-md-6">
                     
@@ -148,30 +164,30 @@
                     </div> 
                     <!-- Product locations -->
                     <div class="form-group multiselect_items">
-                        <label for="categories" class="col-sm-4 control-label">Primary Post code</label>
+                        <label for="categories" class="col-sm-4 control-label">Post code</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="primary_post_code" placeholder="E.g. 231"  value="<?php echo set_value('primary_post_code');?>">
+                            <input type="text" class="form-control" name="product_locations[]" placeholder="E.g. 4231" value="<?php echo $location[0]?>">
                         </div>
                     </div>
                      <div class="form-group multiselect_items">
                         <label for="categories" class="col-sm-4 control-label">Other Post code</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control col-lg-4" name="product_locations[]" size="4" placeholder="E.g. 231" >
+                            <input type="text" class="form-control col-lg-4" name="product_locations[]" size="4" placeholder="E.g. 4231" value="<?php echo $location[1]?>">
 
                         </div>
                          <div class="col-sm-4">
-                            <input type="text" class="form-control col-lg-4" name="product_locations[]" size="4" placeholder="E.g. 231" >
+                            <input type="text" class="form-control col-lg-4" name="product_locations[]" size="4" placeholder="E.g. 4231"  value="<?php echo $location[2]?>">
 
                         </div>
                     </div>
                     <div class="form-group multiselect_items">
                         <label for="categories" class="col-sm-4 control-label">Other Post code</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control col-lg-4" name="product_locations[]" size="4" placeholder="E.g. 231" >
+                            <input type="text" class="form-control col-lg-4" name="product_locations[]" size="4" placeholder="E.g. 4231"  value="<?php echo $location[3]?>">
 
                         </div>
                          <div class="col-sm-4">
-                            <input type="text" class="form-control col-lg-4" name="product_locations[]" size="4" placeholder="E.g. 231" >
+                            <input type="text" class="form-control col-lg-4" name="product_locations[]" size="4" placeholder="E.g. 4231"  value="<?php echo $location[4]?>">
                         </div>
                     </div>
                     <!-- Product Buying Price -->

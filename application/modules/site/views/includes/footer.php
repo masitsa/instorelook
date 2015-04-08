@@ -137,6 +137,13 @@ if($surburbs->num_rows() > 0)
             </div>
           </div>
         </div>
+        
+        <!-- Bootstrap--> 
+        <script type="text/javascript" src="<?php echo base_url();?>assets/themes/bootstrap/js/bootstrap.min.js"></script> 
+
+        <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/table.js"></script>
+
+        <script src="<?php echo base_url().'assets/themes/view_mode_switch/';?>js/modernizr.custom.js"></script>
         <!-- View switch mode --> 
 		<script src="<?php echo base_url().'assets/themes/view_mode_switch/';?>js/classie.js"></script>
         <script src="<?php echo base_url().'assets/themes/view_mode_switch/';?>js/cbpViewModeSwitch.js"></script>
@@ -285,7 +292,7 @@ if($surburbs->num_rows() > 0)
         $(document).on("click","a.add_to_cart_single",function()
         {
             var product_id = $(this).attr('product_id');
-			var selected_features = $("input[name='selected_features\\[\\]']").map(function(){return $(this).val()+'-';}).get();
+			var selected_features = $("input[name='selected_features\\[\\]']").map(function(){return $(this).val();}).get();
             
 			$.ajax({
                 type:'POST',
@@ -377,6 +384,7 @@ if($surburbs->num_rows() > 0)
           var formData = new FormData(this);
           
            var product_id = $(this).attr('product_id');
+           var product_code = $(this).attr('product_code');
           $.ajax({
            type:'POST',
            url: $(this).attr('action'),
@@ -390,7 +398,7 @@ if($surburbs->num_rows() > 0)
             if(data.result == "success")
             {
                 alert('Thank you for the review, you comments shall be posted once review.');
-                 parent.location ='<?php echo base_url(); ?>products/view-product/'+product_id;   
+                 parent.location ='<?php echo base_url(); ?>products/view-product/'+product_code;   
             }
             else
             {

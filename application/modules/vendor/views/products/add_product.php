@@ -1,3 +1,27 @@
+<?php
+//product locations
+$count = 5;
+$r = 0;
+
+while($r < $count)
+{
+	$location[$r] = '';
+	$r++;
+}
+
+$validation_errors = validation_errors();
+
+if(!empty($validation_errors))
+{
+	$locations = $this->input->post('product_locations');//var_dump($locations);
+	$r = 0;
+	while($r < 5)
+	{
+		$location[$r] = $locations[$r];
+		$r++;
+	}
+}
+?>
           <link href="<?php echo base_url()."assets/themes/jasny/css/jasny-bootstrap.css"?>" rel="stylesheet"/>
           <div class="padd">
           	<a href="<?php echo site_url().'vendor/all-products';?>" class="btn btn-sm btn-info">Back to products</a>
@@ -82,31 +106,32 @@
                     </div> 
                     <!-- Product locations -->
                     <div class="form-group multiselect_items">
-                        <label for="categories" class="col-sm-4 control-label">Primary Post code</label>
+                        <label for="categories" class="col-sm-4 control-label">Post code</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="primary_post_code"  value="<?php echo set_value('primary_post_code');?>">
+                            <input type="text" class="form-control" name="product_locations[]" placeholder="E.g. 4231" value="<?php echo $location[0]?>">
                         </div>
                     </div>
                      <div class="form-group multiselect_items">
                         <label for="categories" class="col-sm-4 control-label">Other Post code</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="product_locations[]" size="4" >
+                            <input type="text" class="form-control col-lg-4" name="product_locations[]" size="4" placeholder="E.g. 4231" value="<?php echo $location[1]?>">
+
                         </div>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" name="product_locations[]" size="4" >
+                         <div class="col-sm-4">
+                            <input type="text" class="form-control col-lg-4" name="product_locations[]" size="4" placeholder="E.g. 4231"  value="<?php echo $location[2]?>">
+
                         </div>
                     </div>
                     <div class="form-group multiselect_items">
                         <label for="categories" class="col-sm-4 control-label">Other Post code</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="product_locations[]" size="4" >
+                            <input type="text" class="form-control col-lg-4" name="product_locations[]" size="4" placeholder="E.g. 4231"  value="<?php echo $location[3]?>">
+
                         </div>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" name="product_locations[]" size="4" >
+                         <div class="col-sm-4">
+                            <input type="text" class="form-control col-lg-4" name="product_locations[]" size="4" placeholder="E.g. 4231"  value="<?php echo $location[4]?>">
                         </div>
                     </div>
-
-
                     <!-- Product Buying Price -->
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Product Buying Price</label>

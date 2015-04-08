@@ -96,7 +96,7 @@ class Reports_model extends CI_Model
 		{
 			$date = date('Y-m-d');
 		}
-		$where = 'created LIKE \''.$date.'%\' AND order_status = '.$order_status_id;
+		$where = 'order_created LIKE \''.$date.'%\' AND order_status_id = '.$order_status_id;
 		
 		$this->db->select('COUNT(order_id) AS total');
 		$this->db->where($where);
@@ -109,9 +109,9 @@ class Reports_model extends CI_Model
 	
 	public function get_products_total($category_id)
 	{
-		$where = 'product.category_id = category.category_id AND product.product_id = order_item.product_id AND (category.category_id = '.$category_id.' OR category.category_parent = '.$category_id.') AND orders.order_status = 2 AND orders.order_id = order_item.order_id';
+		$where = 'product.category_id = category.category_id AND product.product_id = order_item.product_id AND (category.category_id = '.$category_id.' OR category.category_parent = '.$category_id.') AND (orders.order_status_id = 0 OR orders.order_status_id = 1) AND orders.order_id = order_item.order_id';
 		
-		$this->db->select('SUM(quantity*price) AS total');
+		$this->db->select('SUM(order_item_quantity*order_item_price) AS total');
 		$this->db->where($where);
 		$query = $this->db->get('product, category, order_item, orders');
 		
@@ -123,6 +123,22 @@ class Reports_model extends CI_Model
 			$total = 0;
 		}
 		
+		//feature quantity
+		$where = 'product.category_id = category.category_id AND product.product_id = order_item.product_id AND (category.category_id = '.$category_id.' OR category.category_parent = '.$category_id.') AND (orders.order_status_id = 0 OR orders.order_status_id = 1) AND orders.order_id = order_item.order_id AND order_item.order_item_id = order_item_feature.order_item_id';
+		
+		$this->db->select('SUM(additional_price) AS total');
+		$this->db->where($where);
+		$query = $this->db->get('product, category, order_item, orders, order_item_feature');
+		
+		$result = $query->row();
+		$total2 = $result->total;;
+		
+		if($total2 == NULL)
+		{
+			$total2 = 0;
+		}
+		
+		$total += $total2;
 		return $total;
 	}
 	

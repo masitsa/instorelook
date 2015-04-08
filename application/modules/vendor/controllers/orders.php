@@ -24,7 +24,7 @@ class Orders extends admin {
 		// $where = 'orders.order_status = order_status.order_status_id AND users.user_id = orders.user_id';
 		// $table = 'orders, order_status, users';
 
-		$where = 'orders.order_status_id = order_status.order_status_id AND customer.customer_id = orders.customer_id AND orders.vendor_id = '.$this->session->userdata('vendor_id');
+		$where = 'orders.order_status_id != 4 AND orders.order_status_id = order_status.order_status_id AND customer.customer_id = orders.customer_id AND orders.vendor_id = '.$this->session->userdata('vendor_id');
 		$table = 'orders, order_status, customer';
 		$orders_search = $this->session->userdata('orders_search');
 		
@@ -80,7 +80,7 @@ class Orders extends admin {
 		
 		else
 		{
-			$data['content'] = '';
+			$data['content'] = '<div class="alert alert-info center-align" style="margin-bottom:20px;">No orders have been made</div>';
 		}
 		$data['title'] = 'All orders';
 		
@@ -283,13 +283,15 @@ class Orders extends admin {
 	*	@param int $order_id
 	*
 	*/
-	public function cancel_order($order_id)
+	public function cancel_order($order_preffix, $order_number)
 	{
+		$number = $order_preffix.'/'.$order_number;
+		//refund customer
 		$data = array(
-					'order_status_id'=>2
+					'order_status_id' => 2
 				);
 				
-		$this->db->where('order_id = '.$order_id);
+		$this->db->where("order_number = '".$number."'");
 		$this->db->update('orders', $data);
 		
 		redirect('vendor/all-orders');

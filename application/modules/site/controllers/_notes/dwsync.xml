@@ -6,12 +6,13 @@
 <file name="checkout.php" server="148.251.2.43/public_html/clothes/" local="130520442061015307" remote="130520575800000000" Dst="0" />
 <file name="site.php" server="ftp.instorelook.com.au//public_html/development/" local="130720915251963332" remote="130721935200000000" Dst="0" />
 <file name="account.php" server="ftp.instorelook.com.au//public_html/development/" local="130692418539047774" remote="130692598200000000" Dst="0" />
-<file name="checkout.php" server="ftp.instorelook.com.au//public_html/development/" local="130692342487027847" remote="130692523200000000" Dst="0" />
-<file name="cart.php" server="ftp.instorelook.com.au//public_html/development/" local="130695031538495997" remote="130695213000000000" Dst="0" />
+<file name="checkout.php" server="ftp.instorelook.com.au//public_html/development/" local="130724522876241164" remote="130724783400000000" Dst="0" />
+<file name="cart.php" server="ftp.instorelook.com.au//public_html/development/" local="130721046459589107" remote="130722837600000000" Dst="0" />
 <file name="site.php" server="ftp.instorelook.com.au//public_html/test/" local="130709346253660503" remote="130709529000000000" Dst="0" />
 <file name="account.php" server="ftp.instorelook.com.au//public_html/test/" local="130700174184178630" remote="130717750200000000" Dst="0" />
 <file name="cart.php" server="ftp.instorelook.com.au//public_html/test/" local="130705678414099368" remote="130717750200000000" Dst="0" />
 <file name="checkout.php" server="ftp.instorelook.com.au//public_html/test/" local="130705475074849028" remote="130717750200000000" Dst="0" />
 <file name="vendor.php" server="ftp.instorelook.com.au//public_html/test/" local="130705475075329056" remote="130717750800000000" Dst="0" />
 <file name="vendor.php" server="ftp.instorelook.com.au//public_html/development/" local="130720132429343858" remote="130721941800000000" Dst="0" />
+<file name="paypal.php" server="ftp.instorelook.com.au//public_html/development/" local="130724601016900554" remote="130724783400000000" Dst="0" />
 </dwsync>

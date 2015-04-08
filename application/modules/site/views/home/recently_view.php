@@ -77,7 +77,7 @@
                         '
                         <div class="item">
                             '.$sale.'
-                            <a class="cbp-vm-image" href="'.site_url().'products/view-product/'.$product_code.'"><img src="'.$image.'"></a>
+                            <a class="cbp-vm-image" href="'.site_url().'products/view-product/'.$product_code.'"><img class="img-responsive" src="'.$image.'"></a>
                             <h3 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_code.'">'.$brand_name.'</a></h3>
                             <h6 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_code.'">'.$product_name.'</a></h6>
                             '.$price.'

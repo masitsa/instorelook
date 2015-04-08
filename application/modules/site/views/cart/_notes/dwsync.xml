@@ -8,10 +8,10 @@
 <file name="view_cart.php" server="148.251.2.43/public_html/clothes/" local="130519951108070511" remote="130520576400000000" Dst="0" />
 <file name="cart_footer.php" server="ftp.instorelook.com.au//public_html/development/" local="130660886124410313" remote="130661065800000000" Dst="0" />
 <file name="cart_summary.php" server="ftp.instorelook.com.au//public_html/development/" local="130659084572529199" remote="130661054400000000" Dst="0" />
-<file name="cart_total.php" server="ftp.instorelook.com.au//public_html/development/" local="130659457781604963" remote="130661054400000000" Dst="0" />
+<file name="cart_total.php" server="ftp.instorelook.com.au//public_html/development/" local="130722686765817573" remote="130722869400000000" Dst="0" />
 <file name="menu_cart.php" server="ftp.instorelook.com.au//public_html/development/" local="130519792698099979" remote="130651466400000000" Dst="0" />
 <file name="mini_cart.php" server="ftp.instorelook.com.au//public_html/development/" local="130669045394872740" remote="130686937800000000" Dst="0" />
-<file name="view_cart.php" server="ftp.instorelook.com.au//public_html/development/" local="130659555889954163" remote="130661054400000000" Dst="0" />
+<file name="view_cart.php" server="ftp.instorelook.com.au//public_html/development/" local="130722666300046998" remote="130722858000000000" Dst="0" />
 <file name="shipping_estimator.php" server="ftp.instorelook.com.au//public_html/development/" local="130659084572669207" remote="130661054400000000" Dst="0" />
 <file name="old.php" server="ftp.instorelook.com.au//public_html/development/" local="130658669835564323" remote="130658934000000000" Dst="0" />
 <file name="cart_footer.php" server="ftp.instorelook.com.au//public_html/test/" local="130709346235939490" remote="130717751400000000" Dst="0" />
@@ -22,4 +22,7 @@
 <file name="mini_cart.php" server="ftp.instorelook.com.au//public_html/test/" local="130694996876173425" remote="130717751400000000" Dst="0" />
 <file name="shipping_estimator.php" server="ftp.instorelook.com.au//public_html/test/" local="130659084572669207" remote="130717751400000000" Dst="0" />
 <file name="view_cart.php" server="ftp.instorelook.com.au//public_html/test/" local="130659555889954163" remote="130717751400000000" Dst="0" />
+<file name="display_features.php" server="ftp.instorelook.com.au//public_html/development/" local="130722691817456510" remote="130722871800000000" Dst="0" />
+<file name="cart_features_total.php" server="ftp.instorelook.com.au//public_html/development/" local="130722646666804041" remote="130722838200000000" Dst="0" />
+<file name="cart.php" server="ftp.instorelook.com.au//public_html/development/" local="130722693194395267" remote="130722873000000000" Dst="0" />
 </dwsync>

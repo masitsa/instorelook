@@ -31,7 +31,7 @@ class Cart extends site {
 	}
 	public function save_order()
 	{
-		if($this->cart_model->save_order_to_account())
+		if($this->cart_model->save_order($status = 4))
 		{
 			$this->session->set_userdata('success_message', 'Your order has been saved successfully. You have only two weeks to pay for this order');
 			

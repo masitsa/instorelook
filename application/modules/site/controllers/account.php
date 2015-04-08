@@ -200,4 +200,38 @@ class Account extends site
 		
 		$this->my_details();
 	}
+	
+	public function cancel_order($order_preffix, $order_number)
+	{
+		$number = $order_preffix.'/'.$order_number;
+		//confirm order is for the customer
+		if($this->orders_model->request_cancel($number, $this->customer_id))
+		{
+			$this->session->set_userdata('success_message', 'Your cancel request for order number '.$number.' has been received. You will be notified once the request is confirmed');
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', 'Unable to cancel your order. Please try again');
+		}
+		
+		redirect('account/orders-list');
+	}
+	
+	public function make_payment($order_preffix, $order_number)
+	{
+		$number = $order_preffix.'/'.$order_number;
+		//confirm order is for the customer
+		if($this->checkout_model->make_payment($number, $this->customer_id))
+		{
+			$this->session->set_userdata('success_message', 'Your cancel request for order number '.$number.' has been received. You will be notified once the request is confirmed');
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', 'Unable to initiate payment for your order. Please try again');
+		}
+		
+		redirect('account/orders-list');
+	}
 }

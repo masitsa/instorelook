@@ -40,26 +40,13 @@
         <![endif]-->
 
         <!-- Jquery  --> 
-
-
         <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/jquery-2.1.1.min.js"></script>
-
-        <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/table.js"></script>
-
-        <script src="<?php echo base_url().'assets/themes/view_mode_switch/';?>js/modernizr.custom.js"></script>
-        
-        <!-- Bootstrap--> 
-
-        <script type="text/javascript" src="<?php echo base_url();?>assets/themes/bootstrap/js/bootstrap.min.js"></script> 
 
         <link href="<?php echo base_url();?>assets/themes/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <!-- Custom -->
         <!-- <link href="<?php echo base_url();?>assets/themes/custom/css/animate.css" rel="stylesheet"> -->
         <!-- Custom -->
-        <link href="<?php echo base_url();?>assets/themes/custom/css/owl.carousel.css" rel="stylesheet">
-                <link rel="stylesheet" href="<?php echo base_url();?>assets/themes/custom/css/style.css">
-
-        <script type="text/javascript" src="<?php echo base_url();?>assets/themes/bootstrap/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="<?php echo base_url();?>assets/themes/custom/css/style.css">
 
                 
        

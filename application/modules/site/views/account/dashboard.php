@@ -35,11 +35,13 @@
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 product-content">
     <div class="accounts-dashboard">
-      <h4><i class="fa fa-unlock-alt"></i> My Account</h4>
-       <!--  <h1 class="section-title-inner"><span><i class="fa fa-unlock-alt"></i> My account </span></h1>
-            <h2 class="block-title-2"><span>Welcome to your account. Here you can manage all of your personal information and orders.</span></h2> -->
+      
         <div class="row userInfo">
+        	<div class="col-md-12">
+                <h4><i class="fa fa-unlock-alt"></i> My Account</h4>
+            </div>
           <div class="col-xs-9 col-sm-9 col-md-offset-1">
+            
             <ul class="myAccountList row">
               <li class="col-lg-3 col-md-3 col-sm-3 col-xs-4  text-center ">
                 <div class="thumbnail equalheight"> <a title="Orders" href="<?php echo site_url().'account/orders-list';?>"><i class="fa fa-calendar"></i> Order history </a> </div>

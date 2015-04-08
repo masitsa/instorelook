@@ -501,175 +501,6 @@
 										$author_name = $rating->product_review_reviewer_name;
 										$author_phone = $rating->product_review_reviewer_phone;
 										$review_created = $rating->product_review_created;
-<<<<<<< HEAD
-			                        	?>
-			                            <article class="rating-item">
-			                                <div class="row">
-			                                    <div class="span9">
-			                                        <p><?php echo $content;?></p>
-			                                    </div>
-
-			                                    <div class="span3">
-			                                        <h6><?php echo $author_name;?></h6>
-			                                        <small><?php echo date('jS M Y H:i a',strtotime($review_created));?></small>
-			                                        <div class="rating rating-5">
-			                                        	Rating
-			                                        	<?php 
-			                                        	if($rating_value > 0)
-			                                        	{
-			                                        		for($x=0;$x <$rating_value; $x++)
-			                                        		{
-			                                        			?>
-			                                        			 <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-			                                        			<?php
-			                                        		}
-			                                        	}
-			                                        	else
-			                                        	{
-
-			                                        	}
-			                                        	?>
-			                                           
-			                                        </div>
-			                                    </div>
-			                                </div>
-			                            </article>
-			                        <?php
-		                    		}
-		                    	}
-
-		                        ?>
-
-
-	                            <hr>
-	                        </div>
-
-	                        <div class="well">
-	                            <div class="row">
-	                                <div class="span8">
-	                                    <h6><i class="icon-comment-alt"></i> &nbsp; Share your opinion!</h6>
-	                                    <p>Let other people know your thoughts on this product!</p>
-
-	                                </div>
-	                                <div class="span4">
-	                                
-	                                    <button class="btn btn-seconary btn-block" data-toggle="modal" data-target=".bs-example2-modal-lg">Rate this product</button>
-	                                </div>
-	                            </div>
-	                        </div>
-	                         <div class="modal fade bs-example2-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-	                  <div class="modal-dialog modal-lg">
-
-	        <div class="modal-header">
-	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-	            <div class="hgroup title">
-	                 <h3>You're one step closer to owning this product!</h3>
-		                <h5>"" has been added to your favorite products</h5>
-	            </div>
-	        </div>
-
-			 <form enctype="multipart/form-data" product_id="<?php echo $product_id;?>" action="<?php echo base_url();?>products/review-product/<?php echo $product_id;?>"  id = "product_review_form" method="post">
-	      		
-
-	            <div class="modal-body">
-	                <div class="row">
-
-	                    <div class="col-sm-6">
-	                        <div class="control-group">
-	                            <label class="control-label">Rating</label>
-	                            <div class="controls">
-	                                <select class="form-control" name="rate">
-	                                    <option value="1">1</option>
-	                                    <option value="2">2</option>
-	                                    <option value="3">3</option>
-	                                    <option value="4">4</option>
-	                                    <option value="5">5</option>
-	                                </select>
-	                            </div>
-	                        </div>
-	                    </div>
-
-	                    <div class="col-sm-6">
-	                        <div class="control-group">
-	                            <label for="review_title" class="control-label">Phone Number</label>
-	                            <div class="controls">
-	                                <input class="form-control col-sm-12" id="review_author_phone" name="review_author_phone" type="text">
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-
-	                <div class="row">
-	                    <div class="col-sm-6">
-	                        <div class="control-group">
-	                            <label for="review_author_name" class="control-label">Your name</label>
-	                            <div class="controls">
-	                                <input class="form-control col-sm-12" id="review_author_name" name="review_author_name" type="text" value="">
-	                            </div>
-	                        </div>
-	                    </div>
-
-	                    <div class="col-sm-6">
-	                        <div class="control-group">
-	                            <label for="review_author_email" class="control-label">Your email</label>
-	                            <div class="controls">
-	                                <input  class="form-control col-sm-12" id="review_author_email" name="review_author_email" type="text" value="">
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-
-	                <div class="row">
-	                    <div class="col-sm-12">
-	                        <div class="control-group">
-	                            <label for="review_text" class="control-label">Review</label>
-	                            <div class="controls">
-	                                <textarea class="form-control col-sm-12" id="review_text" name="review_text"></textarea>
-	                            </div>
-	                        </div>
-
-	                    </div>
-	                </div>
-
-	            </div>
-
-	            <div class="modal-footer">
-	                <div class="pull-right">
-	                    <button class="btn btn-primary" type="submit" onclick="">Submit product review</button>
-	                </div>
-	            </div>                         
-			<?php echo form_close();?>
-	                  </div>
-	              </div>
-	                        
-
-	                        
-
-	                    </div>
-	                    <!-- End id="ratings" -->
-	                    
-	                    
-	                </div>                                            
-	                <!-- End tab panels container -->
-	                
-	            </div>
-	        </div>
-            
-        </div>
-      
-  	</div>
-  	<!--end of right column-->
-  		
-            <div class="col-lg-12 col-md-12 col-sm-12">
-            	<div class="divider-line"></div>
-            		<h5 class="center-align">Related Products</h5 class="center-align">
-            	<div class="divider-line"></div>
-                <div class="owl-carousel" id="owl-carousel">
-                		<?php
-                		$related_products_array = $this->products_model->related_products($product_id);
-                		
-	                     if($related_products_array->num_rows() > 0)
-=======
 										?>
 										<article class="rating-item">
 											<div class="row">
@@ -736,7 +567,7 @@
 										</div>
 									</div>
 
-									<form enctype="multipart/form-data" product_id="<?php echo $product_id;?>" action="<?php echo base_url();?>products/review-product/<?php echo $product_id;?>"  id = "product_review_form" method="post">
+									<form enctype="multipart/form-data" product_code="<?php echo $product_code;?>" product_id="<?php echo $product_id;?>" action="<?php echo base_url();?>products/review-product/<?php echo $product_id;?>"  id = "product_review_form" method="post">
 										<div class="modal-body">
 											<div class="row">
 
@@ -837,7 +668,6 @@
 							$related_product = $related_products_array->result();
 							
 							foreach($related_product as $prods)
->>>>>>> 44222a3b02fe6519f5fb1903ffbad19a06fd0fac
 							{
 								$sale_price = $prods->sale_price;
 								$sale_price_type = $prods->sale_price_type;
