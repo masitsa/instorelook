@@ -244,6 +244,19 @@ if($surburbs->num_rows() > 0)
 		 	});
 		 	return false;
         });
+		
+		//facebook share product
+		function facebook_share(name, item_link, image_url)
+		{
+			 FB.ui({
+				method: 'feed',
+				picture: image_url,
+				link: "<?php echo site_url();?>"+item_link,
+				description: "Checkout  "+name+" and lots more on www.instorelook.com.au",
+			}, function(response){});
+			
+			return false;
+		}
         //Add to cart
         $(document).on("click","a.add_to_cart",function()
         {
@@ -265,11 +278,10 @@ if($surburbs->num_rows() > 0)
                         
                         $("#menu_cart_total").html(total);
                         $("#menu_cart_sub_total").html(sub_total);
-
                         
                         $("#mini_menu_cart_total").html(total);
                         $("#mini_menu_cart_sub_total").html(sub_total);
-                        
+                        $("#mini-cart-footer").html(data.mini_cart_footer);
                         
                         $("#menu_cart").html(data.cart_items);
                         $("#mini_menu_cart").html(data.cart_items);
@@ -314,7 +326,7 @@ if($surburbs->num_rows() > 0)
                         
                         $("#mini_menu_cart_total").html(total);
                         $("#mini_menu_cart_sub_total").html(sub_total);
-                        
+                        $("#mini-cart-footer").html(data.mini_cart_footer);
                         
                         $("#menu_cart").html(data.cart_items);
                         $("#mini_menu_cart").html(data.cart_items);
@@ -356,6 +368,7 @@ if($surburbs->num_rows() > 0)
                         
                         $("#mini_menu_cart_total").html(total);
                         $("#mini_menu_cart_sub_total").html(sub_total);
+                        $("#mini-cart-footer").html(data.mini_cart_footer);
                         
                         $("#menu_cart").html(data.cart_items);
                         $("#mini_menu_cart").html(data.cart_items);
@@ -512,6 +525,7 @@ if($surburbs->num_rows() > 0)
                         
                         $("#menu_cart_total").html(total);
                         $("#mini_menu_cart_total").html(total);
+                        $("#mini-cart-footer").html(data.mini_cart_footer);
                         $("#cart_sub_total").html(sub_total);
                         
                         $("#menu_cart").html(data.cart_items);
@@ -596,4 +610,147 @@ if($surburbs->num_rows() > 0)
 		{
 			$('#selected_features'+feature_id).val( product_feature_id );
 		}
+
+    //Estimate shipping
+	$(document).on("submit","form#estimate_shipping",function(e)
+	{
+		e.preventDefault();
+		$('#shipping_options').html('<div class="sp-loading"><img src="<?php echo site_url().'assets/themes/image_viewer/';?>images/sp-loading.gif" alt=""><br>Calculating shipping estimate...</div>');
+		
+		var formData = new FormData(this);
+		
+		$.ajax({
+			type:'POST',
+			url: $(this).attr('action'),
+			data:formData,
+			cache:false,
+			contentType: false,
+			processData: false,
+			dataType: 'json',
+			success:function(data)
+			{
+				$('#shipping_options').html( data.message );
+			},
+			error: function(xhr, status, error) 
+			{
+				alert("XMLHttpRequest=" + xhr.responseText + "\ntextStatus=" + status + "\nerrorThrown=" + error);
+			}
+		});
+		return false;
+	});
+	
+	//Add shipping
+	$(document).on("click","button#add_shipping",function()
+	{
+		$('#shipping_addition').html('<div class="sp-loading"><img src="<?php echo site_url().'assets/themes/image_viewer/';?>images/sp-loading.gif" alt=""><br>Adding shipping...</div>');
+		
+		var from = $('#from_postcode').val();
+		var to = $('#to_postcode').val();
+		
+		$.ajax({
+			type:'GET',
+			url: '<?php echo site_url().'site/add_shipping';?>/'+from+'/'+to,
+			cache:false,
+			contentType: false,
+			processData: false,
+			dataType: 'json',
+			success:function(data)
+			{
+				$('#shipping_addition').html( data.message );
+				$('#delivery').prop('checked', false);
+			},
+			error: function(xhr, status, error) 
+			{
+				$('#shipping_addition').html( error );
+				//alert("XMLHttpRequest=" + xhr.responseText + "\ntextStatus=" + status + "\nerrorThrown=" + error);
+			}
+		});
+	});
+	
+	//Remove shipping
+	$(document).on("click","#delivery",function()
+	{
+		$.ajax({
+			type:'GET',
+			url: '<?php echo site_url().'site/remove_shipping';?>',
+			cache:false,
+			contentType: false,
+			processData: false,
+			success:function(data)
+			{
+				$('#ship').prop('checked', false);
+			},
+			error: function(xhr, status, error) 
+			{
+				//$('#shipping_addition').html( error );
+				alert("XMLHttpRequest=" + xhr.responseText + "\ntextStatus=" + status + "\nerrorThrown=" + error);
+			}
+		});
+	});
+	
+	//Enable shipping
+	$(document).on("click","#ship",function()
+	{
+		$.ajax({
+			type:'GET',
+			url: '<?php echo site_url().'site/enable_shipping';?>',
+			cache:false,
+			contentType: false,
+			processData: false,
+			success:function(data)
+			{
+				$('#delivery').prop('checked', false);
+			},
+			error: function(xhr, status, error) 
+			{
+				//$('#shipping_addition').html( error );
+				alert("XMLHttpRequest=" + xhr.responseText + "\ntextStatus=" + status + "\nerrorThrown=" + error);
+			}
+		});
+	});
+	
+	//Add shipping
+	$(document).on("click","a.add_shipping_cost",function(e)
+    {
+        e.preventDefault();
+		
+		var vendor_id = $(this).attr('href');
+		var shipping_method = $('#shipping_method'+vendor_id).val();
+		var from_post_code = $('#from_post_code'+vendor_id).val();
+		var to_post_code = $('#to_post_code'+vendor_id).val();
+		var fixed_rate = $('#fixed_rate'+vendor_id).val();
+		var row_id = $('#row_id'+vendor_id).val();
+		
+		$.ajax({
+			type:'GET',
+			url: '<?php echo site_url().'site/add_shipping_cost';?>/'+shipping_method+'/'+from_post_code+'/'+to_post_code+'/'+fixed_rate+'/'+vendor_id+'/'+row_id,
+			cache:false,
+			contentType: false,
+			processData: false,
+			dataType: 'json',
+			success:function(data)
+			{
+				//$('#total_cost'+vendor_id).html('$'+data);
+				window.location.href = '<?php echo site_url();?>checkout-progress/method';
+			},
+			error: function(xhr, status, error) 
+			{
+				$('#shipping_addition'+vendor_id).html( error );
+				//alert("XMLHttpRequest=" + xhr.responseText + "\ntextStatus=" + status + "\nerrorThrown=" + error);
+			}
+		});
+		
+		return false;
+	});
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63311752-1', 'auto');
+  ga('send', 'pageview');
+
 </script>

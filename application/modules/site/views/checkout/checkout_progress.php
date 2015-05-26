@@ -49,7 +49,7 @@
                                             
                 <!-- Checkout progress -->
                 <div id="checkout-progress">
-                    <ul class="nav nav-tabs">
+                    <ul class="nav nav-tabs" style="margin-bottom: 0;">
                         <?php echo $this->cart_model->get_navigation($page_name);?>
                     </ul>                   
                 </div>

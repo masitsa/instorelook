@@ -12,4 +12,12 @@
 <file name="my_details.php" server="ftp.instorelook.com.au//public_html/test/" local="130520548639341238" remote="130717752600000000" Dst="0" />
 <file name="orders_list.php" server="ftp.instorelook.com.au//public_html/test/" local="130520507213101793" remote="130717752600000000" Dst="0" />
 <file name="wishlist.php" server="ftp.instorelook.com.au//public_html/test/" local="130520566778178720" remote="130717752600000000" Dst="0" />
+<file name="my_account.php" server="ftp.instorelook.com.au/public_html/development/" local="130698554073507608" remote="130760136000000000" Dst="0" />
+<file name="my_details.php" server="ftp.instorelook.com.au/public_html/development/" local="130520548639341238" remote="130760136000000000" Dst="0" />
+<file name="orders_list.php" server="ftp.instorelook.com.au/public_html/development/" local="130520507213101793" remote="130760136000000000" Dst="0" />
+<file name="wishlist.php" server="ftp.instorelook.com.au/public_html/development/" local="130520566778178720" remote="130760136000000000" Dst="0" />
+<file name="my_account.php" server="ftp.instorelook.com.au/public_html/" local="130698554073507608" remote="130767812400000000" Dst="0" />
+<file name="my_details.php" server="ftp.instorelook.com.au/public_html/" local="130520548639341238" remote="130767813000000000" Dst="0" />
+<file name="orders_list.php" server="ftp.instorelook.com.au/public_html/" local="130520507213101793" remote="130767813000000000" Dst="0" />
+<file name="wishlist.php" server="ftp.instorelook.com.au/public_html/" local="130520566778178720" remote="130767813000000000" Dst="0" />
 </dwsync>

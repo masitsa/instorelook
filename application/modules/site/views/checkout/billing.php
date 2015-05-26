@@ -39,7 +39,6 @@
                 <div id="checkout-content">
                     <div class="box-header">
                         <h3>Billing address</h3>
-                        <h5>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h5>
                     </div>
                     
                     <div class="center-align">

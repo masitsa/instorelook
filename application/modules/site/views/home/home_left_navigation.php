@@ -313,48 +313,17 @@ if($top_sellers->num_rows() == 0)
                 echo form_hidden('category_w_name', $category_w_name);
                 ?>
 				<div class="price-filter">
-								
-                    <div class="price-box">
-                          <div class="price-slider">
-                            <p>Between</p>
-                            <div class="col-sm-12 slide-price">
-                              <div id="slider"></div>
-                            </div>
-                             <input type="hidden" id="amount" name="low_price" class="form-control">
-                          </div>
-                          <div class="price-slider">
-                            <p>and</p>
-                            <div class="col-sm-12 slide-price">
-                              <div id="slider2"></div>
-                            </div>
-                            <input type="hidden" id="duration" name="high_price" class="form-control">
-                          </div>
-                          <!--<div class="price-form">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    Between
-                                    <p class="price lead" id="amount-label"></p>
-                                    <span class="price">.00</span>
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    & 
-                                    <p class="price lead" id="duration-label"></p>
-                                    <span class="price">.00</span>
-                                </div>
-                            </div>
-                
-                          </div>
-                
-                          <div class="form-group">
-                            <div class="col-sm-12">
-                              <button type="submit" class="btn btn-primary btn-lg btn-block">Proceed <span class="glyphicon glyphicon-chevron-right pull-right" style="padding-right: 10px;"></span></button>
-                            </div>
-                          </div>-->
-                
-                      </div>
-                    
-                    <div class="clearfix"></div>
+                	<div class="row">
+                    	<div class="col-md-5">
+                        	<input type="text" id="amount" name="low_price" class="form-control" value="<?php echo $filter_price_start;?>">
+                        </div>
+                    	<div class="col-md-2">
+                        	-
+                        </div>
+                    	<div class="col-md-5">
+                        	<input type="text" id="duration" name="high_price" class="form-control" value="<?php echo $filter_price_end;?>">
+                        </div>
+                    </div>
                 </div>
                 <div class="clear-both"></div>
                 <div class="center-align" style="width:100%;">
@@ -406,12 +375,20 @@ if($top_sellers->num_rows() == 0)
                         echo 
                         '
                         <li>
-                            <a class="cbp-vm-image" href="'.site_url().'products/view-product/'.$product_code.'"><img src="'.$image.'"></a>
-                            <h3 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_code.'">'.$brand_name.'</a></h3>
-                            <h6 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_code.'">'.$product_name.'</a></h6>
-                            <div class="cbp-vm-price">$'.$price.'</div>
+							<div class="row">
+								<div class="col-md-6">
+									<a class="cbp-vm-image img-responsive" href="'.site_url().'products/view-product/'.$product_code.'"><img src="'.$image.'"></a>
+								</div>
+								
+								<div class="col-md-6">
+									<h3 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_code.'">'.$brand_name.'</a></h3>
+									<h6 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_code.'">'.$product_name.'</a></h6>
+									<div class="cbp-vm-price">$'.$price.'</div>
+								</div>
+							</div>
+                            
                         </li>
-                                                            ';
+						';
                     }
                 }
                 
@@ -427,61 +404,3 @@ if($top_sellers->num_rows() == 0)
 	</div> <!-- best sellers --> 
     
 </div><!-- End panel group -->
-
-<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>           
-<script type="text/javascript">
-	$(document).ready(function() {
-          $("#slider").slider({
-              animate: true,
-              value:1,
-              min: 0,
-              max: 1000,
-              step: 10,
-              slide: function(event, ui) {
-                  update(1,ui.value); //changed
-              }
-          });
-
-          $("#slider2").slider({
-              animate: true,
-              value:0,
-              min: 0,
-              max: 500,
-              step: 1,
-              slide: function(event, ui) {
-                  update(2,ui.value); //changed
-              }
-          });
-
-          //Added, set initial value.
-          $("#amount").val(0);
-          $("#duration").val(0);
-          $("#amount-label").text(0);
-          $("#duration-label").text(0);
-          
-          update();
-      });
-
-      //changed. now with parameter
-      function update(slider,val) {
-        //changed. Now, directly take value from ui.value. if not set (initial, will use current value.)
-        var $amount = slider == 1?val:$("#amount").val();
-        var $duration = slider == 2?val:$("#duration").val();
-
-        /* commented
-        $amount = $( "#slider" ).slider( "value" );
-        $duration = $( "#slider2" ).slider( "value" );
-         */
-
-         $total = "$" + ($amount * $duration);
-         $( "#amount" ).val($amount);
-         $( "#amount-label" ).text($amount);
-         $( "#duration" ).val($duration);
-         $( "#duration-label" ).text($duration);
-         $( "#total" ).val($total);
-         $( "#total-label" ).text($total);
-
-         $('#slider a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$amount+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
-         $('#slider2 a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$duration+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
-      }
-</script>

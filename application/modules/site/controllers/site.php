@@ -65,6 +65,8 @@ class Site extends MX_Controller
 		$v_data['locations_array'] = '';
 		$v_data['brands_array'] = '';
 		$v_data['businesses_array'] = '';
+		$v_data['filter_price_start'] = 0;
+		$v_data['filter_price_end'] = 0;
 		
 		$data['content'] = $this->load->view('home/home', $v_data, true);
 		
@@ -293,6 +295,8 @@ class Site extends MX_Controller
 		$v_data['locations_array'] = '';
 		$v_data['brands_array'] = '';
 		$v_data['businesses_array'] = '';
+		$v_data['filter_price_start'] = 0;
+		$v_data['filter_price_end'] = 0;
 		
 		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.product_status = 1 AND category_status = 1 AND brand_status = 1 AND product.product_balance > 0';
 		$table = 'product, category, brand';
@@ -329,7 +333,7 @@ class Site extends MX_Controller
 		}
 		
 		//case of filtering locations
-		if($filter_locations != '__')
+		if(($filter_locations != '__') && (!empty($filter_locations)))
 		{
 			$table .= ', vendor, surburb, state';
 			$where .= ' AND product.created_by = vendor.vendor_id AND vendor.surburb_id = surburb.surburb_id AND surburb.state = state.state_id ';
@@ -339,7 +343,7 @@ class Site extends MX_Controller
 		}
 		
 		//case of filter_brands
-		if($filter_brands != '__')
+		if(($filter_brands != '__') && (!empty($filter_brands)))
 		{
 			$return = $this->site_model->create_query_filter($filter_brands, 'brand.brand_name');
 			$where .= $return['where'];
@@ -347,7 +351,7 @@ class Site extends MX_Controller
 		}
 		
 		//case of filter businesses
-		if($filter_businesses != '__')
+		if(($filter_businesses != '__') && (!empty($filter_businesses)))
 		{
 			if(strpos($table, 'vendor') == FALSE)
 			{
@@ -360,7 +364,7 @@ class Site extends MX_Controller
 		}
 		
 		//case of price_range
-		if($price_range != '__')
+		if(($price_range != '__') && (!empty($price_range)))
 		{
 			$range = explode("-", $price_range);
 			$total = count($range);
@@ -370,6 +374,9 @@ class Site extends MX_Controller
 				$start = $range[0];
 				$end = $range[1];
 				$where .= " AND (product.product_selling_price BETWEEN ".$start." AND ".$end.")";
+				
+				$v_data['filter_price_start'] = $start;
+				$v_data['filter_price_end'] = $end;
 			}
 		}
 		
@@ -817,13 +824,361 @@ class Site extends MX_Controller
 		$this->load->view('templates/general_page', $data);
 	}
 	
-	public function owl()
+	public function estimate_shipping()
 	{
+		$this->load->model('shipping_model');
+		$total = 0;
 		
-		$data['content'] = $this->load->view('owl', '', true);
+		foreach ($this->cart->contents() as $items): 
+                    
+			$cart_product_id = $items['id'];
+			
+			//get product details
+			$query = $this->products_model->get_product($cart_product_id);
+			$product = $query->result();
+			$width =  $product[0]->product_width;
+			$height =  $product[0]->product_height;
+			$length =  $product[0]->product_length;
+			$weight =  $product[0]->product_weight;
+			
+			$data = array(
+				'from_postcode' => $this->input->post('from_postcode'),
+				'to_postcode' => $this->input->post('to_postcode'),
+				'weight' => $weight,
+				'height' => $height,
+				'width' => $width,
+				'length' => $length,
+				'service_code' => 'AUS_PARCEL_REGULAR'
+			);
+			
+			try
+			{
+				$response = $this->shipping_model->getShippingCost($data);
+				
+				if($response > 0)
+				{
+					$return['response'] = 'success';
+					$total += $response;
+					$return['message'] = '$'.$total;
+				}
+				
+				else
+				{
+					$return['response'] = 'fail';
+					$return['message'] = '<div class="alert alert-danger">'.$response.'</div>';
+				}
+			}
+			catch (Exception $e)
+			{
+				$return['response'] = 'fail';
+				$return['message'] = '<div class="alert alert-danger">oops: '.$e->getMessage().'</div>';
+			}
+			
+		endforeach;
 		
-		$data['title'] = $this->site_model->display_page_title();
-		$this->load->view('templates/general_page', $data);
+		echo json_encode($return);
+	}
+	
+	public function add_shipping($from, $to, $vendor_id = NULL)
+	{
+		$this->load->model('shipping_model');
+		$total = 0;
+		
+		foreach ($this->cart->contents() as $items): 
+                    
+			$cart_product_id = $items['id'];
+			$row_id = $items['rowid'];
+			
+			if(isset($items['options']))
+			{
+				$options = $items['options'];
+			}
+			
+			else
+			{
+				$options = array();
+			}
+			
+			//get product details
+			$query = $this->products_model->get_product_shipping($cart_product_id, $vendor_id);
+			$product = $query->result();
+			$width =  $product[0]->product_width;
+			$height =  $product[0]->product_height;
+			$length =  $product[0]->product_length;
+			$weight =  $product[0]->product_weight;
+			
+			$data = array(
+				'from_postcode' => $from,
+				'to_postcode' => $to,
+				'weight' => $weight,
+				'height' => $height,
+				'width' => $width,
+				'length' => $length,
+				'service_code' => 'AUS_PARCEL_REGULAR'
+			);
+			
+			try
+			{
+				$response = $this->shipping_model->getShippingCost($data);
+				
+				if($response > 0)
+				{
+					$total += $response;
+					$options['shipping'] = 1;
+					$options['cost'] = $response;
+					$options['from'] = $from;
+					$options['to'] = $to;
+					$data_save = array(
+					   'rowid' => $row_id,
+					   'options'   => $options
+					);
+					
+					$this->cart->update($data_save);
+					
+					$return['response'] = 'success';
+					$return['message'] = '<div class="price"><strong>$'.$response.'</strong></div><input type="radio" value="1" class="form-control" name="shipping_option" id="option1" checked="checked">';
+					$return['total'] = $response;
+				}
+				
+				else
+				{
+					$return['response'] = 'fail';
+					$return['message'] = '<div class="alert alert-danger">'.$response.'</div>';
+				}
+			}
+			catch (Exception $e)
+			{
+				$return['response'] = 'fail';
+				$return['message'] = '<div class="alert alert-danger">oops: '.$e->getMessage().'</div>';
+			}
+			
+		endforeach;
+		
+		if($vendor_id == NULL)
+		{
+			echo json_encode($return);
+		}
+		
+		else
+		{
+			return $return;
+		}
+	}
+	
+	public function add_cart_shipping($from, $to, $cart_product_id, $row_id, $vendor_id = NULL)
+	{
+		$this->load->model('shipping_model');
+		$total = 0;
+		
+		//get product details
+		$query = $this->products_model->get_product_shipping($cart_product_id, $vendor_id);
+		$product = $query->result();
+		$width =  $product[0]->product_width;
+		$height =  $product[0]->product_height;
+		$length =  $product[0]->product_length;
+		$weight =  $product[0]->product_weight;
+		
+		$data = array(
+			'from_postcode' => $from,
+			'to_postcode' => $to,
+			'weight' => $weight,
+			'height' => $height,
+			'width' => $width,
+			'length' => $length,
+			'service_code' => 'AUS_PARCEL_REGULAR'
+		);
+		
+		try
+		{
+			$response = $this->shipping_model->getShippingCost($data);
+			
+			if($response > 0)
+			{
+				$total += $response;
+				$options['shipping'] = 1;
+				$options['cost'] = $response;
+				$options['from'] = $from;
+				$options['to'] = $to;
+				$data_save = array(
+				   'rowid' => $row_id,
+				   'options'   => $options
+				);
+				
+				$this->cart->update($data_save);
+				
+				$return['response'] = 'success';
+				$return['message'] = '<div class="price"><strong>$'.$response.'</strong></div><input type="radio" value="1" class="form-control" name="shipping_option" id="option1" checked="checked">';
+				$return['total'] = $response;
+			}
+			
+			else
+			{
+				$return['response'] = 'fail';
+				$return['message'] = '<div class="alert alert-danger">'.$response.'</div>';
+			}
+		}
+		catch (Exception $e)
+		{
+			$return['response'] = 'fail';
+			$return['message'] = '<div class="alert alert-danger">oops: '.$e->getMessage().'</div>';
+		}
+		
+		return $return;
+	}
+	
+	public function remove_shipping()
+	{
+		foreach ($this->cart->contents() as $items): 
+		
+			if(isset($items['options']))
+			{
+				$options = $items['options'];
+				$row_id = $items['rowid'];
+				
+				$options['shipping'] = 0;
+			
+				$data_save = array(
+				   'rowid' => $row_id,
+				   'options'   => $options
+				);
+				
+				$this->cart->update($data_save);
+			}
+			
+		endforeach;
+		
+		echo 'true';
+	}
+	
+	public function enable_shipping()
+	{
+		foreach ($this->cart->contents() as $items): 
+		
+			if(isset($items['options']))
+			{
+				$options = $items['options'];
+				$row_id = $items['rowid'];
+				
+				$options['shipping'] = 1;
+			
+				$data_save = array(
+				   'rowid' => $row_id,
+				   'options'   => $options
+				);
+				
+				$this->cart->update($data_save);
+			}
+			
+		endforeach;
+		
+		echo 'true';
+	}
+	
+	public function create_tiny_url()
+	{
+		//products
+		$query = $this->db->get('product');
+		
+		if($query->num_rows() > 0)
+		{
+			foreach($query->result() as $prod)
+			{
+				$code = $prod->product_code;
+				$product_id = $prod->product_id;
+				$data['tiny_url'] = $this->products_model->get_tiny_url(site_url().'products/view-product/'.$code);
+				
+				$this->db->where('product_id', $product_id);
+				if($this->db->update('product', $data))
+				{
+				}
+			}
+		}
+		//vendors
+		$query = $this->db->get('vendor');
+		
+		if($query->num_rows() > 0)
+		{
+			foreach($query->result() as $prod)
+			{
+				$vendor_store_name = $prod->vendor_store_name;
+				$web_name = $this->site_model->create_web_name($vendor_store_name);
+				$vendor_id = $prod->vendor_id;
+				$data['tiny_url'] = $this->products_model->get_tiny_url(site_url().'businesses/'.$web_name.'&'.$vendor_id);
+				
+				$this->db->where('vendor_id', $vendor_id);
+				if($this->db->update('vendor', $data))
+				{
+				}
+			}
+		}
+	}
+	
+	public function add_shipping_cost($shipping_method, $from_post_code, $to_post_code, $fixed_rate, $vendor_id, $row_id)
+	{
+		$total_shipping = 0;
+		foreach ($this->cart->contents() as $items): 
+		
+			$row_id2 = $items['rowid'];
+			$cart_product_id = $items['id'];
+			
+			if(isset($items['options']))
+			{
+				$options = $items['options'];
+			}
+			
+			else
+			{
+				$items['options'] = array();
+				$options = $items['options'];
+			}
+			//echo $row_id.' - '.$row_id2.'<br/>';
+			if($row_id == $row_id2)
+			{
+				$options['shipping'] = $shipping_method;
+				
+				//auspost
+				if($shipping_method == 1)
+				{
+					$result = $this->add_cart_shipping($from_post_code, $to_post_code, $cart_product_id, $row_id, $vendor_id);
+					
+					if($result['response'] == 'success')
+					{
+						$options['cost'] = $result['total'];
+					}
+					
+					else
+					{
+						$options['cost'] = 0;
+					}
+				}
+				
+				//fixed rate
+				else if($shipping_method == 2)
+				{
+					$options['cost'] = $fixed_rate;
+				}
+				
+				//pick up
+				else
+				{
+					$options['cost'] = 0;
+				}
+				$total_shipping += $options['cost'];
+				$options['from'] = $from_post_code;
+				$options['to'] = $to_post_code;
+			
+				$data_save = array(
+				   'rowid' => $row_id,
+				   'options'   => $options
+				);
+				
+				$this->cart->update($data_save);
+			}
+			
+		endforeach;
+		
+		$return['total_shipping'] = $total_shipping;
+		echo $total_shipping;
 	}
 }
 ?>

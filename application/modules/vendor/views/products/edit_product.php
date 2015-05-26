@@ -96,6 +96,19 @@
             {
                 echo '<div class="alert alert-danger center-align"> Oh snap! '.$validation_errors.' </div>';
             }
+			$error = $this->session->userdata('error_message');
+			$success = $this->session->userdata('success_message');
+			if(!empty($error))
+			{
+				echo '<div class="alert alert-danger">'.$error.'</div>';
+				$this->session->unset_userdata('error_message');
+			}
+			
+			if(!empty($success))
+			{
+				echo '<div class="alert alert-success">'.$success.'</div>';
+				$this->session->unset_userdata('success_message');
+			}
             ?>
          	<div class="row">
             	<div class="col-md-6">
@@ -308,10 +321,11 @@
 									foreach($galleries as $gal)
 									{
 										$thumb = $gal->product_image_thumb;
+										$gal_image = $gal->product_image_thumb;
 										$product_image_id = $gal->product_image_id;
 										?>
                                         <div class="col-md-4">
-                                        	<a href="<?php echo site_url()."admin/products/delete_gallery_image/".$product_image_id.'/'.$product_id;?>" style="color:red;"><img src="<?php echo base_url()."assets/images/products/gallery/".$thumb;?>"/>Delete</a>
+                                        	<a href="<?php echo site_url()."vendor/products/delete_gallery_image/".$product_image_id.'/'.$product_id.'/'.$gal_image.'/'.$thumb;?>" style="color:red;"><img src="<?php echo base_url()."assets/images/products/gallery/".$thumb;?>"/>Delete</a>
                                         </div>
                                         <?php
 									}
@@ -425,7 +439,7 @@
             </div>
 		</div>
 <?php echo $this->load->view('vendor/multiselect_js');?>
-<script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+<script src="<?php echo base_url().'assets/themes/tinymce/js/';?>tinymce.min.js"></script>
 <script>tinymce.init({selector:'textarea'});</script>
 <script type="text/javascript">
     $(document).ready(function(){

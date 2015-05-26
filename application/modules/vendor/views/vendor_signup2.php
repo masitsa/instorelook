@@ -1,5 +1,6 @@
 
-        <script type="text/javascript" src="<?php echo base_url();?>assets/jasny/jasny-bootstrap.js"></script> 
+<link rel="stylesheet" href="<?php echo base_url();?>assets/themes/jasny/css/jasny-bootstrap.css"> 
+<script type="text/javascript" src="<?php echo base_url();?>assets/themes/jasny/js/jasny-bootstrap.js"></script> 
         <div class="content light-grey-background">
         	<div class="container">
         		<div class="search-flights">
@@ -13,7 +14,7 @@
                             <div class="process-row">
                                 <div class="process-step">
                                     <button type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-user fa-2x"></i></button>
-                                    <p>Personal</p>
+                                    <p>Account</p>
                                 </div>
                                 <div class="process-step">
                                     <button type="button" class="btn blue-background btn-circle" disabled="disabled"><i class="fa fa-building-o fa-2x"></i></button>
@@ -123,7 +124,7 @@
 										?>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <!--<div class="form-group">
                                     <label for="vendor_store_email" class="col-sm-4 control-label">Business Email <span class="required">*</span></label>
                                     <div class="col-sm-8">
                                     	<?php
@@ -143,7 +144,7 @@
 											}
 										?>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div class="form-group">
                                     <label for="country_id" class="col-sm-4 control-label">Country</label>
                                     <div class="col-sm-8">
@@ -298,29 +299,6 @@
                             </div>
                             
                         	<div class="col-md-6">
-                            
-                                <div class="form-group">
-                                    <label for="vendor_store_summary" class="col-sm-4 control-label">Description
-                                        <span class="required">*</span></label>
-                                    <div class="col-sm-8">
-                                    	<?php
-											//case of an input error
-                                        	if(!empty($vendor_store_summary_error))
-											{
-												?>
-                                                <textarea class="form-control alert-danger" name="vendor_store_summary" onFocus="this.value = '<?php echo $vendor_store_summary;?>';" placeholder="<?php echo $vendor_store_summary_error;?>"></textarea>
-                                                <?php
-											}
-											
-											else
-											{
-												?>
-                                                <textarea class="form-control" name="vendor_store_summary" placeholder="Business Description"><?php echo $vendor_store_summary;?></textarea>
-                                                <?php
-											}
-										?>
-                                    </div>
-                                </div>
                                 
                                 <div class="form-group">
                                     <label for="vendor_logo" class="col-sm-4 control-label">Store Logo</label>
@@ -353,6 +331,44 @@
                             </div>
                         </div>
                         
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="vendor_store_summary" class="col-sm-2 control-label">Description
+                                        <span class="required">*</span></label>
+                                    <div class="col-sm-10">
+                                        <?php
+                                            //case of an input error
+                                            if(!empty($vendor_store_summary_error))
+                                            {
+                                                echo '<div class="alert alert-danger">'.$vendor_store_summary_error.'</div>';
+                                            }
+                                        ?>
+                                        <textarea class="form-control" name="vendor_store_summary" placeholder="Business Description"><?php echo $vendor_store_summary;?></textarea>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="return_policy" class="col-sm-2 control-label">Return policy
+                                        <span class="required">*</span></label>
+                                    <div class="col-sm-10">
+                                        <?php
+                                            //case of an input error
+                                            if(!empty($return_policy_error))
+                                            {
+                                                echo '<div class="alert alert-danger">'.$return_policy_error.'</div>';
+                                            }
+                                        ?>
+                                        <textarea class="form-control" name="return_policy"><?php echo $return_policy;?></textarea>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                            
                         <div class="row center-align">
                             <div class="col-sm-12">
                             	<p>Help customers find you by adding further details within My Account</p>
@@ -372,3 +388,25 @@
             </div>
         </div>
         <!-- End Join -->
+<script src="<?php echo base_url().'assets/themes/tinymce/js/';?>tinymce.min.js"></script>
+<script type="text/javascript">
+tinymce.init({
+	menubar: "edit insert view format table tools",
+    selector: "textarea",
+    theme: "modern",
+    skin: "light",
+    plugins: [
+        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime media nonbreaking save table contextmenu directionality",
+        "emoticons template paste textcolor colorpicker textpattern"
+    ],
+    toolbar1: "insertfile undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+    toolbar2: "print preview media | forecolor backcolor emoticons",
+    image_advtab: true,
+    templates: [
+        {title: 'Test template 1', content: 'Test 1'},
+        {title: 'Test template 2', content: 'Test 2'}
+    ]
+});
+</script>

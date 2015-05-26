@@ -85,12 +85,12 @@
         
                     <div class="buttons">
                         <div class="pull-left">
-                            <a href="reset-password.html" class="btn btn-success btn-small">
-                                Reset my password
-                            </a>
-                            <button type="submit" class="btn btn-primary btn-small" name="login" value="Login">
+                            <button type="submit" class="btn btn-primary" name="login" value="Login">
                                 Login
                             </button>
+                            <!--<a href="reset-password.html">
+                                Reset my password
+                            </a>-->
                         </div>
                     </div>               
                 <?php echo form_close();?>

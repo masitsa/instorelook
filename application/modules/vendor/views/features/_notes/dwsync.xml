@@ -9,4 +9,10 @@
 <file name="add_feature.php" server="ftp.instorelook.com.au//public_html/test/" local="130516346026950462" remote="130717753800000000" Dst="0" />
 <file name="all_features.php" server="ftp.instorelook.com.au//public_html/test/" local="130687269412208979" remote="130717754400000000" Dst="0" />
 <file name="edit_feature.php" server="ftp.instorelook.com.au//public_html/test/" local="130516346841967079" remote="130717754400000000" Dst="0" />
+<file name="add_feature.php" server="ftp.instorelook.com.au/public_html/development/" local="130516346026950462" remote="130761661800000000" Dst="0" />
+<file name="all_features.php" server="ftp.instorelook.com.au/public_html/development/" local="130687269412208979" remote="130761661800000000" Dst="0" />
+<file name="edit_feature.php" server="ftp.instorelook.com.au/public_html/development/" local="130516346841967079" remote="130761661800000000" Dst="0" />
+<file name="all_features.php" server="ftp.instorelook.com.au/public_html/" local="130687269412208979" remote="130767814200000000" Dst="0" />
+<file name="edit_feature.php" server="ftp.instorelook.com.au/public_html/" local="130516346841967079" remote="130767814200000000" Dst="0" />
+<file name="add_feature.php" server="ftp.instorelook.com.au/public_html/" local="130516346026950462" remote="130767814200000000" Dst="0" />
 </dwsync>

@@ -55,6 +55,7 @@ class Checkout extends site
 			$v_data['parent_categories'] = $this->categories_model->all_parent_categories();
 			$v_data['crumbs'] = $this->site_model->get_crumbs();
 			$v_data['surburbs_query'] = $this->vendor_model->get_all_surburbs();
+			//$v_data['product'] = $this->products_model->get_all_surburbs();
 			
 			if($page_name == NULL)
 			{
@@ -64,7 +65,6 @@ class Checkout extends site
 			{
 				$v_data['page_name'] = $page_name;
 			}
-			
 			
 			$data['content'] = $this->load->view('checkout/checkout_progress', $v_data, true);
 			
@@ -618,7 +618,7 @@ class Checkout extends site
 		}
 	}
 	
-	public function update_shipping_details($page = NULL)
+	public function update_shipping_details($page = NULL, $customer_shipping_id = NULL)
 	{
 		//form validation rules
 		$this->form_validation->set_rules('email', 'Email', 'required|xss_clean|valid_email');
@@ -627,7 +627,7 @@ class Checkout extends site
 		$this->form_validation->set_rules('phone', 'Phone', 'required|xss_clean');
 		$this->form_validation->set_rules('company', 'Company', 'trim|xss_clean');
 		$this->form_validation->set_rules('address', 'Address', 'trim|xss_clean');
-		$this->form_validation->set_rules('surburb_id', 'Country', 'required|trim|xss_clean|numeric');
+		$this->form_validation->set_rules('surburb_id', 'Surburb', 'required|trim|xss_clean|numeric');
 		$this->form_validation->set_message('exists', 'That email does not exist. Are you trying to sign up?');
 		
 		//if form has been submitted
@@ -638,16 +638,34 @@ class Checkout extends site
 		
 		else
 		{
-			//check if user has valid login credentials
-			if($this->checkout_model->update_shipping_details())
+			if($customer_shipping_id > 0)
 			{
 				//check if user has valid login credentials
-				$this->session->set_userdata('shipping_success_message', 'Your shipping details have been updated sucessfully');
+				if($this->checkout_model->update_shipping_details($customer_shipping_id))
+				{
+					//check if user has valid login credentials
+					$this->session->set_userdata('shipping_success_message', 'Your shipping details have been updated sucessfully');
+				}
+				
+				else
+				{
+					$this->session->set_userdata('shipping_error_message', 'Could not update your shipping details. Please try again');
+				}
 			}
 			
 			else
 			{
-				$this->session->set_userdata('shipping_error_message', 'Could not update your shipping details. Please try again');
+				//check if user has valid login credentials
+				if($this->checkout_model->add_shipping_details())
+				{
+					//check if user has valid login credentials
+					$this->session->set_userdata('shipping_success_message', 'Your shipping details have been added sucessfully');
+				}
+				
+				else
+				{
+					$this->session->set_userdata('shipping_error_message', 'Could not add your shipping details. Please try again');
+				}
 			}
 		}
 		
@@ -670,6 +688,23 @@ class Checkout extends site
 	{
 		$response = $this->payments_model->split_payment();
 		var_dump($response);
+	}
+	
+	public function delete_shipping_address($customer_shipping_id)
+	{
+		$data['delete'] = 1;
+		$this->db->where('customer_shipping_id', $customer_shipping_id);
+		if($this->db->update('customer_shipping', $data))
+		{
+			$this->session->set_userdata('shipping_success_message', 'Shipping address has been deleted successfully');
+		}
+		
+		else
+		{
+			$this->session->set_userdata('shipping_error_message', 'Unable to delete shipping address. Please try again');
+		}
+		
+		redirect('checkout-progress/shipping');
 	}
 }
 ?>

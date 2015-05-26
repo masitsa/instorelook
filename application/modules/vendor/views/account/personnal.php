@@ -121,7 +121,7 @@
                                 	</div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="vendor_email" class="col-sm-4 control-label">Email <span class="required">*</span></label>
+                                    <label for="vendor_email" class="col-sm-4 control-label">Business email <span class="required">*</span></label>
                                     <div class="col-sm-8">
                                     	<input type="text" class="form-control" name="vendor_email" placeholder="Email" value="<?php echo $vendor_email;?>" readonly="readonly">
                                     </div>

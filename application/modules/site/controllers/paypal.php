@@ -103,7 +103,7 @@ class Paypal extends checkout
 		$cancel_url = site_url().'checkout/order-cancel/'.$return['created_orders'];
 		
 		$create_paykey = $this->create_payment_packet($return, $return_url, $cancel_url);
-		
+		//var_dump($create_paykey);
 		//get the paykey to be used to communicate payment details to Paypal
 		$pay_key = $create_paykey['payKey'];
 		

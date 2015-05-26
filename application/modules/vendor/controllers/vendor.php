@@ -9,6 +9,7 @@ class Vendor extends MX_Controller
 	{
 		parent:: __construct();
 		$this->load->model('vendor_model');
+		$this->load->model('products_model');
 		$this->load->model('site/site_model');
 		$this->load->model('admin/file_model');
 		$this->load->model('site/cart_model');
@@ -133,7 +134,7 @@ class Vendor extends MX_Controller
 		$v_data['vendor_logo_location'] = 'http://placehold.it/300x300&text=Upload+logo';
 		$v_data['vendor_store_name_error'] = '';
 		$v_data['vendor_store_phone_error'] = '';
-		$v_data['vendor_store_email_error'] = '';
+		//$v_data['vendor_store_email_error'] = '';
 		$v_data['vendor_store_summary_error'] = '';
 		$v_data['vendor_logo_error'] = '';
 		$v_data['vendor_store_address_error'] = '';
@@ -144,6 +145,7 @@ class Vendor extends MX_Controller
 		$v_data['surburb_id_error'] = '';
 		$v_data['country_id_error'] = '';
 		$v_data['vendor_store_postcode_error'] = '';
+		$v_data['return_policy_error'] = '';
 		
 		//upload image if it has been selected
 		if($this->vendor_model->upload_vendor_image($this->vendor_path))
@@ -160,7 +162,7 @@ class Vendor extends MX_Controller
 		$this->form_validation->set_error_delimiters('', '');
 		$this->form_validation->set_rules('vendor_store_name', 'Business Name', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('vendor_store_phone', 'Phone', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('vendor_store_email', 'Store Email', 'trim|valid_email|required|xss_clean');
+		//$this->form_validation->set_rules('vendor_store_email', 'Store Email', 'trim|valid_email|required|xss_clean');
 		$this->form_validation->set_rules('vendor_store_summary', 'Store Summary', 'trim|required|min_length[25]|xss_clean');
 		$this->form_validation->set_rules('vendor_store_address', 'Address', 'trim|xss_clean');
 		$this->form_validation->set_rules('vendor_store_mobile', 'Mobile Number', 'trim|xss_clean');
@@ -169,6 +171,7 @@ class Vendor extends MX_Controller
 		$this->form_validation->set_rules('vendor_business_type', 'Business Type', 'trim|xss_clean');
 		$this->form_validation->set_rules('surburb_id', 'Surburb', 'required|xss_clean');
 		$this->form_validation->set_rules('vendor_store_postcode', 'Postcode', 'trim|xss_clean');
+		$this->form_validation->set_rules('return_policy', 'Return policy', 'trim|required|xss_clean');
 		
 		//if form conatins invalid data
 		if ($this->form_validation->run())
@@ -195,7 +198,7 @@ class Vendor extends MX_Controller
 			//create errors
 			$v_data['vendor_store_name_error'] = form_error('vendor_store_name');
 			$v_data['vendor_store_phone_error'] = form_error('vendor_store_phone');
-			$v_data['vendor_store_email_error'] = form_error('vendor_store_email');
+			//$v_data['vendor_store_email_error'] = form_error('vendor_store_email');
 			$v_data['vendor_store_summary_error'] = form_error('vendor_store_summary');
 			$v_data['vendor_store_address_error'] = form_error('vendor_store_address');
 			$v_data['vendor_store_mobile_error'] = form_error('vendor_store_mobile');
@@ -204,11 +207,12 @@ class Vendor extends MX_Controller
 			$v_data['vendor_business_type_error'] = form_error('vendor_business_type');
 			$v_data['surburb_id_error'] = form_error('surburb_id');
 			$v_data['vendor_store_postcode_error'] = form_error('vendor_store_postcode');
+			$v_data['return_policy_error'] = form_error('return_policy');
 			
 			//repopulate fields
 			$v_data['vendor_store_name'] = set_value('vendor_store_name');
 			$v_data['vendor_store_phone'] = set_value('vendor_store_phone');
-			$v_data['vendor_store_email'] = set_value('vendor_store_email');
+			//$v_data['vendor_store_email'] = set_value('vendor_store_email');
 			$v_data['vendor_store_summary'] = set_value('vendor_store_summary');
 			$v_data['vendor_store_address'] = set_value('vendor_store_address');
 			$v_data['vendor_store_mobile'] = set_value('vendor_store_mobile');
@@ -217,6 +221,7 @@ class Vendor extends MX_Controller
 			$v_data['vendor_business_type'] = set_value('vendor_business_type');
 			$v_data['surburb_id'] = set_value('surburb_id');
 			$v_data['vendor_store_postcode'] = set_value('vendor_store_postcode');
+			$v_data['return_policy'] = set_value('return_policy');
 		}
 		
 		//populate form data on initial load of page
@@ -229,7 +234,7 @@ class Vendor extends MX_Controller
 			{
 				$v_data['vendor_store_name'] = $vendor_store_name;
 				$v_data['vendor_store_phone'] = $this->session->userdata('vendor_store_phone');
-				$v_data['vendor_store_email'] = $this->session->userdata('vendor_store_email');
+				//$v_data['vendor_store_email'] = $this->session->userdata('vendor_store_email');
 				$v_data['vendor_store_summary'] = $this->session->userdata('vendor_store_summary');
 				$v_data['vendor_store_address'] = $this->session->userdata('vendor_store_address');
 				$v_data['vendor_logo_location'] = $this->vendor_location.$this->session->userdata('vendor_logo_file_name');
@@ -239,13 +244,14 @@ class Vendor extends MX_Controller
 				$v_data['vendor_business_type'] = $this->session->userdata('vendor_business_type');
 				$v_data['surburb_id'] = $this->session->userdata('surburb_id');
 				$v_data['vendor_store_postcode'] = $this->session->userdata('vendor_store_postcode');
+				$v_data['return_policy'] = $this->session->userdata('return_policy');
 			}
 			
 			else
 			{
 				$v_data['vendor_store_name'] = '';
 				$v_data['vendor_store_phone'] = '';
-				$v_data['vendor_store_email'] = '';
+				//$v_data['vendor_store_email'] = '';
 				$v_data['vendor_store_summary'] = '';
 				$v_data['vendor_store_address'] = '';
 				$v_data['vendor_store_mobile'] = '';
@@ -254,6 +260,7 @@ class Vendor extends MX_Controller
 				$v_data['vendor_business_type'] = '';
 				$v_data['surburb_id'] = '';
 				$v_data['vendor_store_postcode'] = '';
+				$v_data['return_policy'] = '';
 			}
 		}
 		

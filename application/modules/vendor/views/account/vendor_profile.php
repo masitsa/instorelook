@@ -1,5 +1,4 @@
-<div class="row">
-	<div class="col-md-12">
+
 		<div class="row userInfo">
 			<div class="col-md-12">
 				<div class="checkout-progress">
@@ -22,6 +21,18 @@
 						{
 							echo $this->load->view('account/subscription', '', true);
 						}
+						else if($page_name == 'return_policy')
+						{
+							echo $this->load->view('account/return_policy', '', true);
+						}
+						else if($page_name == 'shipping')
+						{
+							echo $this->load->view('account/shipping', '', true);
+						}
+						else if($page_name == 'payment')
+						{
+							echo $this->load->view('account/payment', '', true);
+						}
 						else
 						{
 							echo $this->load->view('account/business', '', true);
@@ -38,5 +49,3 @@
 			
         </div> <!--/row end--> 
         
-    </div>
-</div> <!--/row-->

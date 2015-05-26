@@ -1,11 +1,7 @@
 <div id="checkout-content">
 <div class="box-header">                                                                                                    
-    <h3>Payment method</h3>
-    <h5>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h5>                                                    
+    <h3>Payment method</h3>                                                 
 </div>
-
-
-
 <div class="box-content">
     <div class="shipping-methods">
         <div class="row">

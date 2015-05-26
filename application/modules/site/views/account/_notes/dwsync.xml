@@ -9,4 +9,18 @@
 <file name="wishlist.php" server="ftp.instorelook.com.au//public_html/test/" local="130699306069025584" remote="130717751400000000" Dst="0" />
 <file name="shipping_address.php" server="ftp.instorelook.com.au//public_html/test/" local="130699322879997117" remote="130717751400000000" Dst="0" />
 <file name="orders.php" server="ftp.instorelook.com.au//public_html/test/" local="130717550668688945" remote="130717752000000000" Dst="0" />
+<file name="dashboard.php" server="ftp.instorelook.com.au/public_html/development/" local="130726061322407911" remote="130760134200000000" Dst="0" />
+<file name="my_addresses.php" server="ftp.instorelook.com.au/public_html/development/" local="130726062468596730" remote="130760134200000000" Dst="0" />
+<file name="my_details.php" server="ftp.instorelook.com.au/public_html/development/" local="130703646212458327" remote="130760134200000000" Dst="0" />
+<file name="navigation.php" server="ftp.instorelook.com.au/public_html/development/" local="130698545791153884" remote="130760134200000000" Dst="0" />
+<file name="orders.php" server="ftp.instorelook.com.au/public_html/development/" local="130726830779979375" remote="130760134200000000" Dst="0" />
+<file name="shipping_address.php" server="ftp.instorelook.com.au/public_html/development/" local="130699322879997117" remote="130760134200000000" Dst="0" />
+<file name="wishlist.php" server="ftp.instorelook.com.au/public_html/development/" local="130699306069025584" remote="130760134200000000" Dst="0" />
+<file name="dashboard.php" server="ftp.instorelook.com.au/public_html/" local="130726061322407911" remote="130767811200000000" Dst="0" />
+<file name="my_addresses.php" server="ftp.instorelook.com.au/public_html/" local="130726062468596730" remote="130767811200000000" Dst="0" />
+<file name="my_details.php" server="ftp.instorelook.com.au/public_html/" local="130703646212458327" remote="130767811200000000" Dst="0" />
+<file name="navigation.php" server="ftp.instorelook.com.au/public_html/" local="130698545791153884" remote="130767811200000000" Dst="0" />
+<file name="orders.php" server="ftp.instorelook.com.au/public_html/" local="130726830779979375" remote="130767811200000000" Dst="0" />
+<file name="shipping_address.php" server="ftp.instorelook.com.au/public_html/" local="130699322879997117" remote="130767811200000000" Dst="0" />
+<file name="wishlist.php" server="ftp.instorelook.com.au/public_html/" local="130699306069025584" remote="130767811200000000" Dst="0" />
 </dwsync>

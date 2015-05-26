@@ -5,18 +5,18 @@ class Checkout_model extends CI_Model
 	public function get_customer_details($customer_id)
 	{
 		//select the user by email from the database
-		$this->db->select('*');
-		$this->db->where(array('customer_id' => $customer_id));
-		$query = $this->db->get('customer');
+		$this->db->select('customer.*, surburb.post_code');
+		$this->db->where('customer.surburb_id = surburb.surburb_id AND customer.customer_id = '.$customer_id);
+		$query = $this->db->get('customer, surburb');
 		
 		return $query;
 	}
 	public function get_shipping_details($customer_id)
 	{
 		//select the user by email from the database
-		$this->db->select('*');
-		$this->db->where(array('customer_id' => $customer_id));
-		$query = $this->db->get('customer_shipping');
+		$this->db->select('customer_shipping.*, surburb.post_code');
+		$this->db->where('customer_shipping.delete = 0 AND customer_shipping.surburb_id = surburb.surburb_id AND customer_shipping.customer_id = '.$customer_id);
+		$query = $this->db->get('customer_shipping, surburb');
 		
 		return $query;
 	}
@@ -59,7 +59,7 @@ class Checkout_model extends CI_Model
 	*	Update a front end user's shipping details
 	*
 	*/
-	public function update_shipping_details()
+	public function update_shipping_details($customer_shipping_id)
 	{
 		//check if user has logged in
 		$login_status = $this->session->userdata('customer_login_status');
@@ -80,32 +80,49 @@ class Checkout_model extends CI_Model
 			);
 		
 		//check if customer exists in customer shipping table
-		$this->db->where('customer_id = '.$this->session->userdata('customer_id'));
-		$query = $this->db->get('customer_shipping');
-		
-		if($query->num_rows() > 0)
+		$this->db->where('customer_shipping_id = '.$customer_shipping_id);
+		if($this->db->update('customer_shipping', $data))
 		{
-			$this->db->where('customer_id = '.$this->session->userdata('customer_id'));
-			if($this->db->update('customer_shipping', $data))
-			{
-				return TRUE;
-			}
-			else{
-				return FALSE;
-			}
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
+	
+	/*
+	*	Update a front end user's shipping details
+	*
+	*/
+	public function add_shipping_details()
+	{
+		//check if user has logged in
+		$login_status = $this->session->userdata('customer_login_status');
+		
+		//If customer has logged in
+		if((!empty($login_status)) && ($login_status == TRUE))
+		{
 		}
 		
-		else
+		$data = array(
+				'first_name'=>ucwords(strtolower($this->input->post('first_name'))),
+				'last_name'=>ucwords(strtolower($this->input->post('last_name'))),
+				'email'=>$this->input->post('email'),
+				'phone'=>$this->input->post('phone'),
+				'company'=>$this->input->post('company'),
+				'surburb_id'=>$this->input->post('surburb_id'),
+				'address'=>$this->input->post('address'),
+				'customer_id'=>$this->session->userdata('customer_id')
+			);
+		
+		if($this->db->insert('customer_shipping', $data))
 		{
-			$data['customer_id'] = $this->session->userdata('customer_id');
-			if($this->db->insert('customer_shipping', $data))
-			{
-				return TRUE;
-			}
-			else{
-				return FALSE;
-			}
+			return TRUE;
 		}
+		else{
+			return FALSE;
+		}
+
 	}
 	
 	/*

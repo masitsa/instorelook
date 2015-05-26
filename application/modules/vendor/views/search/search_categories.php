@@ -1,44 +1,30 @@
-<div class="row" style="background-color:#fff; margin-bottom:5px;">
+<div class="row">
 	<!-- Widget -->
-	<div class="widget boxed" >
+	<div class="widget boxed">
 	    <!-- Widget head -->
-	    <div class="widget-head">
-	        <h3 style="text-align:center;"><i class="icon-reorder"></i>Search All Categories
-	        </h3>
-	        <div class="widget-icons pull-right">
-	            <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a> 
-	            <a href="#" class="wclose"><i class="icon-remove"></i></a>
-	        </div>
-	    
-	    	<div class="clearfix"></div>
-	    
-	    </div>             
+        <div class="widget-head">
+            <h4 class="pull-left"><i class="fa fa-search"></i>Search all categories</h4>
+            <div class="clearfix"></div>
+        </div>      
 	    
 	    <!-- Widget content -->
 	    <div class="widget-content">
-	    	<div class="padd">
+	    	<div class="">
 				<?php
-				
-				
-				echo form_open("vendor/search-categories", array("class" => "form-horizontal"));
-				
-	            
+				echo form_open("vendor/search-categories", array("class" => "form-inline"));
 	            ?>
-	            <div class="row">
-		                <div class="col-md-12 col-lg-12">
-		                    <div class="form-group center-align">
-		                        <label class="col-sm-4 control-label">Category Name: </label>
-		                        
-		                        <div class="col-sm-4">
-		                            <input type="text" class="form-control" name="category_name" placeholder="Category Name">
-		                        </div>
-		                    </div>
-		                </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 center-align">
+                        <div class="form-group">
+                            <label class="control-label">Category Name: </label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="category_name" placeholder="Category name">
+                            </div>
+                                <button type="submit" class="btn btn-info btn-lg">Search</button>
+                        </div>
+                    </div>
 	            </div>
 	            
-	            <div class="row center-align">
-	            	<button type="submit" class="btn btn-info btn-lg">Search</button>
-	            </div>
 	            <?php
 	            echo form_close();
 	            ?>

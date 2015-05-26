@@ -1,21 +1,34 @@
+<?php
+	$cart_items = $this->cart->total_items();
+	
+	if($cart_items == 1)
+	{
+		$item_title = 'item';
+	}
+	
+	else
+	{
+		$item_title = 'items';
+	}
+?>
 <div class="summary-cart">
      <h4><i class="glyphicon glyphicon-shopping-cart"></i>Order Details</h4>
     <div class="cart-details">
        
         <div class="box">
             <div class="hgroup title">
-                <h3> <?php echo $this->cart->total_items();?> items</h3>
+                <h3> <?php echo $cart_items;?> <?php echo $item_title?></h3>
                 <h5>Shipping costs and taxes will be evaluated during checkout</h5>
              </div>
 
              <ul class="price-list">
-                <li>Subtotal: <strong>$ <?php echo $this->load->view('cart/cart_total');?></strong></li>
+                <!--<li>Subtotal: <strong>$ <?php echo $this->load->view('cart/cart_total');?></strong></li>-->
                 <li class="important">Total: <strong>$ <?php echo $this->load->view('cart/cart_total');?> </strong></li>
             </ul>
         </div>
     </div> 
 </div>
-<div class="coupon">
+<!--<div class="coupon">
     <h4><i class="glyphicon glyphicon-shopping-cart"></i>Coupon code</h4>
     <div class="box">
         <div class="hgroup title">
@@ -35,4 +48,4 @@
 
         </form>             
     </div>
-</div>                              
+</div> -->                             

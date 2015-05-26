@@ -12,7 +12,7 @@
                             <div class="process-row">
                                 <div class="process-step">
                                     <button type="button" class="btn blue-background btn-circle" disabled="disabled"><i class="fa fa-user fa-2x"></i></button>
-                                    <p>Personal</p>
+                                    <p>Account</p>
                                 </div>
                                 <div class="process-step">
                                     <button type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-building-o fa-2x"></i></button>
@@ -102,7 +102,7 @@
                                 	</div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="vendor_email" class="col-sm-4 control-label">Email <span class="required">*</span></label>
+                                    <label for="vendor_email" class="col-sm-4 control-label">Business email <span class="required">*</span></label>
                                     <div class="col-sm-8">
                                     	<?php
 											//case of an input error

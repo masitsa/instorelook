@@ -16,6 +16,7 @@
 		$surburb_id_error = '';
 		$country_id_error = '';
 		$vendor_store_postcode_error = '';
+		$return_policy_error = '';
 		
 		$vendor = $vendor_details->row();
 		$validation_errors = validation_errors();
@@ -26,7 +27,7 @@
 			//create errors
 			$vendor_store_name_error = form_error('vendor_store_name');
 			$vendor_store_phone_error = form_error('vendor_store_phone');
-			$vendor_store_email_error = form_error('vendor_store_email');
+			//$vendor_store_email_error = form_error('vendor_store_email');
 			$vendor_store_summary_error = form_error('vendor_store_summary');
 			$vendor_store_address_error = form_error('vendor_store_address');
 			$vendor_store_mobile_error = form_error('vendor_store_mobile');
@@ -35,11 +36,12 @@
 			$vendor_business_type_error = form_error('vendor_business_type');
 			$surburb_id_error = form_error('surburb_id');
 			$vendor_store_postcode_error = form_error('vendor_store_postcode');
+			$return_policy_error = form_error('return_policy');
 			
 			//repopulate fields
 			$vendor_store_name = set_value('vendor_store_name');
 			$vendor_store_phone = set_value('vendor_store_phone');
-			$vendor_store_email = set_value('vendor_store_email');
+			//$vendor_store_email = set_value('vendor_store_email');
 			$vendor_store_summary = set_value('vendor_store_summary');
 			$vendor_store_address = set_value('vendor_store_address');
 			$vendor_store_mobile = set_value('vendor_store_mobile');
@@ -48,6 +50,7 @@
 			$vendor_business_type = set_value('vendor_business_type');
 			$surburb_id = set_value('surburb_id');
 			$vendor_store_postcode = set_value('vendor_store_postcode');
+			$return_policy = set_value('return_policy');
 		}
 		
 		//populate form data on initial load of page
@@ -55,7 +58,7 @@
 		{
 			$vendor_store_name = $vendor->vendor_store_name;
 			$vendor_store_phone = $vendor->vendor_store_phone;
-			$vendor_store_email = $vendor->vendor_store_email;
+			//$vendor_store_email = $vendor->vendor_store_email;
 			$vendor_store_summary = $vendor->vendor_store_summary;
 			$vendor_logo_location = $vendor_location.$vendor->vendor_logo;
 			$vendor_store_mobile = $vendor->vendor_store_mobile;
@@ -65,9 +68,11 @@
 			$surburb_id = $vendor->surburb_id;
 			$vendor_store_postcode = $vendor->vendor_store_postcode;
 			$vendor_store_address = $vendor->vendor_store_address;
+			$return_policy = $vendor->return_policy;
 		}
 ?>
-<script type="text/javascript" src="<?php echo base_url();?>assets/jasny/jasny-bootstrap.js"></script> 
+<link rel="stylesheet" href="<?php echo base_url();?>assets/themes/jasny/css/jasny-bootstrap.css"> 
+<script type="text/javascript" src="<?php echo base_url();?>assets/themes/jasny/js/jasny-bootstrap.js"></script> 
 <p class="center-align">Please update your store details here.</p>
                     
                 	<?php
@@ -163,27 +168,7 @@
 										?>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="vendor_store_email" class="col-sm-4 control-label">Business Email <span class="required">*</span></label>
-                                    <div class="col-sm-8">
-                                    	<?php
-											//case of an input error
-                                        	if(!empty($vendor_store_email_error))
-											{
-												?>
-                                                <input type="text" class="form-control alert-danger" name="vendor_store_email" placeholder="<?php echo $vendor_store_email_error;?>" onFocus="this.value = '<?php echo $vendor_store_email;?>';">
-                                                <?php
-											}
-											
-											else
-											{
-												?>
-                                                <input type="text" class="form-control" name="vendor_store_email" placeholder="Business Email" value="<?php echo $vendor_store_email;?>">
-                                                <?php
-											}
-										?>
-                                    </div>
-                                </div>
+                                
                                 <div class="form-group">
                                     <label for="country_id" class="col-sm-4 control-label">Country</label>
                                     <div class="col-sm-8">
@@ -291,29 +276,6 @@
                             </div>
                             
                         	<div class="col-md-6">
-                            
-                                <div class="form-group">
-                                    <label for="vendor_store_summary" class="col-sm-4 control-label">Description
-                                        <span class="required">*</span></label>
-                                    <div class="col-sm-8">
-                                    	<?php
-											//case of an input error
-                                        	if(!empty($vendor_store_summary_error))
-											{
-												?>
-                                                <textarea class="form-control alert-danger" name="vendor_store_summary" onFocus="this.value = '<?php echo $vendor_store_summary;?>';" placeholder="<?php echo $vendor_store_summary_error;?>"></textarea>
-                                                <?php
-											}
-											
-											else
-											{
-												?>
-                                                <textarea class="form-control" name="vendor_store_summary" placeholder="Business Description"><?php echo $vendor_store_summary;?></textarea>
-                                                <?php
-											}
-										?>
-                                    </div>
-                                </div>
                                 
                                 <div class="form-group">
                                     <label for="vendor_logo" class="col-sm-4 control-label">Store Logo</label>
@@ -345,6 +307,41 @@
                             </div>
                         </div>
                         
+                        <div class="row">
+                        	<div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="vendor_store_summary" class="col-sm-2 control-label">Description
+                                        <span class="required">*</span></label>
+                                    <div class="col-sm-10">
+                                    	<?php
+											//case of an input error
+											if(!empty($vendor_store_summary_error))
+											{
+												echo '<div class="alert alert-danger">'.$vendor_store_summary_error.'</div>';
+											}
+										?>
+                                        <textarea class="form-control" name="vendor_store_summary"><?php echo $vendor_store_summary;?></textarea>
+                                    </div>
+                                </div>
+                        	</div>
+                        	<div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="vendor_store_summary" class="col-sm-2 control-label">Return policy
+                                        <span class="required">*</span></label>
+                                    <div class="col-sm-10">
+                                    	<?php
+											//case of an input error
+                                        	if(!empty($return_policy_error))
+											{
+												echo '<div class="alert alert-danger">'.$return_policy_error.'</div>';
+											}
+										?>
+                                        <textarea class="form-control" name="return_policy"><?php echo $return_policy;?></textarea>
+                                    </div>
+                                </div>
+                        	</div>
+                        </div>
+                        
                         <div class="row center-align">
                             <div class="col-sm-12">
                                 <button type="submit" class="btn btn-red">Update store details</button>
@@ -359,3 +356,25 @@
 		echo '<div class="alert alert-danger center-align"><strong>Error!</div>Unable to load your account details</div>';
 	}
 ?>
+<script src="<?php echo base_url().'assets/themes/tinymce/js/';?>tinymce.min.js"></script>
+<script type="text/javascript">
+tinymce.init({
+	menubar: "edit insert view format table tools",
+    selector: "textarea",
+    theme: "modern",
+    skin: "light",
+    plugins: [
+        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime media nonbreaking save table contextmenu directionality",
+        "emoticons template paste textcolor colorpicker textpattern"
+    ],
+    toolbar1: "insertfile undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+    toolbar2: "print preview media | forecolor backcolor emoticons",
+    image_advtab: true,
+    templates: [
+        {title: 'Test template 1', content: 'Test 1'},
+        {title: 'Test template 2', content: 'Test 2'}
+    ]
+});
+</script>

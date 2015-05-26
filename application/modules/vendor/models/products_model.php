@@ -111,18 +111,34 @@ class Products_model extends CI_Model
 		return $query;
 	}
 	
+	public function add_images($product_id, $file_name, $thumb_name)
+	{
+		$data = array(
+			'modified_by'=>$this->session->userdata('vendor_id'),
+			'product_image_name'=>$file_name,
+			'product_thumb_name'=>$thumb_name
+		);
+		
+		$this->db->where('product_id', $product_id);
+		if($this->db->update('product', $data))
+		{
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
+	
 	/*
 	*	Add a new product
 	*	@param string $image_name
 	*
 	*/
-	//public function add_product($image_name, $thumb_name)
-	public function add_product($image_name, $thumb_name)
+	public function add_product($product_id)
 	{
-		
-		$code = $this->create_product_code($this->input->post('category_id'));
-		
-		$data = array(
+		if($product_id > 0)
+		{
+			$data = array(
 				'product_name'=>ucwords(strtolower($this->input->post('product_name'))),
 				'featured'=>$this->input->post('featured'),
 				'sale_price'=>$this->input->post('product_sale_price'),
@@ -130,31 +146,67 @@ class Products_model extends CI_Model
 				'product_selling_price'=>$this->input->post('product_selling_price'),
 				'product_status'=>$this->input->post('product_status'),
 				'product_description'=>$this->input->post('product_description'),
-				'product_code'=>$code,
 				'product_balance'=>$this->input->post('product_balance'),
 				'brand_id'=>$this->input->post('brand_id'),
 				'category_id'=>$this->input->post('category_id'),
 				'minimum_order_quantity'=>$this->input->post('minimum_order_quantity'),
 				'maximum_purchase_quantity'=>$this->input->post('maximum_purchase_quantity'),
 				'sale_price_type'=>$this->input->post('sale_price_type_id'),
-				'created'=>date('Y-m-d H:i:s'),
-				'created_by'=>$this->session->userdata('vendor_id'),
 				'modified_by'=>$this->session->userdata('vendor_id'),
-				'product_thumb_name'=>$thumb_name,
-				'product_image_name'=>$image_name
+				'product_shipping'=>3
 			);
 			
-		if($this->db->insert('product', $data))
-		{
-			$product_id = $this->db->insert_id();
-			
-			//save locations
-			$this->save_product_locations($product_id);
-			
-			return $product_id;
+			$this->db->where('product_id', $product_id);
+			if($this->db->update('product', $data))
+			{
+				//save locations
+				$this->save_product_locations($product_id);
+				
+				return $product_id;
+			}
+			else{
+				return FALSE;
+			}
 		}
-		else{
-			return FALSE;
+		
+		else
+		{
+			$code = $this->create_product_code($this->input->post('category_id'));
+			$tiny_url = $this->products_model->get_tiny_url(site_url().'products/view-product/'.$code);
+			
+			$data = array(
+					'product_name'=>ucwords(strtolower($this->input->post('product_name'))),
+					'featured'=>$this->input->post('featured'),
+					'sale_price'=>$this->input->post('product_sale_price'),
+					'product_buying_price'=>$this->input->post('product_buying_price'),
+					'product_selling_price'=>$this->input->post('product_selling_price'),
+					'product_status'=>$this->input->post('product_status'),
+					'product_description'=>$this->input->post('product_description'),
+					'product_code'=>$code,
+					'product_balance'=>$this->input->post('product_balance'),
+					'brand_id'=>$this->input->post('brand_id'),
+					'category_id'=>$this->input->post('category_id'),
+					'minimum_order_quantity'=>$this->input->post('minimum_order_quantity'),
+					'maximum_purchase_quantity'=>$this->input->post('maximum_purchase_quantity'),
+					'sale_price_type'=>$this->input->post('sale_price_type_id'),
+					'created'=>date('Y-m-d H:i:s'),
+					'created_by'=>$this->session->userdata('vendor_id'),
+					'modified_by'=>$this->session->userdata('vendor_id'),
+					'tiny_url'=>$tiny_url
+				);
+				
+			if($this->db->insert('product', $data))
+			{
+				$product_id = $this->db->insert_id();
+				
+				//save locations
+				$this->save_product_locations($product_id);
+				
+				return $product_id;
+			}
+			else{
+				return FALSE;
+			}
 		}
 	}
 	
@@ -235,16 +287,67 @@ class Products_model extends CI_Model
 	}
 	
 	/*
+	*	Update an existing product
+	*	@param string $image_name
+	*	@param int $product_id
+	*
+	*/
+	public function add_product_shipping($product_id)
+	{
+		$data = array(
+				'product_shipping'=>1,
+				'product_width'=>$this->input->post('product_width'),
+				'product_height'=>$this->input->post('product_height'),
+				'product_length'=>$this->input->post('product_length'),
+				'product_weight'=>$this->input->post('product_weight')
+			);
+			
+		$this->db->where('product_id', $product_id);
+		if($this->db->update('product', $data))
+		{
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
+	
+	/*
 	*	get a single product's details
 	*	@param int $product_id
 	*
 	*/
-	public function get_product($product_id)
+	public function get_product($product_id, $vendor_id = NULL)
 	{
 		//retrieve all users
 		$this->db->from('product, category, brand');
-		$this->db->select('product.minimum_order_quantity, product.maximum_purchase_quantity, product.sale_price, product.featured, product.product_thumb_name, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_image_name, category.category_name, brand.brand_name, product.sale_price_type');
-		$this->db->where('product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product_id = '.$product_id);
+		$this->db->select('product.*, category.category_name, brand.brand_name');
+		
+		if($vendor_id == NULL)
+		{
+			$this->db->where('product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product_id = '.$product_id);
+		}
+		
+		else
+		{
+			$this->db->where('product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product_id = '.$product_id.' AND product.created_by = '.$vendor_id);
+		}
+		$query = $this->db->get();
+		
+		return $query;
+	}
+	
+	/*
+	*	get a single product's details
+	*	@param int $product_id
+	*
+	*/
+	public function get_product_shipping($product_id, $vendor_id = NULL)
+	{
+		//retrieve all users
+		$this->db->from('product');
+		
+		$this->db->where('product_id = '.$product_id.' AND product.created_by = '.$vendor_id);
 		$query = $this->db->get();
 		
 		return $query;
@@ -253,7 +356,7 @@ class Products_model extends CI_Model
 	{
 		//retrieve all users
 		$this->db->from('product, category, brand');
-		$this->db->select('product.minimum_order_quantity, product.maximum_purchase_quantity, product.sale_price, product.featured, product.product_thumb_name, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_image_name, category.category_name, brand.brand_name, product.sale_price_type');
+		$this->db->select('product.*, category.category_name, brand.brand_name');
 		$this->db->where('product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.product_status = 1');
 		$this->db->order_by('product.last_viewed_date','desc');
 		$query = $this->db->get('', 10);
@@ -267,22 +370,11 @@ class Products_model extends CI_Model
 	*/
 	public function related_products($product_id)
 	{
-		$this->db->from('product');
-		$this->db->select('product.category_id');
-		$this->db->where('product_id = '.$product_id);
-		$query = $this->db->get();
-
-		$queryy = $query->result();
-		foreach ($queryy as $row) {
-			# code...
-			$category_id = $row->category_id;
-		}
-
 		//retrieve all users
 		$this->db->from('product, category, brand');
-		$this->db->select('product.minimum_order_quantity, product.maximum_purchase_quantity, product.sale_price, product.featured, product.product_thumb_name, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_image_name, category.category_name, brand.brand_name, product.sale_price_type');
-		$this->db->where('product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.category_id = '.$category_id);
-		$query = $this->db->get();
+		$this->db->select('product.*, category.category_name, brand.brand_name');
+		$this->db->where('product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.category_id = (SELECT category_id FROM product WHERE product_id = '.$product_id.') AND product.product_id != '.$product_id);
+		$query = $this->db->get('', 10);
 		
 		return $query;
 	}
@@ -442,8 +534,16 @@ class Products_model extends CI_Model
 		}
 	}
 	
-	public function delete_gallery_image($product_image_id)
+	public function delete_gallery_image($product_image_id, $image_name, $thumb_name, $gallery_path)
 	{
+		//delete any other uploaded image
+		if($this->file_model->delete_file($gallery_path."\\".$image_name, $gallery_path))
+		{	
+		}
+		//delete any other uploaded thumbnail
+		if($this->file_model->delete_file($gallery_path."\\".$thumb_name, $gallery_path))
+		{
+		}
 		if($this->db->delete('product_image', array('product_image_id' => $product_image_id)))
 		{
 			return TRUE;
@@ -508,58 +608,50 @@ class Products_model extends CI_Model
 		}
 	}
 	
-	function add_new_features($category_feature_id, $feature_name, $feature_quantity, $feature_price, $image_name = 'None', $thumb_name = 'None')
+	function add_new_features($category_feature_id, $product_id, $feature_name, $feature_quantity, $feature_price, $image_name = 'None', $thumb_name = 'None')
 	{
-		if(isset($_SESSION['name'.$category_feature_id]))
+		$data = array(
+			"product_id" => $product_id,
+			"feature_id" => $category_feature_id,
+			"feature_value" => $feature_name,
+			"image" => $image_name,
+			"thumb" => $thumb_name,
+			"price" => $feature_price,
+			"quantity" => $feature_quantity,
+		);
+		
+		if($this->db->insert('product_feature', $data))
 		{
-			$total_features = count($_SESSION['name'.$category_feature_id]);
-			
-			if($total_features > 0)
-			{
-				$r = $total_features;
-			}
-			
-			else
-			{
-				$r = 0;
-			}
-				
-		}
-		
-		else{
-			$r = 0;
-		}
-		
-		$_SESSION['name'.$category_feature_id][$r] = $feature_name;
-		$_SESSION['quantity'.$category_feature_id][$r] = $feature_quantity;
-		$_SESSION['price'.$category_feature_id][$r] = $feature_price;
-		$_SESSION['image'.$category_feature_id][$r] = $image_name;
-		$_SESSION['thumb'.$category_feature_id][$r] = $thumb_name;
-		
-		$feature_values = $this->fetch_new_category_features($category_feature_id);
-		$options = '';
-		
-		if(isset($feature_values))
-		{
-			$options .= '
-				<table class="table table-condensed table-responsive table-hover table-striped">
-					<tr>
-						<th></th>
-						<th>Sub Feature</th>
-						<th>Quantity</th>
-						<th>Additional Price</th>
-						<th>Image</th>
-					</tr>
-			'.$feature_values.'</table>
-			';
+			return TRUE;
 		}
 		
 		else
 		{
-			$options .= '<p>You have not added any features</p>';
+			return FALSE;
+		}
+	}
+	
+	function update_features($product_feature_id, $product_id, $feature_name, $feature_quantity, $feature_price, $image_name = 'None', $thumb_name = 'None')
+	{
+		$data = array(
+			"product_id" => $product_id,
+			"feature_value" => $feature_name,
+			"image" => $image_name,
+			"thumb" => $thumb_name,
+			"price" => $feature_price,
+			"quantity" => $feature_quantity,
+		);
+		
+		$this->db->where('product_feature_id', $product_feature_id);
+		if($this->db->update('product_feature', $data))
+		{
+			return TRUE;
 		}
 		
-		return $options;
+		else
+		{
+			return FALSE;
+		}
 	}
 	
 	/**
@@ -627,13 +719,21 @@ class Products_model extends CI_Model
 	*/
 	public function get_features($product_id)
 	{
-		//retrieve all users
-		$this->db->from('product_feature');
-		$this->db->select('*');
-		$this->db->where('product_id = '.$product_id);
-		$query = $this->db->get();
+		if(isset($product_id))
+		{
+			//retrieve all users
+			$this->db->from('product_feature');
+			$this->db->select('*');
+			$this->db->where('product_id = '.$product_id);
+			$query = $this->db->get();
+			
+			return $query;
+		}
 		
-		return $query;
+		else
+		{
+			return FALSE;
+		}
 	}
 	
 	/*
@@ -645,6 +745,23 @@ class Products_model extends CI_Model
 	{
 		
 		if($this->db->delete('product_feature', array('product_id' => $product_id)))
+		{
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
+	
+	/*
+	*	delete a product feature
+	*	@param int $feature_id
+	*
+	*/
+	public function delete_product_features($product_feature_id)
+	{
+		
+		if($this->db->delete('product_feature', array('product_feature_id' => $product_feature_id)))
 		{
 			return TRUE;
 		}
@@ -1630,6 +1747,14 @@ class Products_model extends CI_Model
 		return $product_price;
 	}
 	
+	public function get_product_features2($product_feature_id)
+	{
+		$this->db->select('product_feature.*, feature.feature_name');
+		$this->db->where('product_feature.product_feature_id = '.$product_feature_id.' AND product_feature.feature_id = feature.feature_id');
+		$query = $this->db->get('product_feature, feature');
+		return $query;
+	}
+	
 	public function get_product_features($product_id)
 	{
 		$this->db->select('product_feature.*, feature.feature_name');
@@ -1646,6 +1771,48 @@ class Products_model extends CI_Model
 		$this->db->group_by("feature.feature_name");
 		$query = $this->db->get('product_feature, feature');
 		return $query;
+	}
+	
+	function get_tiny_url($url) {
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, "http://tinyurl.com/api-create.php?url=".$url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$tinyurl = curl_exec($ch);
+		curl_close($ch);
+		//$tinyurl = file_get_contents("http://tinyurl.com/api-create.php?url=".$url);
+		return $tinyurl;
+	}
+	
+	public function update_shipping_method($product_id, $product_shipping)
+	{
+		$data['product_shipping'] = $product_shipping;
+		
+		$this->db->where('product_id', $product_id);
+		if($this->db->update('product', $data))
+		{
+			return TRUE;
+		}
+		
+		else
+		{
+			return FALSE;
+		}
+	}
+	public function add_fixed_rate($product_id)
+	{
+		$data = array(
+				'product_shipping'=>2,
+				'product_rate'=>$this->input->post('product_fixed_rate')
+			);
+			
+		$this->db->where('product_id', $product_id);
+		if($this->db->update('product', $data))
+		{
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
 	}
 }
 ?>

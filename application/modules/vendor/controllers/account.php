@@ -176,7 +176,7 @@ class Account extends MX_Controller
 		$this->form_validation->set_error_delimiters('', '');
 		$this->form_validation->set_rules('vendor_store_name', 'Business Name', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('vendor_store_phone', 'Phone', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('vendor_store_email', 'Store Email', 'trim|valid_email|required|xss_clean');
+		//$this->form_validation->set_rules('vendor_store_email', 'Store Email', 'trim|valid_email|required|xss_clean');
 		$this->form_validation->set_rules('vendor_store_summary', 'Store Summary', 'trim|required|min_length[25]|xss_clean');
 		$this->form_validation->set_rules('vendor_store_address', 'Address', 'trim|xss_clean');
 		$this->form_validation->set_rules('vendor_store_mobile', 'Mobile Number', 'trim|xss_clean');
@@ -185,6 +185,7 @@ class Account extends MX_Controller
 		$this->form_validation->set_rules('vendor_business_type', 'Business Type', 'trim|xss_clean');
 		$this->form_validation->set_rules('surburb_id', 'Surburb', 'required|xss_clean');
 		$this->form_validation->set_rules('vendor_store_postcode', 'Postcode', 'trim|xss_clean');
+		$this->form_validation->set_rules('return_policy', 'Return policy', 'trim|required|xss_clean');
 		
 		//if form conatins invalid data
 		if ($this->form_validation->run())
@@ -230,5 +231,56 @@ class Account extends MX_Controller
 		
 			$this->vendor_profile('personnal');
 		}
+	}
+	
+	public function activate_shipping_method($method = 3)
+	{
+		if($this->vendor_model->update_shipping_method($this->vendor_id, $method))
+		{
+			$this->session->set_userdata('success_message', 'Shipping method has been updated successfully');
+		}
+		else
+		{
+			$this->session->set_userdata('error_message', 'Shipping method could not be added updated. Please try again.');
+		}
+		
+		redirect('vendor/account-profile/shipping');
+	}
+	
+	public function add_fixed_rate()
+	{
+		$this->form_validation->set_rules('vendor_fixed_rate', 'Default rate', 'required|greater_than[0]|xss_clean');
+			
+		//if form has been submitted
+		if ($this->form_validation->run())
+		{
+			$this->vendor_model->add_fixed_rate($this->vendor_id);
+			$this->session->set_userdata('success_message', 'Fixed rate added');
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', validation_errors());
+		}
+		redirect('vendor/account-profile/shipping');
+	}
+	
+	public function update_paypal_email()
+	{
+		$this->form_validation->set_rules('vendor_payment_email', 'Payment email', 'required|is_unique[vendor.vendor_payment_email]|valid_email|xss_clean');
+		$this->form_validation->set_message('is_unique', 'That email has already been added. Please add another email address');
+			
+		//if form has been submitted
+		if ($this->form_validation->run())
+		{
+			$this->vendor_model->update_paypal_email($this->vendor_id);
+			$this->session->set_userdata('success_message', 'Payment email has been updated successfully');
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', validation_errors());
+		}
+		redirect('vendor/account-profile/payment');
 	}
 }

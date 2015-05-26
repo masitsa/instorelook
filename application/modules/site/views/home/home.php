@@ -1,5 +1,5 @@
 <div class="container">
-	<div class="row">
+	<div class="row" style="margin-top:0;">
         
     	<div class="col-md-12 col-lg-12" style="padding:0; margin-bottom:10px;">
             <!-- Slider -->
@@ -20,9 +20,9 @@
             
             <!-- Featured -->
             <?php echo $this->load->view('home/featured', '', TRUE); ?>
-            
-             <?php echo $this->load->view('home/recently_view', '', TRUE); ?>
         </div>
 	</div>
+    
+    <?php echo $this->load->view('home/recently_view', '', TRUE); ?>
 </div>
 </div>
