@@ -46,8 +46,8 @@ class PayPal {
 	const API_USERNAME = "info_api1.instorelook.com.au";
 	const API_PASSWORD = "QG3RYMYQJEUNDE95";
 	const API_SIGNATURE = "AFcWxV21C7fd0v3bYYYRCpSSRl31And5bUol-gcEPVqmPHygEOY1DEXp";
-	const PP_RETURN = "http://development.instorelook.com.au/checkout/order-complete";
-	const PP_CANCEL = "http://development.instorelook.com.au/products";
+	const PP_RETURN = "http://www.instorelook.com.au/checkout/order-complete";
+	const PP_CANCEL = "http://www.instorelook.com.au/products";
 
 	private $endpoint;
 	private $host;

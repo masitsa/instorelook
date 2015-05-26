@@ -2,14 +2,211 @@
 
 class Cart_model extends CI_Model 
 {
-    
+	public function check_features($product_features, $product_id)
+	{
+		//check features
+		if($product_features != NULL)
+		{
+			//check if feature has already been added to cart session
+			$in_cart = $this->item_in_cart($product_id);
+			//If item is already in cart check if it has the said feature
+			if($in_cart['result'])
+			{
+				$row_id = $in_cart['row_id'];
+				
+				$selected_features = explode(",", $product_features);
+				$total_features = count($selected_features);
+				$total_additional_price = 0;
+				
+				for($r = 0; $r < $total_features; $r++)
+				{
+					$product_feature_id = $selected_features[$r];
+					
+					//save if doesnt exist
+					if(!empty($product_feature_id))
+					{
+						$location = $r;
+						$feature_data[$location]['product_feature_id'] = $product_feature_id;
+						$feature_data[$location]['additional_price'] = $this->check_feature_price($product_feature_id);
+						$total_additional_price += $feature_data[$location]['additional_price'];
+					}
+				}
+				$feature_data_save = array(
+				   'rowid' => $row_id,
+				   'options'   => array('product_features' => $feature_data, 'additional_price' => $total_additional_price)
+				);
+				//var_dump($feature_data);
+				$this->cart->update($feature_data_save);
+			}
+		}
+	}
+	
+	public function check_features2($product_features, $product_id)
+	{
+		//check features
+		if($product_features != NULL)
+		{
+			$selected_features = explode("-,", $product_features);
+			$total_features = count($selected_features);
+			$total_additional_price = 0;
+			$total_saved = 0;
+			
+			//check if feature has already been added to cart session
+			$in_cart = $this->item_in_cart($product_id);
+			//If item is already in cart check if it has the said feature
+			if($in_cart['result'])
+			{
+				$row_id = $in_cart['row_id'];
+				foreach ($this->cart->contents() as $items) 
+				{
+					$cart_row_id = $items['rowid'];
+					
+					if($cart_row_id == $row_id)
+					{
+						//if features are in cart
+						if(isset($items['options']['product_features']))
+						{
+							//get previously entered features
+							$feature_data = $items['options']['product_features'];
+							//count total features for product
+							$total_prod_features = count($feature_data);
+							
+							if($total_prod_features > 0)
+							{
+								$current_feature_id = '';
+								$to_save;
+								$saved = array();
+								
+								for($s = 0; $s < $total_prod_features; $s++)
+								{
+									$saved_feature_id = $feature_data[$s]['product_feature_id'];
+									
+									//count of features to be saved
+									if($total_features > 0)
+									{
+										//check to see if the feature save request contains the $saved feature ID: 
+										//helps to avoid duplicates
+										for($r = 0; $r < $total_features; $r++)
+										{
+											$product_feature_id = $selected_features[$r];
+											$to_save = $product_feature_id;
+											
+											//check to see if the feature has already been saved
+											if($saved_feature_id == $product_feature_id)
+											{
+												$current_feature_id = $saved_feature_id;
+												break;
+											}
+										}
+									}
+									
+									//if feature hadnt been saved save it
+									if(empty($current_feature_id))
+									{
+										//add to the existing saved options array by appending to the end
+										$location = $total_prod_features + $total_saved;
+										$feature_data[$location]['product_feature_id'] = $to_save;
+										$feature_data[$location]['additional_price'] = $this->check_feature_price($to_save);
+										$total_additional_price += $feature_data[$location]['additional_price'];
+										$total_saved++;
+										
+										//add to the array of saved product feature IDs
+										array_push($saved, $to_save);
+									}
+								}
+								$save_total = $total_saved;
+								
+								//save the new features that did not exist in the previously saved array
+								for($r = 0; $r < $total_features; $r++)
+								{
+									$product_feature_id = $selected_features[$r];
+									$to_save = '';
+									for($s = 0; $s < $save_total; $s++)
+									{
+										$prev_save = $saved[$s];
+										//check to see if the feature has already been saved
+										if($prev_save == $product_feature_id)
+										{
+											$to_save = $prev_save;
+											break;
+										}
+									}
+									
+									//save if doesnt exist
+									if(empty($to_save))
+									{
+										$location = $total_prod_features + $total_saved;
+										$feature_data[$location]['product_feature_id'] = $to_save;
+										$feature_data[$location]['additional_price'] = $this->check_feature_price($product_feature_id);
+										$total_additional_price += $feature_data[$location]['additional_price'];
+										$total_saved++;
+									}
+								}
+							}
+							
+							//create a new feature for the product
+							else
+							{
+								$feature_data[$r]['product_feature_id'] = $product_feature_id;
+								$feature_data[$r]['additional_price'] = $this->check_feature_price($product_feature_id);
+								$total_additional_price += $feature_data[$r]['additional_price'];
+							}
+						}
+							
+						//create a new feature for the product
+						else
+						{
+							$feature_data = array();
+							for($r = 0; $r < $total_features; $r++)
+							{
+								$product_feature_id = $selected_features[$r];
+								
+								$feature_data[$r]['product_feature_id'] = $product_feature_id;
+								$feature_data[$r]['additional_price'] = $this->check_feature_price($product_feature_id);
+								$total_additional_price += $feature_data[$r]['additional_price'];	
+							}
+						}
+					}
+				}
+				$feature_data_save = array(
+				   'rowid' => $row_id,
+				   'options'   => array('product_features' => $feature_data, 'additional_price' => $total_additional_price)
+				);
+				var_dump($feature_data);
+				$this->cart->update($feature_data_save);
+				foreach ($this->cart->contents() as $items)
+				{
+					//var_dump($items);
+				}
+			}
+		}
+	}
+	
+	public function check_feature_price($product_feature_id)
+	{
+		//get additional price
+		$this->db->where('product_feature_id', $product_feature_id);
+		$query_feat = $this->db->get('product_feature');
+		if($query_feat->num_rows() > 0)
+		{
+			$row = $query_feat->row();
+			$additional_price = $row->price;
+		}
+		else
+		{
+			$additional_price = 0;
+		}
+		
+		return $additional_price;
+	}
+	
 	/*
 	*
 	*	Add an item to the cart
 	*	@param int product_id
 	*
 	*/
-	public function add_item($product_id)
+	public function add_item($product_id, $product_features = NULL)
 	{
 		//check if the item exists in the cart
 		$in_cart = $this->item_in_cart($product_id);
@@ -52,12 +249,12 @@ class Cart_model extends CI_Model
 					   'qty'     => 1,
 					   'price'   => $selling_price,
 					   'name'    => $product->product_name
-					   //'options' => array('Size' => 'L', 'Color' => 'Red')
 					);
 		
 				$this->cart->insert($data); 
 			}
 		}
+		$this->cart_model->check_features($product_features, $product_id);
 		
 		return TRUE;
 	}
@@ -211,107 +408,265 @@ class Cart_model extends CI_Model
 		
 		return TRUE;
 	}
-    public function save_order_to_account()
-	{
-		//get order number
-		// $order_number = $this->orders_model->create_order_number();
-		// $today = date('Y-m-d');
-		// $pDate = strtotime('$today + 1 week');
-		// $exprire_on  = date('Y-m-d',$pDate);
-		//create order
-
-		// $data = array(
-		// 			'customer_id'=>$this->session->userdata('customer_id'),
-		// 			'created'=>date('Y-m-d'),
-		// 			'expire_on'=>$expire_on,
-		// 			'order_id'=>$order_id
-		// 		);
-				
-		// if($this->db->insert('saved_orders', $data))
-		// {
-		// 	$saved_orders_id = $this->db->insert_id();
-		// 	$data = array( 
-		// 		'saved_orders_id' => $saved_orders_id;
-		// 	);
-			
-		// 	$this->db->where('order_id', $order_id);
-		// 	$this->db->update('orders', $data);
-		// 	return $saved_orders_id;
-		// }
-		// else
-		// {
-		// 	return FALSE;
-		// }
-		//get order number
-		$order_number = $this->orders_model->create_order_number();
-		
-		//create order
-		$data = array(
-					'customer_id'=>$this->session->userdata('customer_id'),
-					'order_created'=>date('Y-m-d H:i:s'),
-					'saved_status'=>1,
-					'order_number'=>$order_number,
-					'order_created_by'=>$this->session->userdata('customer_id')
-				);
-				
-		if($this->db->insert('orders', $data))
-		{
-			$order_id = $this->db->insert_id();
-			$package_name = 'Order '.$order_number.': ';
-			$total_price = 0;
-			
-			//save order items
-			foreach ($this->cart->contents() as $items): 
 	
-				$cart_product_id = $items['id'];
-				$quantity = $items['qty'];
-				$price = $items['price'];
-				
-				$data = array(
-						'product_id'=>$cart_product_id,
-						'order_id'=>$order_id,
-						'order_item_quantity'=>$quantity,
-						'order_item_price'=>$price
-					);
-					
-				if($this->db->insert('order_item', $data))
-				{
-					//get product name
-					$this->db->where('product_id = '.$cart_product_id);
-					$this->db->select('product_name');
-					$query = $this->db->get('product');
-					
-					if($query->num_rows() > 0)
-					{
-						$row = $query->row();
-						$package_name .= $row->product_name.', ';
-						$total_price += ($quantity * $price);
-					}
-				}
-			
-			endforeach; 
-			$response = TRUE;
-		}
-		else
-		{
-			$response = FALSE;
-		}
-			
-			//create return data
-			
-		return $response;
+	public function get_product_details($product_id)
+	{
+		$this->db->where('product_id', $product_id);
+		$query = $this->db->get('product');
+		
+		return $query;
 	}
+	
 	/*
 	*
 	*	Save the cart items to the db
 	*
 	*/
-	public function save_order()
+	public function save_order($status = 4)
+	{
+		//we will need this to store all orders that could be created
+		//we will have one order per vendor if multiple were selected
+		$orders = array();
+		$vendor_ids = array();
+		
+		foreach ($this->cart->contents() as $items): 
+			
+			$cart_product_id = $items['id'];
+			$quantity = $items['qty'];
+			$price = $items['price'];//check who is the vendor of the product
+			$features = NULL;
+			$additional_price = NULL;
+			
+			if(isset($items['options']['product_features']))
+			{
+				$features = $items['options']['product_features'];
+			}
+			
+			if(isset($items['options']['additional_price']))
+			{
+				$additional_price = $items['options']['additional_price'] * $items['qty'];
+			}
+			
+			$query = $this->get_product_details($cart_product_id);
+			
+			if($query->num_rows() > 0)
+			{
+				$row = $query->row();
+				$vendor_id = $row->created_by;
+				$product_name = $row->product_name;
+				$sale_price = $row->sale_price;
+				$sale_price_type = $row->sale_price_type;
+				$product_sale_price = $this->products_model->get_product_discount_price($price, $sale_price, $sale_price_type);
+				$price = $product_sale_price;
+				
+				//create array for vendor product data
+				if(!isset($orders[$vendor_id]))
+				{
+					$orders[$vendor_id] = array();
+				}
+				
+				//check if vendor_id exists in array
+				$total_vendors = count($vendor_ids);
+				
+				if($total_vendors > 0)
+				{
+					$check = 0;
+					for($r = 0; $r < $total_vendors; $r++)
+					{
+						if($vendor_ids[$r] == $vendor_id)
+						{
+							$check = 1;
+							break;
+						}
+					}
+					
+					//add vendor id to array if it doesnt exist
+					if($check == 0)
+					{
+						array_push($vendor_ids, $vendor_id);
+					}
+				}
+				
+				else
+				{
+					array_push($vendor_ids, $vendor_id);
+				}
+				
+				array_push($orders[$vendor_id], array(
+						'product_id'=>$cart_product_id,
+						'order_item_quantity'=>$quantity,
+						'order_item_price'=>$price,
+						'features' => $features,
+						'additional_price' => $additional_price,
+						'product_name' => $product_name
+					)
+				);
+			}
+		
+		endforeach;
+		
+		//save orders and order items per vendor
+		$total_orders = count($orders);
+		$vendor_data = array();
+		$invoice_items = array();
+		$order_details = array();
+		$created_orders = '';
+		
+		if($total_orders > 0)
+		{
+			$order_number = $this->orders_model->create_order_number();
+			
+			for($r = 0; $r < $total_orders; $r++)
+			{
+				//get order data
+				$vendor_id = $vendor_ids[$r];
+				$vendor_query = $this->get_vendor($vendor_id);
+				$vendor_email = '';
+				$vendor_total = 0;
+				$total_price = 0;
+				$total_additional_price = 0;
+				
+				if($vendor_query->num_rows() > 0)
+				{
+					$row = $vendor_query->row();
+					$vendor_email = $row->vendor_email;
+				}
+				//create order
+				$data = array(
+							'customer_id'=>$this->session->userdata('customer_id'),
+							'order_created'=>date('Y-m-d H:i:s'),
+							'order_status_id'=>$status,
+							'order_number'=>$order_number,
+							'vendor_id'=>$vendor_id,
+							'order_created_by'=>$this->session->userdata('customer_id')
+						);
+						
+				if($this->db->insert('orders', $data))
+				{
+					//get order id
+					$order_id = $this->db->insert_id();
+					$created_orders .= $order_id.'-';
+					
+					//check number of order items
+					$total_order_items = count($orders[$vendor_id]);
+					
+					if($total_order_items > 0)
+					{
+						for($s = 0; $s < $total_order_items; $s++)
+						{
+							$product_id = $orders[$vendor_id][$s]['product_id'];
+							$order_item_quantity = $orders[$vendor_id][$s]['order_item_quantity'];
+							$order_item_price = $orders[$vendor_id][$s]['order_item_price'];
+							$product_name = $orders[$vendor_id][$s]['product_name'];
+							$feature_data = $orders[$vendor_id][$s]['features'];
+							$additional_price = $orders[$vendor_id][$s]['additional_price'];
+							$total_price += ($order_item_quantity * $order_item_price);
+							//calculate additional price from features
+							if($additional_price != NULL)
+							{
+								$total_additional_price += $additional_price;
+							}
+							
+							//save order item
+							$data = array(
+								'product_id' => $product_id,
+								'order_id' => $order_id,
+								'order_item_quantity' => $order_item_quantity,
+								'order_item_price' => $order_item_price
+							);
+							
+							if($this->db->insert('order_item', $data))
+							{
+								$order_item_id = $this->db->insert_id();
+								
+								//create invoice items
+								array_push($invoice_items, array(
+										"name" => $product_name,
+										"price" => ($total_price + $total_additional_price),
+										"identifier" => $order_item_id
+									)
+								);
+								//if features are in cart
+								if($feature_data != NULL)
+								{
+									//count total features for product
+									$total_prod_features = count($feature_data);
+									
+									if($total_prod_features > 0)
+									{
+										for($s = 0; $s < $total_prod_features; $s++)
+										{
+											$product_feature_id = $feature_data[$s]['product_feature_id'];
+											$additional_price = $feature_data[$s]['additional_price'];
+											
+											if(!empty($product_feature_id))
+											{
+												$feature_data_save = array(
+																	'product_feature_id' => $product_feature_id,
+																	'order_item_id' => $order_item_id,
+																	'additional_price' => $additional_price
+																);
+												$this->db->insert('order_item_feature', $feature_data_save);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				$total = $total_price + $total_additional_price;
+				//add vendor data to the vendor_data array
+				array_push($vendor_data, array(
+						'email' => $vendor_email, 
+						'amount' => $total
+					)
+				);
+				array_push($order_details, array(
+						'receiver' => $vendor_email, 
+						'invoiceData' => array(
+							'item' => $invoice_items
+						)
+					)
+				);
+			}
+		}
+		
+		//create return data
+		$return['vendor_data'] = $vendor_data;
+		$return['order_details'] = $order_details;
+		$return['created_orders'] = $created_orders;
+		
+		return $return;
+	}
+	
+	public function get_vendor($vendor_id)
+	{
+		$this->db->where(array('vendor_id'=>$vendor_id));
+		$query = $this->db->get('vendor');
+		
+		return $query;
+	}
+	
+	/*
+	*
+	*	Save the cart items to the db
+	*
+	*/
+	public function save_order_express()
 	{
 		$total_price = 0;
+		$total_additional_price = 0;
 		$package_name = '';
+		
 		foreach ($this->cart->contents() as $items): 
-	
+			
+			//calculate additional price from features
+			if(isset($items['options']['additional_price']))
+			{
+				$total_additional_price += $items['options']['additional_price'] * $items['qty'];
+			}
+			
 			$cart_product_id = $items['id'];
 			$quantity = $items['qty'];
 			$price = $items['price'];
@@ -346,8 +701,6 @@ class Cart_model extends CI_Model
 					$order_number = $row->order_number;
 					$order_id = $row->order_id;
 				}
-				
-
 			}
 			else
 			{
@@ -373,7 +726,6 @@ class Cart_model extends CI_Model
 			}
 
 			$package_name .= 'Order '.$order_number.': ';
-			
 
 			$data = array(
 						'product_id'=>$cart_product_id,
@@ -384,6 +736,36 @@ class Cart_model extends CI_Model
 					
 			if($this->db->insert('order_item', $data))
 			{
+				$order_item_id = $this->db->insert_id();
+				//if features are in cart
+				if(isset($items['options']['product_features']))
+				{
+					//get previously entered features
+					$feature_data = $items['options']['product_features'];
+					//count total features for product
+					
+					$total_prod_features = count($feature_data);
+					
+					if($total_prod_features > 0)
+					{
+						for($s = 0; $s < $total_prod_features; $s++)
+						{
+							$product_feature_id = $feature_data[$s]['product_feature_id'];
+							$additional_price = $feature_data[$s]['additional_price'];
+							
+							if(!empty($product_feature_id))
+							{
+								$feature_data_save = array(
+													'product_feature_id' => $product_feature_id,
+													'order_item_id' => $order_item_id,
+													'additional_price' => $additional_price
+												);
+								$this->db->insert('order_item_feature', $feature_data_save);
+							}
+						}
+					}
+				}
+				
 				//get product name
 				$this->db->where('product_id = '.$cart_product_id);
 				$this->db->select('product_name');
@@ -398,15 +780,15 @@ class Cart_model extends CI_Model
 			}
 
 		endforeach;
-			//create return data
-			$return['package_name'] = $package_name;
-			$return['price'] = $total_price;
-			
-			return $return;
-
-		// return TRUE;
-
+		
+		$total_price += $total_additional_price;
+		//create return data
+		$return['package_name'] = $package_name;
+		$return['price'] = $total_price;
+		
+		return $return;
 	}
+	
 	public function get_navigation($page_name)
 	{
 

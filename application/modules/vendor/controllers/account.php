@@ -9,6 +9,8 @@ class Account extends MX_Controller
 	function __construct()
 	{
 		parent:: __construct();
+		$this->load->model('orders_model');
+		$this->load->model('products_model');
 		$this->load->model('vendor_model');
 		$this->load->model('site/site_model');
 		$this->load->model('login/login_model');

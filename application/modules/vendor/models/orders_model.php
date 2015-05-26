@@ -19,6 +19,26 @@ class Orders_model extends CI_Model
 		
 		return $query;
 	}
+	/*
+	*	Retrieve latest orders
+	*	@param string $table
+	* 	@param string $where
+	*
+	*/
+	public function get_latest_orders()
+	{
+		$where = 'orders.order_status_id != 4 AND orders.order_status_id = order_status.order_status_id AND customer.customer_id = orders.customer_id AND orders.vendor_id = '.$this->session->userdata('vendor_id');
+		$table = 'orders, order_status, customer';
+		
+		//retrieve all orders
+		$this->db->from($table);
+		$this->db->select('orders.*, orders.order_status_id AS status,customer.customer_first_name AS first_name, customer.customer_surname AS other_names, order_status.order_status_name');
+		$this->db->where($where);
+		$this->db->order_by('orders.order_created', 'DESC');
+		$query = $this->db->get('', 20);
+		
+		return $query;
+	}
 	
 	/*
 	*	Retrieve all orders of a user
@@ -75,6 +95,19 @@ class Orders_model extends CI_Model
 	}
 	
 	/*
+	*	Retrieve all order item featuress of an order item
+	*
+	*/
+	public function get_order_item_features($order_item_id)
+	{
+		$this->db->select('order_item_feature.*, product_feature.feature_value, product_feature.thumb, feature.feature_name');
+		$this->db->where('product_feature.feature_id = feature.feature_id AND order_item_feature.product_feature_id = product_feature.product_feature_id AND order_item_feature.order_item_id = '.$order_item_id);
+		$query = $this->db->get('order_item_feature, product_feature, feature');
+		
+		return $query;
+	}
+	
+	/*
 	*	Create order number
 	*
 	*/
@@ -85,19 +118,18 @@ class Orders_model extends CI_Model
 		$this->db->where("order_number LIKE 'ORD".date('y')."/%'");
 		$this->db->select('MAX(order_number) AS number');
 		$query = $this->db->get();
+		$preffix = "ORD".date('y').'/';
 		
 		if($query->num_rows() > 0)
 		{
 			$result = $query->result();
 			$number =  $result[0]->number;
-			$number++;//go to the next number
-			
-			if($number == 1){
-				$number = "ORD".date('y')."/001";
-			}
+			$real_number = str_replace($preffix, "", $number);
+			$real_number++;//go to the next number
+			$number = $preffix.sprintf('%06d', $real_number);
 		}
 		else{//start generating receipt numbers
-			$number = "ORD".date('y')."/001";
+			$number = $preffix.sprintf('%06d', 1);
 		}
 		
 		return $number;
@@ -303,5 +335,131 @@ class Orders_model extends CI_Model
 		else{
 			return FALSE;
 		}
+	}
+	
+	public function request_cancel($order_number, $customer_id)
+	{
+		$this->db->where(array(
+				'order_number' => $order_number,
+				'customer_id' => $customer_id
+			)
+		);
+		$data['order_status_id'] = 6;
+		if($this->db->update('orders', $data))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+	
+	public function get_customer($customer_id)
+	{
+		$this->db->where('customer_id', $customer_id);
+		$query = $this->db->get('customer');
+		
+		return $query;
+	}
+	
+	/*
+	*
+	*	Refund order
+	*
+	*/
+	public function refund_order($order_number, $vendor_id)
+	{
+		$vendor_data = array();
+		$invoice_items = array();
+		$order_details = array();
+		$created_orders = '';
+		
+		$this->db->where(array('order_number' => $order_number, 'vendor_id' => $vendor_id));
+		$query = $this->db->get('orders');
+		
+		if($query->num_rows() > 0)
+		{
+			$row = $query->row();
+			
+			$customer_id = $row->customer_id;
+			$order_id = $row->order_id;
+			$customer_query = $this->get_customer($customer_id);
+			$customer_email = '';
+			$customer_total = 0;
+			$total_price = 0;
+			$total_additional_price = 0;
+			
+			if($customer_query->num_rows() > 0)
+			{
+				$row = $customer_query->row();
+				$customer_email = $row->customer_email;
+			}
+			$created_orders .= $order_id.'-';
+			
+			//check number of order items
+			$order_items = $this->orders_model->get_order_items($order_id);
+			$total_order_items = $order_items->num_rows();
+			
+			if($total_order_items > 0)
+			{
+				foreach($order_items->result() as $res)
+				{
+					$order_item_id = $res->order_item_id;
+					$product_id = $res->product_id;
+					$order_item_quantity = $res->order_item_quantity;
+					$order_item_price = $res->order_item_price;
+					$product_name = $res->product_name;
+					$total_price += ($order_item_quantity * $order_item_price);
+					
+					//features
+					$this->db->select('order_item_feature.*, product_feature.feature_value, product_feature.thumb, feature.feature_name');
+					$this->db->where('product_feature.feature_id = feature.feature_id AND order_item_feature.product_feature_id = product_feature.product_feature_id AND order_item_feature.order_item_id = '.$order_item_id);
+					$order_item_features = $this->db->get('order_item_feature, product_feature, feature');
+					
+					if($order_item_features->num_rows() > 0)
+					{
+						foreach($order_item_features->result() as $feat)
+						{
+							$product_feature_id = $feat->product_feature_id;
+							$added_price = $feat->additional_price;
+							$feature_name = $feat->feature_name;
+							$feature_value = $feat->feature_value;
+							$feature_image = $feat->thumb;
+							$total_additional_price += $added_price;
+						}
+					}
+					
+					//create invoice items
+					array_push($invoice_items, array(
+							"name" => $product_name,
+							"price" => ($total_price + $total_additional_price),
+							"identifier" => $order_item_id
+						)
+					);
+				}
+			}
+			$total = $total_price + $total_additional_price;
+			//add vendor data to the vendor_data array
+			array_push($vendor_data, array(
+					'email' => $customer_email, 
+					'amount' => $total
+				)
+			);
+			array_push($order_details, array(
+					'receiver' => $customer_email, 
+					'invoiceData' => array(
+						'item' => $invoice_items
+					)
+				)
+			);
+		}
+		
+		//create return data
+		$return['vendor_data'] = $vendor_data;
+		$return['order_details'] = $order_details;
+		$return['created_orders'] = $created_orders;
+		
+		return $return;
 	}
 }

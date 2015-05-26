@@ -11,9 +11,9 @@ class Cart extends site {
 		parent:: __construct();
 	}
 	
-	public function add_item($product_id)
+	public function add_item($product_id, $product_features = NULL)
 	{
-		if($this->cart_model->add_item($product_id))
+		if($this->cart_model->add_item($product_id, $product_features))
 		{
 			$cart_items = $this->cart_model->get_cart();
 			
@@ -31,7 +31,7 @@ class Cart extends site {
 	}
 	public function save_order()
 	{
-		if($this->cart_model->save_order_to_account())
+		if($this->cart_model->save_order($status = 4))
 		{
 			$this->session->set_userdata('success_message', 'Your order has been saved successfully. You have only two weeks to pay for this order');
 			

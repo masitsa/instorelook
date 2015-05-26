@@ -282,6 +282,13 @@ class CI_Cart {
 				$save_cart = TRUE;
 			}
 		}
+		else if (isset($items['rowid']) AND isset($items['options']))
+		{
+			if ($this->_update($items) == TRUE)
+			{
+				$save_cart = TRUE;
+			}
+		}
 		else
 		{
 			foreach ($items as $val)
@@ -293,6 +300,7 @@ class CI_Cart {
 						$save_cart = TRUE;
 					}
 				}
+				
 			}
 		}
 
@@ -321,41 +329,51 @@ class CI_Cart {
 	 * @return	bool
 	 */
 	function _update($items = array())
-	{
+	{//var_dump($items);
 		// Without these array indexes there is nothing we can do
-		if ( ! isset($items['qty']) OR ! isset($items['rowid']) OR ! isset($this->_cart_contents[$items['rowid']]))
+		if ( ! isset($items['rowid']) OR ! isset($this->_cart_contents[$items['rowid']]))
 		{
 			return FALSE;
 		}
-
-		// Prep the quantity
-		$items['qty'] = preg_replace('/([^0-9])/i', '', $items['qty']);
-
-		// Is the quantity a number?
-		if ( ! is_numeric($items['qty']))
+		
+		if(isset($items['qty']))
 		{
-			return FALSE;
-		}
+			// Prep the quantity
+			$items['qty'] = preg_replace('/([^0-9])/i', '', $items['qty']);
+	
+			// Is the quantity a number?
+			if ( ! is_numeric($items['qty']))
+			{
+				return FALSE;
+			}
 
-		// Is the new quantity different than what is already saved in the cart?
-		// If it's the same there's nothing to do
-		if ($this->_cart_contents[$items['rowid']]['qty'] == $items['qty'])
-		{
-			return FALSE;
-		}
+			// Is the new quantity different than what is already saved in the cart?
+			// If it's the same there's nothing to do
+			if ($this->_cart_contents[$items['rowid']]['qty'] == $items['qty'])
+			{
+				return FALSE;
+			}
+	
+			// Is the quantity zero?  If so we will remove the item from the cart.
+			// If the quantity is greater than zero we are updating
+			if ($items['qty'] == 0)
+			{
+				unset($this->_cart_contents[$items['rowid']]);
+			}
+			else
+			{
+				$this->_cart_contents[$items['rowid']]['qty'] = $items['qty'];
+			}
 
-		// Is the quantity zero?  If so we will remove the item from the cart.
-		// If the quantity is greater than zero we are updating
-		if ($items['qty'] == 0)
-		{
-			unset($this->_cart_contents[$items['rowid']]);
+			return TRUE;
 		}
-		else
+		
+		else if(isset($items['options']))
 		{
-			$this->_cart_contents[$items['rowid']]['qty'] = $items['qty'];
-		}
+			$this->_cart_contents[$items['rowid']]['options'] = $items['options'];
 
-		return TRUE;
+			return TRUE;
+		}
 	}
 
 	// --------------------------------------------------------------------

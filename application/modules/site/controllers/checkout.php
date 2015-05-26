@@ -7,10 +7,11 @@ class Checkout extends site
 	function __construct()
 	{
 		parent:: __construct();
-		$this->load->model('admin/orders_model');
+		$this->load->model('vendor/orders_model');
 		$this->load->model('vendor/vendor_model');
 		$this->load->model('login/login_model');
 		$this->load->model('checkout_model');
+		$this->load->model('payments_model');
 	}
     
 	/*
@@ -403,20 +404,23 @@ class Checkout extends site
 		//user has logged in
 		if($this->login_model->check_customer_login())
 		{
-			$return = $this->cart_model->save_order();
+			/*$return = $this->cart_model->save_order();
 			//save order
 			if($return['price'] > 0)
 			{
 				//do paypal payment
+				$return_url = site_url().'checkout/order-complete';
+				$cancel_url = site_url().'products';
 				$this->load->library('paypal');
 				$this->session->set_userdata('completion_success_message', 'Your order has been completed successfully');
-				$this->paypal->doExpressCheckout($return['price'], $return['package_name'] ,'', 'AUD');
+				$this->paypal->doExpressCheckout($return['price'], $return['package_name'] ,'', 'AUD', $return_url, $cancel_url);
 			}
 			
 			else
 			{
 				$this->session->set_userdata('completion_error_message', 'Unable to save complete order. Please try again');
-			}
+			}*/
+			redirect('payment');
 		}
 		
 		//user has not logged in
@@ -426,8 +430,30 @@ class Checkout extends site
 		}
 	}
 	
-	public function order_complete()
+	public function order_complete($completed_orders)
 	{
+		//mark orders as complete
+		$orders = explode("-", $completed_orders);
+		$total = count($orders);
+		
+		if($total > 0)
+		{
+			for($r = 0; $r < $total; $r++)
+			{
+				$order_id = $orders[$r];
+				
+				if(!empty($order_id))
+				{
+					$order_data['order_status_id'] = 0;
+					
+					$this->db->where('order_id', $order_id);
+					if($this->db->update('orders', $order_data))
+					{
+					}
+				}
+			}
+		}
+		
 		//remove session data
 		$array_items = array('delivery_instructions' => '', 'payment_option' => '');
 		$this->session->unset_userdata($array_items);
@@ -435,10 +461,69 @@ class Checkout extends site
 		//clear the shopping cart
 		$this->cart->destroy();
 		
-		$data['content'] = $this->load->view('complete_order', '', TRUE);
+		/*$data['content'] = $this->load->view('complete_order', '', TRUE);
 			
 		$data['title'] = $this->site_model->display_page_title();
-		$this->load->view('templates/general_page', $data);
+		$this->load->view('templates/general_page', $data);*/
+		
+		$this->session->set_userdata('success_message', 'Your payment has been received successfully');
+		redirect('account/orders-list');
+	}
+	
+	public function order_cancel($cancelled_orders)
+	{
+		//delete orders
+		$orders = explode("-", $cancelled_orders);
+		$total = count($orders);
+		
+		if($total > 0)
+		{
+			for($r = 0; $r < $total; $r++)
+			{
+				$order_id = $orders[$r];
+				
+				if(!empty($order_id))
+				{
+					//get order item ids for features
+					$where = 'order_item.order_id = '.$order_id;
+					$this->db->where($where);
+					$query = $this->db->get('order_item');
+					if($query->num_rows() > 0)
+					{
+						$result = $query->result();
+						
+						foreach($result as $res)
+						{
+							$order_item_id = $res->order_item_id;
+							
+							//delete order item features
+							$where = 'order_item_id = '.$order_item_id;
+							$this->db->where($where);
+							if($this->db->delete('order_item_feature'))
+							{
+							}
+						}
+					}
+					
+					//delete order items
+					$where = 'order_item.order_id = '.$order_id;
+					$this->db->where($where);
+					if($this->db->delete('order_item'))
+					{
+					}
+					
+					//delete order
+					$where = 'order_id = '.$order_id;
+					$this->db->where($where);
+					if($this->db->delete('orders'))
+					{
+					}
+				}
+			}
+		}
+		
+		$this->session->set_userdata('error_message', 'You have cancelled your payment');
+		redirect('checkout-progress/review');
 	}
     
 	/*
@@ -575,6 +660,16 @@ class Checkout extends site
 		{
 			redirect('checkout-progress/shipping');
 		}
+	}
+	
+	/*
+	*	Split a payment between multiple merchants
+	*
+	*/
+	public function split_payment()
+	{
+		$response = $this->payments_model->split_payment();
+		var_dump($response);
 	}
 }
 ?>

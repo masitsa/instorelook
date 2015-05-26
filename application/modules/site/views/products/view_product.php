@@ -13,8 +13,8 @@
 	$product_status = $product[0]->product_status;
 	$product_selling_price = $product[0]->product_selling_price;
 	$product_price = number_format($product[0]->product_selling_price, 2);
-	$image = $product[0]->product_image_name;
-	$thumb = $product[0]->product_thumb_name;
+	$product_image = $product[0]->product_image_name;
+	$product_thumb = $product[0]->product_thumb_name;
 	$product_description = $product[0]->product_description;
 	$product_balance = $product[0]->product_balance;
 	$brand_name = $product[0]->brand_name;
@@ -30,7 +30,7 @@
 	}
 	else
 	{
-		$button = ' <a href="#register" product_id="'.$product_id.'" class="btn btn-primary add_to_cart" data-toggle="modal" data-target=".bs-example-modal-md">
+		$button = ' <a href="#register" product_id="'.$product_id.'" class="btn btn-primary add_to_cart_single" data-toggle="modal" data-target=".bs-example-modal-md">
 		                          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> &nbsp; Add to cart 
 		                          </a>';
 		$balance_status = $product_balance.' Available in stock';
@@ -66,10 +66,10 @@
 	}
 					
 	//business details
-	$where = 'vendor.vendor_id > 0 AND vendor.surburb_id = surburb.surburb_id AND vendor.vendor_id = '.$created_by;
+	$where = 'vendor.surburb_id = surburb.surburb_id AND vendor.vendor_id = '.$created_by;
 	$table = 'vendor,surburb';
 	$business_query = $this->vendor_model->get_vendor_details($created_by, $table, $where);
-	
+	//var_dump($created_by);
 	if($business_query->num_rows() > 0)
 	{
 		$row = $business_query->row();
@@ -116,16 +116,19 @@
     	<div class="product-content">
     		
     		<div class="col-lg-6 col-md-6 col-sm-6">
-
+                
 				<div class="sp-loading"><img src="<?php echo site_url().'assets/themes/image_viewer/';?>images/sp-loading.gif" alt=""><br>LOADING IMAGES</div>
-                <div class="sp-wrap">
-                <?php					
+                <div class="sp-wrap" id="primary-images">
+                <?php
+				
+				$product_location = base_url().'assets/images/products/images/';
+				$product_path = realpath(APPPATH . '../assets/images/products/images');
+				$product_image = $this->products_model->image_display($product_path, $product_location, $product_image);
+				
 				$gallery_location = base_url().'assets/images/products/gallery/';
 				$gallery_path = realpath(APPPATH . '../assets/images/products/gallery');
-				
-				$image = $this->products_model->image_display($gallery_path, $gallery_location, $image);
 				?>
-                    <a href="<?php echo $image;?>"><img src="<?php echo $image;?>" alt=""></a>
+                    <a href="<?php echo $product_image;?>"><img src="<?php echo $product_image;?>" alt=""></a>
                 <?php
 
 				if($product_images->num_rows() > 0)
@@ -146,6 +149,11 @@
 				?>
                 </div>
 		    	
+                <div id="preview-features">
+                    <div class="sp-wrap">
+                        <a href="" id="preview-feature-image" selected-feature=""><img src="" id="feature-image"></a>
+                    </div>
+                </div>
 		    </div>
     		<div class="col-lg-6 col-md-6 col-sm-6">
     			<!-- code for the item -->
@@ -176,15 +184,167 @@
 				        <p><?php echo $product_description;?></p>
 				      </div>
 				      
-				            
+				    <!-- features -->
+                    <?php
+					if($feature_names->num_rows() > 0)
+					{
+						$feat_count = 0;
+						$color_features = '<div class="color-details row">
+												<div class="col-md-12"> ';
+						$text_features = '<div class="productFilter row">
+											<div class="filterBox col-md-4">';
+						$prev_feature = '';
+						$prev_feature_id = '';
+						$colors = '';
+						$first_text = 0;
+						
+						foreach($feature_names->result() as $feat)
+						{
+							$feat_count++;
+							$feature_name = $feat->feature_name;
+							$feature_id = $feat->feature_id;
+							
+							//display product features
+							if($product_features->num_rows() > 0)
+							{
+								$prod_feat_count = 0;
+								foreach($product_features->result() as $prod_feat)
+								{
+									$feat_name = $prod_feat->feature_name;
+									
+									if($feat_name == $feature_name)
+									{
+										$prod_feat_count++;
+										//check if feature has images
+										$feature_image = $prod_feat->image;
+										$feature_value = $prod_feat->feature_value;
+										$product_feature_id = $prod_feat->product_feature_id;
+										$feature_location = base_url().'assets/images/products/features/';
+										$feature_path = realpath(APPPATH . '../assets/images/products/features');
+										$feature_image_display = $this->products_model->image_display($feature_path, $feature_location, $feature_image);
+										
+										//display feature images
+										if($feature_image != 'None')
+										{
+											$colors = 'true';
+											if($prod_feat_count == 1)
+											{
+												if(!empty($prev_feature) && ($prev_feature != $feature_name))
+												{
+													$color_features .= '
+															<li class=""> <a class="clear-feature-preview" href="'.$prev_feature_id.'" feature-id="'.$prev_feature_id.'">Back</a></li>
+														</ul>
+													</div>
+													<div class="col-md-12">
+														<span class="selected-color"><strong>'.$feature_name.'</strong></span>
+														<ul class="swatches Color features-prev'.$feature_id.'">
+															<li class="" id="feat-prev'.$product_feature_id.'"> <a class="preview-feature" data-image-preview="'.$feature_image_display.'" href="'.$product_feature_id.'" feature-id="'.$feature_id.'"><img src="'.$feature_image_display.'" /></a> <input type="hidden" name="selected_features[]" id="selected_features'.$feature_id.'" value=""/></li>';
+												}
+												
+												else
+												{
+													$color_features .= '
+														<span class="selected-color"><strong>'.$feature_name.'</strong></span>
+														<ul class="swatches Color features-prev'.$feature_id.'">
+															<li class="" id="feat-prev'.$product_feature_id.'"> <a class="preview-feature" data-image-preview="'.$feature_image_display.'" href="'.$product_feature_id.'" feature-id="'.$feature_id.'"><img src="'.$feature_image_display.'" /></a> <input type="hidden" name="selected_features[]" id="selected_features'.$feature_id.'" value=""/></li>';
+												}
+												$prev_feature = $feature_name;
+												$prev_feature_id = $feature_id;
+											}
+											
+											else
+											{	
+												$color_features .= '
+															<li class="" id="feat-prev'.$product_feature_id.'"> <a class="preview-feature" data-image-preview="'.$feature_image_display.'" href="'.$product_feature_id.'" feature-id="'.$feature_id.'"><img src="'.$feature_image_display.'" /></a></li>';
+											}
+										}
+										
+										//display features in dropdown
+										else
+										{
+											if($prod_feat_count == 1)
+											{
+												//if image features were not displayed
+												if(empty($colors))
+												{
+													if(!empty($prev_feature) && ($prev_feature != $feature_name))
+													{
+														$text_features .= '
+															</select>
+														</div>
+														<div class="filterBox col-md-4">
+															<input type="hidden" name="selected_features[]" id="selected_features'.$feature_id.'" value=""/>
+															<select class="form-control" feature-id="'.$feature_id.'">
+																<option value="" selected onclick="select_feature(\'\', '.$feature_id.')">'.$feature_name.'</option>
+																<option value="'.$product_feature_id.'" onclick="select_feature('.$product_feature_id.', '.$feature_id.')">'.$feature_value.'</option>';
+													}
+													
+													else
+													{
+														$text_features .= '
+															<input type="hidden" name="selected_features[]" id="selected_features'.$feature_id.'" value=""/>
+															<select class="form-control" feature-id="'.$feature_id.'">
+																<option value="" selected onclick="select_feature(\'\', '.$feature_id.')">'.$feature_name.'</option>
+																<option value="'.$product_feature_id.'" onclick="select_feature('.$product_feature_id.', '.$feature_id.')">'.$feature_value.'</option>';
+													}
+												}
+												
+												//if image features were not displayed
+												else
+												{
+													$first_text++;
+													
+													if($first_text == 1)
+													{
+														$text_features .= '
+															<input type="hidden" name="selected_features[]" id="selected_features'.$feature_id.'" value=""/>
+															<select class="form-control" feature-id="'.$feature_id.'">
+																<option value="" selected onclick="select_feature(\'\', '.$feature_id.')">'.$feature_name.'</option>
+																<option value="'.$product_feature_id.'" onclick="select_feature('.$product_feature_id.', '.$feature_id.')">'.$feature_value.'</option>';
+													}
+													else
+													{
+														$text_features .= '
+															</select>
+														</div>
+														<div class="filterBox col-md-4">
+															<input type="hidden" name="selected_features[]" id="selected_features'.$feature_id.'" value=""/>
+															<select class="form-control">
+																<option value="" selected onclick="select_feature(\'\', '.$feature_id.')">'.$feature_name.'</option>
+																<option value="'.$product_feature_id.'" onclick="select_feature('.$product_feature_id.', '.$feature_id.')">'.$feature_value.'</option>';
+													}
+												}
+												$prev_feature = $feature_name;
+											}
+											
+											else
+											{
+												$text_features .= '<option value="'.$product_feature_id.'" onclick="select_feature('.$product_feature_id.', '.$feature_id.')">'.$feature_value.'</option>';
+											}
+										}
+									}
+								}
+							}
+						}
+						
+						$color_features .= '<li class=""> <a class="clear-feature-preview" href="'.$prev_feature_id.'" feature-id="'.$prev_feature_id.'">Back</a></li></ul></div></div>';
+						$text_features .= '</select></div></div>';
+						
+						echo $color_features;
+						echo $text_features;
+					}
+					?>
+      
+                      <!-- end features -->
+                      
 				      <div class="cart-actions">
 				        <div class="addto">
-				        	<!-- <a href="91" class="add_to_cart"><button class="button btn-cart cart first" title="Add to Cart" type="button">Add to Cart</button></a> -->
+				        	<!-- <a href="91" class="add_to_cart_single"><button class="button btn-cart cart first" title="Add to Cart" type="button">Add to Cart</button></a> -->
 				          <!--<a class="link-wishlist wishlist add_to_wishlist" href="91">Add to Wishlist</a> </div> -->
 				          <a class="btn btn-warning add_to_wishlist " href="<?php echo $product_id;?>" product_id="<?php echo $product_id;?>" data-toggle="modal" data-target=".wishlist-modal"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Add to wishlist</a>
 	                       <?php echo $button;?>
 	                       <a class="btn btn-success add_to_cart_redirect " href="<?php echo $product_id;?>" product_id="<?php echo $product_id;?>"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span>  Buy Now</a>
-			                
+                           
 		                    <div class="sadd-to-cart">
 								<div class="modal fade bs-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 								  <div class="modal-dialog modal-md">
@@ -286,11 +446,11 @@
                                         <div class="meta" style="margin-top:5px;">
                                             <div class="phone" >
                                                 <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-                                                <span rel="tooltip" title="" data-original-title="SKU is 0092"> Phone number : <?php echo $vendor_phone?> </span>
+                                                <span rel="tooltip" title="" data-original-title="SKU is 0092"> Phone number : <?php echo $vendor_store_phone?> </span>
                                             </div>
                                             <div class="email" >
                                                 <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                                                <span rel="tooltip" title="" data-original-title="SKU is 0092"> Email : <?php echo $vendor_email;?> </span>
+                                                <span rel="tooltip" title="" data-original-title="SKU is 0092"> Email : <?php echo $vendor_store_email;?> </span>
                                             </div>
                                         </div>
                                     </div>
@@ -341,175 +501,6 @@
 										$author_name = $rating->product_review_reviewer_name;
 										$author_phone = $rating->product_review_reviewer_phone;
 										$review_created = $rating->product_review_created;
-<<<<<<< HEAD
-			                        	?>
-			                            <article class="rating-item">
-			                                <div class="row">
-			                                    <div class="span9">
-			                                        <p><?php echo $content;?></p>
-			                                    </div>
-
-			                                    <div class="span3">
-			                                        <h6><?php echo $author_name;?></h6>
-			                                        <small><?php echo date('jS M Y H:i a',strtotime($review_created));?></small>
-			                                        <div class="rating rating-5">
-			                                        	Rating
-			                                        	<?php 
-			                                        	if($rating_value > 0)
-			                                        	{
-			                                        		for($x=0;$x <$rating_value; $x++)
-			                                        		{
-			                                        			?>
-			                                        			 <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-			                                        			<?php
-			                                        		}
-			                                        	}
-			                                        	else
-			                                        	{
-
-			                                        	}
-			                                        	?>
-			                                           
-			                                        </div>
-			                                    </div>
-			                                </div>
-			                            </article>
-			                        <?php
-		                    		}
-		                    	}
-
-		                        ?>
-
-
-	                            <hr>
-	                        </div>
-
-	                        <div class="well">
-	                            <div class="row">
-	                                <div class="span8">
-	                                    <h6><i class="icon-comment-alt"></i> &nbsp; Share your opinion!</h6>
-	                                    <p>Let other people know your thoughts on this product!</p>
-
-	                                </div>
-	                                <div class="span4">
-	                                
-	                                    <button class="btn btn-seconary btn-block" data-toggle="modal" data-target=".bs-example2-modal-lg">Rate this product</button>
-	                                </div>
-	                            </div>
-	                        </div>
-	                         <div class="modal fade bs-example2-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-	                  <div class="modal-dialog modal-lg">
-
-	        <div class="modal-header">
-	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-	            <div class="hgroup title">
-	                 <h3>You're one step closer to owning this product!</h3>
-		                <h5>"" has been added to your favorite products</h5>
-	            </div>
-	        </div>
-
-			 <form enctype="multipart/form-data" product_id="<?php echo $product_id;?>" action="<?php echo base_url();?>products/review-product/<?php echo $product_id;?>"  id = "product_review_form" method="post">
-	      		
-
-	            <div class="modal-body">
-	                <div class="row">
-
-	                    <div class="col-sm-6">
-	                        <div class="control-group">
-	                            <label class="control-label">Rating</label>
-	                            <div class="controls">
-	                                <select class="form-control" name="rate">
-	                                    <option value="1">1</option>
-	                                    <option value="2">2</option>
-	                                    <option value="3">3</option>
-	                                    <option value="4">4</option>
-	                                    <option value="5">5</option>
-	                                </select>
-	                            </div>
-	                        </div>
-	                    </div>
-
-	                    <div class="col-sm-6">
-	                        <div class="control-group">
-	                            <label for="review_title" class="control-label">Phone Number</label>
-	                            <div class="controls">
-	                                <input class="form-control col-sm-12" id="review_author_phone" name="review_author_phone" type="text">
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-
-	                <div class="row">
-	                    <div class="col-sm-6">
-	                        <div class="control-group">
-	                            <label for="review_author_name" class="control-label">Your name</label>
-	                            <div class="controls">
-	                                <input class="form-control col-sm-12" id="review_author_name" name="review_author_name" type="text" value="">
-	                            </div>
-	                        </div>
-	                    </div>
-
-	                    <div class="col-sm-6">
-	                        <div class="control-group">
-	                            <label for="review_author_email" class="control-label">Your email</label>
-	                            <div class="controls">
-	                                <input  class="form-control col-sm-12" id="review_author_email" name="review_author_email" type="text" value="">
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-
-	                <div class="row">
-	                    <div class="col-sm-12">
-	                        <div class="control-group">
-	                            <label for="review_text" class="control-label">Review</label>
-	                            <div class="controls">
-	                                <textarea class="form-control col-sm-12" id="review_text" name="review_text"></textarea>
-	                            </div>
-	                        </div>
-
-	                    </div>
-	                </div>
-
-	            </div>
-
-	            <div class="modal-footer">
-	                <div class="pull-right">
-	                    <button class="btn btn-primary" type="submit" onclick="">Submit product review</button>
-	                </div>
-	            </div>                         
-			<?php echo form_close();?>
-	                  </div>
-	              </div>
-	                        
-
-	                        
-
-	                    </div>
-	                    <!-- End id="ratings" -->
-	                    
-	                    
-	                </div>                                            
-	                <!-- End tab panels container -->
-	                
-	            </div>
-	        </div>
-            
-        </div>
-      
-  	</div>
-  	<!--end of right column-->
-  		
-            <div class="col-lg-12 col-md-12 col-sm-12">
-            	<div class="divider-line"></div>
-            		<h5 class="center-align">Related Products</h5 class="center-align">
-            	<div class="divider-line"></div>
-                <div class="owl-carousel" id="owl-carousel">
-                		<?php
-                		$related_products_array = $this->products_model->related_products($product_id);
-                		
-	                     if($related_products_array->num_rows() > 0)
-=======
 										?>
 										<article class="rating-item">
 											<div class="row">
@@ -576,7 +567,7 @@
 										</div>
 									</div>
 
-									<form enctype="multipart/form-data" product_id="<?php echo $product_id;?>" action="<?php echo base_url();?>products/review-product/<?php echo $product_id;?>"  id = "product_review_form" method="post">
+									<form enctype="multipart/form-data" product_code="<?php echo $product_code;?>" product_id="<?php echo $product_id;?>" action="<?php echo base_url();?>products/review-product/<?php echo $product_id;?>"  id = "product_review_form" method="post">
 										<div class="modal-body">
 											<div class="row">
 
@@ -677,7 +668,6 @@
 							$related_product = $related_products_array->result();
 							
 							foreach($related_product as $prods)
->>>>>>> 44222a3b02fe6519f5fb1903ffbad19a06fd0fac
 							{
 								$sale_price = $prods->sale_price;
 								$sale_price_type = $prods->sale_price_type;

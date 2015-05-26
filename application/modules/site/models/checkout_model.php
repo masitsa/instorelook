@@ -107,4 +107,104 @@ class Checkout_model extends CI_Model
 			}
 		}
 	}
+	
+	/*
+	*
+	*	Pay for order from account
+	*
+	*/
+	public function make_payment($order_number, $customer_id)
+	{
+		$vendor_data = array();
+		$invoice_items = array();
+		$order_details = array();
+		$created_orders = '';
+		
+		$this->db->where(array('order_number' => $order_number, 'customer_id' => $customer_id));
+		$query = $this->db->get('orders');
+		
+		if($query->num_rows() > 0)
+		{
+			$row = $query->row();
+			
+			$vendor_id = $row->vendor_id;
+			$order_id = $row->order_id;
+			$vendor_query = $this->cart_model->get_vendor($vendor_id);
+			$vendor_email = '';
+			$vendor_total = 0;
+			$total_price = 0;
+			$total_additional_price = 0;
+			
+			if($vendor_query->num_rows() > 0)
+			{
+				$row = $vendor_query->row();
+				$vendor_email = $row->vendor_email;
+			}
+			$created_orders .= $order_id.'-';
+			
+			//check number of order items
+			$order_items = $this->orders_model->get_order_items($order_id);
+			$total_order_items = $order_items->num_rows();
+			
+			if($total_order_items > 0)
+			{
+				foreach($order_items->result() as $res)
+				{
+					$order_item_id = $res->order_item_id;
+					$product_id = $res->product_id;
+					$order_item_quantity = $res->order_item_quantity;
+					$order_item_price = $res->order_item_price;
+					$product_name = $res->product_name;
+					$total_price += ($order_item_quantity * $order_item_price);
+					
+					//features
+					$this->db->select('order_item_feature.*, product_feature.feature_value, product_feature.thumb, feature.feature_name');
+					$this->db->where('product_feature.feature_id = feature.feature_id AND order_item_feature.product_feature_id = product_feature.product_feature_id AND order_item_feature.order_item_id = '.$order_item_id);
+					$order_item_features = $this->db->get('order_item_feature, product_feature, feature');
+					
+					if($order_item_features->num_rows() > 0)
+					{
+						foreach($order_item_features->result() as $feat)
+						{
+							$product_feature_id = $feat->product_feature_id;
+							$added_price = $feat->additional_price;
+							$feature_name = $feat->feature_name;
+							$feature_value = $feat->feature_value;
+							$feature_image = $feat->thumb;
+							$total_additional_price += $added_price;
+						}
+					}
+					
+					//create invoice items
+					array_push($invoice_items, array(
+							"name" => $product_name,
+							"price" => ($total_price + $total_additional_price),
+							"identifier" => $order_item_id
+						)
+					);
+				}
+			}
+			$total = $total_price + $total_additional_price;
+			//add vendor data to the vendor_data array
+			array_push($vendor_data, array(
+					'email' => $vendor_email, 
+					'amount' => $total
+				)
+			);
+			array_push($order_details, array(
+					'receiver' => $vendor_email, 
+					'invoiceData' => array(
+						'item' => $invoice_items
+					)
+				)
+			);
+		}
+		
+		//create return data
+		$return['vendor_data'] = $vendor_data;
+		$return['order_details'] = $order_details;
+		$return['created_orders'] = $created_orders;
+		
+		return $return;
+	}
 }

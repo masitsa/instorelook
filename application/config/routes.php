@@ -192,13 +192,13 @@ $route['vendor/all-orders/(:num)'] = 'vendor/orders/index/$1';
 $route['vendor/add-order'] = 'vendor/orders/add_order';
 $route['vendor/search-orders'] = 'vendor/orders/search_orders';
 $route['vendor/close-orders-search'] = 'vendor/orders/close_orders_search';
-$route['vendor/reverse-order/(:num)'] = 'vendor/orders/reverse_order/$1';
+$route['vendor/reverse-product/(:num)/(:any)/(:any)'] = 'vendor/paypal/reverse_order/$1/$2/$3';
 $route['vendor/edit-order/(:num)'] = 'vendor/orders/edit_order/$1';
 $route['vendor/delete-order/(:num)'] = 'vendor/orders/delete_order/$1';
 $route['vendor/activate-order/(:num)'] = 'vendor/orders/activate_order/$1';
 $route['vendor/deactivate-order/(:num)'] = 'vendor/orders/deactivate_order/$1';
-$route['vendor/finish-order/(:num)'] = 'vendor/orders/finish_order/$1';
-$route['vendor/cancel-order/(:num)'] = 'vendor/orders/cancel_order/$1';
+$route['vendor/complete-order/(:num)'] = 'vendor/orders/finish_order/$1';
+$route['vendor/cancel-order/(:any)/(:any)'] = 'site/paypal/cancel_order/$1/$2';
 $route['vendor/orders/add-product/(:num)/(:num)/(:num)/(:num)'] = 'vendor/orders/add_product/$1/$2/$3/$4';
 $route['vendor/orders/update-cart/(:num)/(:num)/(:num)'] = 'vendor/orders/update_cart/$1/$2/$3';
 $route['vendor/orders/delete-order-item/(:num)/(:num)'] = 'vendor/orders/delete_order_item/$1/$2';
@@ -337,6 +337,8 @@ $route['customer/sign-in/(:num)'] = 'login/sign_in_customer/$1';
 $route['account'] = 'login/redirect_account';
 $route['customer/account'] = 'site/account/my_account';
 $route['account/orders-list'] = 'site/account/orders_list';
+$route['account/request-cancel-order/(:any)/(:any)'] = 'site/account/cancel_order/$1/$2';
+$route['account/make-payment/(:any)/(:any)'] = 'site/paypal/split_payment_account/$1/$2';
 $route['account/personnal-information'] = 'site/account/my_details';
 $route['account/edit-shipping'] = 'site/account/edit_shipping';
 $route['account/wishlist'] = 'site/account/wishlist';
@@ -351,6 +353,7 @@ $route['account/update-shipping-details'] = 'site/checkout/update_shipping_detai
 *	Checkout Routes
 */
 $route['checkout'] = 'site/checkout/checkout_user';
+$route['payment'] = 'site/paypal/split_payment';
 $route['checkout/register'] = 'site/checkout/register';
 $route['checkout/update-billing-details'] = 'site/checkout/update_billing_details';
 $route['checkout/update-shipping-details'] = 'site/checkout/update_shipping_details';
@@ -364,7 +367,8 @@ $route['checkout/order'] = 'site/checkout/order_details';
 $route['checkout/add-delivery-instructions'] = 'site/checkout/add_delivery_instructions';
 $route['checkout/add-payment-options'] = 'site/checkout/add_payment_options';
 $route['checkout/confirm-order'] = 'site/checkout/confirm_order';
-$route['checkout/order-complete'] = 'site/checkout/order_complete';
+$route['checkout/order-complete/(:any)'] = 'site/checkout/order_complete/$1';
+$route['checkout/order-cancel/(:any)'] = 'site/checkout/order_cancel/$1';
 
 $route['forgot-password'] = 'site/checkout/forgot_password';
 

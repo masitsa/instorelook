@@ -130,7 +130,7 @@ class Products_model extends CI_Model
 				'product_selling_price'=>$this->input->post('product_selling_price'),
 				'product_status'=>$this->input->post('product_status'),
 				'product_description'=>$this->input->post('product_description'),
-				'product_code'=>$this->input->post('primary_code'),
+				'product_code'=>$code,
 				'product_balance'=>$this->input->post('product_balance'),
 				'brand_id'=>$this->input->post('brand_id'),
 				'category_id'=>$this->input->post('category_id'),
@@ -172,11 +172,23 @@ class Products_model extends CI_Model
 		
 		for($r = 0; $r < $total_locations; $r++)
 		{
-			$surburb_id = $product_locations[$r];
-			$data['surburb_id'] = $surburb_id;
-			$data['product_location_status'] = 1;
+			$post_code = $product_locations[$r];
 			
-			$this->db->insert('product_location', $data);
+			if(!empty($post_code))
+			{
+				$this->db->where('post_code', $post_code);
+				$query = $this->db->get('surburb');
+				
+				if($query->num_rows() > 0)
+				{
+					$row = $query->row();
+					
+					$data['surburb_id'] = $row->surburb_id;
+					$data['product_location_status'] = 1;
+					
+					$this->db->insert('product_location', $data);
+				}
+			}
 		}
 		
 		return TRUE;
@@ -467,7 +479,7 @@ class Products_model extends CI_Model
 						$name = mysql_real_escape_string($_SESSION['name'.$category_feature_id][$r]);
 						$quantity = $_SESSION['quantity'.$category_feature_id][$r];
 						$price = $_SESSION['price'.$category_feature_id][$r];
-						$image = '<img src="'. base_url().'assets/images/features/'.$_SESSION['thumb'.$category_feature_id][$r].'" alt="'.$name.'"/>';
+						$image = '<img src="'. base_url().'assets/images/products/features/'.$_SESSION['thumb'.$category_feature_id][$r].'" alt="'.$name.'"/>';
 						
 						$features .= '
 							<tr>
@@ -1488,8 +1500,10 @@ class Products_model extends CI_Model
 	
 	public function get_product_locations($product_id)
 	{
-		$this->db->where(array('product_id'=>$product_id, 'product_location_status'=>1));
-		$query = $this->db->get('product_location');
+		$where = 'product_location.product_location_status = 1 AND product_location.surburb_id = surburb.surburb_id AND product_location.product_id = '.$product_id;
+		$this->db->where($where);
+		$this->db->select('product_location.*, surburb.post_code');
+		$query = $this->db->get('product_location, surburb');
 		
 		return $query;
 	}
@@ -1614,6 +1628,24 @@ class Products_model extends CI_Model
 		}
 		
 		return $product_price;
+	}
+	
+	public function get_product_features($product_id)
+	{
+		$this->db->select('product_feature.*, feature.feature_name');
+		$this->db->where('product_feature.product_id = '.$product_id.' AND product_feature.feature_id = feature.feature_id');
+		$this->db->order_by('feature.feature_name ASC, product_feature.image');
+		$query = $this->db->get('product_feature, feature');
+		return $query;
+	}
+	
+	public function get_feature_names($product_id)
+	{
+		$this->db->select('feature.feature_id, feature.feature_name');
+		$this->db->where('product_feature.product_id = '.$product_id.' AND product_feature.feature_id = feature.feature_id');
+		$this->db->group_by("feature.feature_name");
+		$query = $this->db->get('product_feature, feature');
+		return $query;
 	}
 }
 ?>

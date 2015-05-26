@@ -57,7 +57,7 @@ echo $this->load->view('vendor/search/search_orders', '' , TRUE); ?>
 					  <th>Total Items</th>
 					  <th>Order Total ($)</th>
 					  <th class="table-sortable:default table-sortable" title="Click to sort">Status</th>
-					  <th colspan="3">Actions</th>
+					  <th colspan="2">Actions</th>
 					</tr>
 				  </thead>
 				  <tbody>
@@ -79,7 +79,7 @@ echo $this->load->view('vendor/search/search_orders', '' , TRUE); ?>
 			{
 				$order_id = $row->order_id;
 				$order_number = $row->order_number;
-				$order_status = $row->status;
+				$order_status = $row->order_status_id;
 				$order_instructions = $row->order_instructions;
 				$order_status_name = $row->order_status_name;
 				$created_by = $row->order_created_by;
@@ -109,7 +109,6 @@ echo $this->load->view('vendor/search/search_orders', '' , TRUE); ?>
 				{
 					$modified_by = '-- Not modified --';
 				}
-				
 				if($order_details->num_rows() > 0)
 				{
 					$items = '
@@ -117,43 +116,116 @@ echo $this->load->view('vendor/search/search_orders', '' , TRUE); ?>
 					<strong>Modified by:</strong> '.$modified_by.'</strong></br>
 					<strong>Instructions:</strong> '.$order_instructions.'</strong></p>
 					
-					<table class="table table-striped table-condensed">
+					<table class="table table-striped table-condensed table-hover">
 					<tr>
 						<th>Item</th>
 						<th>Quantity</th>
 						<th>Price ($)</th>
+						<th>Added price ($)</th>
 						<th>Total ($)</th>
 					</tr>';
 					$order_items = $order_details->result();
 					$total_price = 0;
 					$total_items = 0;
 					
-					foreach($order_items as $ord)
+					foreach($order_items as $res)
 					{
-						$product = $ord->product_name;
-						$quantity = $ord->order_item_quantity;
-						$price = $ord->order_item_price;
+						$order_item_id = $res->order_item_id;
+						$product = $res->product_name;
+						$quantity = $res->order_item_quantity;
+						$price = $res->order_item_price;
+						$product_id = $res->product_id;
+						$vendor_id = $res->vendor_id;
+						$vendor_store_name = $res->vendor_store_name;
+						$web_name = $this->site_model->create_web_name($vendor_store_name);
+						$vendor_link = site_url().'businesses/'.$web_name.'&'.$vendor_id;
+						$order_item_features = $this->orders_model->get_order_item_features($order_item_id);
 						
-						$total_price += ($quantity*$price);
 						$total_items += $quantity;
+						
+						//display features
+						$features_display = '';
+						$cancel = '<a class="btn btn-sm btn-danger" href="'.site_url().'reverse-product/'.$product_id.'/'.$order_number.'">Reverse product</a>';
+						$cancel = '';
+						$total_additional_price = 0;
+						
+						if($order_item_features->num_rows() > 0)
+						{
+							$features_display = '<table class="table table-condensed">
+								<tr>
+									<th>Feature</th>
+									<th>Selected</th>
+									<th>Added price ($)</th>
+								</tr>';
+							foreach($order_item_features->result() as $feat)
+							{
+								$product_feature_id = $feat->product_feature_id;
+								$added_price = $feat->additional_price;
+								$feature_name = $feat->feature_name;
+								$feature_value = $feat->feature_value;
+								$feature_image = $feat->thumb;
+								$total_additional_price += $added_price;
+								
+								$feature_location = base_url().'assets/images/products/features/';
+								$feature_path = realpath(APPPATH . '../assets/images/products/features');
+								$feature_image_display = $this->products_model->image_display($feature_path, $feature_location, $feature_image);
+								
+								//display feature images
+								if($feature_image != 'None')
+								{
+									$features_display.= '
+										<tr>
+											<td>'.$feature_name.'</td>
+											<td><img src="'.$feature_image_display.'" /></td>
+											<td>'.number_format($added_price, 2).'</td>
+										</tr>';
+								}
+								
+								//display features in dropdown
+								else
+								{
+									$features_display.= '
+										<tr>
+											<td>'.$feature_name.'</td>
+											<td>'.$feature_value.'</td>
+											<td>'.number_format($added_price, 2).'</td>
+										</tr>';
+								}
+							}
+							$features_display .= '
+								<tr>
+									<th></th>
+									<th></th>
+									<th>'.number_format($total_additional_price, 2).'</th>
+								</tr>
+							</table>';
+						}
+						
+						$total_price += (($quantity*$price) + $total_additional_price);
 						
 						$items .= '
 						<tr>
-							<td>'.$product.'</td>
+							<td>
+							'.$product.'
+							'.$features_display.'
+							</td>
 							<td>'.$quantity.'</td>
 							<td>'.number_format($price, 2, '.', ',').'</td>
-							<td>'.number_format(($quantity*$price), 2, '.', ',').'</td>
+							<td>'.number_format($total_additional_price, 2, '.', ',').'</td>
+							<td>'.number_format(($quantity*$price)+$total_additional_price, 2, '.', ',').'</td>
 						</tr>
 						';
 					}
 						
 					$items .= '
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>'.number_format($total_price, 2, '.', ',').'</td>
-					</tr></table>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td colspan="4">'.number_format($total_price, 2, '.', ',').'</td>
+						</tr>
+					</table>
 					';
 				}
 				
@@ -161,49 +233,33 @@ echo $this->load->view('vendor/search/search_orders', '' , TRUE); ?>
 				{
 					$items = 'This order has no items';
 				}
+				
 				$button = '';
 				
-				//create deactivated status display
-				if($order_status == 1)
+				//pending order
+				if($order_status == 0)
 				{
-					$status = '<span class="label label-primary">'.$order_status_name.'</span>';
-					$button = '<span class="label label-success">Completed</span>';
-					$button2 = '<a href="'.site_url().'vendor/reverse-order/'.$order_id.'" class="btn btn-sm btn-warning" onclick="return confirm(\'Do you really want to reverse this order '.$order_number.'?\');">Reverse Order</a>';
+					$status = '<span class="label label-info">'.$order_status_name.'</span>';
+					$button = '<a href="'.site_url().'vendor/complete-order/'.$order_id.'" class="btn btn-info" onclick="return confirm(\'Do you really want to complete this order '.$order_number.'?\');">Complete</a>
+					<a href="'.site_url().'vendor/cancel-order/'.$order_number.'" class="btn btn-danger pull-right" onclick="return confirm(\'Do you really want to cancel this order '.$order_number.'?\');">Cancel</a>';
+					$button2 = '';
 				}
-				//create activated status display
-				else if($order_status == 2)
+				else if($order_status == 1)
 				{
 					$status = '<span class="label label-success">'.$order_status_name.'</span>';
-					$button = '<span class="label label-success">Canceled</span>';
-					$button2 = '<a href="'.site_url().'vendor/reverse-order/'.$order_id.'" class="btn btn-sm btn-warning" onclick="return confirm(\'Do you really want to reverse this order '.$order_number.'?\');">Reverse Order</a>';
+					$button = '<a href="'.site_url().'vendor/cancel-order/'.$order_id.'" class="btn btn-danger" onclick="return confirm(\'Do you really want to cancel this order '.$order_number.'?\');">Cancel</a>';
+					$button2 = '';
 				}
-				//create activated status display
-				else if($order_status == 3)
-				{
-					$status = '<span class="label label-danger">'.$order_status_name.'</span>';
-					$button = '<a href="'.site_url().'vendor/activate-order/'.$order_id.'" class="btn btn-sm btn-success" onclick="return confirm(\'Do you really want to activate this order '.$order_number.'?\');">Activate</a>';
-					$button2 = '<a href="'.site_url().'vendor/reverse-order/'.$order_id.'" class="btn btn-sm btn-warning" onclick="return confirm(\'Do you really want to reverse this order '.$order_number.'?\');">Reverse Order</a>';
-
-				}
-				else if($order_status == 4)
-				{
-					$status = '<span class="label label-danger">'.$order_status_name.'</span>';
-					$button = '<span class="label label-danger">Reversed</span>';
-					$button2 = '<span class="label label-success">Reversed</span>';
-				}
-				else if($order_status == 5)
-				{
-					$status = '<span class="label label-danger">'.$order_status_name.'</span>';
-					$button = '<a href="'.site_url().'vendor/deactivate-order/'.$order_id.'" class="btn btn-sm btn-default" onclick="return confirm(\'Do you really want to deactivate this order '.$order_number.'?\');">Deactivate</a>';
-					$button2 = '<span class="label label-success">Reversed</span>';
-
-				}
-				else
+				else if($order_status == 2)
 				{
 					$status = '<span class="label label-warning">'.$order_status_name.'</span>';
-					$button = '<a href="'.site_url().'vendor/deactivate-order/'.$order_id.'" class="btn btn-sm btn-default" onclick="return confirm(\'Do you really want to deactivate this order '.$order_number.'?\');">Deactivate</a>';
-					$button2 = '<a href="'.site_url().'vendor/reverse-order/'.$order_id.'" class="btn btn-sm btn-warning" onclick="return confirm(\'Do you really want to reverse this order '.$order_number.'?\');">Reverse Order</a>';
-
+					$button = '';
+				}
+				else if($order_status == 6)
+				{
+					$status = '<span class="label label-danger">'.$order_status_name.'</span>';
+					$button = '<a href="'.site_url().'vendor/cancel-order/'.$order_id.'" class="btn btn-danger" onclick="return confirm(\'Do you really want to cancel this order '.$order_number.'?\');">Cancel</a>';
+					$button2 = '';
 				}
 				$count++;
 				$result .= 
@@ -233,20 +289,13 @@ echo $this->load->view('vendor/search/search_orders', '' , TRUE); ?>
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-												
-											<a href="'.site_url().'vendor/finish-order/'.$order_id.'" class="btn btn-sm btn-success" onclick="return confirm(\'Do you really want to complete this order '.$order_number.'?\');">Complete</a>
-											<a href="'.site_url().'vendor/cancel-order/'.$order_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to cancel this order '.$order_number.'?\');">Cancel</a>
 											'.$button.'
-											<a href="'.site_url().'vendor/delete-order/'.$order_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete this order '.$order_number.'?\');">Delete</a>
-											<a href="'.site_url().'vendor/reverse-order/'.$order_id.'" class="btn btn-sm btn-warning" onclick="return confirm(\'Do you really want to reverse this order '.$order_number.'?\');">Reverse Order</a>
-
 										</div>
 									</div>
 								</div>
 							</div>
 						</td>
 						<td>'.$button.'</td>
-						<td>'.$button2.'</td>
 					</tr> 
 				';
 			}

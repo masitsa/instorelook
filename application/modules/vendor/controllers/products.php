@@ -25,7 +25,7 @@ class Products extends account
 		$this->products_path = realpath(APPPATH . '../assets/images/products/images');
 		$this->products_location = base_url().'assets/images/products/images/';
 		$this->gallery_path = realpath(APPPATH . '../assets/images/products/gallery');
-		$this->features_path = realpath(APPPATH . '../assets/images/features');
+		$this->features_path = realpath(APPPATH . '../assets/images/products/features');
 		$this->csv_path = realpath(APPPATH . '../assets/csv');
 
 		$this->product_bundle_path = realpath(APPPATH . '../assets/images/product_bundle/images');
@@ -141,7 +141,8 @@ class Products extends account
 		$this->form_validation->set_rules('category_id', 'Product Category', 'required|xss_clean');
 		$this->form_validation->set_rules('minimum_order_quantity', 'Minimum Order Quantity', 'numeric|xss_clean');
 		$this->form_validation->set_rules('maximum_purchase_quantity', 'Maximum Purchase Quantity', 'numeric|xss_clean');
-		$this->form_validation->set_rules('primary_post_code', 'Primary post code', 'numeric|xss_clean');
+		$this->form_validation->set_rules('product_locations[]', 'Surburb', 'xss_clean|exists[surburb.post_code]');
+		$this->form_validation->set_message('exists', 'You have entered a post code that does not exist');
 		
 		//if form has been submitted
 		if ($this->form_validation->run())
@@ -252,6 +253,7 @@ class Products extends account
 	public function edit_product($product_id) 
 	{
 		//form validation rules
+		$this->form_validation->set_rules('product_locations[]', 'Surburb', 'xss_clean|exists[surburb.post_code]');
 		$this->form_validation->set_rules('product_name', 'Product Name', 'required|xss_clean');
 		$this->form_validation->set_rules('product_status', 'Product Status', 'xss_clean');
 		$this->form_validation->set_rules('product_buying_price', 'Product Buying Price', 'numeric|xss_clean');
@@ -262,6 +264,7 @@ class Products extends account
 		$this->form_validation->set_rules('category_id', 'Product Category', 'required|xss_clean');
 		$this->form_validation->set_rules('minimum_order_quantity', 'Minimum Order Quantity', 'numeric|xss_clean');
 		$this->form_validation->set_rules('maximum_purchase_quantity', 'Maximum Purchase Quantity', 'numeric|xss_clean');
+		$this->form_validation->set_message('exists', 'You have entered a post code that does not exist');
 		
 		//if form has been submitted
 		if ($this->form_validation->run())
@@ -787,6 +790,7 @@ class Products extends account
 		$features = $this->products_model->get_product_feature($product_feature_id);
 		$feat = $features->row();
 		
+		$product_id = $feat->product_id;
 		$feat_id = $feat->feature_id;
 		$image = $feat->image;
 		$thumb = $feat->thumb;

@@ -33,12 +33,12 @@
 				$category_feature_id = $_SESSION['category_feature'][$r];
 				$ct = $r+1;
 				
-				$options = form_open_multipart("admin/products/add_new_feature/".$category_feature_id, array('id' => 'cat_feature'.$category_feature_id, 'name' => $category_feature_id)).'
+				$options = form_open_multipart("vendor/products/add_new_feature/".$category_feature_id, array('id' => 'cat_feature'.$category_feature_id, 'name' => $category_feature_id)).'
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group"><input type="text" class="form-control feature_input" placeholder="Feature Name" id="sub_feature_name'.$category_feature_id.'" name="sub_feature_name'.$category_feature_id.'"/></div>
 							<div class="form-group"><input type="number" class="form-control feature_input" placeholder="Quantity" id="sub_feature_qty'.$category_feature_id.'" name="sub_feature_qty'.$category_feature_id.'"/></div>
-							<div class="form-group"><input type="number" class="form-control feature_input" placeholder="Additional Price" id="sub_feature_price'.$category_feature_id.'" name="sub_feature_price'.$category_feature_id.'"/></div>
+							<div class="form-group"><input type="text" class="form-control feature_input" placeholder="Additional Price" id="sub_feature_price'.$category_feature_id.'" name="sub_feature_price'.$category_feature_id.'"/></div>
 						</div>
 						<div class="col-md-6">
 							<div class="fileinput fileinput-new" data-provides="fileinput">
@@ -73,12 +73,12 @@
 							$name = $f->feature_value;
 							$price = $f->price;
 							$quantity = $f->quantity;
-							$image = '<img src="'. base_url().'assets/images/features/'.$f->thumb.'" alt="'.$name.'"/>';
+							$image = '<img src="'. base_url().'assets/images/products/features/'.$f->thumb.'" alt="'.$name.'"/>';
 							
 							$feature_values .=
 							'
 								<tr>
-									<td><a href="'.$f->product_feature_id.'" class="delete_product_feature"  onclick="return confirm(\'Do you want to delete '.$name.'?\');"><i class="icon-trash butn butn-danger"></i></a></td>
+									<td><a href="'.$f->product_feature_id.'" class="delete_product_feature btn btn-danger"  onclick="return confirm(\'Do you want to delete '.$name.'?\');"><i class="fa fa-trash"></i></a></td>
 									<td>'.$name.'</td>
 									<td>'.$quantity.'</td>
 									<td>'.$price.'</td>

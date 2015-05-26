@@ -15,7 +15,7 @@
 |
 */
 $config['base_url']	= 'http://localhost/instorelook/';
-//$config['base_url']	= 'http://development.instorelook.com.au/';
+#$config['base_url']	= 'http://development.instorelook.com.au/';
 
 /*
 |--------------------------------------------------------------------------
@@ -374,6 +374,12 @@ $config['modules_locations'] = array(
 $config['appID']    	= '737733999674371';
 $config['appSecret']    = 'e03a64bb56363f549a8e86bc9d5e6ebf';
 $config['mandrill_key']    = 'yPN5McI91NQbs7spbOUpPA';
+$config['paypal_api_url']    = 'https://svcs.sandbox.paypal.com/AdaptivePayments/';
+$config['paypal_url']    = 'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_ap-payment&paykey=';
+$config['paypal_api_user']    = 'info_api1.instorelook.com.au';
+$config['paypal_api_password']    = 'QG3RYMYQJEUNDE95';
+$config['paypal_api_signature']    = 'AFcWxV21C7fd0v3bYYYRCpSSRl31And5bUol-gcEPVqmPHygEOY1DEXp';
+$config['paypal_api_appID']    = 'APP-80W284485P519543T';
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
