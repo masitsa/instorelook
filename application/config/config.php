@@ -380,6 +380,7 @@ $config['paypal_api_user']    = 'info_api1.instorelook.com.au';
 $config['paypal_api_password']    = 'QG3RYMYQJEUNDE95';
 $config['paypal_api_signature']    = 'AFcWxV21C7fd0v3bYYYRCpSSRl31And5bUol-gcEPVqmPHygEOY1DEXp';
 $config['paypal_api_appID']    = 'APP-80W284485P519543T';
+$config['auspost_shipping_estimator']    = '6bedfe92-548c-4e93-bc20-84ec5d18bd2a';
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */

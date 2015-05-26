@@ -47,10 +47,10 @@
 			'
 				<div class="item '.$active.'">
 					<img src="'.$slideshow_location.$slideshow_image_name.'">
-					<div class="carousel-caption">
+					<!--<div class="carousel-caption">
 						<h3>'.$slideshow_name.'</h3>
 						<p>'.$slideshow_description.'</p>
-					</div>
+					</div>-->
 				</div>
 			';
 		}
@@ -86,7 +86,7 @@
         
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
-            <div class="item active">
+            <!--<div class="item active">
                 <img src="http://placehold.it/1200x400/55a4da/ffffff&text=In Store Look">
                 <div class="carousel-caption">
                     <p>An online ecommerce platform connecting businesses & customers.</p>
@@ -103,6 +103,15 @@
                 <div class="carousel-caption">
                     <p>Browse & buy products from your local surburb.</p>
                 </div>
+            </div>-->
+            <div class="item active">
+                <img src="<?php echo base_url().'assets/images/banner_1.jpg';?>">
+            </div>
+            <div class="item">
+                <img src="<?php echo base_url().'assets/images/banner_2.jpg';?>">
+            </div>
+            <div class="item">
+                <img src="<?php echo base_url().'assets/images/banner_3.png';?>">
             </div>
         </div>
         <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">

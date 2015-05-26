@@ -1,6 +1,6 @@
 
 <div class="clear-both"></div>
-<div class="beta-products-list product-items">
+<div class="beta-products-list product-items products-recent">
     
     <div class="row beta-products-details">
         <h4>Recently viewed products</h4>

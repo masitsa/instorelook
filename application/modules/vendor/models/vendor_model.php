@@ -97,7 +97,7 @@ class Vendor_model extends CI_Model
 		$data = array( 
 				'vendor_store_name' => $this->input->post('vendor_store_name'),
 				'vendor_store_phone' => $this->input->post('vendor_store_phone'),
-				'vendor_store_email' => $this->input->post('vendor_store_email'),
+				//'vendor_store_email' => $this->input->post('vendor_store_email'),
 				'vendor_categories' => $categories,
 				'vendor_store_summary' => $this->input->post('vendor_store_summary'),
 				'vendor_store_mobile' => $this->input->post('vendor_store_mobile'),
@@ -106,6 +106,7 @@ class Vendor_model extends CI_Model
 				'vendor_business_type' => $this->input->post('vendor_business_type'),
 				'vendor_store_address' => $this->input->post('vendor_store_address'),
 				'surburb_id' => $this->input->post('surburb_id'),
+				'return_policy' => $this->input->post('return_policy')
 				//'vendor_store_postcode' => $this->input->post('vendor_store_postcode')
 		);
 		
@@ -130,7 +131,7 @@ class Vendor_model extends CI_Model
 		$data = array( 
 				'vendor_store_name' => $this->input->post('vendor_store_name'),
 				'vendor_store_phone' => $this->input->post('vendor_store_phone'),
-				'vendor_store_email' => $this->input->post('vendor_store_email'),
+				//'vendor_store_email' => $this->input->post('vendor_store_email'),
 				'vendor_store_summary' => $this->input->post('vendor_store_summary'),
 				'vendor_store_mobile' => $this->input->post('vendor_store_mobile'),
 				//'vendor_store_state' => $this->input->post('vendor_store_state'),
@@ -139,7 +140,8 @@ class Vendor_model extends CI_Model
 				'surburb_id' => $this->input->post('surburb_id'),
 				'vendor_logo' => $vendor_logo,
 				'vendor_thumb' => $vendor_thumb,
-				'vendor_store_address' => $this->input->post('vendor_store_address')
+				'vendor_store_address' => $this->input->post('vendor_store_address'),
+				'return_policy' => $this->input->post('return_policy')
 		);
 		
 		$this->db->where('vendor_id', $vendor_id);
@@ -158,7 +160,7 @@ class Vendor_model extends CI_Model
 				'vendor_password' => md5($this->session->userdata('vendor_password')),
 				'vendor_store_name' => $this->session->userdata('vendor_store_name'),
 				'vendor_store_phone' => $this->session->userdata('vendor_store_phone'),
-				'vendor_store_email' => $this->session->userdata('vendor_store_email'),
+				//'vendor_store_email' => $this->session->userdata('vendor_store_email'),
 				//'vendor_categories' => $categories,
 				'subscription_id' => $subscription_id,
 				'vendor_store_summary' => $this->session->userdata('vendor_store_summary'),
@@ -170,12 +172,19 @@ class Vendor_model extends CI_Model
 				'country_id' => $this->session->userdata('country_id'),
 				'vendor_business_type' => $this->session->userdata('vendor_business_type'),
 				'surburb_id' => $this->session->userdata('surburb_id'),
+				'return_policy' => $this->session->userdata('return_policy')
 				//'vendor_store_postcode' => $this->session->userdata('vendor_store_postcode')
 		);
 		
 		if($this->db->insert('vendor', $data))
 		{
+			//create tiny url for social media sharing
 			$vendor_id = $this->db->insert_id();
+			$web_name = $this->site_model->create_web_name($this->session->userdata('vendor_store_name'));
+			$tiny_url = $this->products_model->get_tiny_url(site_url().'businesses/'.$web_name.'&'.$vendor_id);
+			
+			$this->db->where('vendor_id', $vendor_id);
+			$this->db->update('vendor');
 			
 			//save vendor categories
 			/*$categories = $this->session->userdata('vendor_categories');
@@ -546,6 +555,8 @@ class Vendor_model extends CI_Model
 		$personnal = '';
 		$business = '';
 		$subscription = '';
+		$payment = '';
+		$shipping = '';
 		
 		if($name == 'personnal')
 		{
@@ -562,6 +573,16 @@ class Vendor_model extends CI_Model
 			$subscription = 'active';
 		}
 		
+		else if($name == 'payment')
+		{
+			$payment = 'active';
+		}
+		
+		else if($name == 'shipping')
+		{
+			$shipping = 'active';
+		}
+		
 		else
 		{
 			$personnal = 'active';
@@ -572,7 +593,7 @@ class Vendor_model extends CI_Model
 			<li class="'.$personnal.' center-align">
 				<a href="'.base_url().'vendor/account-profile/personnal">
 					<i class="fa fa-user fa-2x"></i>
-					<span>Personal</span>
+					<span>Account</span>
 				 </a>
 			</li>
 			<li class="'.$business.' center-align">
@@ -587,7 +608,18 @@ class Vendor_model extends CI_Model
 					<span>Subscription</span>
 				 </a>
 			</li>
-                
+			<li class="'.$payment.' center-align">
+				 <a href="'.base_url().'vendor/account-profile/payment">
+					<i class="fa fa-money fa-2x"></i>
+					<span>Payment</span>
+				 </a>
+			</li>
+			<li class="'.$shipping.' center-align">
+				 <a href="'.base_url().'vendor/account-profile/shipping">
+					<i class="fa fa-ship fa-2x"></i>
+					<span>Shipping</span>
+				 </a>
+			</li>
 		';
 		
 		return $navigation;
@@ -675,5 +707,64 @@ class Vendor_model extends CI_Model
 		}
 		
 		return $surburb_id;
+	}
+	
+	public function update_shipping_method($vendor_id, $vendor_shipping)
+	{
+		$data['vendor_shipping'] = $vendor_shipping;
+		$data['vendor_shipping_rate'] = 0;
+		
+		$this->db->where('vendor_id', $vendor_id);
+		if($this->db->update('vendor', $data))
+		{
+			return TRUE;
+		}
+		
+		else
+		{
+			return FALSE;
+		}
+	}
+	public function add_fixed_rate($vendor_id)
+	{
+		$data = array(
+				'vendor_shipping'=>2,
+				'vendor_shipping_rate'=>$this->input->post('vendor_fixed_rate')
+			);
+			
+		$this->db->where('vendor_id', $vendor_id);
+		if($this->db->update('vendor', $data))
+		{
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
+	
+	public function get_vendor_shipping($vendor_id)
+	{
+		$this->db->select('vendor_shipping, vendor_shipping_rate');
+		
+		$this->db->where('vendor_id', $vendor_id);
+		$query = $this->db->get('vendor');
+		
+		return $query;
+	}
+	
+	public function update_paypal_email($vendor_id)
+	{
+		$data = array(
+				'vendor_payment_email'=>$this->input->post('vendor_payment_email')
+			);
+			
+		$this->db->where('vendor_id', $vendor_id);
+		if($this->db->update('vendor', $data))
+		{
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
 	}
 }

@@ -1,75 +1,55 @@
-<div class="row" style="background-color:#fff; margin-bottom:5px;">
+<div class="row">
 	<!-- Widget -->
-	<div class="widget boxed" >
+	<div class="widget boxed">
 	    <!-- Widget head -->
-	    <div class="widget-head">
-	        <h3 style="text-align:center;"><i class="icon-reorder"></i>Search All Features
-	        </h3>
-	        <div class="widget-icons pull-right">
-	            <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a> 
-	            <a href="#" class="wclose"><i class="icon-remove"></i></a>
-	        </div>
-	    
-	    	<div class="clearfix"></div>
-	    
-	    </div>             
+        <div class="widget-head">
+            <h4 class="pull-left"><i class="fa fa-search"></i>Search all features</h4>
+            <div class="clearfix"></div>
+        </div>      
 	    
 	    <!-- Widget content -->
 	    <div class="widget-content">
-	    	<div class="padd">
+	    	<div class="">
 				<?php
-				
-				
-				echo form_open("vendor/search-features", array("class" => "form-horizontal"));
-				
-	            
+				echo form_open("vendor/search-features", array("class" => "form-inline"));
 	            ?>
-	            <div class="row">
-		                <div class="col-md-6 col-lg-6">
-		                    <div class="form-group center-align">
-		                        <label class="col-sm-4 control-label">Feature Name: </label>
-		                        
-		                        <div class="col-sm-6">
-		                            <input type="text" class="form-control" name="feature_name" placeholder="Feature Name">
-		                        </div>
-		                    </div>
-		                </div>
-		                <div class="col-md-6 col-lg-6">
-		                    <div class="form-group center-align">
-		                        <label class="col-sm-4 control-label">Category name: </label>
-		                        
-		                        <div class="col-sm-6">
-		                            <select name="category_id" class="form-control" required>
-				                        <?php
-				                        echo '<option value="0">All Categories</option>';
-				                        if($all_categories->num_rows() > 0)
-				                        {
-				                            $result = $all_categories->result();
-				                            
-				                            foreach($result as $res)
-				                            {
-												$category = $res->category_name;
-												if($category == 'No Category'){$category = 'All Categories';}
-												
-				                                if($res->category_id == set_value('category_id'))
-				                                {
-				                                    echo '<option value="'.$res->category_id.'" selected>'.$category.'</option>';
-				                                }
-				                                else
-				                                {
-				                                    echo '<option value="'.$res->category_id.'">'.$category.'</option>';
-				                                }
-				                            }
-				                        }
-				                        ?>
-				                    </select>
-		                        </div>
-		                    </div>
-		                </div>
-	            </div>
-	            
-	            <div class="row center-align">
-	            	<button type="submit" class="btn btn-info btn-lg">Search</button>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 center-align">
+                        <div class="form-group">
+                            <label class="control-label">Feature Name: </label>
+                            <input type="text" class="form-control" name="feature_name" placeholder="Feature name">
+                        </div>
+                        <div class="form-group">
+                        	<label class="control-label">Category name: </label>
+                            <select name="category_id" class="form-control" required>
+								<?php
+                                echo '<option value="0">All Categories</option>';
+                                if($all_categories->num_rows() > 0)
+                                {
+                                    $result = $all_categories->result();
+                                    
+                                    foreach($result as $res)
+                                    {
+                                        $category = $res->category_name;
+                                        if($category == 'No Category'){$category = 'All Categories';}
+                                        
+                                        if($res->category_id == set_value('category_id'))
+                                        {
+                                            echo '<option value="'.$res->category_id.'" selected>'.$category.'</option>';
+                                        }
+                                        else
+                                        {
+                                            echo '<option value="'.$res->category_id.'">'.$category.'</option>';
+                                        }
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-info btn-lg">Search</button>
+                        </div>
+                    </div>
 	            </div>
 	            <?php
 	            echo form_close();

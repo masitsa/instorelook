@@ -1,43 +1,28 @@
-<div class="row" style="background-color:#fff; margin-bottom:5px;">
+<div class="row">
 	<!-- Widget -->
-	<div class="widget boxed" >
+	<div class="widget boxed">
 	    <!-- Widget head -->
-	    <div class="widget-head">
-	        <h3 style="text-align:center;"><i class="icon-reorder"></i>Search All Product Bundles
-	        </h3>
-	        <div class="widget-icons pull-right">
-	            <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a> 
-	            <a href="#" class="wclose"><i class="icon-remove"></i></a>
-	        </div>
-	    
-	    	<div class="clearfix"></div>
-	    
-	    </div>             
+        <div class="widget-head">
+            <h4 class="pull-left"><i class="fa fa-search"></i>Search all product bundles</h4>
+            <div class="clearfix"></div>
+        </div>      
 	    
 	    <!-- Widget content -->
 	    <div class="widget-content">
-	    	<div class="padd">
+	    	<div class="">
 				<?php
-				
-				
-				echo form_open("vendor/search-product-bundle", array("class" => "form-horizontal"));
-				
-	            
+				echo form_open("vendor/search-product-bundle", array("class" => "form-inline"));
 	            ?>
-	            <div class="row">
-		                <div class="col-md-12 col-lg-12">
-		                    <div class="form-group center-align">
-		                        <label class="col-sm-4 control-label">Bundle Name: </label>
-		                        
-		                        <div class="col-sm-4">
-		                            <input type="text" class="form-control" name="product_bundle_name" placeholder="Bundle Name">
-		                        </div>
-		                    </div>
-		                </div>
-	            </div>
-	            
-	            <div class="row center-align">
-	            	<button type="submit" class="btn btn-info btn-lg">Search</button>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 center-align">
+                        <div class="form-group">
+                            <label class="control-label">Bundle Name: </label>
+                            <input type="text" class="form-control" name="product_bundle_name" placeholder="Bundle name">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-info btn-lg">Search</button>
+                        </div>
+                    </div>
 	            </div>
 	            <?php
 	            echo form_close();

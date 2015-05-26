@@ -1,9 +1,6 @@
 <div class="container main-container headerOffset">
   
   <?php echo $this->load->view('products/breadcrumbs');?>
-  
-  
-  
   <div class="row">
     <div class="col-lg-9 col-md-9 col-sm-7">
       <div class="shopping-cart">

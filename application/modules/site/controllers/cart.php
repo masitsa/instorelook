@@ -19,7 +19,8 @@ class Cart extends site {
 			
 			$data['result'] = 'success';
 			$data['cart_items'] = $cart_items;
-			$data['cart_total'] = $this->load->view('cart/cart_total', '', TRUE);
+			$data['cart_total'] = $this->load->view('site/cart/cart_total', '', TRUE);
+			$data['mini_cart_footer'] = $this->load->view('site/cart/cart_footer', '', TRUE);
 		}
 		
 		else
@@ -85,7 +86,8 @@ class Cart extends site {
 			
 			$data['result'] = 'success';
 			$data['cart_items'] = $cart_items;
-			$data['cart_total'] = $this->load->view('cart/cart_total', '', TRUE);
+			$data['cart_total'] = $this->load->view('site/cart/cart_total', '', TRUE);
+			$data['mini_cart_footer'] = $this->load->view('site/cart/cart_footer', '', TRUE);
 		}
 		
 		else

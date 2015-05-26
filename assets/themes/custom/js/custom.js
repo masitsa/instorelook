@@ -1,5 +1,16 @@
 $(document).ready(function() 
 {
+	//check page width
+	var document_width = parseInt($( document ).width());
+	if(document_width <= 767)
+	{
+		$('#collapse-location').removeClass("in");
+		$('#collapse-latest-sellers').removeClass("in");
+		$('#collapse-brands').removeClass("in");
+		$('#collapse-price-range').removeClass("in");
+		$('#collapse-best-sellers').removeClass("in");
+	}
+	
 	$('#owl-recent').owlCarousel({
 		loop:true,
 		margin:10,

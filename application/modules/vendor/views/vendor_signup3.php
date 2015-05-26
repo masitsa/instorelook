@@ -17,7 +17,7 @@
                             <div class="process-row">
                                 <div class="process-step">
                                     <button type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-user fa-2x"></i></button>
-                                    <p>Personal</p>
+                                    <p>Account</p>
                                 </div>
                                 <div class="process-step">
                                     <button type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-building-o fa-2x"></i></button>

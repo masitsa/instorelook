@@ -114,7 +114,7 @@
                 
                 <div class="row">
                 	<div class="col-md-8 col-sm-8">
-                	<a href="<?php echo site_url();?>"><img class="img-responsive" src="<?php echo base_url().'assets/images/logo.png';?>"/></a>
+                	<a href="<?php echo site_url();?>"><img class="img-responsive" src="<?php echo base_url().'assets/images/logo.jpg';?>"/></a>
                 	</div>
                 	<div class="col-md-4 col-sm-4 hide-mobile2" style="padding-right:0;">
 						<?php echo form_open('products/search', array('role' => 'search', 'id' => 'searchform'));?>
@@ -168,58 +168,58 @@
                                                     <div id="myCarousel" class="carousel slide" data-ride="carousel">
 
                                                       <div class="carousel-inner">
-                                                          <?php
-                                                          $this->load->model('vendor/products_model');
-                                                            $products_path = realpath(APPPATH . '../assets/images/products/images');
-                                                            $products_location = base_url().'assets/images/products/images/';
-                                                          $latest = $this->products_model->get_latest_products();
-                                                          if($latest->num_rows() > 0)
-                                                            {
-                                                                $latest_product = $latest->result();
-                                                                $x = 0;
-                                                                foreach($latest_product as $prods)
-                                                                {
-                                                                    $sale_price = $prods->sale_price;
-                                                                    $thumb = $prods->product_image_name;
-                                                                    $product_id = $prods->product_id;
-                                                                    $product_name = $prods->product_name;
-                                                                    $brand_name = $prods->brand_name;
-                                                                    $product_price = $prods->product_selling_price;
-                                                                    $description = $prods->product_description;
-                                                                    $product_balance = $prods->product_balance;
-                                                                    $mini_desc = implode(' ', array_slice(explode(' ', $description), 0, 10));
-                                                                    $price = number_format($product_price, 2, '.', ',');
-                                                                    $image = $this->products_model->image_display($products_path, $products_location, $thumb);
-                                                                    $sale = '';
-                                                                    $button = '';
-                                                                    $balance_status = '';
-                                                                    $button = '<a class="btn btn-success add_to_cart" href="'.$product_id.'" product_id="'.$product_id.'"><i class="glyphicon glyphicon-shopping-cart"> </i></a>';
-
-                                                                    if($x > 0)
-                                                                    {
-                                                                        ?>
-                                                                        <div class="item">
-                                                                            <a href="#"><img src="<?php echo $image;?>"> </a>
-                                                                            <h4><small><?php echo $product_name;?></small></h4>                                        
-                                                                            <button class="btn btn-primary" type="button">$ <?php echo $price;?></button> <?php echo $button;?> <a class="btn btn-warning add_to_cart_redirect " href="<?php echo $product_id;?>" product_id="<?php echo $product_id;?>"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span></a> <button href="#" class="btn btn-info" type="button"><span class="glyphicon glyphicon-heart"></span></button>
-                                                                        </div><!-- End Item -->
-                                                                    <?php
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                         ?>
-                                                                            <div class="item active">
-                                                                                <a href="#"><img src="<?php echo $image;?>"></a>
-                                                                                <h4><small><?php echo $product_name;?></small></h4>                                        
-                                                                                <button class="btn btn-primary" type="button">$ <?php echo $price;?></button> <?php echo $button;?> <a class="btn btn-warning add_to_cart_redirect " href="<?php echo $product_id;?>" product_id="<?php echo $product_id;?>"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span></a> <button href="#" class="btn btn-info" type="button"><span class="glyphicon glyphicon-heart"></span></button>       
-                                                                            </div><!-- End Item -->
-                                                                        <?php
-                                                                    }
-                                                                    $x++;
-                                                                  
-                                                                }
-                                                            }
-                                                            ?>
+														<?php
+                                                        $this->load->model('vendor/products_model');
+                                                        $products_path = realpath(APPPATH . '../assets/images/products/images');
+                                                        $products_location = base_url().'assets/images/products/images/';
+                                                        $latest = $this->products_model->get_latest_products();
+                                                        if($latest->num_rows() > 0)
+														{
+															$latest_product = $latest->result();
+															$x = 0;
+															foreach($latest_product as $prods)
+															{
+																$sale_price = $prods->sale_price;
+																$thumb = $prods->product_image_name;
+																$product_id = $prods->product_id;
+																$product_name = $prods->product_name;
+																$brand_name = $prods->brand_name;
+																$product_price = $prods->product_selling_price;
+																$description = $prods->product_description;
+																$product_balance = $prods->product_balance;
+																$mini_desc = implode(' ', array_slice(explode(' ', $description), 0, 10));
+																$price = number_format($product_price, 2, '.', ',');
+																$image = $this->products_model->image_display($products_path, $products_location, $thumb);
+																$sale = '';
+																$button = '';
+																$balance_status = '';
+																$button = '<a class="btn btn-success add_to_cart" href="'.$product_id.'" product_id="'.$product_id.'"><i class="glyphicon glyphicon-shopping-cart"> </i></a>';
+															
+																if($x > 0)
+																{
+																	?>
+																	<div class="item">
+																		<a href="#"><img src="<?php echo $image;?>"> </a>
+																		<h4><small><?php echo $product_name;?></small></h4>                                        
+																		<button class="btn btn-primary" type="button">$ <?php echo $price;?></button> <?php echo $button;?> <a class="btn btn-warning add_to_cart_redirect " href="<?php echo $product_id;?>" product_id="<?php echo $product_id;?>"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span></a> <button href="#" class="btn btn-info" type="button"><span class="glyphicon glyphicon-heart"></span></button>
+																	</div><!-- End Item -->
+																<?php
+																}
+																else
+																{
+																	 ?>
+																		<div class="item active">
+																			<a href="#"><img src="<?php echo $image;?>"></a>
+																			<h4><small><?php echo $product_name;?></small></h4>                                        
+																			<button class="btn btn-primary" type="button">$ <?php echo $price;?></button> <?php echo $button;?> <a class="btn btn-warning add_to_cart_redirect " href="<?php echo $product_id;?>" product_id="<?php echo $product_id;?>"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span></a> <button href="#" class="btn btn-info" type="button"><span class="glyphicon glyphicon-heart"></span></button>       
+																		</div><!-- End Item -->
+																	<?php
+																}
+																$x++;
+															  
+															}
+														}
+														?>
                                                                                    
                                                       </div><!-- End Carousel Inner -->
                                                     </div><!-- /.carousel -->

@@ -6,7 +6,7 @@
           	<div class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <div class="alert alert-warning">
-                        <p><strong>Warning!</strong> Banners that do not adhere to the dimensions specified (<strong>800px by 300px</strong>) will be cropped</p>
+                        <p><strong>Warning!</strong> Banners that do not adhere to the dimensions specified (<strong>1600px by 600px</strong>) will be cropped</p>
                         <p><strong>Note: </strong>The next available date is <strong><?php echo date('jS M Y', strtotime($next_available_date));?></strong></p>
                         <p><strong>Note: </strong>Each banner is priced at <strong>$<?php echo $promotion_cost;?> per day</strong></p>
                     </div>

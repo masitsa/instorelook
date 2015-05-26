@@ -1,5 +1,4 @@
-
-    
+   
     <div class="box-content">
         <div class="cart-items">
             <table class="styled-table">
@@ -10,6 +9,7 @@
                         <th class="col_single text-left">Price</th>
                         <th class="col_discount text-left">Discount</th>
                         <th class="col_discount text-left">Features</th>
+                        <th class="col_discount text-left">Shipping</th>
                         <th class="col_total text-left">Total</th>
                         <th class="col_remove text-left">&nbsp;</th>
                     </tr>
@@ -18,10 +18,25 @@
                 <tbody> 
                  <?php
                   foreach ($this->cart->contents() as $items): 
-                    
+                    	
+						$shipping = 0;
+						$shipping_cost = 0;
                       $cart_product_id = $items['id'];
-                        $features_display = '';
+                      $features_display = '';
                       $total_additional_price = 0;
+                        //shipping
+                        if(isset($items['options']))
+                        {
+							if(isset($items['options']['shipping']))
+							{
+							  $shipping = $items['options']['shipping'];
+							  
+							  if($shipping >= 1)
+							  {
+								$shipping_cost = $items['options']['cost'];
+							  }
+							}
+						}
                         //features
                         if(isset($items['options']['product_features']))
                         {
@@ -79,7 +94,7 @@
                           $discount = $product_selling_price - $product_sale_price;
                           $total_features_price = $total_additional_price * $items['qty'];
     
-                          $total = number_format((($items['qty']*$items['price']) + $total_features_price) - $discount, 0, '.', ',');  
+                          $total = number_format((($items['qty']*$items['price']) + $total_features_price + $shipping_cost) - $discount, 2);  
     
                           echo'              
                             <tr>
@@ -116,6 +131,10 @@
     
                                 <td data-title="Discount" class="col_discount text-left">
                                     <span class="single-price">$'.number_format($total_additional_price, 2).'</span>
+                                </td>
+    
+                                <td data-title="Discount" class="col_discount text-left">
+                                    <span class="single-price">$'.number_format($shipping_cost, 2).'</span>
                                 </td>
     
                                 <td data-title="Total" class="col_total text-left">

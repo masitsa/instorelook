@@ -20,6 +20,7 @@
 	$brand_name = $product[0]->brand_name;
 	$category_name = $product[0]->category_name;
 	$created_by = $product[0]->created_by;
+	$tiny_url = $product[0]->tiny_url;
 	$mini_desc = implode(' ', array_slice(explode(' ', $product_description), 0, 10));
 	$button = '';
 	$balance_status = '';
@@ -69,42 +70,10 @@
 	$where = 'vendor.surburb_id = surburb.surburb_id AND vendor.vendor_id = '.$created_by;
 	$table = 'vendor,surburb';
 	$business_query = $this->vendor_model->get_vendor_details($created_by, $table, $where);
-	//var_dump($created_by);
-	if($business_query->num_rows() > 0)
-	{
-		$row = $business_query->row();
-
-		$vendor_id = $row->vendor_id;
-		$vendor_logo = $row->vendor_logo;
-		$vendor_first_name = $row->vendor_first_name;
-		$vendor_last_name = $row->vendor_last_name;
-		$surburb_id = $row->surburb_id;
-		$surburb_name = $row->surburb_name;
-		$post_code = $row->post_code;
-	
-		$vendor_email = $row->vendor_email;
-		$vendor_phone = $row->vendor_phone;
-		$vendor_store_name = $row->vendor_store_name;
-		$vendor_store_mobile = $row->vendor_store_mobile;
-		$country_id = $row->country_id;
-		$country_name = '';
-		
-		$vendor_business_type = $row->vendor_business_type;
-		$vendor_store_postcode = $row->vendor_store_postcode;
-		$vendor_store_address = $row->vendor_store_address;
-	
-		$vendor_store_email = $row->vendor_store_email;
-		$vendor_store_phone = $row->vendor_store_phone;
-		$vendor_store_summary = $row->vendor_store_summary;
-		$vendor_path = realpath(APPPATH . '../assets/images/vendors');
-		$vendor_location = base_url().'assets/images/vendors/';
-		$image = $this->products_model->image_display($vendor_path, $vendor_location, $vendor_logo);
-	}
 
 ?>
 <!-- styles needed by smoothproducts.js for product zoom  -->
 <link rel="stylesheet" href="<?php echo base_url()."assets/themes/image_viewer/";?>css/smoothproducts.css">
-
 
 <div class="container main-container headerOffset">
   
@@ -171,10 +140,10 @@
 						<div class="clearfix" style="float:right;">
 							<p> SHARE </p>
 							<div class="socialIcon"> 
-								<a href="#"> <i class="fa fa-facebook"></i></a> 
-								<a href="#"> <i class="fa fa-twitter"></i></a> 
-								<a href="#"> <i class="fa fa-google-plus"></i></a> 
-								<a href="#"> <i class="fa fa-pinterest"></i></a> 
+								<a href="#" onclick="facebook_share('<?php echo $product_name;?>', '<?php echo $tiny_url;?>', '<?php echo $product_image;?>')"> <i class="fa fa-facebook"></i></a> 
+								<a target="_blank" href="https://twitter.com/intent/tweet?screen_name=Instorelook&text=Checkout%20<?php echo $product_name;?>%20and%20lots%20more%20on%20www.instorelook.com.au%20<?php echo $tiny_url; ?>"> <i class="fa fa-twitter"></i></a> 
+								<!--<a href="#"> <i class="fa fa-google-plus"></i></a> 
+								<a href="#"> <i class="fa fa-pinterest"></i></a> -->
 							</div>
 						</div>
 						<!--/.product-share--> 
@@ -399,12 +368,12 @@
 							</a>
 						</li>
 
-						<li class="">
+						<!--<li class="">
 							<a href="#shipping" data-toggle="tab">
 								<span class="glyphicon glyphicon-plane" aria-hidden="true"></span>
 								<span class="hidden-phone">Shipping</span>
 							</a>
-						</li>
+						</li>-->
 
 						<li class="">
 							<a href="#returns" data-toggle="tab">
@@ -432,32 +401,70 @@
 						
 						<!-- Description tab -->
 						<div class="tab-pane active" id="description">
-                        	<div class="row">
-                            	<div class="col-md-4">
-                                	<img src="<?php echo $image;?>" class="img-responsive">
-                                </div>
-                                
-                            	<div class="col-md-8">
-                                	<div class="details">
-                                        <h3><?php echo $vendor_store_name;?></h3>
-                                        <h6><?php echo $post_code.', '.$surburb_name;?></h6>
-                                        <!-- <div class="prices"><span class="price"><?php echo $price;?></span></div> -->
-        
-                                        <div class="meta" style="margin-top:5px;">
-                                            <div class="phone" >
-                                                <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-                                                <span rel="tooltip" title="" data-original-title="SKU is 0092"> Phone number : <?php echo $vendor_store_phone?> </span>
-                                            </div>
-                                            <div class="email" >
-                                                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                                                <span rel="tooltip" title="" data-original-title="SKU is 0092"> Email : <?php echo $vendor_store_email;?> </span>
-                                            </div>
-                                        </div>
+                        	<?php
+							
+							if($business_query->num_rows() > 0)
+							{
+								$row = $business_query->row();
+						
+								$vendor_id = $row->vendor_id;
+								$vendor_logo = $row->vendor_logo;
+								$vendor_first_name = $row->vendor_first_name;
+								$vendor_last_name = $row->vendor_last_name;
+								$surburb_id = $row->surburb_id;
+								$surburb_name = $row->surburb_name;
+								$post_code = $row->post_code;
+							
+								$vendor_email = $row->vendor_email;
+								$vendor_phone = $row->vendor_phone;
+								$vendor_store_name = $row->vendor_store_name;
+								$vendor_store_mobile = $row->vendor_store_mobile;
+								$country_id = $row->country_id;
+								$country_name = '';
+								
+								$vendor_business_type = $row->vendor_business_type;
+								$vendor_store_postcode = $row->vendor_store_postcode;
+								$vendor_store_address = $row->vendor_store_address;
+							
+								$vendor_store_email = $row->vendor_store_email;
+								$vendor_store_phone = $row->vendor_store_phone;
+								$vendor_store_summary = $row->vendor_store_summary;
+								$return_policy = $row->return_policy;
+								$vendor_path = realpath(APPPATH . '../assets/images/vendors');
+								$vendor_location = base_url().'assets/images/vendors/';
+								$image = $this->products_model->image_display($vendor_path, $vendor_location, $vendor_logo);
+								$web_name = $this->site_model->create_web_name($vendor_store_name);
+								
+								?>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                    	<a href="<?php echo site_url().'businesses/'.$web_name.'&'.$vendor_id?>"><img src="<?php echo $image;?>" class="img-responsive"></a>
                                     </div>
                                     
-                                	<?php echo $vendor_store_summary;?>
+                                    <div class="col-md-8">
+                                        <div class="details">
+                                    		<a href="<?php echo site_url().'businesses/'.$web_name.'&'.$vendor_id?>"><h3><?php echo $vendor_store_name;?></h3></a>         
+                                            <h6><?php echo $post_code.', '.$surburb_name;?></h6>
+                                            <!-- <div class="prices"><span class="price"><?php echo $price;?></span></div> -->
+            
+                                            <div class="meta" style="margin-top:5px;">
+                                                <div class="phone" >
+                                                    <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+                                                    <span rel="tooltip" title="" data-original-title="SKU is 0092"> Phone number : <?php echo $vendor_store_phone?> </span>
+                                                </div>
+                                                <div class="email" >
+                                                    <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                                                    <span rel="tooltip" title="" data-original-title="SKU is 0092"> Email : <?php echo $vendor_store_email;?> </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <?php echo $vendor_store_summary;?>
+                                    </div>
                                 </div>
-                            </div>
+                                <?php
+							}
+							?>
 							
 						</div>
 						<!-- End id="description" -->
@@ -474,11 +481,7 @@
 
 						<!-- Returns tab -->
 						<div class="tab-pane" id="returns">
-							<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-							<p class="lead">For any unwanted goods La Boutique offers a <strong>21-day return policy</strong>.</p>
-							<p>If you receive items from us that differ from what you have ordered, then you must notify us as soon as possible using our <a href="#">online contact form</a>.</p>
-							<p>If you find that your items are faulty or damaged on arrival, then you are entitled to a repair, replacement or a refund. Please note that for some goods it may be disproportionately costly to repair, and so where this is the case, then we will give you a replacement or a refund.</p>
-							<p>Please visit our <a href="#">Warranty section</a> for more details.</p>						
+							<?php echo $return_policy;?>					
 						</div>
 						<!-- End id="returns" -->
 
@@ -562,8 +565,8 @@
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 										<div class="hgroup title">
-											 <h3>You're one step closer to owning this product!</h3>
-												<h5>"<?php echo $product_name;?>" has been added to your favorite products</h5>
+											 <h3>Please share your thoughts on <?php echo $product_name;?></h3>
+											<!--<h5>"<?php echo $product_name;?>" has been added to your favorite products</h5>-->
 										</div>
 									</div>
 
@@ -681,7 +684,7 @@
 								$product_balance = $prods->product_balance;
 								$mini_desc = implode(' ', array_slice(explode(' ', $description), 0, 10));
 								$price = number_format($product_price, 2, '.', ',');
-								$image = $this->products_model->image_display($products_path, $products_location, $thumb);
+								$prod_image = $this->products_model->image_display($products_path, $products_location, $thumb);
 								$sale = '';
 								$button = '';
 								$balance_status = '';
@@ -730,7 +733,7 @@
 								'
 								<div class="item">
 									'.$sale.'
-									<a class="cbp-vm-image" href="'.site_url().'products/view-product/'.$product_code.'"><img src="'.$image.'"></a>
+									<a class="cbp-vm-image" href="'.site_url().'products/view-product/'.$product_code.'"><img src="'.$prod_image.'"></a>
 									<h3 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_code.'">'.$brand_name.'</a></h3>
 									<h6 class="cbp-vm-title"><a href="'.site_url().'products/view-product/'.$product_code.'">'.$product_name.'</a></h6>
 									'.$price.'

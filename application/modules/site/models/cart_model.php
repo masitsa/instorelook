@@ -13,6 +13,7 @@ class Cart_model extends CI_Model
 			if($in_cart['result'])
 			{
 				$row_id = $in_cart['row_id'];
+				$feature_data = array();
 				
 				$selected_features = explode(",", $product_features);
 				$total_features = count($selected_features);
@@ -326,22 +327,26 @@ class Cart_model extends CI_Model
 			if($product_details->num_rows() > 0)
 			{
 				$product = $product_details->row();
+				$products_path = realpath(APPPATH . '../assets/images/products/images');
+				$products_location = base_url().'assets/images/products/images/';
 				
 				$product_thumb = $product->product_thumb_name;
+				$product_code = $product->product_code;
 				$total = number_format($items['qty']*$items['price'], 0, '.', ',');
+				$image = $this->products_model->image_display($products_path, $products_location, $product_thumb);
 			
 				$cart .= '
 							<tr class="miniCartProduct">
 								<td style="20%" class="miniCartProductThumb">
 									<div> 
-										<a href="#"> 
-											<img src="'.base_url().'assets/images/products/images/'.$product_thumb.'" alt="'.$items['name'].'"> 
+										<a href="'.site_url().'products/view-product/'.$product_code.'"> 
+											<img src="'.$image.'" alt="'.$items['name'].'"> 
 										</a> 
 									</div>
 								</td>
 								<td style="40%">
 									<div class="miniCartDescription">
-										<h4> <a href="#"> '.$items['name'].' </a> </h4>
+										<h4> <a href="'.site_url().'products/view-product/'.$product_code.'"> '.$items['name'].' </a> </h4>
 										<div class="price"> <span> $'.number_format($items['price'], 2, '.', ',').' </span> </div>
 									</div>
 								</td>
@@ -428,6 +433,8 @@ class Cart_model extends CI_Model
 		//we will have one order per vendor if multiple were selected
 		$orders = array();
 		$vendor_ids = array();
+		$isl_email = 'info@instorelook.com.au';
+		$isl_refferal_total = 0;
 		
 		foreach ($this->cart->contents() as $items): 
 			
@@ -436,6 +443,21 @@ class Cart_model extends CI_Model
 			$price = $items['price'];//check who is the vendor of the product
 			$features = NULL;
 			$additional_price = NULL;
+			//shipping
+			$shipping = 0;
+			$shipping_cost = 0;
+			//shipping
+			if(isset($items['options']))
+			{
+				$shipping = $items['options']['shipping'];
+				
+				if($shipping >= 1)
+				{
+					$shipping_cost = $items['options']['cost'];
+					$from = $items['options']['from'];
+					$to = $items['options']['to'];
+				}
+			}
 			
 			if(isset($items['options']['product_features']))
 			{
@@ -498,7 +520,9 @@ class Cart_model extends CI_Model
 						'order_item_price'=>$price,
 						'features' => $features,
 						'additional_price' => $additional_price,
-						'product_name' => $product_name
+						'product_name' => $product_name,
+						'shipping' => $shipping,
+						'shipping_cost' => $shipping_cost
 					)
 				);
 			}
@@ -525,11 +549,19 @@ class Cart_model extends CI_Model
 				$vendor_total = 0;
 				$total_price = 0;
 				$total_additional_price = 0;
+				$shipping2 = 0;
+				$shipping_cost2 = 0;
 				
 				if($vendor_query->num_rows() > 0)
 				{
 					$row = $vendor_query->row();
 					$vendor_email = $row->vendor_email;
+					$vendor_payment_email = $row->vendor_payment_email;
+					
+					if(!empty($vendor_payment_email))
+					{
+						$vendor_email = $vendor_payment_email;
+					}
 				}
 				//create order
 				$data = array(
@@ -538,9 +570,16 @@ class Cart_model extends CI_Model
 							'order_status_id'=>$status,
 							'order_number'=>$order_number,
 							'vendor_id'=>$vendor_id,
+							'shipping'=>$shipping,
 							'order_created_by'=>$this->session->userdata('customer_id')
 						);
-						
+				
+				if($shipping2 >= 1)
+				{
+					$data['shipping_from'] = $from;
+					$data['shipping_to'] = $to;
+				}
+				
 				if($this->db->insert('orders', $data))
 				{
 					//get order id
@@ -554,6 +593,8 @@ class Cart_model extends CI_Model
 					{
 						for($s = 0; $s < $total_order_items; $s++)
 						{
+							$shipping2 = $orders[$vendor_id][$s]['shipping'];
+							$shipping_cost2 += $orders[$vendor_id][$s]['shipping_cost'];
 							$product_id = $orders[$vendor_id][$s]['product_id'];
 							$order_item_quantity = $orders[$vendor_id][$s]['order_item_quantity'];
 							$order_item_price = $orders[$vendor_id][$s]['order_item_price'];
@@ -566,6 +607,14 @@ class Cart_model extends CI_Model
 							{
 								$total_additional_price += $additional_price;
 							}
+				
+							if($shipping2 >= 1)
+							{
+								$data_shipping['shipping_cost'] = $shipping_cost2;
+							}
+							
+							$this->db->where('order_id', $order_id);
+							$this->db->update('orders', $data_shipping);
 							
 							//save order item
 							$data = array(
@@ -579,10 +628,14 @@ class Cart_model extends CI_Model
 							{
 								$order_item_id = $this->db->insert_id();
 								
+								//remove $1.00 from the product to go to ISL
+								$to_business_total = ($total_price + $total_additional_price) - 1;
+								$isl_refferal_total += 1;
+								
 								//create invoice items
 								array_push($invoice_items, array(
 										"name" => $product_name,
-										"price" => ($total_price + $total_additional_price),
+										"price" => $to_business_total,
 										"identifier" => $order_item_id
 									)
 								);
@@ -615,6 +668,9 @@ class Cart_model extends CI_Model
 						}
 					}
 				}
+				
+				//add shipping cost
+				$total_additional_price += $shipping_cost2;
 				$total = $total_price + $total_additional_price;
 				//add vendor data to the vendor_data array
 				array_push($vendor_data, array(
@@ -632,6 +688,13 @@ class Cart_model extends CI_Model
 			}
 		}
 		
+		//add ISL refferal charge
+		array_push($vendor_data, array(
+				'email' => $isl_email, 
+				'amount' => $isl_refferal_total
+			)
+		);
+		
 		//create return data
 		$return['vendor_data'] = $vendor_data;
 		$return['order_details'] = $order_details;
@@ -642,8 +705,9 @@ class Cart_model extends CI_Model
 	
 	public function get_vendor($vendor_id)
 	{
-		$this->db->where(array('vendor_id'=>$vendor_id));
-		$query = $this->db->get('vendor');
+		$this->db->select('vendor.*, surburb.surburb_name, surburb.post_code');
+		$this->db->where('vendor.surburb_id = surburb.surburb_id AND vendor_id = '.$vendor_id);
+		$query = $this->db->get('vendor, surburb');
 		
 		return $query;
 	}
@@ -874,5 +938,38 @@ class Cart_model extends CI_Model
 		
 		return $navigation;
 	}
-}
+	
+	public function get_shipping_total()
+	{
+		$total = 0;
+		$data['shipping'] = 0;
+		$data['cost'] = 0;
+		$data['from'] = '';
+		$data['to'] = '';
+		
+		foreach ($this->cart->contents() as $items): 
+		
+			if(isset($items['options']))
+			{
+				$options = $items['options'];
+				
+				if(isset($options['shipping']))
+				{
+					$data['cost'] += $options['cost'];
+					$data['shipping'] = $options['shipping'];
+					$data['from'] = $options['from'];
+					$data['to'] = $options['to'];
+				}
+			}
+			
+		endforeach;
+		
+		return $data;
+	}
 
+	public function get_surburb($surburb_id)
+	{
+		$this->db->where('surburb_id', $surburb_id);
+		return $this->db->get('surburb');
+	}
+}

@@ -8,30 +8,20 @@ else
 	$add = '';
 }
 ?>
-<div class="row" style="background-color:#fff; margin-bottom:5px;">
+<div class="row">
 	<!-- Widget -->
-	<div class="widget boxed" >
+	<div class="widget boxed">
 	    <!-- Widget head -->
-	    <div class="widget-head">
-	        <h4 style="text-align:center;"><i class="icon-reorder"></i>Search All Products</h4>
-	        <div class="widget-icons pull-right">
-	            <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a> 
-	            <a href="#" class="wclose"><i class="icon-remove"></i></a>
-	        </div>
-	    
-	    	<div class="clearfix"></div>
-	    
-	    </div>             
+        <div class="widget-head">
+            <h4 class="pull-left"><i class="fa fa-search"></i>Search all products</h4>
+            <div class="clearfix"></div>
+        </div>      
 	    
 	    <!-- Widget content -->
 	    <div class="widget-content">
-	    	<div class="padd">
+	    	<div class="">
 				<?php
-				
-				
 				echo form_open("vendor/search-products".$add, array("class" => "form-horizontal"));
-				
-	            
 	            ?>
 	            <div class="row">
 	           		<div class="col-md-11">

@@ -5,8 +5,8 @@ class Slideshow_model extends CI_Model
 	public function upload_slideshow_image($slideshow_path, $edit = NULL)
 	{
 		//upload product's gallery images
-		$resize['width'] = 800;
-		$resize['height'] = 300;
+		$resize['width'] = 1600;
+		$resize['height'] = 600;
 		
 		if(!empty($_FILES['slideshow_image']['tmp_name']))
 		{

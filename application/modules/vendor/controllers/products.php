@@ -122,13 +122,90 @@ class Products extends account
 		
 		$this->load->view('account_template', $data);
 	}
-   
-	/*
-	*
-	*	Add a new product
-	*
-	*/
-	public function add_product() 
+	
+	public function add_product_images($product_id = NULL)
+	{
+		//upload product's gallery images
+		$resize['width'] = 600;
+		$resize['height'] = 800;
+		
+		if(is_uploaded_file($_FILES['product_image']['tmp_name']))
+		{
+			$this->load->library('image_lib');
+			
+			$products_path = $this->products_path;
+			/*
+				-----------------------------------------------------------------------------------------
+				Upload image
+				-----------------------------------------------------------------------------------------
+			*/
+			$response = $this->file_model->upload_file($products_path, 'product_image', $resize);
+			if($response['check'])
+			{
+				$file_name = $response['file_name'];
+				$thumb_name = $response['thumb_name'];
+			}
+		
+			else
+			{
+				$this->session->set_userdata('error_message', $response['error']);
+				$break = TRUE;
+			}
+			
+			if(!isset($break))
+			{
+				if($product_id > 0)
+				{
+					//Libraries
+					$this->load->library('upload');
+				
+					if($this->products_model->add_images($product_id, $file_name, $thumb_name))
+					{
+						$this->session->set_userdata('success_message', 'Product image updated successfully');
+					}
+					
+					else
+					{
+						$this->session->set_userdata('error_message', 'Unable to save main product image');
+					}
+					
+					//gallery images
+					$response = $this->file_model->upload_gallery($product_id, $this->gallery_path, $resize);
+					
+					if($response)
+					{
+						$this->session->set_userdata('success_message', 'Product images updated successfully');
+					}
+					
+					else
+					{
+						if(isset($response['upload']))
+						{
+							$this->session->set_userdata('error_message', $error['upload'][0]);
+						}
+						else if(isset($response['resize']))
+						{
+							$this->session->set_userdata('error_message', $error['resize'][0]);
+						}
+					}
+
+				}
+				
+				else
+				{
+					$this->session->set_userdata('error_message', 'Please add a product before adding it\'s images');
+				}
+			}
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', 'Please select an image first');
+		}
+		redirect('vendor/add-product/'.$product_id);	
+	}
+	
+	public function add_product_details($product_id)
 	{
 		//form validation rules
 		$this->form_validation->set_rules('product_name', 'Product Name', 'required|xss_clean');
@@ -147,94 +224,30 @@ class Products extends account
 		//if form has been submitted
 		if ($this->form_validation->run())
 		{
-			//upload product's gallery images
-			$resize['width'] = 600;
-			$resize['height'] = 800;
-			
-			if(is_uploaded_file($_FILES['product_image']['tmp_name']))
-			{
-				$this->load->library('image_lib');
-				
-				$products_path = $this->products_path;
-				/*
-					-----------------------------------------------------------------------------------------
-					Upload image
-					-----------------------------------------------------------------------------------------
-				*/
-				$response = $this->file_model->upload_file($products_path, 'product_image', $resize);
-				if($response['check'])
-				{
-					$file_name = $response['file_name'];
-					$thumb_name = $response['thumb_name'];
-				}
-			
-				else
-				{
-					$this->session->set_userdata('error_message', $response['error']);
-					
-					/*$data['title'] = 'Add New User';
-					$v_data['all_categories'] = $this->categories_model->all_categories();
-					$v_data['all_brands'] = $this->brands_model->all_active_brands();
-					$v_data['features'] = $this->features_model->all_features_by_category(0);
-					$data['content'] = $this->load->view('products/add_product', $v_data, true);
-					$this->load->view('account_template', $data);*/
-					//break;
-					$break = TRUE;
-				}
-			}
-			
-			else{
-				$file_name = '';
-				$thumb_name = '';
-			}
-			
-			if(!isset($break))
-			{
-			
-				$product_id = $this->products_model->add_product($file_name, $thumb_name);
-				
-				if($product_id > 0)
-				{
-					//Libraries
-					$this->load->library('upload');
-					
-					$features_response = $this->products_model->save_features($product_id);
-					
-					if($features_response)
-					{
-						$response = $this->file_model->upload_gallery($product_id, $this->gallery_path, $resize);
-						
-						if($response)
-						{
-							$this->session->set_userdata('success_message', 'Product added successfully');
-							redirect('vendor/all-products');
-						}
-						
-						else
-						{
-							if(isset($response['upload']))
-							{
-								$this->session->set_userdata('error_message', $error['upload'][0]);
-							}
-							else if(isset($response['resize']))
-							{
-								$this->session->set_userdata('error_message', $error['resize'][0]);
-							}
-							redirect('vendor/all-products');
-						}
-					}
-				}
-				
-				else
-				{
-					$this->session->set_userdata('error_message', 'Could not add product. Please try again');
-				}
-			}
+			$product_id = $this->products_model->add_product($product_id);
+			$this->session->set_userdata('success_message', 'Product updated successfully');
+			redirect('vendor/add-product/'.$product_id);
 		}
 		
+		else
+		{
+			$this->add_product();
+		}
+	}
+   
+	/*
+	*
+	*	Add a new product
+	*
+	*/
+	public function add_product($product_id = NULL) 
+	{
 		//open the add new product
 		$data['title'] = 'Add New product';
+		$v_data['product_id'] = $product_id;
 		$v_data['all_categories'] = $this->categories_model->all_categories();
+		$v_data['product_features'] = $this->products_model->get_features($product_id);
+		$v_data['vendor_shipping'] = $this->vendor_model->get_vendor_shipping($this->vendor_id);
 		$v_data['all_brands'] = $this->brands_model->all_active_brands();
 		$v_data['all_discount_types'] = $this->products_model->get_discount_types();
 		$v_data['surburbs_query'] = $this->vendor_model->get_all_surburbs();
@@ -384,10 +397,10 @@ class Products extends account
 			$v_data['all_categories'] = $this->categories_model->all_categories();
 			$v_data['all_brands'] = $this->brands_model->all_active_brands();
 			$v_data['features'] = $this->products_model->get_features($product_id);
-			$v_data['gallery_images'] = $this->products_model->get_gallery_images($product_id);
 			$v_data['all_discount_types'] = $this->products_model->get_discount_types();
 			$v_data['all_features'] = $this->features_model->all_features();
 			$v_data['surburbs_query'] = $this->vendor_model->get_all_surburbs();
+			$v_data['gallery_images'] = $this->products_model->get_gallery_images($product_id);
 			$v_data['product_locations'] = $this->products_model->get_product_locations($product_id);
 			$v_data['product'] = $query->result();
 			$data['content'] = $this->load->view('products/edit_product', $v_data, true);
@@ -628,6 +641,34 @@ class Products extends account
     
 	/*
 	*
+	*	Delete an existing product feature
+	*	@param int $feature_id
+	*
+	*/
+	public function delete_product_feature($product_id, $product_feature_id, $image = 'None', $thumb = 'None')
+	{
+		if ($image != 'None')
+		{
+			//delete image
+			$this->file_model->delete_file($this->features_path."\\".$image, $this->features_path);
+			//delete thumbnail
+			$this->file_model->delete_file($this->features_path."\\".$thumb, $this->features_path);
+		}
+		
+		if($this->products_model->delete_product_features($product_feature_id))
+		{
+			$this->session->set_userdata('success_message', 'The feature has been deleted');
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', 'Unable to delete the feature. Please try again.');
+		}
+		redirect('vendor/add-product/'.$product_id);
+	}
+    
+	/*
+	*
 	*	Activate an existing product
 	*	@param int $product_id
 	*
@@ -694,8 +735,67 @@ class Products extends account
 		
 		echo $this->load->view('products/features', $data, TRUE);
 	}
+    
+	/*
+	*
+	*	Update an existing product feature
+	*	@param int $feature_id
+	*
+	*/
+	public function update_feature($product_id, $product_feature_id, $image = 'None', $thumb = 'None')
+	{
+		$feature_name = $this->input->post('feature_value'.$product_feature_id);
+		$feature_quantity = $this->input->post('quantity'.$product_feature_id);
+		$feature_price = $this->input->post('price'.$product_feature_id);
+		
+		//upload product's gallery images
+		$resize['width'] = 600;
+		$resize['height'] = 800;
+		
+		if(is_uploaded_file($_FILES['feature_image'.$product_feature_id]['tmp_name']))
+		{
+			$this->load->library('image_lib');
+			
+			$features_path = $this->features_path;
+			/*
+				-----------------------------------------------------------------------------------------
+				Upload image
+				-----------------------------------------------------------------------------------------
+			*/
+			$response = $this->file_model->upload_single_dir_file($features_path, 'feature_image'.$product_feature_id, $resize);
+			if($response['check'])
+			{
+				$file_name = $response['file_name'];
+				$thumb_name = $response['thumb_name'];
+			}
+		
+			else
+			{
+				$this->session->set_userdata('error_message', $response['error']);
+				redirect('vendor/add-product/'.$product_id);
+			}
+		}
+		
+		else
+		{
+			$file_name = $image;
+			$thumb_name = $thumb;
+		}
+				
+		if($this->products_model->update_features($product_feature_id, $product_id, $feature_name, $feature_quantity, $feature_price, $file_name, $thumb_name))
+		{
+			$this->session->set_userdata('success_message', 'The feature has been updated successfully');
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', 'Unable to update the feature at this time. Please try again.');
+		}
+		
+		redirect('vendor/add-product/'.$product_id);
+	}
 	
-	function add_new_feature($category_feature_id)
+	function add_new_feature($category_feature_id, $product_id)
 	{
 		$feature_name = $this->input->post('sub_feature_name'.$category_feature_id);
 		$feature_quantity = $this->input->post('sub_feature_qty'.$category_feature_id);
@@ -720,29 +820,32 @@ class Products extends account
 			{
 				$file_name = $response['file_name'];
 				$thumb_name = $response['thumb_name'];
-				
-				$options = $this->products_model->add_new_features($category_feature_id, $feature_name, $feature_quantity, $feature_price, $file_name, $thumb_name);
-		
-				$return['result'] = 'success';
-				$return['result_options'] = $options;
 			}
 		
 			else
 			{
-				$return['result'] = 'image_fail';
-				$return['options'] = $response['error'];
+				$this->session->set_userdata('error_message', $response['error']);
+				redirect('vendor/add-product/'.$product_id);
 			}
 		}
 		
 		else
 		{
-			$options = $this->products_model->add_new_features($category_feature_id, $feature_name, $feature_quantity, $feature_price);
-		
-			$return['result'] = 'success';
-			$return['result_options'] = $options;
+			$file_name = 'None';
+			$thumb_name = 'None';
 		}
-			
-		echo json_encode($return);
+				
+		if($this->products_model->add_new_features($category_feature_id, $product_id, $feature_name, $feature_quantity, $feature_price, $file_name, $thumb_name))
+		{
+			$this->session->set_userdata('success_message', 'The feature has been added successfully');
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', 'Unable to add the feature at this time. Please try again.');
+		}
+		
+		redirect('vendor/add-product/'.$product_id);
 	}
 	
 	function delete_new_feature($category_feature_id, $row)
@@ -785,42 +888,18 @@ class Products extends account
 		echo $options;
 	}
 	
-	function delete_product_feature($product_feature_id)
+	public function delete_gallery_image($product_image_id, $product_id, $image_name, $thumb_name)
 	{
-		$features = $this->products_model->get_product_feature($product_feature_id);
-		$feat = $features->row();
-		
-		$product_id = $feat->product_id;
-		$feat_id = $feat->feature_id;
-		$image = $feat->image;
-		$thumb = $feat->thumb;
-		
-		//delete images
-		if($image != 'None')
+		if($this->products_model->delete_gallery_image($product_image_id, $image_name, $thumb_name, $this->gallery_path))
 		{
-			$this->file_model->delete_file($this->features_path."\\".$image, $this->features_path);
-			$this->file_model->delete_file($this->features_path."\\".$thumb, $this->features_path);
-		}
-		
-		if($this->products_model->delete_product_feature($product_feature_id))
-		{
-			
-			$v_data['features'] = $this->products_model->get_features($product_id);
-			$v_data['all_features'] = $this->features_model->all_features();
-			
-			echo $this->load->view('products/edit_features', $v_data, TRUE);
+			$this->session->set_userdata('success_message', 'Image deleted successfully');
 		}
 		
 		else
 		{
-			echo 'false';
+			$this->session->set_userdata('error_message', 'Unable to delete image please try again');
 		}
-	}
-	
-	public function delete_gallery_image($product_image_id, $product_id)
-	{
-		$this->products_model->delete_gallery_image($product_image_id);
-		redirect('edit-product/'.$product_id);
+		redirect('vendor/add-product/'.$product_id);
 	}
 	
 	function view_features()
@@ -1436,6 +1515,85 @@ class Products extends account
 		$this->db->update('product_review', $data);
 		
 		redirect('vendor/all-product-reviews');
+	}
+	
+	public function activate_pick_up($product_id)
+	{
+		if($product_id > 0)
+		{
+			if($this->products_model->update_shipping_method($product_id, 3))
+			{
+				$this->session->set_userdata('success_message', 'Pick up added to product');
+			}
+			else
+			{
+				$this->session->set_userdata('error_message', 'Pick up could not be added to product');
+			}
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', 'Please add a product before updating it\'s shipping');
+		}
+		
+		redirect('vendor/add-product/'.$product_id);
+	}
+	
+	public function add_fixed_rate($product_id)
+	{
+		if($product_id > 0)
+		{
+			$this->form_validation->set_rules('product_fixed_rate', 'Rate', 'required|greater_than[0]|xss_clean');
+			
+			//if form has been submitted
+			if ($this->form_validation->run())
+			{
+				$this->products_model->add_fixed_rate($product_id);
+				$this->session->set_userdata('success_message', 'Fixed rate added to product');
+				redirect('vendor/add-product/'.$product_id);
+			}
+			
+			else
+			{
+				$this->add_product($product_id);
+			}
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', 'Please add a product before updating it\'s shipping');
+			redirect('vendor/add-product/'.$product_id);
+		}
+	}
+	
+	public function add_product_shipping($product_id)
+	{
+		if($product_id > 0)
+		{
+			$this->form_validation->set_rules('product_width', 'Width', 'required|greater_than[0]|xss_clean');
+			$this->form_validation->set_rules('product_height', 'Height', 'required|greater_than[0]|xss_clean');
+			$this->form_validation->set_rules('product_length', 'Length', 'required|greater_than[0]|xss_clean');
+			$this->form_validation->set_rules('product_weight', 'Weight', 'required|greater_than[0]|xss_clean');
+			
+			//if form has been submitted
+			if ($this->form_validation->run())
+			{
+				$this->products_model->add_product_shipping($product_id);
+				$this->session->set_userdata('success_message', 'Auspost added to product');
+				redirect('vendor/add-product/'.$product_id);
+			}
+			
+			else
+			{
+				$this->add_product($product_id);
+			}
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', 'Please add a product before updating it\'s shipping dimensions');
+			redirect('vendor/add-product/'.$product_id);
+		}
 	}
 }
 ?>

@@ -24,8 +24,6 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/themes/view_mode_switch/';?>css/default.css" />
 
         <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/themes/view_mode_switch/';?>css/component.css" />
-        <!-- Custom -->
-        <link rel="stylesheet" href="<?php echo base_url();?>assets/themes/custom/css/style.css">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 

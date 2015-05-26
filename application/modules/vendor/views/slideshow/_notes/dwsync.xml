@@ -12,4 +12,10 @@
 <file name="add_slide.php" server="ftp.instorelook.com.au//public_html/test/" local="130679336667779032" remote="130717755000000000" Dst="0" />
 <file name="all_slides.php" server="ftp.instorelook.com.au//public_html/test/" local="130674225975048791" remote="130717755000000000" Dst="0" />
 <file name="edit_slide.php" server="ftp.instorelook.com.au//public_html/test/" local="130674228375396083" remote="130717755000000000" Dst="0" />
+<file name="add_slide.php" server="ftp.instorelook.com.au/public_html/development/" local="130766817449387677" remote="130767832200000000" Dst="0" />
+<file name="all_slides.php" server="ftp.instorelook.com.au/public_html/development/" local="130674225975048791" remote="130761663000000000" Dst="0" />
+<file name="edit_slide.php" server="ftp.instorelook.com.au/public_html/development/" local="130766817593458617" remote="130767832200000000" Dst="0" />
+<file name="add_slide.php" server="ftp.instorelook.com.au/public_html/" local="130766817449387677" remote="130767814800000000" Dst="0" />
+<file name="all_slides.php" server="ftp.instorelook.com.au/public_html/" local="130674225975048791" remote="130767814800000000" Dst="0" />
+<file name="edit_slide.php" server="ftp.instorelook.com.au/public_html/" local="130766817593458617" remote="130767814800000000" Dst="0" />
 </dwsync>

@@ -257,7 +257,7 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-											<a href="'.site_url().'vendor/edit-product/'.$product_id.'" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+											<a href="'.site_url().'vendor/add-product/'.$product_id.'" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
 											<a href="'.site_url().'products/view-product/'.$product_code.'" target="_blank" class="btn btn-sm btn-ifo"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
 											<a href="'.site_url().'vendor/duplicate-product/'.$product_id.'" class="btn btn-sm btn-warning">Duplicate</a>
 											'.$button.'
@@ -268,7 +268,7 @@ echo $this->load->view('vendor/search/search_products', $v_data, TRUE); ?>
 							</div>
 						
 						</td>
-						<td><a href="'.site_url().'vendor/edit-product/'.$product_id.'" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
+						<td><a href="'.site_url().'vendor/add-product/'.$product_id.'" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
 						<td><a href="'.site_url().'products/view-product/'.$product_code.'" target="_blank" class="btn btn-sm btn-ifo"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></td>
 						<td><a href="'.site_url().'vendor/duplicate-product/'.$product_id.'" class="btn btn-sm btn-warning">Duplicate</a></td>
 						<td>'.$button.'</td>

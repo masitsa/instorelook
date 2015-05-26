@@ -18,4 +18,11 @@
 <file name="promotion_charges_model.php" server="ftp.instorelook.com.au//public_html/test/" local="130674193282458882" remote="130717746600000000" Dst="0" />
 <file name="reports_model.php" server="ftp.instorelook.com.au//public_html/test/" local="130538221272746397" remote="130717746600000000" Dst="0" />
 <file name="users_model.php" server="ftp.instorelook.com.au//public_html/test/" local="130660295208059629" remote="130717747200000000" Dst="0" />
+<file name="blog_model.php" server="ftp.instorelook.com.au/public_html/development/" local="130607104078906366" remote="130766817600000000" Dst="0" />
+<file name="categories_model.php" server="ftp.instorelook.com.au/public_html/development/" local="130644016328838259" remote="130766817600000000" Dst="0" />
+<file name="file_model.php" server="ftp.instorelook.com.au/public_html/development/" local="130694128634746086" remote="130766817600000000" Dst="0" />
+<file name="orders_model.php" server="ftp.instorelook.com.au/public_html/development/" local="130533555954468782" remote="130766818200000000" Dst="0" />
+<file name="promotion_charges_model.php" server="ftp.instorelook.com.au/public_html/development/" local="130674193282458882" remote="130766818200000000" Dst="0" />
+<file name="reports_model.php" server="ftp.instorelook.com.au/public_html/development/" local="130726870228795719" remote="130766818200000000" Dst="0" />
+<file name="users_model.php" server="ftp.instorelook.com.au/public_html/development/" local="130660295208059629" remote="130766818200000000" Dst="0" />
 </dwsync>

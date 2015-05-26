@@ -3,6 +3,8 @@ $cart_total = $this->cart->total();
 
 //check for discounts
 $discount = 0;
+$shipping_cost = 0;
+$shipping = 0;
 
 foreach ($this->cart->contents() as $items):
 	$product_id = $items['id'];
@@ -21,8 +23,24 @@ foreach ($this->cart->contents() as $items):
 		
 		$discount = $product_selling_price - $product_sale_price;
 	}
+
+	//shipping
+	if(isset($items['options']))
+	{
+		if(isset($items['options']['shipping']))
+		{
+			$shipping = $items['options']['shipping'];
+			
+			if($shipping >= 1)
+			{
+				$shipping_cost += $items['options']['cost'];
+			}
+		}
+	}
 endforeach;
 // $cart_total -= $discount;
+$cart_total -= $discount;
+$cart_total += $shipping_cost;
 
 // $options_total = $this->load->view('site/cart/cart_features_total', '', TRUE);
 $total = $cart_total ;//+ $options_total;

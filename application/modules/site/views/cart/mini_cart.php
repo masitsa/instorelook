@@ -12,7 +12,7 @@
 			</div>
 			<!--/.miniCartTable-->
 		
-			<div class="miniCartFooter text-right">
+			<div class="miniCartFooter text-right" id="mini-cart-footer">
 				<?php
 					echo $this->load->view('site/cart/cart_footer', '', TRUE);
 				?>
