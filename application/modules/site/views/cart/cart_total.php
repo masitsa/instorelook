@@ -22,10 +22,10 @@ foreach ($this->cart->contents() as $items):
 		$discount = $product_selling_price - $product_sale_price;
 	}
 endforeach;
-$cart_total -= $discount;
+// $cart_total -= $discount;
 
-$options_total = $this->load->view('site/cart/cart_features_total', '', TRUE);
-$total = $cart_total + $options_total;
+// $options_total = $this->load->view('site/cart/cart_features_total', '', TRUE);
+$total = $cart_total ;//+ $options_total;
 echo number_format($total, 2);
 
 ?>

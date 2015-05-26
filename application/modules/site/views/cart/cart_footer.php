@@ -1,5 +1,5 @@
 <h3 class="text-right subtotal" id="cart_sub_total"> 
-   	Subtotal: $<?php echo $this->load->view('site/cart/cart_total', '', TRUE);?> 
+   	Subtotal: $ <?php echo $this->load->view('site/cart/cart_total', '', TRUE);?> 
 </h3>
 <div id="cart-footer-buttons">
 <?php
