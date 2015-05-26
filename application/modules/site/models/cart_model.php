@@ -433,6 +433,8 @@ class Cart_model extends CI_Model
 		//we will have one order per vendor if multiple were selected
 		$orders = array();
 		$vendor_ids = array();
+		$isl_email = 'info@instorelook.com.au';
+		$isl_refferal_total = 0;
 		
 		foreach ($this->cart->contents() as $items): 
 			
@@ -626,10 +628,14 @@ class Cart_model extends CI_Model
 							{
 								$order_item_id = $this->db->insert_id();
 								
+								//remove $1.00 from the product to go to ISL
+								$to_business_total = ($total_price + $total_additional_price) - 1;
+								$isl_refferal_total += 1;
+								
 								//create invoice items
 								array_push($invoice_items, array(
 										"name" => $product_name,
-										"price" => ($total_price + $total_additional_price),
+										"price" => $to_business_total,
 										"identifier" => $order_item_id
 									)
 								);
@@ -681,6 +687,13 @@ class Cart_model extends CI_Model
 				);
 			}
 		}
+		
+		//add ISL refferal charge
+		array_push($vendor_data, array(
+				'email' => $isl_email, 
+				'amount' => $isl_refferal_total
+			)
+		);
 		
 		//create return data
 		$return['vendor_data'] = $vendor_data;
