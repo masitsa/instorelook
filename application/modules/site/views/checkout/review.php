@@ -13,17 +13,23 @@
 	?>
     <?php //echo $this->load->view('cart/cart');?>
     <div class="row">
-        <div class="col-md-3">
-            Vendor
+        <div class="col-md-2">
+            Business
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             Shipping address
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
+            Items
+        </div>
+        <div class="col-md-2">
             Order total ($)
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             Shipping cost ($)
+        </div>
+        <div class="col-md-2">
+             Total ($)
         </div>
     </div>
 	
@@ -330,7 +336,7 @@
 								</td>
 								
 								<td data-title="Discount" class="col_discount text-left">
-									<span class="single-price">$'.$product_sale_price.'</span>
+									<span class="single-price">$'.$discount.'</span>
 								</td>
 								
 								<td data-title="Discount" class="col_discount text-left">
@@ -344,7 +350,28 @@
 						}
 					}
 				}
-					
+				$from = '';
+				$to = '';
+				$shipping = 'from ';
+				if(empty($from))
+				{
+					$shipping .= ' - ';
+				}
+				else
+				{
+					$shipping .= $from;
+				}
+				$shipping .= ' to ';
+				if(empty($to))
+				{
+					$shipping .= ' - ';
+				}
+				else
+				{
+					$shipping .= $to;
+				}
+				
+				$total_price = $shipping_cost2 + $total;
 				//display vendor
 				?>
 				<div class="panel panel-default">
@@ -352,18 +379,24 @@
 						<a data-toggle="collapse"  href="#collapse-order<?php echo $vendor_id;?>" class="collapseWill"> 
 							<h4 class="panel-title"> 
 								<div class="row">
-									<div class="col-md-3">
+									<div class="col-md-2">
 										<span class="pull-left"> <i class="fa fa-caret-right"></i></span>
 										<?php echo $vendor_store_name;?>
 									</div>
-									<div class="col-md-3">
-										Ship from <?php echo $from;?> to <?php echo $to;?>
+									<div class="col-md-2">
+										 <?php echo $shipping;?>
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-2">
+										<?php echo $total_order_items;?>
+									</div>
+									<div class="col-md-2">
 										<?php echo number_format($total, 2);?>
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-2">
 										<?php echo number_format($shipping_cost2, 2);?>
+									</div>
+									<div class="col-md-2">
+										<?php echo number_format($total_price, 2);?>
 									</div>
 								</div>
 							</h4>

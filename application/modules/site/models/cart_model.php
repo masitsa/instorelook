@@ -365,6 +365,66 @@ class Cart_model extends CI_Model
 		
 		return $cart;
 	}
+
+
+
+	/*
+	*
+	*	Get the items in cart
+	*
+	*/
+	public function get_side_cart()
+	{
+		$cart = '
+					<table  style="100%">
+						<tr>
+							<th style="width:45%;"> Name</th>
+							<th style="width:21%;">Qty</th>
+							<th style="width:21%;">Price</th>
+							<th style="width:21%;">Total</th>
+						</tr>
+						<tbody>';
+		
+		foreach ($this->cart->contents() as $items): 
+
+			$cart_product_id = $items['id'];
+			
+			//get product details
+			$product_details = $this->products_model->get_product($cart_product_id);
+			
+			if($product_details->num_rows() > 0)
+			{
+				$product = $product_details->row();
+				$products_path = realpath(APPPATH . '../assets/images/products/images');
+				$products_location = base_url().'assets/images/products/images/';
+				
+				$product_thumb = $product->product_thumb_name;
+				$product_code = $product->product_code;
+				$total = number_format($items['qty']*$items['price'], 0, '.', ',');
+				$image = $this->products_model->image_display($products_path, $products_location, $product_thumb);
+			
+				$cart .= '
+							<tr class="miniCartProduct">
+								
+								<td style="width:45%;">
+									<a href="'.site_url().'products/view-product/'.$product_code.'"> '.$items['name'].' </a>
+									
+								</td>
+								<td   style="width:21%;"><a > X '.$items['qty'].' </a></td>
+								<td  style="width:21%;"><a >  <span> $'.number_format($items['price'], 0, '.', ',').' </span> </td>
+								<td  style="width:21%;"><span> $'.$total.' </span></td>
+							</tr>
+				';
+			}
+		
+		endforeach; 
+		
+		$cart .= '
+						</tbody>
+					</table>';
+		
+		return $cart;
+	}
     
 	/*
 	*

@@ -39,7 +39,7 @@ foreach ($this->cart->contents() as $items):
 	}
 endforeach;
 // $cart_total -= $discount;
-$cart_total -= $discount;
+// $cart_total -= $discount;
 $cart_total += $shipping_cost;
 
 // $options_total = $this->load->view('site/cart/cart_features_total', '', TRUE);

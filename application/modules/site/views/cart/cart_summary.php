@@ -17,14 +17,27 @@
        
         <div class="box">
             <div class="hgroup title">
-                <h3> <?php echo $cart_items;?> <?php echo $item_title?></h3>
-                <h5>Shipping costs and taxes will be evaluated during checkout</h5>
+                 <?php echo $this->cart_model->get_side_cart();?>
              </div>
 
              <ul class="price-list">
+             <table style="width:100%;">
+                 <tr>
+                     <td style="width:35%;"></td>
+                     <td style="width:42%;">Shipping Cost:</td>
+                     <td style="width:50%;">$ <?php echo $this->load->view('cart/shipping_total');?></td>
+                 </tr>
+                 <tr>
+                     <td style="width:35%;"></td>
+                     <td style="width:42%;">Total Cost:</td>
+                     <td style="width:50%;"> $ <?php echo $this->load->view('cart/cart_total');?></td>
+                 </tr>
+             </table>
+             
                 <!--<li>Subtotal: <strong>$ <?php echo $this->load->view('cart/cart_total');?></strong></li>-->
-                <li class="important">Total: <strong>$ <?php echo $this->load->view('cart/cart_total');?> </strong></li>
+                
             </ul>
+
         </div>
     </div> 
 </div>
