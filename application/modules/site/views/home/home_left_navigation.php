@@ -377,7 +377,8 @@ if($top_sellers->num_rows() == 0)
                         <li>
 							<div class="row">
 								<div class="col-md-6">
-									<a class="cbp-vm-image img-responsive" href="'.site_url().'products/view-product/'.$product_code.'"><img src="'.$image.'"></a>
+									<a  href="'.site_url().'products/view-product/'.$product_code.'">
+                                    <img class="cbp-vm-image img-responsive" src="'.$image.'"></a>
 								</div>
 								
 								<div class="col-md-6">
