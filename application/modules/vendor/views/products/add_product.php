@@ -7,6 +7,7 @@ $vendor_shipping_rate = $ship_row->vendor_shipping_rate;
 if($product_id > 0)
 {
 	$query = $this->products_model->get_product($product_id);
+	
 	$product = $query->result();
 	$gallery_images = $this->products_model->get_gallery_images($product_id);
 	$product_locations = $this->products_model->get_product_locations($product_id);
@@ -535,6 +536,7 @@ else
                 <?php echo form_close();?>
                                 </div>
                                 <div class="tab-pane" id="tab_default_3">
+                                	<a href="<?php echo site_url().'vendor/add-feature';?>" class="btn btn-primary btn-sm pull-right">Add features classes</a>
                                     <p>
                                         Add features that describe your product e.g. color, size
                                     </p>

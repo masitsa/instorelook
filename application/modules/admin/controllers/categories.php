@@ -183,10 +183,10 @@ class Categories extends admin {
 				$categories_path = $this->categories_path;
 				
 				//delete original image
-				$this->file_model->delete_file($categories_path."\\".$this->input->post('current_image'));
+				$this->file_model->delete_file($categories_path."\\".$this->input->post('current_image'), $this->categories_path);
 				
 				//delete original thumbnail
-				$this->file_model->delete_file($categories_path."\\thumbnail_".$this->input->post('current_image'));
+				$this->file_model->delete_file($categories_path."\\thumbnail_".$this->input->post('current_image'), $this->categories_path);
 				/*
 				/*
 					-----------------------------------------------------------------------------------------
@@ -279,9 +279,9 @@ class Categories extends admin {
 			
 			$this->load->model('file_model');
 			//delete image
-			$this->file_model->delete_file($this->categories_path."/images/".$image);
+			$this->file_model->delete_file($this->categories_path."/images/".$image, $this->categories_path);
 			//delete thumbnail
-			$this->file_model->delete_file($this->categories_path."/thumbs/".$image);
+			$this->file_model->delete_file($this->categories_path."/thumbs/".$image, $this->categories_path);
 		}
 		$this->categories_model->delete_category($category_id);
 		$this->session->set_userdata('success_message', 'Category has been deleted');

@@ -1,0 +1,780 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Cart || Timeplus</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+        <!-- Place favicon.ico in the root directory -->
+
+		<!-- font css -->
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+           
+        <!-- all css here -->
+        <!-- Master CSS -->
+        <link rel="stylesheet" href="master.css">
+        <!-- modernizr css -->
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- header start -->
+        <header class="header_area">
+            <div class="header_top_area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 hidden-xs">
+                            <div class="header_top_left">
+                                <p> Call us now: <span>0123-456-789</span></p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 hidden-xs">
+                            <div class="header_top_right">
+                                <nav>
+                                    <ul>
+                                        <li class="language"><a id="header_sub" href="cart.html#">English</a>
+                                            <ul id="header_submenu">
+                                                <li class="active"><a href="cart.html#">French</a></li>
+                                                <li><a href="cart.html#">اللغة العربية</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="currency"><a id="header_sub_cur" href="cart.html#">EUR</a>
+                                            <ul id="header_submenu_cur">
+                                                <li><a href="cart.html#">Dollar(USD)</a></li>
+                                                <li><a href="cart.html#">Euro(EUR)</a></li>
+                                                <li><a href="cart.html#">Riyal(SAR)</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header_middle_area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="header_logo">
+                                <a href="index.html"><img src="img/logo/header_logo.jpg" alt="Timeplus"></a>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-8 col-md-6">
+                            <div class="header_cat_search">
+                                <form id="searchbox" class="search_form" action="cart.html#">
+                                    <input type="search" placeholder="Enter your search key ...">
+                                    <button type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                    <div class="header_cat">
+                                        <select name="category" id="cat_items">
+                                            <option>categories</option>
+                                            <option>--smartphone--</option>
+                                            <option>--computer--</option>
+                                            <option>--smartphone--</option>
+                                            <option>--clothing--</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="hidden-xs hidden-sm col-md-2">
+                            <div class="cart_header">
+                                <h2 class="cart_info" id="account_sub">My Account</h2>
+                                <div class="user_info">
+                                    <ul id="account_submenu">
+                                        <li><a href="account.html">Sign in</a></li>
+                                        <li><a href="cart.html">My Cart</a></li>
+                                        <li><a href="cart.html#">Compare</a></li>
+                                        <li><a href="account.html">My Account</a></li>
+                                        <li><a href="wishlist.html">Wishlist</a></li>
+                                        <li><a href="checkout.html">Check out</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-1 col-sm-1 clearfix">
+                            <div class="shopping_cart">
+                                <a href="cart.html#">
+                                    <img src="img/icon/icon_cart.png" alt="">
+                                    <span>2</span>
+                                </a>
+                                <div class="mini-cart-content">
+                                    <div class="total_cart">
+                                        <div class="cart-img-details">											
+                                            <div class="cart-img-photo">
+                                                <a href="cart.html"><img alt="accessories" src="img/icon/menu.jpg"></a>
+                                            </div>
+                                            <div class="cart-img-contaent">
+                                                <a href="cart.html#"><h4>1 x Print Dress</h4></a>
+                                                <h5>S. Yellow</h5>
+                                                <h4>$16.40</h4>
+                                            </div>
+                                            <div class="pro-del"><a href="cart.html#"><i class="fa fa-times-circle"></i></a></div>
+                                        </div>
+                                        <div class="cart-img-details">											
+                                            <div class="cart-img-photo">
+                                                <a href="cart.html"><img alt="accessories" src="img/icon/menu2.png"></a>
+                                            </div>
+                                            <div class="cart-img-contaent">
+                                                <a href="cart.html#"><h4>1 x Print Dress</h4></a>
+                                                <h5>S. Yellow</h5>
+                                                <h4>$10.00</h4>
+                                            </div>
+                                            <div class="pro-del"><a href="cart.html#"><i class="fa fa-times-circle"></i></a></div>
+                                        </div>
+                                    </div>    
+                                    <div class="cart_shipping">
+                                        <h2 class="shipping">Shipping <strong>$7.00</strong></h2>
+                                        <h2 class="total">Total <strong>$33.40</strong></h2>
+                                    </div>
+                                    <div class="check_out text-center">
+                                        <h1><a href="checkout.html">Check Out</a></h1>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mainmenu_area">
+                <div class="container">
+                    <div class="row">
+                        <div class="hidden-xs hidden-sm col-md-3">
+                            <div class="category_menu hidden-xs">
+                                <div class="category_title show-submenu">
+                                    <h3>Category</h3>
+                                </div>
+                                <div class="category_menu_content submenu">
+                                   <ul>
+                                       <li><a href="cart.html#"><img src="img/icon/phone.jpg" alt="">Smartphone &amp; Accessories</a>
+                                           <ul class="sub-menu clearfix">
+                                                <li class="sub-sec col-md-6">
+                                                    <ul>   
+                                                        <li><a href="cart.html#" class="title">Category 1</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 1</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 2</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 3</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 4</a></li> 
+                                                    </ul>    
+                                                </li>
+                                                <li class="sub-sec col-md-6">
+                                                    <ul>
+                                                        <li><a href="cart.html#" class="title">Category 2</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 1</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 2</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 3</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 4</a></li>  
+                                                    </ul>    
+                                                </li>                                        
+                                                <li class="sub-sec col-md-6">
+                                                    <ul>   
+                                                        <li><a href="cart.html#" class="title">Category 3</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 1</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 2</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 3</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 4</a></li>  
+                                                    </ul>    
+                                                </li>
+                                                <li class="sub-sec col-md-6">
+                                                    <ul>
+                                                        <li><a href="cart.html#" class="title">Category 4</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 1</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 2</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 3</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 4</a></li> 
+                                                    </ul>    
+                                                </li>
+                                            </ul>
+                                       </li>
+                                       <li><a href="cart.html#"><img src="img/icon/computer.jpg" alt="">Computers &amp; Networking</a>
+                                           <ul class="sub-menu clearfix">
+                                                <li class="sub-sec col-md-6">
+                                                    <ul>   
+                                                        <li><a href="cart.html#" class="title">Category 1</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 1</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 2</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 3</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 4</a></li> 
+                                                    </ul>    
+                                                </li>
+                                                <li class="sub-sec col-md-6">
+                                                    <ul>
+                                                        <li><a href="cart.html#" class="title">Category 2</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 1</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 2</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 3</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 4</a></li>  
+                                                    </ul>    
+                                                </li>                                        
+                                                <li class="sub-sec col-md-6">
+                                                    <ul>   
+                                                        <li><a href="cart.html#" class="title">Category 3</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 1</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 2</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 3</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 4</a></li>  
+                                                    </ul>    
+                                                </li>
+                                            </ul>
+                                       </li>
+                                       <li><a href="cart.html#"><img src="img/icon/tablet.jpg" alt="">Smartphones &amp; Tablets</a>
+                                           <ul class="sub-menu clearfix">
+                                                <li class="sub-sec col-md-6">
+                                                    <ul>   
+                                                        <li><a href="cart.html#" class="title">Category 1</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 1</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 2</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 3</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 4</a></li> 
+                                                    </ul>    
+                                                </li>
+                                                <li class="sub-sec col-md-6">
+                                                    <ul>
+                                                        <li><a href="cart.html#" class="title">Category 2</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 1</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 2</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 3</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 4</a></li>  
+                                                    </ul>    
+                                                </li>
+                                            </ul>
+                                        </li>
+                                       <li><a href="cart.html#"><img src="img/icon/home.jpg" alt="">Home &amp; Office</a>
+                                            <ul class="sub-menu clearfix">
+                                                <li class="sub-sec col-md-6">
+                                                    <ul>   
+                                                        <li><a href="cart.html#" class="title">Category 1</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 1</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 2</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 3</a></li>
+                                                        <li><a href="cart.html#"><i class="fa fa-angle-double-right"></i> Single Item 4</a></li> 
+                                                    </ul>    
+                                                </li>
+                                           </ul>    
+                                       </li>
+                                       <li><a href="cart.html#"><img src="img/icon/sport.jpg" alt="">Sports &amp; Outdoors</a></li>
+                                       <li><a href="cart.html#"><img src="img/icon/clothing.jpg" alt="">Clothing &amp; Accessories</a></li>
+                                       <li><a href="cart.html#"><img src="img/icon/health.jpg" alt="">Health &amp; Beauty</a></li>
+                                       <li><a href="cart.html#"><img src="img/icon/camera.jpg" alt="">Cameras &amp; Camcoders</a></li>
+                                       <li><a href="cart.html#"><img src="img/icon/jewelery.jpg" alt="">Jewelry &amp; Watches</a></li>
+                                       <li><a href="cart.html#"><img src="img/icon/fashion.jpg" alt="">Fashionista</a></li>
+                                   </ul> 
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-9 hidden-xs">
+                            <div class="mainmenu">
+                                <nav>   
+                                    <ul>
+                                        <li class="active"><a href="index.html">Home</a>
+                                            <ul class="submenu_mainmenu">
+                                                <li><a href="index-2.html">Home Version 2</a></li>
+                                                <li><a href="index-3.html">Home Version 3</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="cart.html#">Delivery</a></li>
+                                        <li><a href="cart.html#">Legal Notice</a></li>
+                                        <li><a href="cart.html#">Secure Payment</a></li>
+                                        <li><a href="shop-grid.html">Pages</a>
+                                            <ul class="submenu_mainmenu">
+                                                <li><a href="blog.html">Blog</a></li>
+                                                <li><a href="blog-details.html">Blog Details</a></li>
+                                                <li><a href="shop-grid.html">Shop Grid</a></li>
+                                                <li><a href="shop-list.html">Shop List</a></li>
+                                                <li><a href="single-product.html">Single Product</a></li>
+                                                <li><a href="cart.html">Cart</a></li>
+                                                <li><a href="checkout.html">Checkout</a></li>
+                                                <li><a href="account.html">My Account</a></li>
+                                                <li><a href="wishlist.html">Wishlist</a></li>
+                                                <li><a href="contact.html">Contact</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="about.html">About Us</a></li>
+                                    </ul>
+                                </nav>       
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- MainMenu Area end -->            
+            <!-- Mobile Menu Area start -->
+            <div class="mobile-menu-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="mobile-menu">
+                                <nav id="dropdown">
+                                    <ul>
+                                        <li><a href="index.html">HOME</a>
+                                            <ul>
+                                                <li><a href="index-2.html">Home Version 2</a></li>
+                                                <li><a href="index-3.html">Home Version 3</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="cart.html#">Delivery</a></li>
+                                        <li><a href="cart.html#">Legal Notice</a></li>
+                                        <li><a href="cart.html#">Secure Payment</a></li>
+                                        <li><a href="shop-grid.html">Pages</a>
+                                            <ul>
+                                                <li><a href="blog.html">Blog</a></li>
+                                                <li><a href="blog-details.html">Blog Details</a></li>
+                                                <li><a href="shop-grid.html">Shop Grid</a></li>
+                                                <li><a href="shop-list.html">Shop List</a></li>
+                                                <li><a href="single-product.html">Single Product</a></li>
+                                                <li><a href="cart.html">Cart</a></li>
+                                                <li><a href="checkout.html">Checkout</a></li>
+                                                <li><a href="account.html">My Account</a></li>
+                                                <li><a href="wishlist.html">Wishlist</a></li>
+                                                <li><a href="contact.html">Contact</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="about.html">About Us</a></li>
+                                    </ul>
+                                </nav>
+                            </div>					
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Menu Area end -->		
+        </header>
+        <!-- header end -->
+        <!--Breadcrumb Start-->
+        <div class="breadcrumb-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="breadcrumb">
+                            <a href="index.html"><i class="fa fa-home"></i>Home</a>
+                            <span class="navigation-pipe"><i class="fa fa-angle-right"></i></span>
+                            <span class="navigation_page">Cart</span>
+                        </div>
+                    </div>    
+                </div>
+            </div>
+        </div>
+        <!--End of Breadcrumb-->
+        <!--Cart Main Area Start-->
+        <div class="cart-main-area area-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="page-title">
+                            <h1>Shopping Cart</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <form action="cart.html#">
+                            <div class="cart-table table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="p-image">Product Image</th>
+                                            <th class="p-name">Product Name</th>
+                                            <th class="p-edit"></th>
+                                            <th class="p-amount">Unit Price</th>
+                                            <th class="p-quantity">Qty</th>
+                                            <th class="p-total">SubTotal</th>
+                                            <th class="p-times"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="p-image">
+                                                <a href="https://devitems.com/tf/timeplus-preview/timeplus/product-details.html"><img alt="" src="img/cart/4.jpg" class="floatleft"></a>
+                                            </td>
+                                            <td class="p-name"><a href="https://devitems.com/tf/timeplus-preview/timeplus/product-details.html">Aliquam consequat</a></td>
+                                            <td class="edit"><a href="https://devitems.com/tf/timeplus-preview/timeplus/product-details.html">Edit</a></td>
+                                            <td class="p-amount">$120.00</td>
+                                            <td class="p-quantity"><input maxlength="12" type="text" value="1" name="quantity"></td>
+                                            <td class="p-total">$120.00</td>
+                                            <td class="p-action"><a href="cart.html#"><i class="fa fa-times"></i></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-image">
+                                                <a href="https://devitems.com/tf/timeplus-preview/timeplus/product-details.html"><img alt="" src="img/cart/5.jpg" class="floatleft"></a>
+                                            </td>
+                                            <td class="p-name"><a href="https://devitems.com/tf/timeplus-preview/timeplus/product-details.html">Proin lectus ipsum</a></td>
+                                            <td class="edit"><a href="https://devitems.com/tf/timeplus-preview/timeplus/product-details.html">Edit</a></td>
+                                            <td class="p-amount">$480.00</td>
+                                            <td class="p-quantity"><input maxlength="12" type="text" value="1" name="quantity"></td>
+                                            <td class="p-total">$480.00</td>
+                                            <td class="p-action"><a href="cart.html#"><i class="fa fa-times"></i></a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="all-cart-buttons">
+                                    <button class="button" type="button"><span>Continue Shopping</span></button>
+                                    <div class="floatright">
+                                        <button class="button clear-cart" type="button"><span>Clear Shopping Cart</span></button>
+                                        <button class="button" type="button"><span>Update Shopping Cart</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="shipping-discount">
+                                        <div class="shipping-title">
+                                            <h3>Estimate Shipping And Tax</h3>
+                                        </div>
+                                        <p>Enter your destination to get shipping &amp; tax</p>
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-6">
+                                                <div class="level">
+                                                    Country <span class="required">*</span>
+                                                </div>
+                                                <div class=" shipping-wrapper">
+                                                  <select class="country">
+                                                    <option value="state">Select options</option>
+                                                    <option value="state">Bahasa Indonesia</option>
+                                                    <option value="state">Bahasa Melayu</option>		
+                                                    <option value="state">Deutsch (Deutschland)</option>		
+                                                    <option value="state">English (Australia)</option>		
+                                                    <option value="state">English (Canada)</option>		
+                                                    <option value="state">English (India)</option>		
+                                                    <option value="state">English (Ireland)</option>		
+                                                    <option value="state">English (Maktoob)</option>		
+                                                    <option value="state">English (Malaysia)</option>		
+                                                  </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-6">
+                                                <div class="level">
+                                                    State/Province
+                                                </div>
+                                                <div class=" shipping-wrapper">
+                                                  <select class="country">
+                                                    <option value="state">Select options</option>
+                                                    <option value="state">South Carolina</option>
+                                                    <option value="state">South Dakota</option>
+                                                    <option value="state">Tennessee</option>		
+                                                    <option value="state">Texas</option>		
+                                                    <option value="state">Utah</option>		
+                                                    <option value="state">Vermont</option>		
+                                                    <option value="state">Virginia</option>		
+                                                    <option value="state">Washington</option>		
+                                                    <option value="state">West Virginia</option>		
+                                                    <option value="state">Wyoming</option>		
+                                                  </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="postal-code">
+                                                    <div class="level">
+                                                        Zip / Postal Code 
+                                                    </div>
+                                                    <input type="text" placeholder="" name="zip-code">
+                                                </div>
+                                                <div class="buttons-set">
+                                                    <button class="button" type="button"><span>Get a Quote</span></button>
+                                                </div>
+                                            </div>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="shipping-discount">
+                                        <div class="shipping-title">
+                                            <h3>Discount Code</h3>
+                                        </div>
+                                        <p>Enter your coupon code if you have one</p>
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="postal-code">
+                                                    <input type="text" placeholder="">
+                                                </div>
+                                                <div class="buttons-set">
+                                                    <button class="button" type="button"><span>Apply Coupon</span></button>
+                                                </div>
+                                            </div>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="amount-totals">
+                                        <p class="total">Subtotal <span>$156.87</span></p>
+                                        <p class="total">Grandtotal <span>$313.74</span></p>
+                                        <button class="button" type="button"><span>Procced to checkout</span></button>
+                                        <div class="clearfix"></div>
+                                        <p class="floatright">Checkout with multiples address</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End of Cart Main Area-->        
+        <!-- client start -->
+        <div class="client_area">
+            <div class="container">
+                <div class="row">
+                    <div class="client_owl">
+                        <div class="col-sm-3">
+                            <div class="single_client">
+                                <a href="cart.html#"><img src="img/client/1.jpg" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="single_client">
+                                <a href="cart.html#"><img src="img/client/2.jpg" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="single_client">
+                                <a href="cart.html#"><img src="img/client/3.jpg" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="single_client">
+                                <a href="cart.html#"><img src="img/client/4.jpg" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="single_client">
+                                <a href="cart.html#"><img src="img/client/5.jpg" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="single_client">
+                                <a href="cart.html#"><img src="img/client/1.jpg" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="single_client">
+                                <a href="cart.html#"><img src="img/client/2.jpg" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="single_client">
+                                <a href="cart.html#"><img src="img/client/3.jpg" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="single_client">
+                                <a href="cart.html#"><img src="img/client/4.jpg" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="single_client">
+                                <a href="cart.html#"><img src="img/client/5.jpg" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- client end -->
+        <!-- footer start -->
+        <footer class="footer_area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-3">
+                        <div class="footer_widget">
+                            <a class="footer_logo" href="index.html"><img src="img/logo/logo_footer.png" alt="Timeplus"></a>
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy...</p>
+                        </div>
+                        <div class="contact_info_footer">
+                            <ul>
+                                <li>
+                                    <span class="lbl">Company</span>
+                                    <p>My Company</p>
+                                </li>
+                                <li>
+                                    <span class="lbl">Address</span>
+                                    <p>42 avenue des Champs Elysées
+                                    75000 Paris
+                                    France</p>
+                                </li>
+                                <li>
+                                    <span class="lbl">Phone</span>
+                                    <p>0123-456-789</p>
+                                </li>
+                                <li>
+                                    <span class="lbl">Email</span>
+                                    <p>admin@bootexperts.com</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 hidden-sm hidden-md col-lg-2">
+                        <div class="footer_widget">
+                            <h4>Our Store</h4>
+                            <ul class="toggle-footer" style="">
+							    <li class="item"><a href="cart.html#">Specials</a></li>
+							    <li class="item"><a href="cart.html#">New products</a></li>
+							    <li class="item"><a href="cart.html#">Best sellers</a></li>
+							    <li class="item"><a href="cart.html#">Our stores</a></li>
+							    <li class="item"><a href="contact.html">Contact us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 hidden-sm hidden-md col-lg-2">
+                        <div class="footer_widget">
+                            <h4>Information</h4>
+                            <ul class="toggle-footer" style="">
+							    <li class="item"><a href="cart.html#">Delivery</a></li>
+							    <li class="item"><a href="cart.html#">Legal Notice</a></li>
+							    <li class="item"><a href="cart.html#">Terms and conditions</a></li>
+							    <li class="item"><a href="cart.html#">About us</a></li>
+							    <li class="item"><a href="cart.html#">Secure payment</a></li>
+							    <li class="item"><a href="cart.html#">Sitemap</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2">
+                        <div class="footer_widget">
+                            <h4>My Account</h4>
+                            <ul class="toggle-footer" style="">
+							    <li class="item"><a href="cart.html#">Delivery</a></li>
+							    <li class="item"><a href="cart.html#">Legal Notice</a></li>
+							    <li class="item"><a href="cart.html#">Terms and conditions</a></li>
+							    <li class="item"><a href="cart.html#">About us</a></li>
+							    <li class="item"><a href="cart.html#">Secure payment</a></li>
+							    <li class="item"><a href="cart.html#">Sitemap</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
+                        <div class="footer_widget">
+                            <h4>Newsletter</h4>
+                            <p>Subscribe to our mailing list to receive updates on new arrivals, special offers and other discount information.</p>
+                            <form method="post" action="https://demo.posthemes.com/pos_timeplus/en/">
+                                <div class="form-group">
+                                    <input type="text" placeholder="Enter your e-mail" id="newsletter-input">
+                                    <button class="button-small" type="submit">
+                                        <span>Ok</span>
+                                    </button>
+                                </div>
+                            </form>
+                            <div id="social_block">
+                                <a href="cart.html#" class="facebook"><i class="fa fa-facebook"></i></a>
+                                <a href="cart.html#" class="twitter"><i class="fa fa-twitter"></i></a>
+                                <a href="cart.html#" class="rss"><i class="fa fa-rss"></i></a>
+                                <a href="cart.html#" class="youtube"><i class="fa fa-youtube"></i></a>
+                                <a href="cart.html#" class="google"><i class="fa fa-google-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- footer end -->
+            <!-- footer bottom start-->
+            <div class="footer_bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="copyright">
+                                <p>COPYRIGHT &copy; 2016 <a href="http://bootexperts.com/">BootExperts</a> ALL RIGHTS RESERVED</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="payment_img">
+                                <img alt="" src="img/payment/payment.png" class="img-responsive">
+                            </div>
+                        </div>
+                    </div>        
+                </div>
+            </div>
+        </footer>
+        <!-- footer bottom end -->
+        
+        <!-- QUICKVIEW PRODUCT -->
+        <div id="quickview-wrapper">
+            <!-- Modal -->
+            <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-product">
+                                <div class="product-images">
+                                    <div class="main-image images">
+                                        <img alt="" src="img/product/5.jpg">
+                                    </div>
+                                </div><!-- .product-images -->
+
+                                <div class="product-info">
+                                    <h1>Diam quis cursus</h1>
+                                    <div class="price-box">
+                                        <p class="price"><span class="special-price"><span class="amount">$132.00</span></span></p>
+                                    </div>
+                                    <a href="https://devitems.com/tf/timeplus-preview/timeplus/shop.html" class="see-all">See all features</a>
+                                    <div class="quick-add-to-cart">
+                                        <form method="post" class="cart">
+                                            <div class="numbers-row">
+                                                <input type="number" id="french-hens" value="3">
+                                            </div>
+                                            <button class="single_add_to_cart_button" type="submit">Add to cart</button>
+                                        </form>
+                                    </div>
+                                    <div class="quick-desc">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla.
+                                    </div>
+                                    <div class="social-sharing">
+                                        <div class="widget widget_socialsharing_widget">
+                                            <h3 class="widget-title-modal">Share this product</h3>
+                                            <ul class="social-icons">
+                                                <li><a target="_blank" title="Facebook" href="cart.html#" class="facebook social-icon"><i class="fa fa-facebook"></i></a></li>
+                                                <li><a target="_blank" title="Twitter" href="cart.html#" class="twitter social-icon"><i class="fa fa-twitter"></i></a></li>
+                                                <li><a target="_blank" title="Pinterest" href="cart.html#" class="pinterest social-icon"><i class="fa fa-pinterest"></i></a></li>
+                                                <li><a target="_blank" title="Google +" href="cart.html#" class="gplus social-icon"><i class="fa fa-google-plus"></i></a></li>
+                                                <li><a target="_blank" title="LinkedIn" href="cart.html#" class="linkedin social-icon"><i class="fa fa-linkedin"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div><!-- .product-info -->
+                            </div><!-- .modal-product -->
+                        </div><!-- .modal-body -->
+                    </div><!-- .modal-content -->
+                </div><!-- .modal-dialog -->
+            </div>
+            <!-- END Modal -->
+        </div>
+        <!-- END QUICKVIEW PRODUCT -->
+
+		<!-- all js here -->
+		<!-- jquery latest version -->
+        <script src="js/vendor/jquery-1.12.4.min.js"></script>
+		<!-- bootstrap js -->
+        <script src="js/bootstrap.min.js"></script>
+		<!-- meanmenu js -->
+        <script src="js/jquery.meanmenu.js"></script>
+		<!-- countdown js -->
+        <script src="js/jquery.countdown.min.js"></script>
+        <!-- Nevo Slider js -->         
+        <script  src="js/jquery.nivo.slider.pack.js"></script>
+		<!-- owl.carousel js -->
+        <script src="js/owl.carousel.min.js"></script>
+		<!-- price slider js -->
+        <script src="js/jquery-price-slider.js"></script>
+		<!-- jquery-ui js -->
+        <script src="js/jquery-ui.min.js"></script>
+        <!-- Elevatezoom JS -->		
+        <script src="js/jquery.elevateZoom-3.0.8.min.js"></script>
+		<!-- wow js -->
+        <script src="js/wow.min.js"></script> 
+		<!-- plugins js -->
+        <script src="js/plugins.js"></script>
+		<!-- main js -->
+        <script src="js/main.js"></script>
+    </body>
+</html>
+
+

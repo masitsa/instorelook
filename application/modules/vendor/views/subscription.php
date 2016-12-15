@@ -72,8 +72,8 @@
 											{
 												foreach($categories->result() as $cat)
 												{
-													//$selected = '';
-													$selected = 'selected';
+													$selected = '';
+													//$selected = 'selected';
 													if($vendor_categories->num_rows() > 0)
 													{
 														foreach($vendor_categories->result() as $cat2)

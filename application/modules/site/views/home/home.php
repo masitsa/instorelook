@@ -1,28 +1,16 @@
-<div class="container">
-	<div class="row" style="margin-top:0;">
-        
-    	<div class="col-md-12 col-lg-12" style="padding:0; margin-bottom:10px;">
-            <!-- Slider -->
-            <?php echo $this->load->view('home/slider', '', TRUE); ?>
-        </div>
-	</div>
-    
-    <div class="row">
-        
-    	<div class="col-lg-3 col-md-3 col-sm-12" style="padding:0; padding-right:15px;">
-        	<?php echo $this->load->view('home/home_left_navigation');?>
-        </div>
-        
-    	<div class="col-md-9 col-lg-9 col-sm-12" style="padding:0;">
-            
-            <!-- New Arrivals -->
-            <?php  echo $this->load->view('home/latest', '', TRUE); ?>
-            
-            <!-- Featured -->
-            <?php echo $this->load->view('home/featured', '', TRUE); ?>
-        </div>
-	</div>
-    
-    <?php echo $this->load->view('home/recently_view', '', TRUE); ?>
-</div>
-</div>
+
+		<!-- Promotional Banners -->
+		<?php echo $this->load->view('home/slider', '', TRUE); ?>
+		
+		<!-- Featured -->
+		<?php echo $this->load->view('home/featured', '', TRUE); ?>
+		
+		<!-- New Arrivals -->
+		<?php  echo $this->load->view('home/latest', '', TRUE); ?>
+		
+		<!-- Latest Posts -->
+		<?php  //echo $this->load->view('home/blog', '', TRUE); ?>
+		
+		<!-- Services -->
+		<?php  echo $this->load->view('home/services', '', TRUE); ?>
+		

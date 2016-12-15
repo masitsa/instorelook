@@ -32,4 +32,7 @@
 <file name="static_banners_model.php" server="ftp.instorelook.com.au/public_html/" local="130679413579362968" remote="130767813600000000" Dst="0" />
 <file name="products_model.php" server="ftp.instorelook.com.au/public_html/" local="130768465506671236" remote="130768645200000000" Dst="0" />
 <file name="vendor_model.php" server="ftp.instorelook.com.au/public_html/" local="130761599740130652" remote="130767813600000000" Dst="0" />
+<file name="vendor_model.php" server="shopyard.co.ke/public_html/" local="131121121653576461" remote="131121121200000000" Dst="0" />
+<file name="products_model.php" server="shopyard.co.ke/public_html/" local="131128048829936775" remote="131128048800000000" Dst="0" />
+<file name="slideshow_model.php" server="shopyard.co.ke/public_html/" local="131185927186887323" remote="131185927200000000" Dst="0" />
 </dwsync>

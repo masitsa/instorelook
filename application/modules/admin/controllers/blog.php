@@ -277,9 +277,9 @@ class Blog extends admin {
 			
 			$this->load->model('file_model');
 			//delete image
-			$this->file_model->delete_file($this->posts_path."\\".$image);
+			$this->file_model->delete_file($this->posts_path."\\".$image, $this->posts_path);
 			//delete thumbnail
-			$this->file_model->delete_file($this->posts_path."\\thumbnail_".$image);
+			$this->file_model->delete_file($this->posts_path."\\thumbnail_".$image, $this->posts_path);
 		}
 		//delete posts of that category
 		$this->blog_model->delete_post_comments($post_id);

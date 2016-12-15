@@ -39,8 +39,8 @@ class Products extends account
 	*/
 	public function index() 
 	{
-		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.created_by = '.$this->session->userdata('vendor_id');
-		$table = 'product, category, brand';
+		$where = 'product.category_id = category.category_id AND product.created_by = '.$this->session->userdata('vendor_id');
+		$table = 'product, category';
 
 		$product_search = $this->session->userdata('product_search');
 		
@@ -205,7 +205,7 @@ class Products extends account
 		redirect('vendor/add-product/'.$product_id);	
 	}
 	
-	public function add_product_details($product_id)
+	public function add_product_details($product_id = NULL)
 	{
 		//form validation rules
 		$this->form_validation->set_rules('product_name', 'Product Name', 'required|xss_clean');
@@ -217,6 +217,7 @@ class Products extends account
 		$this->form_validation->set_rules('brand_id', 'Product Brand', 'xss_clean');
 		$this->form_validation->set_rules('category_id', 'Product Category', 'required|xss_clean');
 		$this->form_validation->set_rules('minimum_order_quantity', 'Minimum Order Quantity', 'numeric|xss_clean');
+		$this->form_validation->set_rules('sale_price', 'Sale Price', 'xss_clean');
 		$this->form_validation->set_rules('maximum_purchase_quantity', 'Maximum Purchase Quantity', 'numeric|xss_clean');
 		$this->form_validation->set_rules('product_locations[]', 'Surburb', 'xss_clean|exists[surburb.post_code]');
 		$this->form_validation->set_message('exists', 'You have entered a post code that does not exist');
@@ -224,7 +225,7 @@ class Products extends account
 		//if form has been submitted
 		if ($this->form_validation->run())
 		{
-			$product_id = $this->products_model->add_product($product_id);
+			$product_id = $this->products_model->add_product($product_id);//echo $product_id;die();
 			$this->session->set_userdata('success_message', 'Product updated successfully');
 			redirect('vendor/add-product/'.$product_id);
 		}

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="animated.less" server="ftp.instorelook.com.au/public_html/development/" local="130737669840000000" remote="130761626400000000" Dst="0" />
-<file name="bordered-pulled.less" server="ftp.instorelook.com.au/public_html/development/" local="130737669840000000" remote="130761626400000000" Dst="0" />
-<file name="core.less" server="ftp.instorelook.com.au/public_html/development/" local="130737669840000000" remote="130761626400000000" Dst="0" />
-<file name="fixed-width.less" server="ftp.instorelook.com.au/public_html/development/" local="130737669840000000" remote="130761626400000000" Dst="0" />
-<file name="larger.less" server="ftp.instorelook.com.au/public_html/development/" local="130737669840000000" remote="130761626400000000" Dst="0" />
-<file name="font-awesome.less" server="ftp.instorelook.com.au/public_html/development/" local="130737669840000000" remote="130761626400000000" Dst="0" />
-<file name="icons.less" server="ftp.instorelook.com.au/public_html/development/" local="130737669840000000" remote="130761626400000000" Dst="0" />
-<file name="mixins.less" server="ftp.instorelook.com.au/public_html/development/" local="130737669840000000" remote="130761626400000000" Dst="0" />
-<file name="list.less" server="ftp.instorelook.com.au/public_html/development/" local="130737669840000000" remote="130761626400000000" Dst="0" />
-<file name="path.less" server="ftp.instorelook.com.au/public_html/development/" local="130737669840000000" remote="130761626400000000" Dst="0" />
-<file name="stacked.less" server="ftp.instorelook.com.au/public_html/development/" local="130737669840000000" remote="130761626400000000" Dst="0" />
-<file name="rotated-flipped.less" server="ftp.instorelook.com.au/public_html/development/" local="130737669840000000" remote="130761626400000000" Dst="0" />
-<file name="variables.less" server="ftp.instorelook.com.au/public_html/development/" local="130737669840000000" remote="130761626400000000" Dst="0" />
+<file name="animated.less" server="shopyard.co.ke/public_html/" local="131076026660000000" remote="131123554800000000" Dst="0" />
+<file name="bordered-pulled.less" server="shopyard.co.ke/public_html/" local="131076026660000000" remote="131123554800000000" Dst="0" />
+<file name="core.less" server="shopyard.co.ke/public_html/" local="131076026660000000" remote="131123554800000000" Dst="0" />
+<file name="fixed-width.less" server="shopyard.co.ke/public_html/" local="131076026660000000" remote="131123554800000000" Dst="0" />
+<file name="font-awesome.less" server="shopyard.co.ke/public_html/" local="131076026660000000" remote="131123554800000000" Dst="0" />
+<file name="larger.less" server="shopyard.co.ke/public_html/" local="131076026660000000" remote="131123554800000000" Dst="0" />
+<file name="icons.less" server="shopyard.co.ke/public_html/" local="131076026660000000" remote="131123554800000000" Dst="0" />
+<file name="list.less" server="shopyard.co.ke/public_html/" local="131076026660000000" remote="131123554800000000" Dst="0" />
+<file name="mixins.less" server="shopyard.co.ke/public_html/" local="131076026660000000" remote="131123554800000000" Dst="0" />
+<file name="path.less" server="shopyard.co.ke/public_html/" local="131076026660000000" remote="131123554800000000" Dst="0" />
+<file name="rotated-flipped.less" server="shopyard.co.ke/public_html/" local="131076026660000000" remote="131123554800000000" Dst="0" />
+<file name="screen-reader.less" server="shopyard.co.ke/public_html/" local="131076026660000000" remote="131123554800000000" Dst="0" />
+<file name="stacked.less" server="shopyard.co.ke/public_html/" local="131076026660000000" remote="131123554800000000" Dst="0" />
+<file name="variables.less" server="shopyard.co.ke/public_html/" local="131076026660000000" remote="131123554800000000" Dst="0" />
 </dwsync>
