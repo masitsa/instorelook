@@ -15,7 +15,7 @@
 |
 */
 $config['base_url']	= 'http://localhost/instorelook/';
-#$config['base_url']	= 'http://development.instorelook.com.au/';
+#$config['base_url']	= 'http://www.shopyard.co.ke/';
 
 /*
 |--------------------------------------------------------------------------
@@ -371,7 +371,7 @@ $config['proxy_ips'] = '';
 $config['modules_locations'] = array(
 		APPPATH.'modules/' => '../modules/',
 	);
-$config['appID']    	= '737733999674371';
+$config['appID']    	= '1819815534916166';
 $config['appSecret']    = 'e03a64bb56363f549a8e86bc9d5e6ebf';
 $config['mandrill_key']    = 'yPN5McI91NQbs7spbOUpPA';
 $config['paypal_api_url']    = 'https://svcs.sandbox.paypal.com/AdaptivePayments/';

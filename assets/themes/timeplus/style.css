@@ -5240,12 +5240,6 @@ input.input-text, select, textarea {
   margin-bottom: 10px;
 }
 
-
-
-
-
-
-
 body.body-img {
   background: rgba(0, 0, 0, 0) url("img/bg_img.jpg") repeat scroll left top;
 }
@@ -5259,4 +5253,7 @@ body.body-img {
   margin-top: 30px;
 }
 
-
+=======
+img.logo{max-height:80px;}
+.single_new .item_img img{max-height:100px;}
+.sadd-to-cart{display:none;}

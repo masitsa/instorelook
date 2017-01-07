@@ -182,9 +182,10 @@ class Vendor_model extends CI_Model
 			$vendor_id = $this->db->insert_id();
 			$web_name = $this->site_model->create_web_name($this->session->userdata('vendor_store_name'));
 			$tiny_url = $this->products_model->get_tiny_url(site_url().'businesses/'.$web_name.'&'.$vendor_id);
+			//var_dump($vendor_id); die();
 			
 			$this->db->where('vendor_id', $vendor_id);
-			$this->db->update('vendor');
+			$this->db->update('vendor', array("tiny_url" => $tiny_url, "vendor_activation_status" => 1));
 			
 			//save vendor categories
 			/*$categories = $this->session->userdata('vendor_categories');

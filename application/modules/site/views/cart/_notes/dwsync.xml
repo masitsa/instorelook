@@ -47,4 +47,6 @@
 <file name="old.php" server="ftp.instorelook.com.au/public_html/" local="130658669835564323" remote="130767811800000000" Dst="0" />
 <file name="shipping_estimator.php" server="ftp.instorelook.com.au/public_html/" local="130733183006404046" remote="130767811800000000" Dst="0" />
 <file name="view_cart.php" server="ftp.instorelook.com.au/public_html/" local="130733059320391748" remote="130767811800000000" Dst="0" />
+<file name="cart_footer.php" server="shopyard.co.ke/public_html/" local="131124292604288785" remote="131124292200000000" Dst="0" />
+<file name="mini_cart.php" server="shopyard.co.ke/public_html/" local="131124292417896536" remote="131124292200000000" Dst="0" />
 </dwsync>

@@ -70,6 +70,7 @@ class Site extends MX_Controller
 		
 		$data['content'] = $this->load->view('home/home', $v_data, true);
 		
+		$data['home'] = 'home';
 		$data['title'] = $this->site_model->display_page_title();
 		$this->load->view('templates/home_page', $data);
 	}
@@ -298,8 +299,8 @@ class Site extends MX_Controller
 		$v_data['filter_price_start'] = 0;
 		$v_data['filter_price_end'] = 0;
 		
-		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.product_status = 1 AND category_status = 1 AND brand_status = 1 AND product.product_balance > 0';
-		$table = 'product, category, brand';
+		$where = 'product.category_id = category.category_id AND product.product_status = 1 AND category_status = 1 AND product.product_balance > 0';
+		$table = 'product, category';
 		$limit = NULL;
 		$order_method  = '';
 		//ordering products

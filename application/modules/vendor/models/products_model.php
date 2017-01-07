@@ -52,9 +52,9 @@ class Products_model extends CI_Model
 	{
 		$this->db->from($table);
 		$this->db->select('product.sale_price, product.featured, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_thumb_name, product.product_image_name, category.category_name, brand.brand_name');
+		$this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
 		$this->db->where($where);
 		$this->db->order_by($order_by, $order_method);
-		
 				
 		return $query;
 	}
@@ -69,6 +69,7 @@ class Products_model extends CI_Model
 	{
 		$this->db->from($table);
 		$this->db->select('product.sale_price, product.featured, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_thumb_name, product.product_image_name, category.category_name, brand.brand_name, product.sale_price_type');
+		$this->db->join('brand', 'product.brand_id = brand.brand_id AND brand.brand_status = 1', 'left');
 		$this->db->where($where);
 		$this->db->order_by($order_by, $order_method);
 		
@@ -136,22 +137,30 @@ class Products_model extends CI_Model
 	*/
 	public function add_product($product_id)
 	{
+		$sale_price = $this->input->post('product_sale_price');
+		$product_buying_price = $this->input->post('product_buying_price');
+		$product_selling_price = $this->input->post('product_selling_price');
+		$product_balance = $this->input->post('product_balance');
+		$minimum_order_quantity = $this->input->post('minimum_order_quantity');
+		$maximum_purchase_quantity = $this->input->post('maximum_purchase_quantity');
+		$sale_price_type_id = $this->input->post('sale_price_type_id');
+		
 		if($product_id > 0)
 		{
 			$data = array(
 				'product_name'=>ucwords(strtolower($this->input->post('product_name'))),
 				'featured'=>$this->input->post('featured'),
-				'sale_price'=>$this->input->post('product_sale_price'),
-				'product_buying_price'=>$this->input->post('product_buying_price'),
-				'product_selling_price'=>$this->input->post('product_selling_price'),
+				'sale_price'=>(!empty($sale_price)) ? $sale_price : NULL,
+				'product_buying_price'=>(!empty($product_buying_price)) ? $product_buying_price : NULL,
+				'product_selling_price'=>(!empty($product_selling_price)) ? $product_selling_price : NULL,
 				'product_status'=>$this->input->post('product_status'),
 				'product_description'=>$this->input->post('product_description'),
-				'product_balance'=>$this->input->post('product_balance'),
+				'product_balance'=>(!empty($product_balance)) ? $product_balance : NULL,
 				'brand_id'=>$this->input->post('brand_id'),
 				'category_id'=>$this->input->post('category_id'),
-				'minimum_order_quantity'=>$this->input->post('minimum_order_quantity'),
-				'maximum_purchase_quantity'=>$this->input->post('maximum_purchase_quantity'),
-				'sale_price_type'=>$this->input->post('sale_price_type_id'),
+				'minimum_order_quantity'=>(!empty($minimum_order_quantity)) ? $minimum_order_quantity : NULL,
+				'maximum_purchase_quantity'=>(!empty($maximum_purchase_quantity)) ? $maximum_purchase_quantity : NULL,
+				'sale_price_type'=>(!empty($sale_price_type_id)) ? $sale_price_type_id : NULL,
 				'modified_by'=>$this->session->userdata('vendor_id'),
 				'product_shipping'=>3
 			);
@@ -173,22 +182,21 @@ class Products_model extends CI_Model
 		{
 			$code = $this->create_product_code($this->input->post('category_id'));
 			$tiny_url = $this->products_model->get_tiny_url(site_url().'products/view-product/'.$code);
-			
 			$data = array(
 					'product_name'=>ucwords(strtolower($this->input->post('product_name'))),
 					'featured'=>$this->input->post('featured'),
-					'sale_price'=>$this->input->post('product_sale_price'),
-					'product_buying_price'=>$this->input->post('product_buying_price'),
-					'product_selling_price'=>$this->input->post('product_selling_price'),
+					'sale_price'=>(!empty($sale_price)) ? $sale_price : NULL,
+					'product_buying_price'=>(!empty($product_buying_price)) ? $product_buying_price : NULL,
+					'product_selling_price'=>(!empty($product_selling_price)) ? $product_selling_price : NULL,
 					'product_status'=>$this->input->post('product_status'),
 					'product_description'=>$this->input->post('product_description'),
 					'product_code'=>$code,
-					'product_balance'=>$this->input->post('product_balance'),
+					'product_balance'=>(!empty($product_balance)) ? $product_balance : NULL,
 					'brand_id'=>$this->input->post('brand_id'),
 					'category_id'=>$this->input->post('category_id'),
-					'minimum_order_quantity'=>$this->input->post('minimum_order_quantity'),
-					'maximum_purchase_quantity'=>$this->input->post('maximum_purchase_quantity'),
-					'sale_price_type'=>$this->input->post('sale_price_type_id'),
+					'minimum_order_quantity'=>(!empty($minimum_order_quantity)) ? $minimum_order_quantity : NULL,
+					'maximum_purchase_quantity'=>(!empty($maximum_purchase_quantity)) ? $maximum_purchase_quantity : NULL,
+					'sale_price_type'=>(!empty($sale_price_type_id)) ? $sale_price_type_id : NULL,
 					'created'=>date('Y-m-d H:i:s'),
 					'created_by'=>$this->session->userdata('vendor_id'),
 					'modified_by'=>$this->session->userdata('vendor_id'),
@@ -320,17 +328,18 @@ class Products_model extends CI_Model
 	public function get_product($product_id, $vendor_id = NULL)
 	{
 		//retrieve all users
-		$this->db->from('product, category, brand');
+		$this->db->from('product, category');
 		$this->db->select('product.*, category.category_name, brand.brand_name');
+		$this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
 		
 		if($vendor_id == NULL)
 		{
-			$this->db->where('product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product_id = '.$product_id);
+			$this->db->where('product.category_id = category.category_id AND product_id = '.$product_id);
 		}
 		
 		else
 		{
-			$this->db->where('product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product_id = '.$product_id.' AND product.created_by = '.$vendor_id);
+			$this->db->where('product.category_id = category.category_id AND product_id = '.$product_id.' AND product.created_by = '.$vendor_id);
 		}
 		$query = $this->db->get();
 		
@@ -355,9 +364,10 @@ class Products_model extends CI_Model
 	public function recently_viewed_products()
 	{
 		//retrieve all users
-		$this->db->from('product, category, brand');
+		$this->db->from('product, category');
 		$this->db->select('product.*, category.category_name, brand.brand_name');
-		$this->db->where('product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.product_status = 1');
+		$this->db->where('product.category_id = category.category_id AND product.product_status = 1');
+		$this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
 		$this->db->order_by('product.last_viewed_date','desc');
 		$query = $this->db->get('', 10);
 		 
@@ -371,9 +381,10 @@ class Products_model extends CI_Model
 	public function related_products($product_id)
 	{
 		//retrieve all users
-		$this->db->from('product, category, brand');
+		$this->db->from('product, category');
 		$this->db->select('product.*, category.category_name, brand.brand_name');
-		$this->db->where('product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.category_id = (SELECT category_id FROM product WHERE product_id = '.$product_id.') AND product.product_id != '.$product_id);
+		$this->db->where('product.category_id = category.category_id AND product.category_id = (SELECT category_id FROM product WHERE product_id = '.$product_id.') AND product.product_id != '.$product_id);
+		$this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
 		$query = $this->db->get('', 10);
 		
 		return $query;
@@ -809,7 +820,8 @@ class Products_model extends CI_Model
 	*/
 	public function get_latest_products()
 	{
-		$this->db->select('product.*, category.category_name, brand.brand_name')->from('product, category, brand')->where("product.product_status = 1 AND product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.product_balance > 0")->order_by("created", 'DESC');
+		$this->db->select('product.*, category.category_name, brand.brand_name')->from('product, category')->where("product.product_status = 1 AND product.category_id = category.category_id AND product.product_balance > 0")->order_by("created", 'DESC');
+		$this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
 		$query = $this->db->get('',8);
 		
 		return $query;
@@ -833,7 +845,8 @@ class Products_model extends CI_Model
 	*/
 	public function get_featured_products()
 	{
-		$this->db->select('product.*, category.category_name, brand.brand_name')->from('product, category, brand')->where("product.product_status = 1 AND product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.featured = 1 AND product.product_balance > 0")->order_by("created", 'DESC');
+		$this->db->select('product.*, category.category_name, brand.brand_name')->from('product, category')->where("product.product_status = 1 AND product.category_id = category.category_id AND product.featured = 1 AND product.product_balance > 0")->order_by("created", 'DESC');
+		$this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
 		$query = $this->db->get('',8);
 		
 		return $query;
@@ -844,7 +857,8 @@ class Products_model extends CI_Model
 	*/
 	public function get_popular_products()
 	{
-		$this->db->select('product.*, category.category_name, brand.brand_name')->from('product, category, brand')->where("product.product_status = 1 AND product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.featured = 1")->order_by("clicks", 'DESC');
+		$this->db->select('product.*, category.category_name, brand.brand_name')->from('product, category')->where("product.product_status = 1 AND product.category_id = category.category_id AND product.featured = 1")->order_by("clicks", 'DESC');
+		$this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
 		$query = $this->db->get('',4);
 		
 		return $query;
@@ -929,11 +943,12 @@ class Products_model extends CI_Model
 	{
 		$this->load->library('excel');
 		
-		$where = 'product.category_id = category.category_id AND product.brand_id = brand.brand_id AND product.created_by = '.$this->session->userdata('vendor_id');
-		$table = 'product, category, brand';
+		$where = 'product.category_id = category.category_id AND product.created_by = '.$this->session->userdata('vendor_id');
+		$table = 'product, category';
 		$this->db->select('product.clicks, product.minimum_order_quantity, product.maximum_purchase_quantity, product.sale_price, product.featured, product.product_id, product.product_name, product.product_buying_price, product.product_selling_price, product.product_status, product.product_description, product.product_code, product.product_balance, product.brand_id, product.category_id, product.created, product.created_by, product.last_modified, product.modified_by, product.product_thumb_name, product.product_image_name, category.category_name, brand.brand_name');
 		
 		$this->db->where($where);		
+		$this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
 		$visits_query = $this->db->get($table);
 		//var_dump($visits_query->result());die();
 		$title = 'Export Products '.date('jS M Y H:i a');
@@ -1032,6 +1047,18 @@ class Products_model extends CI_Model
 		$this->excel->generateXML ($title);
 	}
 	
+	public function vendor_categories()
+	{
+		$where = 'category_status = 1';
+		$table = 'category';
+		
+		$this->db->where($where);
+		$this->db->order_by('category_name');
+		$visits_query = $this->db->get($table);
+		
+		return $visits_query;
+	}
+	
 	/*
 	*	Import Template
 	*
@@ -1061,18 +1088,6 @@ class Products_model extends CI_Model
 		//create the excel document
 		$this->excel->addArray ( $report );
 		$this->excel->generateXML ($title);
-	}
-	
-	public function vendor_categories()
-	{
-		$where = 'category_status = 1';
-		$table = 'category';
-		
-		$this->db->where($where);
-		$this->db->order_by('category_name');
-		$visits_query = $this->db->get($table);
-		
-		return $visits_query;
 	}
 	
 	/*

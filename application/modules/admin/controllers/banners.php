@@ -44,7 +44,6 @@ class Banners extends admin
 		$config['per_page'] = 20;
 		$config['num_links'] = 5;
 		
-		
 		$config['full_tag_open'] = '<ul class="pagination pull-right">';
 		$config['full_tag_close'] = '</ul>';
 		
@@ -70,7 +69,7 @@ class Banners extends admin
 		$this->pagination->initialize($config);
 		
 		$page = ($this->uri->segment($segment)) ? $this->uri->segment($segment) : 0;
-        $data["links"] = $this->pagination->create_links();
+        $v_data["links"] = $this->pagination->create_links();
 		$query = $this->slideshow_model->get_all_slides($table, $where, $config["per_page"], $page);
 		
 		$promotion_cost_query = $this->promotion_charges_model->get_promotion_charge(1);

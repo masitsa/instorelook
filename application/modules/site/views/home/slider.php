@@ -1,32 +1,10 @@
 <?php
+	$slides = $captions = '';
+	//echo $banners->num_rows(); die();
   	if($banners->num_rows() > 0)
 	{
 		$banner_no = $banners->num_rows();
-		?>
-        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-            <!-- Indicators -->
-			<ol class="carousel-indicators">
-			<?php
-            for($r = 0; $r < $banner_no; $r++)
-            {
-                if($r == 0)
-                {
-                    $active = 'active';
-                }
-                else
-                {
-                    $active = '';
-                }
-                ?>
-                <li data-target="#carousel-example-generic" data-slide-to="<?php echo $r;?>" class="<?php echo $active;?>"></li>
-                <?php
-            }
-            ?>
-            </ol>
-            
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner" role="listbox">
-        <?php
+		
 		$count = 0;
 		foreach($banners->result() as $cat)
 		{			
@@ -38,92 +16,115 @@
 			$active = '';
 			$count++;
 			
-			if($count == 1)
-			{
-				$active = 'active';
-			}
-			
-			echo
+			$slides .= 
 			'
-				<div class="item '.$active.'">
-					<img src="'.$slideshow_location.$slideshow_image_name.'">
-					<!--<div class="carousel-caption">
-						<h3>'.$slideshow_name.'</h3>
-						<p>'.$slideshow_description.'</p>
-					</div>-->
+				<img src="'.$slideshow_location.$slideshow_image_name.'" alt="'.$slideshow_name.'" title="#htmlcaption'.$count.'"  />
+				
+			';
+			
+			$captions .= 
+			'
+				<div id="htmlcaption'.$count.'" class="nivo-html-caption slider-caption-1">
+					<div class="container slider-height">
+						<div class="row slider-height">
+							<div class="col-md-12 slider-height">
+								<div class="slide-text">
+									<div class="cap-title wow zoomInUp" data-wow-duration="0.8s" data-wow-delay="0.5s">
+										<h2>'.$slideshow_name.'</h2>
+									</div>
+									<div class="cap-style wow zoomInUp" data-wow-duration="1.2s" data-wow-delay="1s">
+										<h2>'.$slideshow_description.'</h2>
+									</div>                                 
+								</div>
+							</div>
+						</div>
+					</div>  
 				</div>
 			';
 		}
-		?>
-  		</div>
-		<?php
-        if ($banner_no > 0)
-        {
-        ?>
-              <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-              </a>
-              <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-              </a>
-    </div>
-		<?php
-        }
 	}
 	
-	else
-	{
-    ?>
-    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-        	<li data-target="#carousel-example-generic" data-slide-to="1" class="active"></li>
-        	<li data-target="#carousel-example-generic" data-slide-to="2"></li>
-        	<li data-target="#carousel-example-generic" data-slide-to="3"></li>
-        </ol>
-        
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox">
-            <!--<div class="item active">
-                <img src="http://placehold.it/1200x400/55a4da/ffffff&text=In Store Look">
-                <div class="carousel-caption">
-                    <p>An online ecommerce platform connecting businesses & customers.</p>
+?>
+		<!-- slider start -->
+        <div class="slider_area">
+            <div class="container">
+                <div class="row">
+                    <div class="hidden-xs hidden-sm col-md-3"></div>
+                    <div class="col-sm-12 col-md-9">
+                        <div class="slider-area">
+                            <div id="ensign-nivoslider" class="slides"> 
+                                <?php //echo $slides;?>
+								<img src="<?php echo base_url().'assets/images/banner1.png';?>" title="#htmlcaption1">
+								<img src="<?php echo base_url().'assets/images/banner2.png';?>" title="#htmlcaption2">
+								<img src="<?php echo base_url().'assets/images/banner3.png';?>" title="#htmlcaption3">
+                            </div>
+							
+							<?php //echo $captions;?>
+							<div id="htmlcaption1" class="nivo-html-caption slider-caption-1">
+								<div class="container slider-height">
+									<div class="row slider-height">
+										<div class="col-md-12 slider-height">
+											<div class="slide-text">
+												<div class="cap-title wow zoomInUp" data-wow-duration="0.8s" data-wow-delay="0.5s">
+													<h2></h2>
+												</div>                              
+											</div>
+										</div>
+									</div>
+								</div>  
+							</div>
+							<div id="htmlcaption2" class="nivo-html-caption slider-caption-1">
+								<div class="container slider-height">
+									<div class="row slider-height">
+										<div class="col-md-12 slider-height">
+											<div class="slide-text">
+												<div class="cap-title wow zoomInUp" data-wow-duration="0.8s" data-wow-delay="0.5s">
+													<h2></h2>
+												</div>                              
+											</div>
+										</div>
+									</div>
+								</div>  
+							</div>
+                            
+							<div id="htmlcaption3" class="nivo-html-caption slider-caption-1">
+								<div class="container slider-height">
+									<div class="row slider-height">
+										<div class="col-md-12 slider-height">
+											<div class="slide-text">
+												<div class="cap-title wow zoomInUp" data-wow-duration="0.8s" data-wow-delay="0.5s">
+													<h2></h2>
+												</div>                              
+											</div>
+										</div>
+									</div>
+								</div>  
+							</div>
+                            
+                            
+                        </div>  
+                    </div>
                 </div>
-            </div>
-            <div class="item">
-                <img src="http://placehold.it/1200x400/e67e22/ffffff&text=Business">
-                <div class="carousel-caption">
-                    <p>Sign up to create an online presence for uploading & selling products to customers.</p>
-                </div>
-            </div>
-            <div class="item">
-                <img src="http://placehold.it/1200x400/8e44ad/ffffff&text=Customer">
-                <div class="carousel-caption">
-                    <p>Browse & buy products from your local surburb.</p>
-                </div>
-            </div>-->
-            <div class="item active">
-                <img src="<?php echo base_url().'assets/images/banner_1.jpg';?>">
-            </div>
-            <div class="item">
-                <img src="<?php echo base_url().'assets/images/banner_2.jpg';?>">
-            </div>
-            <div class="item">
-                <img src="<?php echo base_url().'assets/images/banner_3.png';?>">
             </div>
         </div>
-        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-<?php
-	}
-?>
-  <!-- Controls -->
+        <!-- slider end -->
+		
+		<!-- banner start -->
+        <div class="banner_area section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-7">
+                        <div class="single_banner">
+                            <a href="#"><img src="<?php echo base_url().'assets/themes/timeplus/';?>img/banner/banner_1.jpg" alt=""></a>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-5">
+                        <div class="single_banner">
+                            <a href="#"><img src="<?php echo base_url().'assets/themes/timeplus/';?>img/banner/banner_2.jpg" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- banner end -->
+        

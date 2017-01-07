@@ -3,6 +3,7 @@
 	$parent_categories = $this->site_model->get_parent_categories();
 	$count = 0;
 	$per_column = round($parent_categories->num_rows()/3);
+	$parents = '';
 	
 	if($parent_categories->num_rows() > 0)
 	{
@@ -13,29 +14,8 @@
 			$category_name = $res->category_name;
 			$category_id = $res->category_id;
 			$category_web_name = $this->site_model->create_web_name($category_name);
-			
-			if(($count % $per_column) == 0)
-			{
-				if($count == 0)
-				{
-					$categories .= '<li class="col-sm-3 col-xs-6"><ul>';
-				}
-				
-				else
-				{
-					$categories .= '</ul></li><li class="col-sm-3 col-xs-6"><ul>';
-				}
-			}
-			
-			else
-			{
-				$categories .= '';
-			}
-			$count++;
-			
-			$categories .= '<li class="dropdown-header">'.$category_name.'</li>
-			<li><a href="'.site_url().'products/category/'.$category_web_name.'">All '.$category_name.'</a></li>
-			';
+			$parents.= '<option value='.$category_id.'>'.$category_name.'</option>';
+			$class = $sub_categories = '';
 			
 			if($all_categories->num_rows() > 0)
 			{
@@ -48,61 +28,68 @@
 					
 					if($category_id == $category_parent)
 					{
-						$categories .= '<li><a href="'.site_url().'products/category/'.$child_web_name.'">'.$child_name.'</a></li>';
+						$class = 'sub-category';
+						$sub_categories .= '<li><a href="'.site_url().'products/category/'.$child_web_name.'"><i class="fa fa-angle-double-right"></i>'.$child_name.'</a></li>';
 					}
 				}
 			}
-			$categories .= '<li class="divider"></li>';
+			
+			//no children
+			if($class == '')
+			{
+				$categories .= '<li><a href="'.site_url().'products/category/'.$category_web_name.'"><img src="'.base_url().'assets/themes/timeplus/img/icon/sport.jpg" alt="'.$category_name.'">'.$category_name.'</a></li>';
+			}
+			
+			else
+			{
+				$categories .= '
+					<li class="sub-category">
+						<a href="'.site_url().'products/category/'.$category_web_name.'"><img src="'.base_url().'assets/themes/timeplus/img/icon/phone.jpg" alt="">'.$category_name.'</a>
+						<ul class="sub-menu clearfix">
+							<li class="sub-sec col-md-6">
+								<ul>   
+									<li><a href="index.html'.site_url().'products/category/'.$category_web_name.'" class="title">'.$category_name.'</a></li>
+									'.$sub_categories.'
+								</ul>    
+							</li>
+						</ul>
+					</li>
+				';
+			}
 		}
-		$categories .= '</ul></li>';
 	}
 	
 	else
 	{
 		$categories = '';
 	}
-
-    
 ?>
-        <div class="header-top">
-            <div class="container">
-            	<!-- Screens > 965px -->
-                <div class="pull-left auto-width-left hide-mobile">
-                	<ul class="top-menu menu-beta l-inline">
-                    	<li><a href="tel:0405486426"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> 0405 486 426</a></li>
-                        <li><a href="mailto:info@instorelook.com.au"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> info@instorelook.com.au</a></li>
-                    </ul>
-                </div>
-                
-            	<!-- Screens <= 965px -->
-                <div class="pull-left auto-width-left show-mobile">
-                	<ul class="top-menu menu-beta l-inline">
-                    	<li><a href="tel:0405486426"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span></a></li>
-                        <li><a href="mailto:info@instorelook.com.au"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></li>
-                    </ul>
-                </div>
-                
-                <div class="pull-right auto-width-right">
-                	<ul class="top-menu menu-beta l-inline">
-                    	<?php
-                        if($this->session->userdata('login_status'))
-						{
-							?>
-                            <li><a href="<?php echo site_url().'account'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Account</a></li>
-                            <?php
-						}
-						
-						else
-						{
-							?>
-                            <li><a href="<?php echo site_url().'join'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Sign in/Join</a></li>
-                            <?php
-						}
-						?>
-                    	
-                    	<li class="hide-mobile"><a href="<?php echo site_url().'account/wishlist'?>"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Wishlist</a></li>
-                        <li class="hide-mobile"><a href="<?php echo site_url().'customer-request'?>"><span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span> Requests</a></li>
-                    </ul>
+        <!-- header start -->
+        <header class="header_area">
+            <div class="header_top_area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 hidden-xs">
+                            <div class="header_top_left">
+                                <p> <i class="fa fa-envelope"></i> <span>info@shopyard.co.ke</span></p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 hidden-xs">
+                            <div class="header_top_right">
+                                <nav>
+                                    <ul>
+                                        <li class="currency"><a id="header_sub_cur" href="index.html#">KES</a>
+                                            <ul id="header_submenu_cur">
+                                                <li><a href="index.html#">Dollar(USD)</a></li>
+                                                <li><a href="index.html#">Euro(EUR)</a></li>
+                                                <li><a href="index.html#">Shilling(KES)</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>    
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -122,165 +109,126 @@
                             <button id="searchsubmit" class="glyphicon glyphicon-search" type="submit"></button>
                         <?php echo form_close(); ?>
                 	</div>
-                </div>
-            </div>
-        </div>
-        <!-- End Title -->
-        
-        <div class="clear-both"></div>
-        
-        <!-- Navigation -->
-        <div class="navigation">
-        	<div class="container">
-                <div class="">
-                    <nav class="navbar navbar-default blue-background" role="navigation">
-                        <div class="container-fluid">
-                            <!-- Brand and toggle get grouped for better mobile display -->
-                            <div class="navbar-header">
-                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="glyphicon glyphicon-align-justify"></span>
-                                </button>
+            <div class="header_middle_area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="header_logo">
+                               <a href="<?php echo site_url();?>"><img class="img-responsive pull-left logo" src="<?php echo base_url().'assets/images/logo.png';?>"/></a>
                             </div>
-                            
-                            <!-- Screens <= 965px -->
-                            <div class="show-mobile2 mobile-cart">
-                            	<button type="button" class="btn btn-primary" data-toggle="collapse" data-target=".navbar-cart"> <i class="glyphicon glyphicon-shopping-cart"> </i> <span class="cartRespons colorWhite" id="menu_cart_total">($<?php echo $this->load->view('site/cart/cart_total', '', TRUE);?>) </span> </button>
-                            
-                                <?php echo form_open('products/search', array('role' => 'search', 'id' => 'searchform'));?>
-                                    <input id="s" type="text" placeholder="Search" name="search_item" value="">
-                                    <button id="searchsubmit" class="glyphicon glyphicon-search" type="submit"></button>
+                        </div>
+                        <div class="col-xs-12 col-sm-8 col-md-6">
+                            <div class="header_cat_search">
+								<?php echo form_open('products/search', array('class' => 'search_form', 'id' => 'searchbox'));?>
+                                    <input type="search" placeholder="Enter your search key ..." name="search_item">
+                                    <button type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                    <div class="header_cat">
+                                        <select name="category" id="cat_items">
+                                            <?php echo $parents;?>
+                                        </select>
+                                    </div>
                                 <?php echo form_close(); ?>
                             </div>
-                    
-                            <!-- Collect the nav links, forms, and other content for toggling -->
-                            <div class="collapse navbar-collapse js-navbar-collapse" id="bs-example-navbar-collapse-1">
-                                <ul class="nav navbar-nav">
-                                	<li><a href="<?php echo site_url().'home';?>">Home</a></li>
-
-                                    <li class="dropdown mega-dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">All Categories <span class="glyphicon glyphicon-chevron-down pull-right" style="margin-top: 4px;margin-left: 4px;"></span></a>
-                                        
-                                        <ul class="dropdown-menu mega-dropdown-menu row">
-                                            <li class="col-sm-3">
-                                                <ul>
-                                                    <li class="dropdown-header">New in Stores</li>                            
-                                                    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-
-                                                      <div class="carousel-inner">
-														<?php
-                                                        $this->load->model('vendor/products_model');
-                                                        $products_path = realpath(APPPATH . '../assets/images/products/images');
-                                                        $products_location = base_url().'assets/images/products/images/';
-                                                        $latest = $this->products_model->get_latest_products();
-                                                        if($latest->num_rows() > 0)
-														{
-															$latest_product = $latest->result();
-															$x = 0;
-															foreach($latest_product as $prods)
-															{
-																$sale_price = $prods->sale_price;
-																$thumb = $prods->product_image_name;
-																$product_id = $prods->product_id;
-																$product_name = $prods->product_name;
-																$brand_name = $prods->brand_name;
-																$product_price = $prods->product_selling_price;
-																$description = $prods->product_description;
-																$product_balance = $prods->product_balance;
-																$mini_desc = implode(' ', array_slice(explode(' ', $description), 0, 10));
-																$price = number_format($product_price, 2, '.', ',');
-																$image = $this->products_model->image_display($products_path, $products_location, $thumb);
-																$sale = '';
-																$button = '';
-																$balance_status = '';
-																$button = '<a class="btn btn-success add_to_cart" href="'.$product_id.'" product_id="'.$product_id.'"><i class="glyphicon glyphicon-shopping-cart"> </i></a>';
-															
-																if($x > 0)
-																{
-																	?>
-																	<div class="item">
-																		<a href="#"><img src="<?php echo $image;?>"> </a>
-																		<h4><small><?php echo $product_name;?></small></h4>                                        
-																		<button class="btn btn-primary" type="button">$ <?php echo $price;?></button> <?php echo $button;?> <a class="btn btn-warning add_to_cart_redirect " href="<?php echo $product_id;?>" product_id="<?php echo $product_id;?>"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span></a> <button href="#" class="btn btn-info" type="button"><span class="glyphicon glyphicon-heart"></span></button>
-																	</div><!-- End Item -->
-																<?php
-																}
-																else
-																{
-																	 ?>
-																		<div class="item active">
-																			<a href="#"><img src="<?php echo $image;?>"></a>
-																			<h4><small><?php echo $product_name;?></small></h4>                                        
-																			<button class="btn btn-primary" type="button">$ <?php echo $price;?></button> <?php echo $button;?> <a class="btn btn-warning add_to_cart_redirect " href="<?php echo $product_id;?>" product_id="<?php echo $product_id;?>"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span></a> <button href="#" class="btn btn-info" type="button"><span class="glyphicon glyphicon-heart"></span></button>       
-																		</div><!-- End Item -->
-																	<?php
-																}
-																$x++;
-															  
-															}
-														}
-														?>
-                                                                                   
-                                                      </div><!-- End Carousel Inner -->
-                                                    </div><!-- /.carousel -->
-                                                    <li class="divider"></li>
-                                                    <li><a href="<?php echo base_url();?>products">View all products <span class="glyphicon glyphicon-chevron-right pull-right"></span></a></li>
-                                                </ul>
-                                            </li>
-                                            <?php echo $categories;?>
-                                            <!--<li class="col-sm-3">
-                                                <ul>
-                                                    <li class="dropdown-header">Dresses</li>
-                                                    <li><a href="#">Unique Features</a></li>
-                                                    <li><a href="#">Image Responsive</a></li>
-                                                    <li><a href="#">Auto Carousel</a></li>
-                                                    <li><a href="#">Newsletter Form</a></li>
-                                                    <li><a href="#">Four columns</a></li>
-                                                    <li class="divider"></li>
-                                                    <li class="dropdown-header">Tops</li>
-                                                    <li><a href="#">Good Typography</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="col-sm-3">
-                                                <ul>
-                                                    <li class="dropdown-header">Jackets</li>
-                                                    <li><a href="#">Easy to customize</a></li>
-                                                    <li><a href="#">Glyphicons</a></li>
-                                                    <li><a href="#">Pull Right Elements</a></li>
-                                                    <li class="divider"></li>
-                                                    <li class="dropdown-header">Pants</li>
-                                                    <li><a href="#">Coloured Headers</a></li>
-                                                    <li><a href="#">Primary Buttons & Default</a></li>
-                                                    <li><a href="#">Calls to action</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="col-sm-3">
-                                                <ul>
-                                                    <li class="dropdown-header">Accessories</li>
-                                                    <li><a href="#">Default Navbar</a></li>
-                                                    <li><a href="#">Lovely Fonts</a></li>
-                                                    <li><a href="#">Responsive Dropdown </a></li>							
-                                                    <li class="divider"></li>
-                                                    <li class="dropdown-header">Newsletter</li>
-                                                    <form class="form" role="form">
-                                                      <div class="form-group">
-                                                        <label class="sr-only" for="email">Email address</label>
-                                                        <input type="email" class="form-control" id="email" placeholder="Enter email">                                                              
-                                                      </div>
-                                                      <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-                                                    </form>                                                       
-                                                </ul>
-                                            </li> -->
-                                        </ul>
-                                        
-                                    </li>
-                                    <li><a href="<?php echo site_url().'products';?>">Products</a></li>
-                                    <li><a href="<?php echo site_url().'businesses';?>">Businesses</a></li>
-                                </ul>
-                                <?php echo $this->load->view('site/cart/mini_cart', '', TRUE);?>
-                            </div><!-- /.navbar-collapse -->
-                        </div><!-- /.container-fluid -->
-                    </nav>
+                        </div>
+                        <div class="hidden-xs hidden-sm col-md-2">
+                            <div class="cart_header">
+                                <h2 class="cart_info" id="account_sub">My Account</h2>
+                                <div class="user_info">
+                                    <ul id="account_submenu">
+                                        <?php
+										if($this->session->userdata('login_status'))
+										{
+											?>
+											<li><a href="<?php echo site_url().'account'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Account</a></li>
+											<?php
+										}
+										
+										else
+										{
+											?>
+											<li><a href="<?php echo site_url().'join'?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Sign in/Join</a></li>
+											<?php
+										}
+										?>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-1 col-md-1 clearfix">
+							<?php echo $this->load->view('site/cart/mini_cart', '', TRUE);?>
+						</div>
+                    </div>
                 </div>
-			</div><!-- /.Container -->
-		</div><!-- /.Navigation -->
+            </div>
+            <!-- MainMenu Area start -->
+            <div class="mainmenu_area">
+                <div class="container">
+                    <div class="row">
+                        <div class="hidden-xs hidden-sm col-md-3">
+                            <div class="category_menu hidden-xs">
+								<?php if(isset($home)){?>
+                                <div class="category_title">
+                                    <h3>Category</h3>
+                                </div>
+                                <div class="category_menu_content">
+                                   <ul>
+                                       <?php echo $categories;?>
+                                   </ul> 
+                                </div>
+								<?php } else{?>
+                                <div class="category_title show-submenu">
+                                    <h3>Category</h3>
+                                </div>
+                                <div class="category_menu_content submenu">
+                                   <ul>
+                                       <?php echo $categories;?>
+                                   </ul> 
+                                </div>
+								<?php }?>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-9 hidden-xs">
+                            <div class="mainmenu">
+                                <nav>   
+                                    <ul>
+										<li><a href="<?php echo site_url().'home';?>">Home</a></li>
+										<li><a href="<?php echo site_url().'products';?>">Products</a></li>
+										<li><a href="<?php echo site_url().'businesses';?>">Businesses</a></li>
+                                        <li><a href="about.html">About Us</a></li>
+										<li><a href="blog.html">Blog</a></li>
+										<li><a href="contact.html">Contact</a></li>
+                                    </ul>
+                                </nav>       
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- MainMenu Area end -->            
+            <!-- Mobile Menu Area start -->
+            <div class="mobile-menu-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="mobile-menu">
+                                <nav id="dropdown">
+                                    <ul>
+										<li><a href="<?php echo site_url().'home';?>">Home</a></li>
+										<li><a href="<?php echo site_url().'products';?>">Products</a></li>
+										<li><a href="<?php echo site_url().'businesses';?>">Businesses</a></li>
+                                        <li><a href="about.html">About Us</a></li>
+										<li><a href="blog.html">Blog</a></li>
+										<li><a href="contact.html">Contact</a></li>
+                                </nav>
+                            </div>					
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Menu Area end -->		
+        </header>
+        <!-- header end -->
+        

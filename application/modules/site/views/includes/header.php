@@ -1,54 +1,21 @@
- 		<meta charset="utf-8">
 
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+        <link rel="icon" href="<?php echo base_url().'assets/images/logo.png';?>" />
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Shop Yard | <?php echo $title;?></title>
+        <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>In store Look | <?php echo $title;?></title>
+        <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+        <!-- Place favicon.ico in the root directory -->
+
+		<!-- font css -->
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
         
-        <!-- Bootstrap -->
-        <link rel="stylesheet" href="<?php echo base_url();?>assets/themes/bootstrap/css/bootstrap.min.css">
-
-        <!-- Owl carousel -->
-        <link rel="stylesheet" href="<?php echo base_url();?>assets/themes/owlcarousel/assets/owl.carousel.css">
-
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="<?php echo base_url();?>assets/font-awesome/css/font-awesome.min.css">
-
-        <!-- Custom -->
-        <link rel="stylesheet" href="<?php echo base_url();?>assets/themes/custom/css/table.css">
-
-        <!-- View switch mode -->
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/themes/view_mode_switch/';?>css/default.css" />
-
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/themes/view_mode_switch/';?>css/component.css" />
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-
-        <!--[if lt IE 9]>
-
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-
-        <![endif]-->
-
-        <!-- Jquery  --> 
-        <script type="text/javascript" src="<?php echo base_url();?>assets/themes/custom/js/jquery-2.1.1.min.js"></script>
-
-        <link href="<?php echo base_url();?>assets/themes/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Custom -->
-        <!-- <link href="<?php echo base_url();?>assets/themes/custom/css/animate.css" rel="stylesheet"> -->
-        <!-- Custom -->
-        <link href="<?php echo base_url();?>assets/themes/custom/css/owl.carousel.css" rel="stylesheet">
-                <link rel="stylesheet" href="<?php echo base_url();?>assets/themes/custom/css/style.css">
-
-        <link rel="stylesheet" href="<?php echo base_url();?>assets/themes/custom/css/style.css">
-
-
-                
-       
+        <!-- all css here -->
+        <!-- Master CSS -->
+        <link rel="stylesheet" href="<?php echo base_url();?>assets/themes/timeplus/master.css">
+        <!-- modernizr css -->
+        <script src="<?php echo base_url();?>assets/themes/timeplus/js/vendor/modernizr-2.8.3.min.js"></script>
+		<!-- jquery latest version -->
+        <script src="<?php echo base_url();?>assets/themes/timeplus/js/vendor/jquery-1.12.4.min.js"></script>
