@@ -114,7 +114,7 @@
                 
                 <div class="row">
                 	<div class="col-md-8 col-sm-8">
-                	<a href="<?php echo site_url();?>"><img class="img-responsive" src="<?php echo base_url().'assets/images/logo.jpg';?>"/></a>
+                	<a href="<?php echo site_url();?>" style="color:#e65100;">SHOP YARD<!--<img class="img-responsive" src="<?php echo base_url().'assets/images/logo.jpg';?>"/>--></a>
                 	</div>
                 	<div class="col-md-4 col-sm-4 hide-mobile2" style="padding-right:0;">
 						<?php echo form_open('products/search', array('role' => 'search', 'id' => 'searchform'));?>
